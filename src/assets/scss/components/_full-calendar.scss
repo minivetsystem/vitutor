@@ -1,0 +1,123 @@
+full-calendar {
+    .fc-toolbar {
+        &.fc-header-toolbar {
+            margin-bottom: 15px;
+        }
+        h2 {
+            color: $secondary-color;
+            font-family: $secondary-font;
+            @include font-size(22px);
+        }
+        .fc-button-primary {
+            align-items: center;
+            background-color: #f0f5fb;
+            @include border-radius(5px);
+            @include font-size(16px);
+            border: none;
+            color: #333;
+            display: inline-flex;
+            height: 33px;
+            justify-content: center;
+            letter-spacing: 0.2px;
+            padding: 5px 15px;
+            position: relative;
+        }
+        .fc-button {
+            .fc-icon {
+                @include font-size(16px);
+            }
+        }
+        .fc-button-group {
+            & > .fc-button {
+                align-items: center;
+                background-color: #f0f5fb;
+                @include border-radius(5px);
+                border: none;
+                color: #333;
+                display: inline-flex;
+                height: 33px;
+                justify-content: center;
+                margin: 0 5px;
+                position: relative;
+                @include transition(all 0.25s ease);
+                &:hover {
+                    background-color: darken(#ffffff, 15%);
+                }
+                &:focus {
+                    background-color: darken(#ffffff, 30%);
+                    @include box-shadow(none);
+                    outline: none;
+                }
+            }
+        }
+    }
+    .fc-view-container {
+        .fc-head-container {
+            table {
+                tr {
+                    th {
+                        color: $secondary-color;
+                        @include font-size(14px);
+                        font-family: $secondary-font;
+                        font-weight: $font-weight-medium;
+                        padding: 8px;
+                    }
+                }
+            }
+        }
+        .fc-body {
+            font-family: $secondary-font;
+            table {
+                tbody {
+                    td {
+                        padding: 10px;
+                    }
+                }
+            }
+            .fc-dayGrid-view .fc-week-number,
+            .fc-dayGrid-view .fc-day-number {
+                padding: 5px 10px;
+            }
+        }
+    }
+
+    @media screen and (max-width: 767px) {
+        .fc-toolbar {
+            &.fc-header-toolbar {
+                flex-direction: column;
+                .fc-center {
+                    margin: 15px 0;
+                }
+            }
+        }
+    }
+
+    @media screen and (max-width: 480px) {
+        &.fc table {
+            font-size: 13px;
+        }
+        .fc-event {
+            font-size: 11px;
+        }
+        .fc-view-container {
+            .fc-head-container {
+                table {
+                    tr {
+                        th {
+                            font-size: 12px;
+                        }
+                    }
+                }
+            }
+        }
+        .calender_actions {
+            .btn-group {
+                flex-wrap: wrap;
+                width: 100%;
+                .comn_btn {
+                    margin: 10px 0;
+                }
+            }
+        }
+    }
+}

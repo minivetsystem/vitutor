@@ -1,0 +1,784 @@
+<div class="main-panel" [ngClass]="{'side-menu': menuToggle == 1}">
+    <div class="container">
+        <div class="panel-header bg-primary-gradient">
+            <div class="page-inner py-5">
+            <app-profile-complete userRole="TUTOR" [profileStatusResponse]="result" *ngIf="!result.result.profile_completed"></app-profile-complete>
+
+                <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+                    <div>
+                        <h2 class="pb-2 fw-bold panel-header-heading">Manage Availability </h2>
+                        <!-- <ng-select [searchable]="false" [(ngModel)]="selectedTimeZone" [clearable]="false" [items]="timeZoneListArray" bindLabel="name" bindValue="value" placeholder="Select TimeZone"></ng-select> -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-inner mt--5">
+            <div class="row mt--2">
+                <div class="col-md-12">
+                    <div class="card full-height manage_timing">
+                        <div class="card-body">
+                            <h4 class="card-heading">Are you available for On-Demand Tutoring? </h4>
+                            <div class="radiBtn">
+
+                                <label class="radio_btn">Yes
+                                    <input [(ngModel)]="instantTutoring" type="radio" name="radio" [value]="'1'"  (change)="handleChange($event)">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <label class="radio_btn">No
+                                    <input [(ngModel)]="instantTutoring" type="radio" name="radio" [value]="'0'" (change)="handleChange($event)">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <h4 class="card-heading">Choose your open days and hours</h4>
+                            <div class="row">
+                                <form>
+                                <div class="col-lg-5 col-md-5 col-sm-6">
+                                    <label>Select Time Zone <span class="required-label">*</span></label>
+                                    <ng-select  name="selectedTimeZone1"  [clearable]="false" [items]="timeZoneListArray"  bindLabel="name" bindValue="value" placeholder="Select TimeZone"  [(ngModel)]="selectedTimeZone" [searchable]="true"></ng-select>
+                                    <!-- <select class="form-control">
+                                        <option timeZoneId="1" gmtAdjustment="GMT-12:00" useDaylightTime="0" value="-12">(GMT-12:00) International Date Line West</option>
+                                        <option timeZoneId="2" gmtAdjustment="GMT-11:00" useDaylightTime="0" value="-11">(GMT-11:00) Midway Island, Samoa</option>
+                                        <option timeZoneId="3" gmtAdjustment="GMT-10:00" useDaylightTime="0" value="-10">(GMT-10:00) Hawaii</option>
+                                        <option timeZoneId="4" gmtAdjustment="GMT-09:00" useDaylightTime="1" value="-9">(GMT-09:00) Alaska</option>
+                                        <option timeZoneId="5" gmtAdjustment="GMT-08:00" useDaylightTime="1" value="-8">(GMT-08:00) Pacific Time (US & Canada)</option>
+                                        <option timeZoneId="6" gmtAdjustment="GMT-08:00" useDaylightTime="1" value="-8">(GMT-08:00) Tijuana, Baja California</option>
+                                        <option timeZoneId="7" gmtAdjustment="GMT-07:00" useDaylightTime="0" value="-7">(GMT-07:00) Arizona</option>
+                                        <option timeZoneId="8" gmtAdjustment="GMT-07:00" useDaylightTime="1" value="-7">(GMT-07:00) Chihuahua, La Paz, Mazatlan</option>
+                                        <option timeZoneId="9" gmtAdjustment="GMT-07:00" useDaylightTime="1" value="-7">(GMT-07:00) Mountain Time (US & Canada)</option>
+                                        <option timeZoneId="10" gmtAdjustment="GMT-06:00" useDaylightTime="0" value="-6">(GMT-06:00) Central America</option>
+                                        <option timeZoneId="11" gmtAdjustment="GMT-06:00" useDaylightTime="1" value="-6">(GMT-06:00) Central Time (US & Canada)</option>
+                                        <option timeZoneId="12" gmtAdjustment="GMT-06:00" useDaylightTime="1" value="-6">(GMT-06:00) Guadalajara, Mexico City, Monterrey</option>
+                                        <option timeZoneId="13" gmtAdjustment="GMT-06:00" useDaylightTime="0" value="-6">(GMT-06:00) Saskatchewan</option>
+                                        <option timeZoneId="14" gmtAdjustment="GMT-05:00" useDaylightTime="0" value="-5">(GMT-05:00) Bogota, Lima, Quito, Rio Branco</option>
+                                        <option timeZoneId="15" gmtAdjustment="GMT-05:00" useDaylightTime="1" value="-5">(GMT-05:00) Eastern Time (US & Canada)</option>
+                                        <option timeZoneId="16" gmtAdjustment="GMT-05:00" useDaylightTime="1" value="-5">(GMT-05:00) Indiana (East)</option>
+                                        <option timeZoneId="17" gmtAdjustment="GMT-04:00" useDaylightTime="1" value="-4">(GMT-04:00) Atlantic Time (Canada)</option>
+                                        <option timeZoneId="18" gmtAdjustment="GMT-04:00" useDaylightTime="0" value="-4">(GMT-04:00) Caracas, La Paz</option>
+                                        <option timeZoneId="19" gmtAdjustment="GMT-04:00" useDaylightTime="0" value="-4">(GMT-04:00) Manaus</option>
+                                        <option timeZoneId="20" gmtAdjustment="GMT-04:00" useDaylightTime="1" value="-4">(GMT-04:00) Santiago</option>
+                                        <option timeZoneId="21" gmtAdjustment="GMT-03:30" useDaylightTime="1" value="-3.5">(GMT-03:30) Newfoundland</option>
+                                        <option timeZoneId="22" gmtAdjustment="GMT-03:00" useDaylightTime="1" value="-3">(GMT-03:00) Brasilia</option>
+                                        <option timeZoneId="23" gmtAdjustment="GMT-03:00" useDaylightTime="0" value="-3">(GMT-03:00) Buenos Aires, Georgetown</option>
+                                        <option timeZoneId="24" gmtAdjustment="GMT-03:00" useDaylightTime="1" value="-3">(GMT-03:00) Greenland</option>
+                                        <option timeZoneId="25" gmtAdjustment="GMT-03:00" useDaylightTime="1" value="-3">(GMT-03:00) Montevideo</option>
+                                        <option timeZoneId="26" gmtAdjustment="GMT-02:00" useDaylightTime="1" value="-2">(GMT-02:00) Mid-Atlantic</option>
+                                        <option timeZoneId="27" gmtAdjustment="GMT-01:00" useDaylightTime="0" value="-1">(GMT-01:00) Cape Verde Is.</option>
+                                        <option timeZoneId="28" gmtAdjustment="GMT-01:00" useDaylightTime="1" value="-1">(GMT-01:00) Azores</option>
+                                        <option timeZoneId="29" gmtAdjustment="GMT+00:00" useDaylightTime="0" value="0">(GMT+00:00) Casablanca, Monrovia, Reykjavik</option>
+                                        <option timeZoneId="30" gmtAdjustment="GMT+00:00" useDaylightTime="1" value="0">(GMT+00:00) Greenwich Mean Time : Dublin, Edinburgh, Lisbon, London</option>
+                                        <option timeZoneId="31" gmtAdjustment="GMT+01:00" useDaylightTime="1" value="1">(GMT+01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna</option>
+                                        <option timeZoneId="32" gmtAdjustment="GMT+01:00" useDaylightTime="1" value="1">(GMT+01:00) Belgrade, Bratislava, Budapest, Ljubljana, Prague</option>
+                                        <option timeZoneId="33" gmtAdjustment="GMT+01:00" useDaylightTime="1" value="1">(GMT+01:00) Brussels, Copenhagen, Madrid, Paris</option>
+                                        <option timeZoneId="34" gmtAdjustment="GMT+01:00" useDaylightTime="1" value="1">(GMT+01:00) Sarajevo, Skopje, Warsaw, Zagreb</option>
+                                        <option timeZoneId="35" gmtAdjustment="GMT+01:00" useDaylightTime="1" value="1">(GMT+01:00) West Central Africa</option>
+                                        <option timeZoneId="36" gmtAdjustment="GMT+02:00" useDaylightTime="1" value="2">(GMT+02:00) Amman</option>
+                                        <option timeZoneId="37" gmtAdjustment="GMT+02:00" useDaylightTime="1" value="2">(GMT+02:00) Athens, Bucharest, Istanbul</option>
+                                        <option timeZoneId="38" gmtAdjustment="GMT+02:00" useDaylightTime="1" value="2">(GMT+02:00) Beirut</option>
+                                        <option timeZoneId="39" gmtAdjustment="GMT+02:00" useDaylightTime="1" value="2">(GMT+02:00) Cairo</option>
+                                        <option timeZoneId="40" gmtAdjustment="GMT+02:00" useDaylightTime="0" value="2">(GMT+02:00) Harare, Pretoria</option>
+                                        <option timeZoneId="41" gmtAdjustment="GMT+02:00" useDaylightTime="1" value="2">(GMT+02:00) Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius</option>
+                                        <option timeZoneId="42" gmtAdjustment="GMT+02:00" useDaylightTime="1" value="2">(GMT+02:00) Jerusalem</option>
+                                        <option timeZoneId="43" gmtAdjustment="GMT+02:00" useDaylightTime="1" value="2">(GMT+02:00) Minsk</option>
+                                        <option timeZoneId="44" gmtAdjustment="GMT+02:00" useDaylightTime="1" value="2">(GMT+02:00) Windhoek</option>
+                                        <option timeZoneId="45" gmtAdjustment="GMT+03:00" useDaylightTime="0" value="3">(GMT+03:00) Kuwait, Riyadh, Baghdad</option>
+                                        <option timeZoneId="46" gmtAdjustment="GMT+03:00" useDaylightTime="1" value="3">(GMT+03:00) Moscow, St. Petersburg, Volgograd</option>
+                                        <option timeZoneId="47" gmtAdjustment="GMT+03:00" useDaylightTime="0" value="3">(GMT+03:00) Nairobi</option>
+                                        <option timeZoneId="48" gmtAdjustment="GMT+03:00" useDaylightTime="0" value="3">(GMT+03:00) Tbilisi</option>
+                                        <option timeZoneId="49" gmtAdjustment="GMT+03:30" useDaylightTime="1" value="3.5">(GMT+03:30) Tehran</option>
+                                        <option timeZoneId="50" gmtAdjustment="GMT+04:00" useDaylightTime="0" value="4">(GMT+04:00) Abu Dhabi, Muscat</option>
+                                        <option timeZoneId="51" gmtAdjustment="GMT+04:00" useDaylightTime="1" value="4">(GMT+04:00) Baku</option>
+                                        <option timeZoneId="52" gmtAdjustment="GMT+04:00" useDaylightTime="1" value="4">(GMT+04:00) Yerevan</option>
+                                        <option timeZoneId="53" gmtAdjustment="GMT+04:30" useDaylightTime="0" value="4.5">(GMT+04:30) Kabul</option>
+                                        <option timeZoneId="54" gmtAdjustment="GMT+05:00" useDaylightTime="1" value="5">(GMT+05:00) Yekaterinburg</option>
+                                        <option timeZoneId="55" gmtAdjustment="GMT+05:00" useDaylightTime="0" value="5">(GMT+05:00) Islamabad, Karachi, Tashkent</option>
+                                        <option timeZoneId="56" gmtAdjustment="GMT+05:30" useDaylightTime="0" value="5.5">(GMT+05:30) Sri Jayawardenapura</option>
+                                        <option timeZoneId="57" gmtAdjustment="GMT+05:30" useDaylightTime="0" value="5.5">(GMT+05:30) Chennai, Kolkata, Mumbai, New Delhi</option>
+                                        <option timeZoneId="58" gmtAdjustment="GMT+05:45" useDaylightTime="0" value="5.75">(GMT+05:45) Kathmandu</option>
+                                        <option timeZoneId="59" gmtAdjustment="GMT+06:00" useDaylightTime="1" value="6">(GMT+06:00) Almaty, Novosibirsk</option>
+                                        <option timeZoneId="60" gmtAdjustment="GMT+06:00" useDaylightTime="0" value="6">(GMT+06:00) Astana, Dhaka</option>
+                                        <option timeZoneId="61" gmtAdjustment="GMT+06:30" useDaylightTime="0" value="6.5">(GMT+06:30) Yangon (Rangoon)</option>
+                                        <option timeZoneId="62" gmtAdjustment="GMT+07:00" useDaylightTime="0" value="7">(GMT+07:00) Bangkok, Hanoi, Jakarta</option>
+                                        <option timeZoneId="63" gmtAdjustment="GMT+07:00" useDaylightTime="1" value="7">(GMT+07:00) Krasnoyarsk</option>
+                                        <option timeZoneId="64" gmtAdjustment="GMT+08:00" useDaylightTime="0" value="8">(GMT+08:00) Beijing, Chongqing, Hong Kong, Urumqi</option>
+                                        <option timeZoneId="65" gmtAdjustment="GMT+08:00" useDaylightTime="0" value="8">(GMT+08:00) Kuala Lumpur, Singapore</option>
+                                        <option timeZoneId="66" gmtAdjustment="GMT+08:00" useDaylightTime="0" value="8">(GMT+08:00) Irkutsk, Ulaan Bataar</option>
+                                        <option timeZoneId="67" gmtAdjustment="GMT+08:00" useDaylightTime="0" value="8">(GMT+08:00) Perth</option>
+                                        <option timeZoneId="68" gmtAdjustment="GMT+08:00" useDaylightTime="0" value="8">(GMT+08:00) Taipei</option>
+                                        <option timeZoneId="69" gmtAdjustment="GMT+09:00" useDaylightTime="0" value="9">(GMT+09:00) Osaka, Sapporo, Tokyo</option>
+                                        <option timeZoneId="70" gmtAdjustment="GMT+09:00" useDaylightTime="0" value="9">(GMT+09:00) Seoul</option>
+                                        <option timeZoneId="71" gmtAdjustment="GMT+09:00" useDaylightTime="1" value="9">(GMT+09:00) Yakutsk</option>
+                                        <option timeZoneId="72" gmtAdjustment="GMT+09:30" useDaylightTime="0" value="9.5">(GMT+09:30) Adelaide</option>
+                                        <option timeZoneId="73" gmtAdjustment="GMT+09:30" useDaylightTime="0" value="9.5">(GMT+09:30) Darwin</option>
+                                        <option timeZoneId="74" gmtAdjustment="GMT+10:00" useDaylightTime="0" value="10">(GMT+10:00) Brisbane</option>
+                                        <option timeZoneId="75" gmtAdjustment="GMT+10:00" useDaylightTime="1" value="10">(GMT+10:00) Canberra, Melbourne, Sydney</option>
+                                        <option timeZoneId="76" gmtAdjustment="GMT+10:00" useDaylightTime="1" value="10">(GMT+10:00) Hobart</option>
+                                        <option timeZoneId="77" gmtAdjustment="GMT+10:00" useDaylightTime="0" value="10">(GMT+10:00) Guam, Port Moresby</option>
+                                        <option timeZoneId="78" gmtAdjustment="GMT+10:00" useDaylightTime="1" value="10">(GMT+10:00) Vladivostok</option>
+                                        <option timeZoneId="79" gmtAdjustment="GMT+11:00" useDaylightTime="1" value="11">(GMT+11:00) Magadan, Solomon Is., New Caledonia</option>
+                                        <option timeZoneId="80" gmtAdjustment="GMT+12:00" useDaylightTime="1" value="12">(GMT+12:00) Auckland, Wellington</option>
+                                        <option timeZoneId="81" gmtAdjustment="GMT+12:00" useDaylightTime="0" value="12">(GMT+12:00) Fiji, Kamchatka, Marshall Is.</option>
+                                        <option timeZoneId="82" gmtAdjustment="GMT+13:00" useDaylightTime="0" value="13">(GMT+13:00) Nuku'alofa</option>
+                                    </select> -->
+                                </div>
+                                </form>
+                            </div>
+
+                            <!-- <form [formGroup]="availabilityForm" (ngSubmit)="onSubmit()" novalidate class="app_form col-12" action="" method="POST" role="form">
+                            <div class="table-responsive">
+                                <table class="table ">
+                                    <thead>
+                                        <tr>
+                                            <th width="150px">Days</th>
+                                            <th width="230px">Start Time</th>
+                                            <th width="230px">End Time</th>
+                                            <th width="180px"></th>
+                                            <th width="70px"></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <ng-template ngFor let-availability [ngForOf]="availabilityList.controls" let-i="index" [ngForTrackBy]="trackByIdentity">
+                                        <tr [formGroupName]="i">
+                                            <td>
+                                                {{{{weekDays[i]}}}}
+                                                <input type="hidden" formControlName="date">
+                                            </td>
+                                            <td>
+                                                <div class="time_box">
+                                                    <div>09 <img src="../assets/images/double_arrow.svg"></div>
+                                                    <div>00 <img src="../assets/images/double_arrow.svg"></div>
+                                                    <select>
+                                                    <option>AM</option>
+                                                    <option>PM</option>
+                                                </select>
+                                                </div>
+                                            </td>
+                                            <td >
+                                                <div class="time_box">
+                                                    <div>09 <img src="../assets/images/double_arrow.svg"></div>
+                                                    <div>00 <img src="../assets/images/double_arrow.svg"></div>
+                                                    <select>
+                                                    <option>AM</option>
+                                                    <option>PM</option>
+                                                </select>
+                                                </div>
+                                            </td>
+                                            <td><input type="checkbox" checked data-toggle="toggle" data-on="Availability" data-off="Unavailability" data-onstyle="success" data-style="btn-round"></td>
+                                            <td>
+                                                <a href="#"><img src="../assets/images/yellow_circle_plus.svg"></a>
+                                            </td>
+                                            <td><label class="checkbox_btn">All Day	<input type="checkbox" >	<span class="checkmark"></span></label>
+                                            </td>
+                                        </tr>
+                                    </ng-template>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <button class="btn btn-primary mt-3 mb-3">Update Info</button>
+                            </form> -->
+
+                            <div class="row">
+                                <div class="col-12 d-flex">
+                                    <div class=" col-12">
+                                        <div class="row">
+                                            <form [formGroup]="availabilityForm" (ngSubmit)="onSubmit()" novalidate class="app_form " action="" method="POST" role="form">
+                                                <input type="hidden" #type [(ngModel)]="availabilityType" formControlName="status" (keydown)="handleKeyboardEvent($event)">
+                                                <div *ngIf="availabilityForm.get('availability')['controls'].length" id="form-inputs">
+                                                    <div class="row" formArrayName="availability">
+                                                        <div class="weekform_sec ">
+                                                            <!-- <h4 class="form-title mb-5">Choose your open days and hours
+                                                            </h4> -->
+
+                                                            <div class="weekly_schedule col-12 p-0">
+                                                                <div class="schedule_header col-12 p-0">
+                                                                    <span class="title1">Days</span>
+                                                                    <span class="title2">Start Time</span>
+                                                                    <span class="title3">End Time</span>
+                                                                </div>
+                                                                <!-- /.schedule_header -->
+                                                                <div class="schedule_body col-12 p-0">
+                                                                    <ng-template ngFor let-availability [ngForOf]="availabilityForm.get('availability')['controls']" let-i="index" [ngForTrackBy]="trackByIdentity">
+                                                                        <!-- /.day_container -->
+                                                                        <div class="day_container" [formGroupName]="i">
+                                                                            <!-- Repeat this div fro days-->
+                                                                            <div class="row wk_row">
+
+                                                                                <div class="containerCell col-12 col-xl-2">
+                                                                                    <span class="day_name_{{i}}">{{weekDays[i]}}</span>
+                                                                                    <input type="hidden" formControlName="date">
+                                                                                </div>
+                                                                                <div class="containerCelltime_add_continer col-12 col-xl-10">
+                                                                                    <div class="row">
+                                                                                        <div formArrayName="availability_slots" class="cell avail_slots_container">
+
+                                                                                            <ng-template *ngIf="availability.get('availability_slots')['controls'].length" ngFor let-children [ngForOf]="availability.get('availability_slots')['controls']" let-child="index" [ngForTrackBy]="trackByIdentity">
+                                                                                                <!-- Repeate this div here to add (.day_time_span) new row  -->
+                                                                                                <div [formGroupName]="child" class="day_time_span" [ngClass]="{'error_box_outer' : hasFormSubmitted && (children.controls.end_time.errors || children.controls.end_time.errors?.checkTime || children.controls.start_time.errors) }">
+                                                                                                    <div class="time_boxes span_cell flex-column d-inline-flex justify-content" [ngClass]="{'error_box' : hasFormSubmitted && children.controls?.start_time?.errors, 'disabled' : availability.get('mark_all_day').value}">
+                                                                                                        <div class="app_ngxtimepicker" [ngClass]="{'disabled_piker' : availability.get('mark_all_day').value }">
+                                                                                                            <!-- <p>{{availability.get('mark_all_day').value}}</p> -->
+                                                                                                            <ngx-timepicker-field (keydown)="handleKeyboardEvent($event)" (keyup)="getCurrentTimeSlot(availability,children,child)" (click)="getCurrentTimeSlot(availability,children,child)" formControlName="start_time" [controlOnly]="true">
+                                                                                                            </ngx-timepicker-field>
+                                                                                                        </div>
+                                                                                                        <div class="has-error col-12 p-0" *ngIf="hasFormSubmitted && children.controls?.start_time?.errors">
+                                                                                                            <div *ngIf="children.controls.start_time.errors?.required">
+                                                                                                                This field is required
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="time_boxes span_cell flex-column d-inline-flex  justify-content" [ngClass]="{'error_box' : hasFormSubmitted && (children.controls.end_time.errors || children.controls.end_time.errors?.checkTime), 'disabled' : availability.get('mark_all_day').value}">
+                                                                                                        <div class="app_ngxtimepicker" [ngClass]="{'disabled_piker' : availability.get('mark_all_day').value }">
+                                                                                                            <ngx-timepicker-field (keydown)="handleKeyboardEvent($event)" (keyup)="getCurrentTimeSlot(availability,children,child)" (click)="getCurrentTimeSlot(availability,children,child)" formControlName="end_time" [controlOnly]="true">
+                                                                                                            </ngx-timepicker-field>
+                                                                                                        </div>
+                                                                                                        <div class="has-error col-12 p-0" *ngIf="hasFormSubmitted && children.controls.end_time.errors">
+                                                                                                            <div *ngIf="children.controls.end_time.errors?.required">
+                                                                                                                This field is required
+                                                                                                            </div>
+                                                                                                            <div class="has-error" *ngIf="children.controls.end_time.errors?.checkTime">
+                                                                                                                End time must be greater than start time
+                                                                                                            </div>
+                                                                                                        </div>
+
+                                                                                                    </div>
+                                                                                                    <div class="span_cell flex-column d-inline-flex justify-content">
+                                                                                                        <div class="switchToggle">
+                                                                                                            <!-- <p>{{availability.get('mark_all_day').value}}</p> -->
+                                                                                                            <input type="checkbox" [(ngModel)]="children.get('status').value" [checked]="children.get('status').value" formControlName="status" id="switch_{{child}}_{{availability.get('date').value}}">
+                                                                                                            <label for="switch_{{child}}_{{availability.get('date').value}}">Toggle</label>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <button *ngIf="availability.get('availability_slots').controls.length > 1" class="delet_btn" type="button" (click)="deleteTimeSlot(availability,child)">
+                                                                                                            <img src="../../../assets/img/images/red_circle.svg"> 
+                                                                                                            <span
+                                                                                                                style="display: none;">Remove
+                                                                                                                Slot</span>
+                                                                                                        </button>
+                                                                                                </div>
+
+                                                                                                <div class="day_time_span has-error" *ngIf="hasFormSubmitted && children.controls?.start_time?.errors">
+                                                                                                    <div *ngIf="children.controls.start_time.errors.incorrect">
+                                                                                                        This slot is not available
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <!-- end day slot -->
+                                                                                            </ng-template>
+                                                                                        </div>
+                                                                                        <div class="cell slots_action_sec">
+                                                                                            <div class="d-inline-flex align-items-center">
+                                                                                                <button type="button" (click)="addTimeSlot(availability)" class="add_timespan-btn" [disabled]="availability.controls.mark_all_day.value">
+                                                                                                        <img src="../../../assets/img/images/yellow_circle_plus.svg">  
+                                                                                                            <span
+                                                                                                                class="res_txt"
+                                                                                                                style="display: none;">Add
+                                                                                                                new
+                                                                                                                slot</span>
+                                                                                                        </button>
+                                                                                                <div class="check_day">
+                                                                                                    <div class="custom-control custom-checkbox">
+                                                                                                        <input type="checkbox" class="custom-control-input" id="mark_all_day_label__{{i}}" (click)="markAllDay(availability)" formControlName="mark_all_day" name="mark_all_day_label__{{i}}">
+                                                                                                        <label class="custom-control-label" for="mark_all_day_label__{{i}}">
+                                                                                                                    All
+                                                                                                                    Day</label>
+                                                                                                    </div>
+                                                                                                    <!-- /.form-group -->
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <!-- /.time_add_continer -->
+
+                                                                            </div>
+                                                                        </div>
+                                                                        <!-- /.day_container -->
+                                                                    </ng-template>
+                                                                </div>
+                                                                <!-- /.schedule_body -->
+
+                                                            </div>
+                                                            <!-- .weekly_schedule -->
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <fieldset class="form-group col-12 col-md-6 mt-3">
+
+
+
+
+                                                            <button class="btn btn-primary mt-3 mb-3" type="submit">
+                                                            <span>Save Preferred Hours</span>
+                                                        </button>
+
+
+
+                                                        </fieldset>
+                                                    </div>
+                                                </div>
+
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                    <!-- /.addavailability_section -->
+
+                                </div>
+
+                            </div>
+
+                            <!-- <button class="btn btn-primary mt-3 mb-3">Update Info</button> -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <app-short-footer></app-short-footer>
+    </div>
+
+
+
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add Bank Account</h4>
+                    <button type="button" class="close" data-dismiss="modal"><img src="../assets/images/close-14.svg"></button>
+
+                </div>
+                <div class="modal-body">
+                    <form class="form-group form-show-validation row">
+                        <div class="col-lg-12 wk_form">
+                            <label>Bank Name <span class="required-label">*</span></label>
+                            <input type="text" class="form-control"  name="name" placeholder="Enter Full Name of Bank" required="">
+                        </div>
+                        <div class="col-lg-12 wk_form">
+                            <label>Account Number <span class="required-label">*</span></label>
+                            <input type="text" class="form-control"  name="name" placeholder="Enter Account Number" required="">
+                        </div>
+                        <div class="col-lg-12 wk_form">
+                            <label>Re-Enter Account Number <span class="required-label">*</span></label>
+                            <input type="text" class="form-control"  name="name" placeholder="Enter Account Number" required="">
+                        </div>
+                        <div class="col-lg-12 wk_form">
+                            <label>IFSC Code <span class="required-label">*</span></label>
+                            <input type="text" class="form-control"  name="name" placeholder="Enter Account Number" required="">
+                        </div>
+
+                        <div class="col-lg-12 wk_form">
+                            <label>Account Tyoe <span class="required-label">*</span></label>
+                            <select class="form-control" id="exampleFormControlSelect1">
+                <option>Select</option>
+                <option>Select</option>
+            </select>
+                        </div>
+                        <div class="col-lg-10">
+                            <button class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="quick-sidebar">
+        <a href="#" class="close-quick-sidebar">
+            <i class="flaticon-cross"></i>
+        </a>
+        <div class="quick-sidebar-wrapper">
+            <ul class="nav nav-tabs nav-line nav-color-secondary" role="tablist">
+                <li class="nav-item"> <a class="nav-link active show" data-toggle="tab" href="#messages" role="tab" aria-selected="true">Messages</a> </li>
+                <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#tasks" role="tab" aria-selected="false">Tasks</a> </li>
+                <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#settings" role="tab" aria-selected="false">Settings</a> </li>
+            </ul>
+            <div class="tab-content mt-3">
+                <div class="tab-chat tab-pane fade show active" id="messages" role="tabpanel">
+                    <div class="messages-contact">
+                        <div class="quick-wrapper">
+                            <div class="quick-scroll scrollbar-outer">
+                                <div class="quick-content contact-content">
+                                    <span class="category-title mt-0">Contacts</span>
+                                    <div class="avatar-group">
+                                        <div class="avatar">
+                                            <img src="https://via.placeholder.com/50" alt="..." class="avatar-img rounded-circle border border-white">
+                                        </div>
+                                        <div class="avatar">
+                                            <img src="https://via.placeholder.com/50" alt="..." class="avatar-img rounded-circle border border-white">
+                                        </div>
+                                        <div class="avatar">
+                                            <img src="https://via.placeholder.com/50" alt="..." class="avatar-img rounded-circle border border-white">
+                                        </div>
+                                        <div class="avatar">
+                                            <img src="https://via.placeholder.com/50" alt="..." class="avatar-img rounded-circle border border-white">
+                                        </div>
+                                        <div class="avatar">
+                                            <span class="avatar-title rounded-circle border border-white">+</span>
+                                        </div>
+                                    </div>
+                                    <span class="category-title">Recent</span>
+                                    <div class="contact-list contact-list-recent">
+                                        <div class="user">
+                                            <a href="#">
+                                                <div class="avatar avatar-online">
+                                                    <img src="https://via.placeholder.com/50" alt="..." class="avatar-img rounded-circle border border-white">
+                                                </div>
+                                                <div class="user-data">
+                                                    <span class="name">Jimmy Denis</span>
+                                                    <span class="message">How are you ?</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="user">
+                                            <a href="#">
+                                                <div class="avatar avatar-offline">
+                                                    <img src="https://via.placeholder.com/50" alt="..." class="avatar-img rounded-circle border border-white">
+                                                </div>
+                                                <div class="user-data">
+                                                    <span class="name">Chad</span>
+                                                    <span class="message">Ok, Thanks !</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="user">
+                                            <a href="#">
+                                                <div class="avatar avatar-offline">
+                                                    <img src="https://via.placeholder.com/50" alt="..." class="avatar-img rounded-circle border border-white">
+                                                </div>
+                                                <div class="user-data">
+                                                    <span class="name">John Doe</span>
+                                                    <span class="message">Ready for the meeting today with...</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <span class="category-title">Other Contacts</span>
+                                    <div class="contact-list">
+                                        <div class="user">
+                                            <a href="#">
+                                                <div class="avatar avatar-online">
+                                                    <img src="https://via.placeholder.com/50" alt="..." class="avatar-img rounded-circle border border-white">
+                                                </div>
+                                                <div class="user-data2">
+                                                    <span class="name">Jimmy Denis</span>
+                                                    <span class="status">Online</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="user">
+                                            <a href="#">
+                                                <div class="avatar avatar-offline">
+                                                    <img src="https://via.placeholder.com/50" alt="..." class="avatar-img rounded-circle border border-white">
+                                                </div>
+                                                <div class="user-data2">
+                                                    <span class="name">Chad</span>
+                                                    <span class="status">Active 2h ago</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <div class="user">
+                                            <a href="#">
+                                                <div class="avatar avatar-away">
+                                                    <img src="https://via.placeholder.com/50" alt="..." class="avatar-img rounded-circle border border-white">
+                                                </div>
+                                                <div class="user-data2">
+                                                    <span class="name">Talha</span>
+                                                    <span class="status">Away</span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="messages-wrapper">
+                        <div class="messages-title">
+                            <div class="user">
+                                <div class="avatar avatar-offline float-right ml-2">
+                                    <img src="https://via.placeholder.com/50" alt="..." class="avatar-img rounded-circle border border-white">
+                                </div>
+                                <span class="name">Chad</span>
+                                <span class="last-active">Active 2h ago</span>
+                            </div>
+                            <button class="return">
+                            <i class="flaticon-left-arrow-3"></i>
+                        </button>
+                        </div>
+                        <div class="messages-body messages-scroll scrollbar-outer">
+                            <div class="message-content-wrapper">
+                                <div class="message message-in">
+                                    <div class="avatar avatar-sm">
+                                        <img src="https://via.placeholder.com/50" alt="..." class="avatar-img rounded-circle border border-white">
+                                    </div>
+                                    <div class="message-body">
+                                        <div class="message-content">
+                                            <div class="name">Chad</div>
+                                            <div class="content">Hello, Rian</div>
+                                        </div>
+                                        <div class="date">12.31</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="message-content-wrapper">
+                                <div class="message message-out">
+                                    <div class="message-body">
+                                        <div class="message-content">
+                                            <div class="content">
+                                                Hello, Chad
+                                            </div>
+                                        </div>
+                                        <div class="message-content">
+                                            <div class="content">
+                                                What's up?
+                                            </div>
+                                        </div>
+                                        <div class="date">12.35</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="message-content-wrapper">
+                                <div class="message message-in">
+                                    <div class="avatar avatar-sm">
+                                        <img src="https://via.placeholder.com/50" alt="..." class="avatar-img rounded-circle border border-white">
+                                    </div>
+                                    <div class="message-body">
+                                        <div class="message-content">
+                                            <div class="name">Chad</div>
+                                            <div class="content">
+                                                Thanks
+                                            </div>
+                                        </div>
+                                        <div class="message-content">
+                                            <div class="content">
+                                                When is the deadline of the project we are working on ?
+                                            </div>
+                                        </div>
+                                        <div class="date">13.00</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="message-content-wrapper">
+                                <div class="message message-out">
+                                    <div class="message-body">
+                                        <div class="message-content">
+                                            <div class="content">
+                                                The deadline is about 2 months away
+                                            </div>
+                                        </div>
+                                        <div class="date">13.10</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="message-content-wrapper">
+                                <div class="message message-in">
+                                    <div class="avatar avatar-sm">
+                                        <img src="https://via.placeholder.com/50" alt="..." class="avatar-img rounded-circle border border-white">
+                                    </div>
+                                    <div class="message-body">
+                                        <div class="message-content">
+                                            <div class="name">Chad</div>
+                                            <div class="content">
+                                                Ok, Thanks !
+                                            </div>
+                                        </div>
+                                        <div class="date">13.15</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="messages-form">
+                            <div class="messages-form-control">
+                                <input type="text" placeholder="Type here" class="form-control input-pill input-solid message-input">
+                            </div>
+                            <div class="messages-form-tool">
+                                <a href="#" class="attachment">
+                                    <i class="flaticon-file"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="tasks" role="tabpanel">
+                    <div class="quick-wrapper tasks-wrapper">
+                        <div class="tasks-scroll scrollbar-outer">
+                            <div class="tasks-content">
+                                <span class="category-title mt-0">Today</span>
+                                <ul class="tasks-list">
+                                    <li>
+                                        <label class="custom-checkbox custom-control checkbox-secondary">
+                                        <input type="checkbox" checked="" class="custom-control-input"><span class="custom-control-label">Planning new project structure</span>
+                                        <span class="task-action">
+                                            <a href="#" class="link text-danger">
+                                                <i class="flaticon-interface-5"></i>
+                                            </a>
+                                        </span>
+                                    </label>
+                                    </li>
+                                    <li>
+                                        <label class="custom-checkbox custom-control checkbox-secondary">
+                                        <input type="checkbox" class="custom-control-input"><span class="custom-control-label">Create the main structure							</span>
+                                        <span class="task-action">
+                                            <a href="#" class="link text-danger">
+                                                <i class="flaticon-interface-5"></i>
+                                            </a>
+                                        </span>
+                                    </label>
+                                    </li>
+                                    <li>
+                                        <label class="custom-checkbox custom-control checkbox-secondary">
+                                        <input type="checkbox" class="custom-control-input"><span class="custom-control-label">Add new Post</span>
+                                        <span class="task-action">
+                                            <a href="#" class="link text-danger">
+                                                <i class="flaticon-interface-5"></i>
+                                            </a>
+                                        </span>
+                                    </label>
+                                    </li>
+                                    <li>
+                                        <label class="custom-checkbox custom-control checkbox-secondary">
+                                        <input type="checkbox" class="custom-control-input"><span class="custom-control-label">Finalise the design proposal</span>
+                                        <span class="task-action">
+                                            <a href="#" class="link text-danger">
+                                                <i class="flaticon-interface-5"></i>
+                                            </a>
+                                        </span>
+                                    </label>
+                                    </li>
+                                </ul>
+
+                                <span class="category-title">Tomorrow</span>
+                                <ul class="tasks-list">
+                                    <li>
+                                        <label class="custom-checkbox custom-control checkbox-secondary">
+                                        <input type="checkbox" class="custom-control-input"><span class="custom-control-label">Initialize the project							</span>
+                                        <span class="task-action">
+                                            <a href="#" class="link text-danger">
+                                                <i class="flaticon-interface-5"></i>
+                                            </a>
+                                        </span>
+                                    </label>
+                                    </li>
+                                    <li>
+                                        <label class="custom-checkbox custom-control checkbox-secondary">
+                                        <input type="checkbox" class="custom-control-input"><span class="custom-control-label">Create the main structure							</span>
+                                        <span class="task-action">
+                                            <a href="#" class="link text-danger">
+                                                <i class="flaticon-interface-5"></i>
+                                            </a>
+                                        </span>
+                                    </label>
+                                    </li>
+                                    <li>
+                                        <label class="custom-checkbox custom-control checkbox-secondary">
+                                        <input type="checkbox" class="custom-control-input"><span class="custom-control-label">Updates changes to GitHub							</span>
+                                        <span class="task-action">
+                                            <a href="#" class="link text-danger">
+                                                <i class="flaticon-interface-5"></i>
+                                            </a>
+                                        </span>
+                                    </label>
+                                    </li>
+                                    <li>
+                                        <label class="custom-checkbox custom-control checkbox-secondary">
+                                        <input type="checkbox" class="custom-control-input"><span title="This task is too long to be displayed in a normal space!" class="custom-control-label">This task is too long to be displayed in a normal space!				</span>
+                                        <span class="task-action">
+                                            <a href="#" class="link text-danger">
+                                                <i class="flaticon-interface-5"></i>
+                                            </a>
+                                        </span>
+                                    </label>
+                                    </li>
+                                </ul>
+
+                                <div class="mt-3">
+                                    <div class="btn btn-primary btn-rounded btn-sm">
+                                        <span class="btn-label">
+                                        <i class="fa fa-plus"></i>
+                                    </span> Add Task
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="settings" role="tabpanel">
+                    <div class="quick-wrapper settings-wrapper">
+                        <div class="quick-scroll scrollbar-outer">
+                            <div class="quick-content settings-content">
+
+                                <span class="category-title mt-0">General Settings</span>
+                                <ul class="settings-list">
+                                    <li>
+                                        <span class="item-label">Enable Notifications</span>
+                                        <div class="item-control">
+                                            <input type="checkbox" checked data-toggle="toggle" data-onstyle="primary" data-style="btn-round" data-size>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <span class="item-label">Signin with social media</span>
+                                        <div class="item-control">
+                                            <input type="checkbox" data-toggle="toggle" data-onstyle="primary" data-style="btn-round">
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <span class="item-label">Backup storage</span>
+                                        <div class="item-control">
+                                            <input type="checkbox" data-toggle="toggle" data-onstyle="primary" data-style="btn-round">
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <span class="item-label">SMS Alert</span>
+                                        <div class="item-control">
+                                            <input type="checkbox" checked data-toggle="toggle" data-onstyle="primary" data-style="btn-round">
+                                        </div>
+                                    </li>
+                                </ul>
+
+                                <span class="category-title mt-0">Notifications</span>
+                                <ul class="settings-list">
+                                    <li>
+                                        <span class="item-label">Email Notifications</span>
+                                        <div class="item-control">
+                                            <input type="checkbox" checked data-toggle="toggle" data-onstyle="primary" data-style="btn-round">
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <span class="item-label">New Comments</span>
+                                        <div class="item-control">
+                                            <input type="checkbox" checked data-toggle="toggle" data-onstyle="primary" data-style="btn-round">
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <span class="item-label">Chat Messages</span>
+                                        <div class="item-control">
+                                            <input type="checkbox" checked data-toggle="toggle" data-onstyle="primary" data-style="btn-round">
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <span class="item-label">Project Updates</span>
+                                        <div class="item-control">
+                                            <input type="checkbox" data-toggle="toggle" data-onstyle="primary" data-style="btn-round">
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <span class="item-label">New Tasks</span>
+                                        <div class="item-control">
+                                            <input type="checkbox" checked data-toggle="toggle" data-onstyle="primary" data-style="btn-round">
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<ng-template #updateAvailability>test</ng-template>

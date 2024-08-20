@@ -1,0 +1,10 @@
+{
+    "/api/v1/*": {
+        "target": "https://api.vitutors.com",
+        "secure": false,
+        "logLevel": "debug",
+        "target_tes": "https://api.vitutors.com/"
+
+    }
+}
+

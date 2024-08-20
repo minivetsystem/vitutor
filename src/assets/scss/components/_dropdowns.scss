@@ -1,0 +1,41 @@
+
+.dropdown-menu.app_dropmenu {
+  background-color: #fff;
+  border-radius: $border-radius-base;
+  border-color: #f3f6f9;
+  color: $secondary-color;
+  font-size: $font-size-base;
+  margin: 0 0 0 -160px;
+  min-width: 205px;
+  padding: .5rem 0;
+  width: 205px;
+
+  .dropdown-item {
+    color: $secondary-color;
+    @include font-size(14px);
+    font-family: $secondary-font;
+    font-weight: $font-weight-medium;
+    padding: 10px 20px;
+    cursor: pointer;
+
+    i {
+      @include font-size(16px);
+      margin-right: 8px;
+    }
+
+    &:hover {
+      background-color: #f3f6f9;
+    }
+  }
+
+  &.sessionAction_dropdownmenu {
+    margin: 0 0 0 -160px;
+    min-width: 205px;
+    width: 205px;
+  }
+  &.searchfor_dropdown{
+    margin: 0 0 0 -209px;
+    min-width: 205px;
+    width: 205px;
+  }
+}

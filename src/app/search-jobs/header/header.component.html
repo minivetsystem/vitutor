@@ -1,0 +1,235 @@
+<header class="site-header">
+
+    <!-- Logo Header -->
+    <div class="logo-header search_logo" data-background-color="blue">
+
+        <a [href]="" class="logo">
+            <img src="../../../assets/img/Vitutor-logo.svg" alt="navbar brand" class="navbar-brand">
+        </a>
+        <button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon">
+                <img src="../../../assets/img/menu-icon.svg" alt="menu icon" class="menu-icon">
+            </span>
+        </button>
+        <button class="topbar-toggler more"  type="button" data-toggle="collapse" data-target="#navbox" aria-controls="navbox" aria-expanded="false" aria-label="Toggle navigation"><i class="icon-options-vertical"></i></button>
+        <div class="nav-toggle">
+            <button class="btn btn-toggle toggle-sidebar">
+                <img src="../../../assets/img/menu-icon.svg" alt="menu icon" class="menu-icon">
+            </button>
+        </div>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+        <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+                <a class="nav-link active" [routerLink]="['/tutor/dashboard']"><img src="assets/img/images/dashboard.svg"> Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" aria-current="page" [href]="variables.aboutLink" target="_blank">About</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [href]="variables.resourcesLink" target="_blank">Free Resources</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [href]="variables.faqLink" target="_blank">Faq's</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [href]="variables.blogLink" target="_blank">Blog</a>
+            </li>
+        </ul>
+    </div>
+    <!-- End Logo Header -->
+    <nav class="navbar navbar-header navbar-expand-lg fixed-top navbar-light search_header" id="navbox">
+        <div class="container">
+            <!--button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
+			 <img src="assets/img/images/menu-icon.svg">
+		   </button-->
+            <a class="navbar-brand" [href]=""><img src="assets/img/images/Vitutor-logo.svg"></a>
+
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+                <ul class="navbar-nav mr-auto mb-2 mb-lg-0 mbNAV">
+                    <li class="nav-item">
+                        <a class="nav-link active" [routerLink]="['/tutor/dashboard']"><img src="assets/img/images/dashboard.svg"> Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" [href]="variables.aboutLink" target="_blank">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" [href]="variables.resourcesLink" target="_blank">Free Resources</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" [href]="variables.faqLink" target="_blank">Faq's</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" [href]="variables.blogLink" target="_blank">Blog</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- AFTER LOGIN -->
+            <!--div class="site-afterlogin"> 
+			   <div class="btn-group">
+				   <button type="button" class="btn dropdown-toggle btn-notifications" data-toggle="dropdown" aria-expanded="false">
+					   <img src="assets/img/images/svg/message-btn.svg">
+				   </button>
+				   <ul class="dropdown-menu dropdown-menu-right">
+					 <li><h6 class="dropdown-header">Dropdown header</h6></li>
+					 <li><a class="dropdown-item" [href]="">Manage Profile</a></li>
+					 <li><a class="dropdown-item" [href]="">Account Settings</a></li>
+					   <li><hr class="dropdown-divider"></li>
+					 <li><a class="dropdown-item" (click)="onLogout()">Log Out</a></li>
+				   </ul>
+			   </div>
+			   <div class="btn-group">
+				   <button type="button" class="btn dropdown-toggle btn-notifications" data-toggle="dropdown" aria-expanded="false">
+					   <img src="assets/img/images/svg/alarm-bell.svg"><span class="notnos">12</span>
+				   </button>
+				   <ul class="dropdown-menu dropdown-menu-right"> 
+					 <li><h6 class="dropdown-header">Dropdown header</h6></li>
+					 <li><a class="dropdown-item" [href]="">Manage Profile</a></li>
+					 <li><a class="dropdown-item" [href]="">Account Settings</a></li>
+					   <li><hr class="dropdown-divider"></li>
+					 <li><a class="dropdown-item" [href]="">Log Out</a></li>
+				   </ul>
+			   </div>
+			   <div class="btn-group">
+				   <button type="button" class="btn dropdown-toggle btn-user-profile" data-toggle="dropdown" aria-expanded="true">
+					   <img class="rounded-circle border" src="assets/img/images/user-icon.svg"> <span class="user-name">Rob Moody</span>
+				   </button>
+				   <ul class="dropdown-menu dropdown-menu-right">
+					 <li><a class="dropdown-item" [href]="">Manage Profile</a></li>
+					 <li><a class="dropdown-item" [href]="">Account Settings</a></li>
+					   <li><hr class="dropdown-divider"></li>
+					 <li><a class="dropdown-item" [href]="">Log Out</a></li>
+				   </ul>
+			   </div>
+		   </div-->
+
+            <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
+                <li class="nav-item toggle-nav-search hidden-caret">
+                    <a class="nav-link" data-toggle="collapse" href="#search-nav" role="button" aria-expanded="false" aria-controls="search-nav">
+                        <i class="fa fa-search"></i>
+                    </a>
+                </li>
+                <!-- <li class="nav-item dropdown hidden-caret">
+                    <div class="timeZone" > Time Zone : <span>{{headerTimeZone}}</span></div>
+                    
+
+                </li> -->
+                <li class="nav-item dropdown hidden-caret">
+                    <a class="nav-link dropdown-toggle" routerLink="/tutor/message-board" id="messageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="../../../assets/img/messageDropdown.svg" alt="messageDropdown" class="messageDropdown">
+                    </a>
+
+                </li>
+                <li class="nav-item dropdown hidden-caret">
+                    <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <img src="../../../assets/img/notifDropdown.svg" alt="notifDropdown" class="notifDropdown">
+                        <span class="notification" *ngIf="totalNotificationCount > 0">{{totalNotificationCount}}</span>
+                    </a>
+                    <ul class="dropdown-menu notif-box animated fadeIn" aria-labelledby="notifDropdown">
+                        <li>
+                            <!-- <div class="dropdown-title">You have {{notificationList.length}} new notification</div> -->
+                        </li>
+                        <li>
+                            <div class="scroll-wrapper notif-scroll scrollbar-outer">
+                                <div class="notif-scroll scrollbar-outer scroll-content scroll-scrolly_visible" *ngIf="notificationList.length > 0">
+                                    <div class="notif-center" *ngFor="let notification of notificationList">
+                                        <a (click)="redirect(notification)">
+                                            <div class="notif-icon notif-primary"> <i class="fa fa-user-plus"></i> </div>
+                                            <div class="notif-content" style="flex: 1;">
+                                                <span class="block">
+                                                    {{notification.notification}}
+                                                </span>
+                                               
+                                            </div>
+                                        </a>
+                                      
+                                    </div>
+                                </div>
+                                <div class="notif-scroll scrollbar-outer scroll-content scroll-scrolly_visible" *ngIf="notificationList.length == 0">
+                                    <div class="notif-center" >
+                                        <a [href]="">
+                                            <div class="notif-icon notif-primary"> <i class="fa fa-user-plus"></i> </div>
+                                            <div class="notif-content">
+                                                <span class="block">
+                                                   No New Notification
+                                                </span>
+                                                
+                                            </div>
+                                        </a>
+                                        </div>
+                                        </div>
+                            </div>
+                        </li>
+                        <li>
+                            <a class="see-all" routerLink="/tutor/notification">See all notifications<i class="fa fa-angle-right"></i> </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown hidden-caret">
+                    <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <div class="avatar-sm">
+                            <!-- <img [src]="userInfo.photo" #image (error)="image.src='https://via.placeholder.com/50'" alt="..." class="avatar-img rounded-circle"> -->
+                            <img *ngIf="userInfo.photo" #this [src]="userInfo.photo" alt="..." class="avatar-img rounded-circle" onerror="this.src == 'assets/img/avatar_user2.jpg'">
+                            <img *ngIf="!userInfo.photo" src="assets/img/avatar_user2.jpg" #image alt="..." class="avatar-img rounded-circle">
+                        </div>
+                        <div class="avt_txt">
+                            <span>{{userInfo.full_name}}</span>
+                            <img src="../../../assets/img/arrow_down.svg">
+                        </div>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user animated fadeIn">
+                        <div class="dropdown-user-scroll scrollbar-outer">
+                            <li>
+                                <a class="dropdown-item" [routerLink]="['/tutor/tutor-profile']">Manage Profile</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" [routerLink]="['/tutor/account-setting']">Account Settings</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item logout_btn" (click)="onLogout()"><img src="../../../assets/img/logout.svg"> Logout</a>
+                            </li>
+                        </div>
+                    </ul>
+                </li>
+            </ul>
+            <!-- AFTER LOGIN CLOSE -->
+
+            <!-- LOGIN JOIN -->
+            <!-- <div class="site-login">
+			   <a href="login.html" class="btn btn-white btn-lg btn-rounded btn-signin"><img src="assets/img/images/user-icon.svg"> <span>Sign In</span></a>
+			   <a href="sign-up.html" class="btn btn-gradient btn-lg btn-rounded btn-join">Join</a>
+		   </div> -->
+            <!-- LOGIN JOIN CLOSE -->
+        </div>
+    </nav>
+</header>
+
+<div id="startSession" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div  class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Start Session Early</h4>
+                <button type="button" class="close" data-dismiss="modal" ><img src="assets/img/images/close-14.svg"></button>
+            </div>
+            <div class="modal-body">
+                <div class="col-lg-12 ">
+                 <!-- <p> Tutor wants to start the following session early</p> -->
+                <p><strong>Session Name: </strong> {{earlySessionRequestObj?.job_title}}</p>
+                <p><strong>Student Name: </strong> {{earlySessionRequestObj?.full_name}}</p>
+                <p *ngIf="earlySessionRequestObj?.notification_message && earlySessionRequestObj?.notification_message.length > 0"><strong>Student's Message: </strong> {{earlySessionRequestObj?.notification_message}}</p> 
+
+                <!-- <p><strong>Scheduled Date: </strong> {{earlySessionRequestObj?.schedule_date}}</p> -->
+               <!-- <p *ngIf="earlySessionObj?.schedule_date">{{earlySessionObj.schedule_date}}</p> -->
+               </div>
+              
+                <div class="col-lg-12 text-center">
+                    <button class="btn btn-orange mr-3" (click)="startSession()">Start Session</button>
+                    <!-- <button class="btn btn-primary" (click)="earlySessionResponse('accept',reason.value)">Accept</button> -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

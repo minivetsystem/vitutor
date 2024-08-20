@@ -1,0 +1,165 @@
+.form-control {
+  padding: 10px 20px;
+  color: $gray;
+  border:1px solid $light-gray;
+  min-height: 50px;
+  &::placeholder {
+    color: $gray;
+    // Override Firefox's unusual default opacity; see https://github.com/twbs/bootstrap/pull/11526.
+    opacity: 1;
+    font-size: 18px;
+    @media (max-width:$tablet-sm-width) {
+      font-size: 14px;
+    }
+  }
+  &:focus {
+    border-color: none;
+    box-shadow: none;
+  }
+}
+
+.form-group{
+  label{
+    font-size: 16px;font-weight: $font-weight-semi;color:$dark-gray;
+  }
+}
+
+
+
+input[type=checkbox]{
+    &.css-checkbox {
+      position: absolute; 
+      overflow: hidden; 
+      clip: rect(0 0 0 0); 
+      height:1px; 
+      width:1px; 
+      margin:-1px; 
+      padding:0;
+      border:0;
+      &:checked{
+        + label.css-label {
+          background-position: 0 1px;
+          &.yellow-check{
+            background-position: 0 0px;
+          }
+        }
+      }
+      + label.css-label {
+        padding-left: 40px;
+        height: 28px;
+        display: inline-block;
+        line-height: 28px;
+        background-repeat: no-repeat;
+        background-position: 0 -26px;
+        font-size: 15px;
+        vertical-align: middle;
+        cursor: pointer;
+        margin-bottom: 0;
+        font-weight: $font-weight-med;
+        @media(max-width: 480px){
+          padding-left: 24px;
+          line-height: 19px;
+          background-position: 0px -15px;
+          font-size: 15px;
+          background-size: 15px;
+          height: 16px;
+        }
+        &.lite-yellow-check{
+          background-image:url(#{$assetspath}/images/check.png);
+          @media (max-width:$tablet-sm-width) {
+            font-size: 11px;
+          }
+        }
+        &.yellow-check{
+          background-image:url(#{$assetspath}/images/checkbox2.png);
+          padding-left: 30px;
+          height: 23px;
+          line-height: 23px;
+          background-position: 0 -23px;
+          font-size: 15px;
+          @media(max-width: 480px){
+            padding-left: 25px;
+            height: 15px;
+            line-height: 15px;
+            background-position: 0 -16px;
+          }
+        }
+    }
+  }
+}
+
+input[type=radio]{
+  &.css-checkbox {
+    position:absolute; z-index:-1000; left:-1000px; overflow: hidden; clip: rect(0 0 0 0); height:1px; width:1px; margin:-1px; padding:0; border:0;
+    &:checked{
+      + label.css-label {
+        background-position: 0 0;
+        &.yellow-radio{
+          background-position: 0 0;
+        }
+      }
+    }
+    + label.css-label {
+      padding-left:37px;
+      height:27px; 
+      display:inline-block;
+      line-height:26px;
+      background-repeat:no-repeat;
+      background-position: 0 -27px;
+      font-size:17px;
+      vertical-align:middle;
+      cursor:pointer;
+      margin-bottom: 0;
+      font-weight: $font-weight-med;
+      &.lite-yellow-radio{
+        background-image:url(#{$assetspath}/images/radio.png);
+      }
+      &.yellow-radio{
+        background-image:url(#{$assetspath}/images/radio.png);        
+        background-size: 22px;
+        padding-left: 30px;
+        height: 22px;
+        line-height: 22px;
+        background-position: 0px -23px;
+      }
+    }
+  }
+}
+
+
+
+
+.input-group-wrap{
+  position: relative;
+}
+.help_ico {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  line-height: normal;
+  i.fas {
+    font-size: 18px;
+    color: #dddcdc;
+  }
+  i.fa-eye {
+    cursor: pointer;
+  }
+}
+
+.appearance{
+  position: relative;
+  &:after{
+    content: "\f078";
+    font-family: "Font Awesome 5 Pro";
+    position: absolute;
+    right: 10px;
+    top: 6px;
+    pointer-events: none;
+  }
+  select{
+    -webkit-appearance: none;        line-height: normal;min-height: 40px;
+  }
+}
+
+

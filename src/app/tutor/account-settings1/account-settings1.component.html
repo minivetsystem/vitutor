@@ -1,0 +1,361 @@
+<div class="main-panel" [ngClass]="{'side-menu': menuToggle == 1}">
+    <div class="container">
+        <div class="panel-header bg-primary-gradient">
+            <div class="page-inner py-5">
+            <app-profile-complete userRole="TUTOR" [profileStatusResponse]="result" *ngIf="!result.result.profile_completed"></app-profile-complete>
+
+                <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+                    <div>
+                        <h2 class="pb-2 fw-bold panel-header-heading">Account Settings</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-inner mt--5">
+            <div class="row mt--2">
+                <div class="col-md-12">
+                    <div class="card full-height">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-md-10 col-sm-10	form_box">
+                                <h4 class="card-heading">Change Password</h4>
+                                <form class="form-group form-show-validation row" [formGroup]="changePassForm">
+                                   
+                                     
+                                      
+                                      
+                                        
+                                        <!-- <div class="has-error" *ngIf="form.confirm_password.errors.pattern">Please enter valid email
+                                          address</div> -->
+                                      
+                                    <div class="col-lg-4 col-md-4 col-sm-6 wk_form">
+                                        <label >Current Password <span class="required-label">*</span></label>
+                                        <input type="password" class="form-control" formControlName="old_password" placeholder="Enter Password" required>
+                                        <div *ngIf="(form.old_password.dirty || form.old_password.touched) && form.old_password.errors">
+                                            <div class="text-danger" *ngIf="form.old_password.errors.required">Current password is required</div>
+                                            <!-- <div class="has-error" *ngIf="studentRenderErrors.stu_email.errors.pattern">Please enter valid email -->
+                                              <!-- address</div> -->
+                                          </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-6 wk_form">
+                                        <label>New Password  <span class="required-label">*</span></label>
+                                        <input type="password" class="form-control" formControlName="new_password" (keyup)="passwordMatch()" placeholder="Enter New password" required>
+                                        <div *ngIf="(form.new_password.dirty || form.new_password.touched) && form.new_password.errors">
+                                            <div class="text-danger" *ngIf="form.new_password.errors.required">new password is required</div>
+                                            <div class="text-danger" *ngIf="form.new_password.errors.minlength && !form.new_password.errors.passwordStrength">Password should be 8 characters long</div>
+                                            <div class="text-danger" *ngIf="form.new_password.errors.passwordStrength && form.new_password.value != ''">A special character, an upper case, a lower case, a number & minimum 8 characters are required.</div>
+                                            
+                                          </div>
+                                        <!-- <i class="fa fa-eye" style="margin-left: -30px;"></i> -->
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-6 wk_form">
+                                        <label>Re-enter New Password <span class="required-label">*</span></label>
+                                        <input type="password" class="form-control" formControlName="confirm_password" (keyup)="passwordMatch()" placeholder="Re-enter Enter password" required>
+                                        <div *ngIf="(form.confirm_password.dirty || form.confirm_password.touched) && form.confirm_password.errors">
+                                            <div class="text-danger" *ngIf="form.confirm_password.errors.required">confirm password is required</div>
+                                            <div class="has-error" *ngIf="form.confirm_password.errors.mustMatch">Confirm Passwords
+                                                must match</div>
+                                            <!-- <div class="has-error" *ngIf="form.confirm_password.errors.pattern">Please enter valid email
+                                              address</div> -->
+                                          </div>
+                                    </div>
+                                    <!-- <div class="text-danger" *ngIf="matchPasswordErr">confirm password and new password do not match</div> -->
+                                    <div class="col-md-12"><button class="btn btn-primary" [disabled]="changePassForm.invalid" (click)="changePassword()">Save Password</button></div>
+                                </form>
+                                <h4 class="card-heading mt-4">Set Pricing</h4>
+                                <form #hourlyForm="ngForm" class="form-group row">
+                                <div class="col-lg-4 col-md-4 col-sm-6 wk_form">
+                                    <label>Hourly Price ($) <span class="required-label">*</span></label>               
+                                    <input type="number"  oninput="this.value = Math.abs(this.value)" #price="ngModel" class="form-control" id="price" name="pricing" placeholder="Enter Price" required [(ngModel)]="pricing" >
+                                    <div *ngIf="price.invalid && (price.dirty || price.touched)" class="text-danger">
+                                        <p *ngIf="price.errors.required">
+                                            Price is required
+                                        </p>
+                                       
+                                    </div>
+                                    <div *ngIf="price.value == 0" class="text-danger">
+                                        <p >
+                                            Price must be alteast 1
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                <button class="btn btn-primary" (click)="setPricing()" [disabled]="hourlyForm.invalid || price.value == 0">Set Pricing</button>
+                                </div>
+                                </form>
+                                <div class="payment_sec">
+                                    <h4 class="card-heading">Accounts</h4>
+                                    <ul class="nav nav-pills nav-secondary nav-pills-no-bd" id="pills-tab" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true" >
+                                                <img src="../../../assets/img/paypal.svg" > Add Paypal  <img class="succes_img" src="../../../assets/img/success.svg"></a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">
+                                                <img src="../../../assets/img/bank.svg"> Saved Bank Accounts <img class="succes_img" src="../../../assets/img/success.svg"></a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content mt-2 mb-3" id="pills-tabContent">
+                                        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                                           
+                                            <div class="paypal_sec" *ngIf="paypalEmailErr=='email' || paypalEmailErr=='edit'">
+                                            <ul class="bank_add">
+                                            <li > {{paypalAccountEmail.email}}  <span><span *ngIf="paypalAccountEmail.is_default"><img  src="assets/img/success-17.svg"></span><a><img (click)="editPaypal()"src="assets/img/edit.svg"></a></span></li>
+                                            </ul>
+                                            </div>
+                                            <div class="paypal_sec" *ngIf="paypalEmailErr=='edit' || paypalEmailErr=='error'">
+                                                <form class="form-group form-show-validation row" [formGroup]="paypalEmailForm">
+                                                    <div class="row">
+                                                <div class="col-lg-4 col-md-4 col-sm-6 wk_form">
+                                                    <label>Enter valid email for paypal <span class="required-label">*</span></label>
+                                                    <input type="email"  class="form-control" formControlName="paypal_email"  placeholder="Enter email" required>
+                                                    <div *ngIf="(paypalEmailForm.controls.paypal_email.dirty || paypalEmailForm.controls.paypal_email.touched) && paypalEmailForm.controls.paypal_email.errors">
+                                                        <div class="text-danger" *ngIf="paypalEmailForm.controls.paypal_email.errors.required">Email is required</div>
+                                                        <div class="text-danger" *ngIf="paypalEmailForm.controls.paypal_email.errors.pattern">Email is not valid </div>
+                                                      </div>
+                                                </div>
+                                                    </div>
+                                                    <div class="row">
+                                                <div class="col-lg-4 col-md-4 col-sm-6"><button  class="btn" (click)="paypalSave()"><img src="../../../assets/img/paypal.svg"> Save</button></div>
+                                            </div>
+                                                </form>
+                                                </div>
+                                            <!-- <div class="paypal_sec" *ngIf="!connectedPaypal">
+                                                <button class="btn" (click)="paypalConnect()"><img src="../../../assets/img/paypal.svg" > Connect Paypal account</button> -->
+                                                <!-- <span><a href="#">Make a default Account</a></span> -->
+                                            <!-- </div> -->
+                                            <!-- <div class="paypal_sec" *ngIf="connectedPaypal">
+                                                <button class="btn btn-success-outline" ><img src="../../../assets/img/paypal.svg" > Connected</button> -->
+                                                <!-- <span><a href="#">Make a default Account</a></span> -->
+                                                <!-- <span *ngIf="connectedPaypal"><a (click)="paypalLogout()">LogOut</a></span>
+                                            </div> -->
+                                        </div>
+                                        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                                            <!-- <div class="text-danger" *ngIf="accountErr?.status != 'active' && accountErr.errors?.errors"> -->
+                                            <div class="text-danger" *ngIf="accountErr?.errors && accountErr.errors?.errors?.length >0">
+                                                *Please click on below errors to active your account for payment process
+                                            </div>
+                                            <div *ngIf="accountErr?.errors && accountErr.errors?.errors">
+                                                <div class="alert " [ngClass]="{'alert-danger' : accountErr.status != 'active', 'alert-warning': accountErr.status == 'active' }" role="alert" *ngFor="let error of accountErr.errors.errors" [ngStyle]="{'background-color': accountErr.status == 'active'? '#ffeeba' : '#f5c6cb'}">
+                                                    <span>{{error.reason}}</span> <p><strong>Code: </strong>{{error.requirement}}</p> <div class="edit_strip"><a (click)="stripeError(error.requirement)"><img src="assets/img/edit.svg" ></a></div>
+                                                    </div>
+                                            </div>
+                                            
+                                            <ul class="bank_add" *ngFor="let bank of bankAccountList">
+                                                <li [ngClass]="{'active':bank.default_for_currency}"><img class="visa" src="assets/img/bank.svg"> {{bank.account_holder_name}}  <span style="margin-left: 2em;">****  ****  ****  {{bank.last4}}</span>  <span><a *ngIf="!bank.default_for_currency" (click)="makeAccountPrimary(bank)">Make Primary</a><img *ngIf="bank.default_for_currency" class="circle_check" src="assets/img/success-17.svg"> <a (click)="deleteBank(bank.id, bank.last4)" style="cursor: pointer;"><img src="assets/img/trash-9.svg"></a></span></li>
+                                                
+                                            </ul>
+                                            <!-- <button class="btn btn-primary" data-toggle="modal" data-target="#bankModal">Add a Bank Account</button> -->
+                                            <button class="btn btn-primary" *ngIf="!isStripeConnectRegistered" (click)="openStripeModal('new')">Add a Bank Account</button>
+                                            <button class="btn btn-primary" *ngIf="isStripeConnectRegistered" (click)=" openBankModal()">Add a Bank Account</button>
+                                            
+                                        </div>
+
+                                    </div>
+
+                                    
+                                </div>
+                                
+                            </div>
+                            <form class="form-group form-show-validation row" [formGroup]="paymentModeDefault">
+                            <div class="row">
+                                
+                                <div class="col-lg-4 col-md-4 col-sm-6 wk_form">
+                                    <label>Default Payment Mode  <span class="required-label">*</span></label>
+                                    <select formControlName="mode" class="form-control" required >
+                                        <!-- <option value="">Select City</option> -->
+                                        <option value="Paypal">Paypal</option>
+                                        <option value="Stripe">Stripe</option>
+                                    </select>
+                                    <!-- <div *ngIf="(form.confirm_password.dirty || form.confirm_password.touched) && form.confirm_password.errors">
+                                        <div class="text-danger" *ngIf="form.confirm_password.errors.required">confirm password is required</div>
+                                        <div class="has-error" *ngIf="form.confirm_password.errors.mustMatch">Confirm Passwords
+                                            must match</div> -->
+                                       
+                                      <!-- </div> -->
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-6 wk_form">
+                                <button class="btn btn-primary" (click)="makePrimary()" >Make default</button>
+                                <!-- <button class="btn btn-primary" (click)="showAttachmentModal()" >Show uploads Document</button> -->
+                                </div>
+                                
+                            </div>
+                        </form>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-short-footer></app-short-footer>
+</div>
+
+
+<!-- Modal -->
+<div id="bankModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+    
+    <!-- Modal content-->
+    <div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">Add Bank Details</h4>
+      <button type="button" class="close" data-dismiss="modal" (click)="resetBankForm()"><img src="../../../assets/img/close-14.svg"></button>
+      
+    </div>
+    <div class="modal-body">
+        <form class="form-group form-show-validation row" [formGroup]="bankAccountForm" autocomplete="off">
+            <div class="col-lg-6 wk_form">
+                <label >Account Holder Name <span class="required-label">*</span></label>
+                <input type="text" class="form-control"  formControlName="account_holder_name" placeholder="Enter Account holder name" required="">
+                <div *ngIf="(bankDetail.account_holder_name.dirty || bankDetail.account_holder_name.touched) && bankDetail.account_holder_name.errors">
+                    <div class="text-danger" *ngIf="bankDetail.account_holder_name.errors.required">Account Holder name is required</div>
+                    <!-- <div class="text-danger" *ngIf="studentRenderErrors.stu_email.errors.pattern">Please enter valid email
+                      address</div> -->
+                  </div>
+            </div>
+            <div class="col-lg-6 wk_form">
+                <label >Account Number <span class="required-label">*</span></label>
+                <input type="password" class="form-control" formControlName="bank_account_number" placeholder="Enter Account Number" required="">
+                <div *ngIf="(bankDetail.bank_account_number.dirty || bankDetail.bank_account_number.touched) && bankDetail.bank_account_number.errors">
+                    <div class="text-danger" *ngIf="bankDetail.bank_account_number.errors.required">Account number is required</div>
+                    <div class="text-danger" *ngIf="bankDetail.bank_account_number.errors.pattern">Only numbers allowed, max length is 16</div>
+                    <!-- <div class="has-error" *ngIf="studentRenderErrors.stu_email.errors.pattern">Please enter valid email -->
+                      <!-- address</div> -->
+                  </div>
+            </div>
+            <div class="col-lg-6 wk_form">
+                <label >Re-Enter Account Number <span class="required-label">*</span></label>
+                <input type="password" class="form-control" formControlName="re_account_number" placeholder="Re-Enter Account Number" required="">
+                <div *ngIf="(bankDetail.re_account_number.dirty || bankDetail.re_account_number.touched) && bankDetail.re_account_number.errors">
+                    <div class="text-danger" *ngIf="bankDetail.re_account_number.errors.required">Re-enter account number is required</div>
+                    <div class="text-danger" *ngIf="bankDetail.re_account_number.errors.pattern">Only numbers allowed, max length is 16</div>
+                    <div class="text-danger" *ngIf="bankDetail.re_account_number.errors.mustMatch">Re-enter Account Number must match Account Number </div>
+                  </div>
+            </div>
+            <div class="col-lg-6 wk_form">
+                <label >Routing Code <span class="required-label">*</span></label>
+                <input type="text" class="form-control" formControlName="routing_number" placeholder="Enter Routing code" required="">
+                <div *ngIf="(bankDetail.routing_number.dirty || bankDetail.routing_number.touched) && bankDetail.routing_number.errors">
+                    <div class="text-danger" *ngIf="bankDetail.routing_number.errors.required">Rounting number is required</div>
+                    <div class="text-danger" *ngIf="bankDetail.routing_number.errors.pattern">Rounting number must be minimum 6 digits long</div>
+                  </div>
+            </div>
+           
+            
+    
+            <div class="col-lg-6 wk_form">
+                <label >Account Type <span class="required-label">*</span></label>
+                <select class="form-control" id="exampleFormControlSelect1" disabled formControlName="account_holder_type">
+                    <option value="">Select Account Type</option>
+                    <option value="individual">Individual</option>
+                    <option value="company">Company</option>
+                </select>
+                <div *ngIf="(bankDetail.account_holder_type.dirty || bankDetail.account_holder_type.touched) && bankDetail.account_holder_type.errors">
+                    <div class="text-danger" *ngIf="bankDetail.account_holder_type.errors.required">Account type is required</div>
+                  </div>
+            </div>
+            <div class="col-lg-6 wk_form">
+                <label >Country <span class="required-label">*</span></label>
+                <!-- <input list="countryList" type="text" formControlName="country" (change)="validateCountry()" placeholder="Enter country">
+                <datalist id="countryList">
+                    <option [value]="country.sortname" *ngFor="let country of countriesList">{{country.name}}</option>
+                </datalist> -->
+                <select class="form-control" id="exampleFormControlSelect1" disabled formControlName="country" (change)="validateCountry($event)">
+                    <option value="">Select Country</option>
+                    <option [value]="country.sortname" *ngFor="let country of countriesList">{{country.name}}</option>
+                </select>
+                <div *ngIf="(bankDetail.country.dirty || bankDetail.country.touched) && bankDetail.country.errors">
+                    <div class="text-danger" *ngIf="bankDetail.country.errors.required">Country is required</div>
+                  </div>
+                  <div class="text-danger" *ngIf="!validCountry">Please select valid country for stripe</div>
+            </div>
+          
+           
+            <div class="col-lg-12 text-center">
+                <button class="btn btn-primary" (click)="addBankDetails()">Submit</button>
+            </div>
+        </form>
+    </div>
+    </div>
+    
+    </div>
+    </div>
+   
+<!-- Modal -->
+<div id="documentModal" class="modal fade" role="dialog" >
+    <div class="modal-dialog" style="max-width: 300px;">
+    
+    <!-- Modal content-->
+    <div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">Add Identity Documents</h4>
+      <button type="button" class="close" data-dismiss="modal" (click)="attachmentForm.reset()"><img src="../../../assets/img/close-14.svg"></button>
+      
+    </div>
+    <div class="modal-body">
+        <form class="form-group form-show-validation row" [formGroup]="attachmentForm">
+          
+         
+          
+           
+           
+            
+    
+          
+         
+            <div class="col-lg-12 wk_form">
+                <label>Identity Document(Front)</label>
+                <input (change)="onSelectAttachment($event)" type="file" formControlName="identity_front" class="form-control" name="identity_front" accept="image/png,image/jpeg,application/pdf">
+                <div *ngIf="(attachmentTypeFrontError || attachmentsizeLimitFrontError)">
+                    <p *ngIf="attachmentTypeFrontError" class="text-danger">Plase upload documents of type *.jpeg, *.png & *.pdf</p>
+                    <p *ngIf="attachmentsizeLimitFrontError" class="text-danger">Document file must be of size less than 5 MB</p>
+                    <!-- <p *ngIf="createOfferForm.controls.message.errors.pattern" class="text-danger">Price is incorrect</p> -->
+                </div>
+                <div *ngIf="(attachmentForm.controls.identity_front.dirty || attachmentForm.controls.identity_front.touched) && attachmentForm.controls.identity_front.errors">
+                    <div class="text-danger" *ngIf="attachmentForm.controls.identity_front.errors.required">Document is required</div>
+                    <!-- <div class="text-danger" *ngIf="attachmentForm.controls.ssn.errors.pattern">Rounting number must be minimum 6 digits long</div> -->
+                  </div>
+            </div>
+            <div class="col-lg-12 wk_form">
+                <label>Identity Document(Back)</label>
+                <input (change)="onSelectAttachmentBack($event)" type="file" formControlName="identity_back" class="form-control" name="identity_back" accept="image/png,image/jpeg,application/pdf">
+                <div *ngIf="(attachmentTypeBackError || attachmentsizeLimitBackError)">
+                    <p *ngIf="attachmentTypeBackError" class="text-danger">Plase upload documents of type *.jpeg, *.png & *.pdf</p>
+                    <p *ngIf="attachmentsizeLimitBackError" class="text-danger">Document file must be of size less than 5 MB</p>
+                    <!-- <p *ngIf="createOfferForm.controls.message.errors.pattern" class="text-danger">Price is incorrect</p> -->
+                </div>
+                <div *ngIf="(attachmentForm.controls.identity_back.dirty || attachmentForm.controls.identity_back.touched) && attachmentForm.controls.identity_back.errors">
+                    <div class="text-danger" *ngIf="attachmentForm.controls.identity_back.errors.required">Document is required</div>
+                    <!-- <div class="text-danger" *ngIf="attachmentForm.controls.ssn.errors.pattern">Rounting number must be minimum 6 digits long</div> -->
+                  </div>
+            </div>
+            <div class="col-lg-12 text-center">
+                <button class="btn btn-primary" (click)="uploadDocument()">Submit</button>
+            </div>
+        </form>
+    </div>
+    </div>
+    
+    </div>
+    </div>
+    <div id="basicModal" class="modal fade" role="dialog" >
+        <div class="modal-dialog" style="max-width: 300px;">
+        
+        <!-- Modal content-->
+        <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Add Identity Documents</h4>
+          <button type="button" class="close" data-dismiss="modal" (click)="attachmentForm.reset()"><img src="../../../assets/img/close-14.svg"></button>
+          
+        </div>
+        <div class="modal-body" *ngIf="userdata ">
+            
+            <app-strip-detail [data]="userdata" (result)="getStripResult($event)" [formType]="formType"></app-strip-detail>
+        </div>
+        </div>
+        </div>
+    </div>
+   

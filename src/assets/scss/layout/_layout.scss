@@ -1,0 +1,286 @@
+/* ========================================================================
+     Component: layout
+ ========================================================================== */
+
+// .bg-primary-gradient {
+//   background: #1572E8 !important;
+//   background: -webkit-linear-gradient(legacy-direction(-45deg), #06418E, #1572E8) !important;
+//   background: linear-gradient(-45deg, #06418E, #1572E8) !important;
+// }
+
+html
+{
+  height: 100%;
+}
+body {
+  app-root > .alert {
+    align-items: center;
+    background: #F7F7F7;
+    border-radius: 0;
+    border: none;
+    color: #333333;
+    display: flex;
+    height: 70px;
+    left: 0;
+    margin: 0 !important;
+    overflow: hidden;
+    padding: 15px 60px 15px 25px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1030;
+    & > p {
+      color: #3C3C3C;
+      display: inline-block;
+      flex-grow: 1;
+      font-size: 15px;
+      line-height: 1.3;
+      margin: 0;
+      position: relative;
+    }
+    .linkApp {
+      display: inline-block;
+      font-size: 15px;
+      line-height: 1.3;
+      position: relative;
+      white-space: nowrap;
+      strong {
+        font-weight: 500;
+      }
+    }
+    .close {
+      align-items: center;
+      display: inline-flex;
+      font-size: 24px;
+      height: 50px;
+      justify-content: center;
+      line-height: 1;
+      padding: 15px;
+      width: 50px;
+      &:hover {
+        color: #333333;
+      }
+    }
+  }
+  &.alertActive {
+    padding-top: 70px;
+
+    .navbar.navbar-expand-lg.fixed-top {
+      top: 70px;
+    }
+    .sidebar, .sidebar[data-background-color="white"] {
+      top: 70px;
+    }
+  }
+}
+.mt--pagemrg {
+  margin-top: -102px !important;  
+  // min-height: calc(100vh - 255px);
+  & > div > .card {
+    min-height: 100%;
+    &.full_height {
+      min-height: 70vh;
+    }
+  }
+  @media screen and (max-width: 1440px) {
+    margin-top: -80px !important;
+  }
+}
+
+.card, .card-light {
+  @include box-shadow(2px 6px 15px 0 rgba(69, 65, 78, 0.1));
+  background-color: #ffffff;
+  border-radius: $border-radius-base;
+  border: 1px solid #f6f6f6;
+  margin-bottom: 30px;
+}
+
+// Side baar Width Varibale decleration
+// ====================================================
+
+      $sidebarwidth: 286px;
+      $sidebarwidth-midpi: 230px;
+      
+// ====================================================
+
+
+.sidebar, .sidebar[data-background-color="white"] {
+  background: #ffffff;
+  bottom: 0;
+  -webkit-box-shadow: 4px 4px 10px rgba(69, 65, 78, 0.06);
+  -moz-box-shadow: 4px 4px 10px rgba(69, 65, 78, 0.06);
+  box-shadow: 4px 4px 10px rgba(69, 65, 78, 0.06);
+  color: #ffffff;
+  display: block;
+  font-weight: 200;
+  left: 0;
+  max-height: 100%;
+  max-width: 100%;
+  margin-top: 83px;
+  position: fixed;
+  top: 0;
+  @include transition(all .3s ease-in);
+  width: $sidebarwidth;
+  z-index: 1000;
+}
+
+.main-panel {
+  display: flex;
+  flex-wrap: wrap;
+  float: right;
+  height: 100%;
+  // min-height: 100vh;
+  padding: 0 !important;
+  position: relative;
+  @include transition(all .3s ease-in);
+  width: calc(100% - #{$sidebarwidth});
+
+  & > .container {
+    display: block;
+    margin-top: 83px;
+    max-width: unset;
+    min-height: calc(100% - 123px);
+    overflow: hidden;
+    padding: 0 !important;
+    width: 100%;
+  }
+
+  .panel-header {
+    background-color: #e4e7eb;
+    background-image: url("#{$assetspath}/img/bg_pageHeader.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    
+    .page-inner {
+      padding-bottom: 100px;
+      padding-top: 30px;
+    }
+
+    h2 {
+      color: #333333;
+      display: inline-block;
+      font-size: 34px;
+      font-weight: bold;
+      margin: 0;
+      width: 100%;
+    }
+
+    h5 {
+      color: #999999;
+      display: inline-block;
+      font-size: 18px;
+      font-weight: 400;
+    }
+  }
+
+  .page-inner {
+    display: block;
+    padding: 1.5rem 2rem 2rem 2rem;
+    width: 100%;
+  }
+  .course_outer {
+    .course_main {
+      margin-bottom: 0 !important;
+      margin-top: 0 !important;
+    }
+  }
+  @media screen and (max-width: 1440px) {
+    .panel-header {   
+      h2 {
+        font-size: 28px;
+      }
+      .page-inner {
+        padding-bottom: 80px;
+        padding-top: 30px;
+      }
+    }
+  }
+  @media screen and (max-width: 576px) {
+    .page-inner {
+      padding: 15px;
+    }
+  }
+}
+
+// Responsive Style Starts from here
+
+@media screen and (max-width: 1370px) {
+  .sidebar, .sidebar[data-background-color="white"] {
+    margin-top: 68px;
+  }
+  .main-panel {
+    & > .container {
+      margin-top: 68px;
+      // min-height: calc(100% - 123px);
+    }
+    .panel-header {
+      h2 {
+        @include font-size((28px));
+      }
+    }
+  }
+  .sidebar_minimize {
+    .logo-header {
+      height: 66px;
+    }
+  }
+}
+
+@media screen and (max-width: 1199px) {
+
+  .main-header {
+    min-height: 64px;
+  }
+  .sidebar, .sidebar[data-background-color="white"], .main-panel > .container {
+    margin-top: 64px;
+  }  
+  .sidebar_minimize {
+    .logo-header {
+      height: 64px;
+    }
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .sidebar_minimize {
+    overflow: hidden !important;
+  }
+  .sidebar {
+    position: fixed;
+    left: 0 !important;
+    right: 0;
+    @include transform(translate3d(-$sidebarwidth, 0, 0));
+    margin-top: 0px;
+  }
+  .main-panel {
+    width: 100%;
+  }
+  .sidebar_minimize .sidebar {
+    @include transform(translate3d(0px, 0, 0));
+    border-right: 1px solid #f1f1f1;
+  }  
+  .sidebar_minimize .main-panel, .sidebar_minimize .main-header {
+    @include transform(translate3d($sidebarwidth, 0, 0));
+  }
+}
+
+@media screen and (max-width: 767px) {
+
+  .sidebar, .sidebar[data-background-color="white"], .main-panel > .container {
+    margin-top: 0;
+  } 
+  .sidebar, .sidebar[data-background-color="white"] {
+    width: 250px;
+  }
+  .sidebar_minimize {
+    .main-panel, .main-header {
+      @include transform (translate3d(250px, 0, 0));
+    }
+  }
+}
+
+

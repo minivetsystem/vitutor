@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 45 45">
+  <g id="red_circle" transform="translate(-1334 -370)">
+    <rect id="Rectangle_2318" data-name="Rectangle 2318" width="45" height="45" rx="22.5" transform="translate(1334 370)" fill="#fa5a5d"/>
+    <path id="red_close_icon" d="M8.954,7.7l5.894-5.89A.98.98,0,0,0,13.461.424L7.568,6.317,1.674.424A.98.98,0,1,0,.288,1.81L6.181,7.7.288,13.6a.981.981,0,0,0,1.387,1.387l5.893-5.9,5.894,5.894A.98.98,0,0,0,14.848,13.6Zm0,0" transform="translate(1348.999 384.863)" fill="#fff"/>
+  </g>
+</svg>

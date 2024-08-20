@@ -1,0 +1,90 @@
+<div class="userenter-container">
+    <div class="userenter-col-right">
+        <div class="userenter-inner-wrap">                  
+            <div class="brand-logo"><a href="index.html">
+                <img src="assets/img/images/svg/Vitutor-logo.svg" alt=""></a>
+            </div>
+            
+            <div class="userenter-body with--footer">
+                <h1>Welcome to <span>Vitutors</span></h1>
+                <div class="row justify-content-center">
+                    <div class="col-lg-11">                             
+                        <div class="signup--form login_form">                          
+                            <div class="">
+                                <p class="mb-4">Log In by entering the information below</p>
+                             <form class="row g-3" [formGroup]="loginForm" id="loginForm" (ngSubmit)="onSubmit()"
+                                    ngxScrollToFirstInvalid>
+                                    <div class="col-12 position-relative mt-20">
+                                        <input type="text" class="form-control form-control-lg emailInput"
+                                                    formControlName="email" placeholder="Email"
+                                                    pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
+                                                    (keydown.space)="$event.preventDefault();" (blur)="trimValue()"
+                                                    [ngClass]="{ 'is-invalid': NoSpace }">
+                                                <!-- <div *ngIf="!NoSpace" class="help_ico"><img
+                                                        src="assets/staticpages/images/login_ico1.png"></div> -->
+                                        <!-- <input type="text" class="form-control form-control-lg" id="" placeholder="Email Address*"> -->
+                                        <img class="input-icn"  src="assets/img/images/svg/user-icon-light.svg" alt="">
+                                        <div *ngIf="submitted && renderErrors?.email.errors">
+                                            <div class="has-error" *ngIf="renderErrors.email.errors.required">Email
+                                                is required.</div>
+                                            <div class="has-error" *ngIf="renderErrors.email.errors.pattern">Please
+                                                enter valid email.</div>
+    
+                                        </div>
+                                    
+                                    </div>
+                                    
+                                    <div class="col-12 position-relative mt-20">
+                                        <input [type]="passwordType" class="form-control form-control-lg passwordInput"
+                                        formControlName="password" placeholder="Password">
+                                        <!-- <input type="text" class="form-control form-control-lg" id="" placeholder="Password*"> -->
+                                        <img class="input-icn"  src="assets/img/images/svg/password-icn.svg" alt="">
+                                        <a class="view-password" (click)="typePassword()"><img src="assets/img/images/svg/eye-icn.svg" alt=""></a>
+                                    </div>
+                                    <div *ngIf="submitted && renderErrors?.password.errors">
+                                        <div class="has-error" *ngIf="renderErrors.password.errors.required">Password
+                                            is required.</div>
+
+                                    </div>
+                                    <div class="col-12 mt-20">
+                                      <button type="submit" class="btn btn-primary btn-lg btn-rounded btn-block">Login</button>
+                                    </div>
+                                    <div class="col-6 mt-20">
+                                        <div class="form-check text-left">
+                                            <input type="checkbox" formControlName="remember_me" id="remember_me"
+                                                    class="form-check-input">
+                                            <!-- <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"> -->
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                              Remember me
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 forgotpasswrd mt-20"><a routerLink="/forget-password">Forgot Password</a></div>
+                                </form>
+                                <div class="social-entry_wrap">
+                                    <p>Login with your social account</p>
+                                    <div class="social-btns">
+                                        <a (click)="signInWithSocial(this.LoginWithFacebook)"><img src="assets/img/images/svg/facebook-icn-clr.svg" alt="Facebook Login"></a>
+                                        <div class="dvdr"></div>
+                                        <a (click)="signInWithSocial(this.LoginWithGoogle)"><img src="assets/img/images/svg/google-icn-clr.svg" class="Google Login"></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="userenter__footer">
+                <h3>Don't have an account? <span>Register Now</span></h3>
+                <div class="d-flex">
+                    <a class="btn btn-register btn-rounded" routerLink="/register" [queryParams]="{role: 'tutor'}">Register as Tutor</a>
+                    <a class="btn btn-register btn-rounded" routerLink="/register" [queryParams]="{role : 'student'}">Register as Student</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="userenter-col-left">
+        <div class="tutor--signup_banner"><img src="assets/img/images/student-studying.jpg" alt="tutor sign up"></div>
+    </div>
+</div>

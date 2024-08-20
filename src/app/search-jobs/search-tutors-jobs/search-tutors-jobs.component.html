@@ -1,0 +1,456 @@
+<section class="search_sec">
+    <div class="container">
+        <div class="row">
+            <!-- <form> -->
+            <div class="col-sm-12">
+                <div class="search_bar">
+                    <div class="search_inner">
+                        <!-- <input class="form-control" name="search_term" placeholder="Enter a subject" type="text" [(ngModel)]="searchParams.search_term">
+						<button class="btn btn-red search_icon" type="submit" (click)="getJobs()">Search</button> -->
+                        <div *ngIf="searchParams.searchType == 'Category'" class="ng-autocomplete">
+                            <ng-autocomplete #auto placeHolder="Enter a subject" [data]="categoriesList" [searchKeyword]="keyword" (selected)='selectEvent($event)' [itemTemplate]="itemTemplate" (inputCleared)="searchCleared()" [notFoundTemplate]="notFoundTemplate" [minQueryLength]="3"
+                                [initialValue]="initialValue">
+                            </ng-autocomplete>
+
+                            <ng-template #itemTemplate let-item>
+                                <a [innerHTML]="item.display_name"></a>
+                            </ng-template>
+
+                            <ng-template #notFoundTemplate let-notFound>
+                                <div [innerHTML]="notFound"></div>
+                            </ng-template>
+                        </div>
+                        <div class="second_input" *ngIf="searchParams.searchType == 'Keyword'">
+                            <form (submit)="onSubmitValue()">
+                                <!-- <input >
+                                <div class="x"><i class="material-icons">x</i></div> -->
+                                <input [(ngModel)]="searchParams.search_term" class="form-control" type="text" name="search" id="search" placeHolder="Enter a keyword">
+                                <span *ngIf="searchParams.search_term" class="input-group-append">
+                                <button class="canclBtn" type="button" (click)="clearInput()" >
+                                        <i class="fa fa-times"></i>
+                                </button>
+                                </span>
+                            </form>
+                        </div>
+                        <div class="select_box1">
+                            <select [(ngModel)]="searchParams.searchType" (change)="onChangeSearchType()">
+                                <option value="Category">Category</option>
+                                <option value="Keyword">Keyword</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-sm-12">
+                <div class="search_results_main">
+                    <div class="row ">
+                        <div class="col-md-3 col-sm-3 search_left search_without_login">
+                            <div class="filters">
+                                <div class="filter_text"  data-toggle="collapse" data-target="#filtr_box" aria-controls="filtr_box" aria-expanded="false" aria-label="Toggle navigation"><img src="assets/img/images/filter.svg"> Filters</div>
+                                <div class="reset_text"><a (click)="resetAll()">Reset All</a></div>
+                            </div>
+
+                            <div class="filter_box_outer collapse" id="filtr_box">
+                                <form>
+                                    <div class="filter_box">
+                                        <h6>Job Type</h6>
+                                        <select class="form-control" id="subject" name="job_type" [(ngModel)]="jobTypeSelect" (change)="jobTypeChange($event.target.value)">
+												<!-- <option value="">Select</option> -->
+												<option value='one-time'>One Time</option>
+												<option value="recurring">Recurring</option>
+                                                <option value="instant-tutoring">On-Demand Tutoring</option>
+												<option value="both">All</option>
+											</select>
+                                        <!-- <div class="custom_checkboxs">
+											<label class="checkbox_btn">One Time
+												<input type="checkbox" [checked]="jobsTypeArray.includes('one-time')" (change)="toggleJobSelection('one-time')">
+												<span class="checkmark"></span>
+											</label>
+											<label class="checkbox_btn">Recurring
+												<input type="checkbox" [checked]="jobsTypeArray.includes('recurring')" (change)="toggleJobSelection('recurring')">
+												<span class="checkmark"></span>
+											</label>
+										</div> -->
+                                    </div>
+                                    <div class="filter_box">
+                                        <h6>Price Type</h6>
+                                        <select class="form-control" id="subject" name="price_type" [(ngModel)]="priceTypeSelect" (change)="priceTypeChange($event.target.value)">
+                                            <!-- <option value="">Select</option> -->
+                                            <option value="Hourly">Hourly</option>
+                                            <option value="Fixed">Fixed</option>
+                                            <option value="both">Both</option>
+                                        </select>
+                                    </div>
+                                    <div class="filter_box">
+                                        <h6>Student level</h6>
+                                        <ng-select #select [multiple]="true" [clearable]="false" [items]="studentLevelArray" name="student_level"
+                                            [(ngModel)]="selectedLevel" (remove)="removeLevel($event)"
+                                            (change)="setLevel($event)" bindLabel="name" bindValue="name"
+                                             placeholder="Select Student Level">
+                                        </ng-select>
+                                    </div>
+                                    <!-- <div class="filter_box">
+                                        <h6>Experience level</h6>
+                                        <select class="form-control" name="experience_level" [(ngModel)]="searchParams.experince_level" (change)="onChangeExperience()">
+                                            
+                                            <option value="ALL">All</option>
+                                            <option value="Beginner">Beginner</option>
+                                            <option value="Intermediate">Intermediate</option>
+                                            <option value="Expert">Expert</option>
+                                        </select>
+                                    </div> -->
+
+                                    <div class="filter_box">
+                                        <h6 *ngIf="priceTypeSelect == 'Fixed'">Job Price($)</h6>
+                                        <h6 *ngIf="priceTypeSelect == 'Hourly'">Hourly Price($)</h6>
+                                        <h6 *ngIf="priceTypeSelect == 'both'">Price($)</h6>
+                                        <div id="slider-range" class="slider-success">
+                                            <ng5-slider [(value)]="searchParams.hourly_range_from" [(highValue)]="searchParams.hourly_range_to" [options]="options" (userChangeEnd)="onChangeHourlyRate($event)"></ng5-slider>
+                                        </div>
+                                    </div>
+                                    <div class="filter_box">
+                                        <h6>Proposed Start Date</h6>
+                                        <select class="form-control" name="proposed_start_time" [(ngModel)]="searchParams.proposed_start_time" (change)="changeProposedDate()">
+                                            <!-- <option value="">Select Experience</option> -->
+                                            <option value="">All</option>
+                                            <option value="Unknown">Unknown</option>
+                                            <option value="Immediate">Immediate</option>
+                                            <option value="Within a week">Within a week</option>
+                                            <option value="Within a month">Within a month</option>
+                                        </select>
+                                    </div>
+                                   
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-md-9 col-sm-9 search_right">
+                            <div class="sort_outer ">
+                                <h5>
+                                    <strong>{{totalRecords}}
+											All
+										</strong> fit your choices
+                                </h5>
+                                <div class="sort_inn">
+                                    <div class="sort_by">Sort by
+                                    </div>
+                                    <div class="select_box">
+                                        <select class="form-control" id="sort" name="rating" [(ngModel)]="searchParams['sort-by']" (change)="sortTypeChange($event.target.value)">
+                                                <!-- <option value="">Select</option> -->
+                                                <option value="newest">Newest</option>
+												<option value="oldest">Oldest</option>
+												<option value="highTolow">Price: High to Low</option>
+												<option value="lowTohigh">Price: Low to High</option>
+											</select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="jobsListErr == false">
+                                <div class=" job_without_login " *ngFor="let job of tutorJobsList">
+                                    <div class="job_desc_inner">
+                                        <div [routerLink]="['/jobDetail/job/', job.job_slug]" class="job_title">
+                                            <h4><a [href]="">{{job.job_title}}</a></h4>
+                                        </div>
+                                        <span><strong>{{job.price_type}} Price </strong>- for : <strong>{{job.job_type_data == 'instant-tutoring' ? 'On-Demand' : job.job_type}}</strong> - Posted <strong>{{job.posted_date}}</strong> </span>
+                                        <span><strong>Student level :</strong> {{job.student_level}}</span>
+                                        <span *ngIf="job.proposed_start_time"><strong>Proposed Start Date :</strong> {{job.proposed_start_time}}</span>
+                                        <p>{{job.job_description | slice:0:300}}<a *ngIf="job.job_description.length > 300" [routerLink]="['../job-details/', job.job_slug]">....Read more</a></p>
+                                        <ul>
+                                            <li *ngIf="job.category_name"><a [href]="">{{job.category_name}}</a></li>
+                                            <li *ngIf="job.sub_category_id"><a [href]="">{{job.sub_category_id}}</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="job_button_right">
+                                        <div class="tutors"><img [src]="job.photo" (error)="imgLoadError($event)"> {{job.full_name}}</div>
+                                        <div class="price_pro">
+                                            <span> {{job.price}} </span>
+                                            <strong>{{job.price_type}} Price</strong>
+                                        </div>
+                                        <button class="btn btn-primary" *ngIf="job.apply_status == false" (click)="openApplyJobModal(job)">Apply Job <img src="assets/img/images/arrow-right-white.svg"></button>
+                                        <button  class="btn btn-primary" *ngIf="job.apply_status == true" (click)="appliedJob(job.id)">APPLIED</button>
+                                        <!-- <div [routerLink]="['../job-details/', job.job_slug]" class="view_MORE"><a [href]="">View More <img src="assets/img/images/Polygonnew.svg"></a> -->
+                                        <!-- </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="jobsListErr == true">
+                                <div class="no_record_found">
+                                    <h4>No Record Found</h4>
+                                </div>
+                            </div>
+                            <!-- <div *ngIf="tutorJobsList.length>0; else no_record">
+                                <div class=" job_without_login " *ngFor="let job of tutorJobsList">
+                                    <div class="job_desc_inner">
+                                        <h4><a [href]="">{{job.job_title}}</a></h4>
+                                        <span><strong>{{job.price_type}} Price </strong>- for : <strong>{{job.job_type}}</strong> - Posted <strong>{{job.posted_date}}</strong> </span>
+                                        <p>{{job.job_description | slice:0:300}}<a *ngIf="job.job_description.length > 300" [routerLink]="['../job-details/', job.job_slug]">....Read more</a></p>
+
+                                        <ul>
+                                            <li *ngIf="job.category_name"><a [href]="">{{job.category_name}}</a></li>
+                                            <li *ngIf="job.sub_category_id"><a [href]="">{{job.sub_category_id}}</a></li>
+
+                                        </ul>
+                                    </div>
+                                    <div class="job_button_right">
+                                        <div class="tutors"><img [src]="job.photo" (error)="imgLoadError($event)"> {{job.full_name}}</div>
+                                        <div class="price_pro">
+                                            <span> {{job.price}} </span>
+                                            <strong>{{job.price_type}} Price</strong>
+                                        </div>
+
+                                        <button class="btn btn-primary" *ngIf="!job.apply_status" (click)="openApplyJobModal(job.job_id)">Apply Job <img src="assets/img/images/arrow-right-white.svg"></button>
+                                        <button disabled class="btn btn-primary" *ngIf="job.apply_status">APPLIED</button>
+                                        <div [routerLink]="['../job-details/', job.job_slug]" class="view_MORE"><a [href]="">View More <img src="assets/img/images/Polygonnew.svg"></a></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <ng-template #no_record>
+                                <div class="no_record_found">
+                                    <h4>No Record Found</h4>
+                                </div>
+                            </ng-template> -->
+                            <nav *ngIf="tutorJobsList.length>0 && lastPage > 1" aria-label="...">
+                                <ul class="pagination">
+                                    <li class="page-item" [ngClass]="{'disabled' : currentPage == 1}">
+                                        <a class="page-link" (click)="loadMore(currentPage-1)" tabindex="-1">
+                                            < </a>
+                                    </li>
+                                    <li *ngFor="let page of pagesCount;" class="page-item" [ngClass]="{'active': currentPage == page}"><a class="page-link" (click)="loadMore(page)" *ngIf="page == lastPage || page == 1 || (page >= (currentPage - 1) && page <= (currentPage+1))">{{page}}</a><span  *ngIf="(page < currentPage - 1 || page > currentPage+1) && page != lastPage && page != 1">.</span></li>
+                                    <li class="page-item" [ngClass]="{'disabled' : currentPage == lastPage}"  >
+                                        <a class="page-link" (click)="loadMore(currentPage+1)">></a>
+                                    </li>
+                                   
+                                </ul>
+                            </nav>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- </form> -->
+        </div>
+    </div>
+</section>
+
+<div id="apply_job" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Apply for {{applyJobTitle}}</h4>
+                <button type="button" class="close" data-dismiss="modal"><img src="assets/img/images/close-14.svg"></button>
+
+            </div>
+            <div class="modal-body">
+                <form class="form-group form-show-validation row">
+
+
+                    <div class="col-lg-12 wk_form">
+                        <label>Message <span class="required-label">*</span></label>
+                        <textarea placeholder="Enter Message" class="form-control" name="message" rows="3" [(ngModel)]="ApplyJob.message"></textarea>
+                    </div>
+                    <div class="col-lg-12 wk_form">
+                        <label>Offer Price <span class="required-label">*</span></label>
+                        <!-- <textarea placeholder="Enter Message" class="form-control" name="message" rows="3" #message></textarea> -->
+                        <input type="text" class="form-control" name="price" [(ngModel)]="ApplyJob.price">
+                        <p class="text-danger" *ngIf="priceErr">Price is incorrect</p>
+                    </div>
+                    <div class="col-lg-12 wk_form">
+                        <label>Attachment</label>
+                        <input (change)="onSelectAttachment($event)" type="file" [(ngModel)]="ApplyJob.attachment" class="form-control" name="attachment" accept="image/x-png,image/jpeg,application/pdf,application/vnd.ms-excel,application/msword,text/plain, application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+                        <div *ngIf="applySubmitted && (attachmentTypeError || attachmentsizeLimitError )">
+                            <p *ngIf="attachmentTypeError" class="text-danger">Invalid file format</p>
+                            <p *ngIf="attachmentsizeLimitError" class="text-danger">Support file having size less than 5 MB</p>
+                            <p *ngIf="attachmentRequiredError" class="text-danger">Attachment is Required</p>
+                            <!-- <p *ngIf="createOfferForm.controls.message.errors.pattern" class="text-danger">Price is incorrect</p> -->
+                        </div>
+                    </div>
+                    <div class="col-lg-12 text-center">
+                        <button class="btn btn-primary " (click)="applyJob()">Send</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="view_applicants" class="modal fade view_applicants" role="dialog" #view_applicants>
+	<div class="modal-dialog modal-lg">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">{{applicant?.job?.job_title}}</h4>
+				<button type="button" class="close" data-dismiss="modal"><img src="assets/img/images/close-14.svg"></button>
+
+			</div>
+			<div class="modal-body">
+
+				<div class=" job_without_login application_recieved " >
+
+					<div class="job_desc_inner">
+
+
+						<div class="send_offer">
+							<div class="row">
+
+								<div class="col-sm-12 tutor_outer">
+									<div class="tutorLEFT">
+										<div class="tutor-image">
+											<img   [src]="applicant?.user?.image_url ? applicant?.user?.image_url : 'assets/img/avatar_user2.jpg'" #this onError="this.src='assets/img/avatar_user2.jpg'">
+										</div>
+										<!-- <div class="tutor_rating">
+											<ul>
+												<li><i class="fas fa-star"></i></li>
+												<li><i class="fas fa-star"></i></li>
+												<li><i class="fas fa-star"></i></li>
+												<li><i class="fal fa-star"></i></li>
+												<li><i class="fal fa-star"></i></li>
+											</ul>
+											<h6>{{applicant?.user?.avg_rating}} <small>( 5.0 )</small></h6>
+
+										</div> -->
+                                        <div class="tutor_rating">
+                                        <app-review-rating-view [reviewsCount]="applicant?.user?.rating_count" [rating]="applicant?.user?.avg_rating" >
+                                        </app-review-rating-view>
+                                        </div>
+                                        <!-- <app-review-rating></app-review-rating> -->
+										<!-- <a class="wklink" (click)="navigateProfile('/search/viewTutor/'+ applicant?.user?.profile_slug)" >View Profile</a> -->
+									</div>
+
+									<div class="tutor_desc">
+										<div class="row">
+											<div class="col-sm-6">
+												<strong>Tutor Name </strong>
+												<p>{{applicant?.user?.full_name}}</p>
+											</div>
+											<div class="col-sm-6">
+												<strong>Hourly Rate </strong>
+												<p>{{applicant?.user?.hourly_rate}}</p>
+											</div>
+											<div class="col-sm-6">
+												<strong>Location </strong>
+												<p>{{applicant?.user?.location?.country || 'Not Found'}}</p>
+											</div>
+											<div class="col-sm-6">
+												<strong>Experience level</strong>
+												<p>{{applicant?.user?.experince_level}}</p>
+											</div>
+
+											<div class="col-sm-6">
+												<strong>Application Status</strong>
+												<p >{{applicant?.status}}</p>
+												<!-- <p class="badge badge-warning" *ngIf="applicant?.status == 'Cancelled'">{{applicant?.status}}</p> -->
+											</div>
+											
+										   
+
+											<div class="col-sm-12">
+												<strong>Bio </strong>
+												<p>{{applicant?.user?.about_me}}</p>
+												
+												<!-- <a class="btn btn-primary" [routerLink]="['/search/viewTutor/]">View Profile</a> -->
+											</div>
+											
+										</div>
+
+
+										
+
+										<!--div class="row">
+											<div class="col-sm-6">
+												<strong>Application Status</strong>
+												<p class="badge badge-success" *ngIf="applicant?.status == 'Applied'">{{applicant?.status}}</p>
+												<p class="badge badge-warning" *ngIf="applicant?.status == 'Cancelled'">{{applicant?.status}}</p>
+											</div>
+										</div-->
+
+							   
+										
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="job_button_right wh_job_button_right">
+
+						<!--div class="price_pro">
+							<img src="assets/img/gift.svg"> <strong>Applied price
+								<span>{{applicant.offer_price}}</span>
+							</strong>
+						</div--> 
+						<div class="job_time_date">
+							<div class="row">
+								<div class="col-sm-6">
+									<strong>Applied price</strong>
+									<p>{{applicant?.offer_price}}</p>
+								</div>
+								<!-- <div class="col-sm-6" *ngIf="applicant.job.proposed_start_time">
+									 <strong>Job Schedule </strong>
+									<p *ngIf="applicant.job.job_type_data != 'recurring'">{{applicant.job.schedule_date}}</p>
+									<p *ngIf="applicant.job.job_type_data == 'recurring'">{{applicant.job.job_recurring?.recurring_job_date || applicant.job.schedule_date}} {{applicant.job.job_recurring?.time}}</p>
+									
+								</div> -->
+								<div class="col-sm-6">
+									<strong>Proposed Start Date</strong>
+									<p>{{applicant?.job?.proposed_start_time}}</p>
+								</div>
+								<div class="col-sm-6">
+									<strong>Job Type</strong>
+									<p>{{applicant?.job?.job_type_data == 'instant-tutoring' ? 'On-Demand' : applicant?.job?.job_type}}</p>
+								</div>
+                                <div class="col-sm-6" *ngIf="applicant?.job?.no_of_sessions && applicant?.job?.no_of_sessions > 0">
+									<strong>Number of Sessions</strong>
+									<p>{{applicant?.job?.no_of_sessions}}</p>
+								</div>
+								<div class="col-sm-6">
+									<strong>Applied On </strong>
+									<p>{{applicant?.applied_on}}</p>
+								</div>
+								<div class="col-sm-6 attach">
+									<strong>Attachment :</strong>
+									<div class="certification">
+										<div class="cerfication_img">
+											<div *ngIf="applicant?.attachment" class="ceft_img" (click)="downloadAttachment({name:applicant?.image_title, id: applicant?.id, type: applicant?.file_type},'application-received-attachments')">
+												<span>
+													<img *ngIf="applicant?.file_type == 'image/jpeg' && applicant?.attachment && applicant?.attachment.length > 0" src="assets/img/ico-jpg.svg">
+													<img *ngIf="applicant?.file_type == 'image/png' && applicant?.attachment && applicant?.attachment.length > 0" src="assets/img/ico-png.svg">
+													<img *ngIf="applicant?.file_type == 'application/pdf' && applicant?.attachment && applicant?.attachment.length > 0" src="assets/img/ico-pdf.svg">
+													<img *ngIf="applicant?.file_type == 'application/msword' && applicant?.attachment && applicant?.attachment.length > 0" src="assets/img/msword.jpeg">
+													<img *ngIf="applicant?.file_type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' && applicant?.attachment && applicant?.attachment.length > 0" src="assets/img/ico-doc.png" alt="docx">
+													<img *ngIf="applicant?.file_type == 'application/vnd.ms-excel' && applicant?.attachment && applicant?.attachment.length > 0" alt="excel" src="assets/img/ico-excel.png">
+													<img *ngIf="applicant?.file_type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' && applicant?.attachment && applicant?.attachment.length > 0" src="assets/img/ico-spreadsheet.png" alt="xls">
+													<!--img *ngIf="applicant.attachment || applicant.attachment.length > 0" class="download_icon"  src="assets/img/download_blue.svg"-->
+												</span>
+												<div class="download_btns">
+													 <button type="button" style="color: rgb(204, 204, 204);" (click)="downloadAttachment({name:applicant?.image_title, id: applicant?.id, type: applicant?.file_type},'application-received-attachments')"><i class="fas fa-cloud-download-alt"></i></button>
+													<div *ngIf="applicant?.attachment && applicant?.attachment.length > 0" class="document_name">{{applicant?.image_title}}</div>
+												</div>
+											</div>
+
+										</div>
+										<p *ngIf="!applicant?.attachment || applicant?.attachment.length == 0" style="text-decoration: none;">No Attachments</p>
+									</div>
+								</div>
+								<div class="col-sm-12">
+									<strong>Message </strong>
+									<p>{{applicant?.message}}</p>
+                                    <a class="btn btn-primary replyLink" (click)="navigate('/tutor/message-board')" >Reply</a>
+								</div>
+							   
+							</div>
+
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+</div>

@@ -1,0 +1,37 @@
+.tutor-image {
+    width: 80px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 100%;
+    overflow: hidden;
+    margin-right: 20px;
+    height: 80px;
+}
+.tutorLEFT
+{
+    width: 100px;
+}
+.tutor-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.tutor_desc {
+    width: 100%;
+}
+
+.tutor_outer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: self-start;
+}
+
+.offer-status {
+    font-size: 20px;
+    color: #3d94e7;
+    font-weight: 500;
+}
+.rate_star{
+    padding-left: 2px !important;
+}

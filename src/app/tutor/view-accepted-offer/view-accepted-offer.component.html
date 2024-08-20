@@ -1,0 +1,207 @@
+<div class="main-panel">
+	<div class="container">
+		<div class="panel-header bg-primary-gradient">
+			<div class="page-inner py-5">
+				<div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+					<div>
+						<h2 class="pb-2 fw-bold panel-header-heading">Manage Jobs</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="page-inner mt--5 job_single_page">
+			<div class="row mt--2">
+				<div class="col-md-12">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title">
+								  <div class="row">
+									<div class="col-md-6 col-sm-6 card_title_left d-flex">
+										<div class="back_btn" style="cursor: pointer;"><a (click)="goBack()">
+										<img src="assets/img/images/arrow-left.svg" > Back</a>
+										</div> 
+										<div class="single_page_title">
+											<h5>{{OfferDetails.job_detail.job_title}}</h5>
+											<span class="date">Posted {{OfferDetails.job_detail.created_at}}</span>
+										</div>
+										
+									</div>
+									<div class="col-md-6 col-sm-6 card_title_right">
+										<div class="card_title_inner">
+											<div class="tutor_sec">
+												<div class="avatar-sm">
+													<img [src]="OfferDetails.student.image_url" (error)="img.src='assets/img/images/user.png'" #img alt="..." class="avatar-img rounded-circle">
+												</div>
+												<label>{{OfferDetails.student.full_name}}</label>
+												<!-- <span>9:16 pm Tue in Australia</span> -->
+
+											</div>
+											
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="card-body job_offer_outer">
+							<div class="row">
+								<div class="col-sm-4 job_offer">
+									<h4>Job Details</h4>
+									<div class="job_offer_inner">
+										<span><img src="assets/img/calender1.svg"> Session Scheduled</span>
+										<p>{{OfferDetails.job_detail.schedule_date}}</p>
+										<button class="btn btn-red">Start Session <img src="assets/img/Polygon2.svg"> </button>
+										<!-- <div class="job_detail_box">
+
+											<strong>Job category :<span> {{OfferDetails.job_detail.job_category}}</span>  </strong>
+											<strong>Job sub category :<span> {{OfferDetails.job_detail.sub_category_id}}</span></strong>
+											<strong *ngIf="OfferDetails.job_detail.schedule_date" >Session scheduled :<span> {{OfferDetails.job_detail.schedule_date}}</span></strong>
+											<strong *ngIf="!OfferDetails.job_detail.schedule_date ">Session scheduled :<span> {{OfferDetails.job_detail.job_recurring?.recurring_job_date}} {{OfferDetails.job_detail.job_recurring?.time}}</span></strong>
+											<strong>Job despriction :<span> {{OfferDetails.job_detail.job_description}}</span></strong>
+											<strong>Job type : <span> {{OfferDetails.job_detail.job_type}}</span></strong> 
+											<strong>Price type : <span> {{OfferDetails.job_detail.price_type}}</span></strong> 
+											<strong *ngIf="OfferDetails.job_detail.job_recurring">Recurring Type : <span> {{OfferDetails.job_detail?.job_recurring?.recurring_type || ''}}</span></strong> 
+											
+
+										</div> -->
+
+									</div>
+								</div>
+								<div class="col-sm-4 job_offer">
+									<h4 *ngIf="!OfferDetails.job_detail.job_recurring">Weekly Billing</h4>
+									<h4 *ngIf="OfferDetails.job_detail.job_recurring && OfferDetails.job_detail.job_recurring.recurring_type && OfferDetails.job_detail.job_recurring.recurring_type != 'Monthly'">Weekly Billing</h4>
+									<h4 *ngIf="OfferDetails.job_detail.job_recurring && OfferDetails.job_detail.job_recurring.recurring_type && OfferDetails.job_detail.job_recurring.recurring_type == 'Monthly'">Monthly Billing</h4>
+									<div class="job_offer_inner">
+										<span>Session Timings</span>
+										<p *ngIf="OfferDetails.job_detail.duration && OfferDetails.job_detail.job_recurring  && OfferDetails.job_detail.job_recurring?.recurring_type == 'Monthly'">Total: {{OfferDetails.job_detail.duration}} hrs</p>
+										<!-- <p *ngIf="OfferDetails.job_detail.duration && !OfferDetails.job_detail.job_recurring">Total: {{OfferDetails.job_detail.duration}} hrs</p> -->
+											<p *ngIf="OfferDetails.job_detail.duration  && OfferDetails.job_detail.job_recurring && OfferDetails.job_detail.job_recurring.recurring_type && OfferDetails.job_detail.job_recurring?.recurring_type == 'Weekly' ">Total: {{OfferDetails.job_detail.duration}} hrs</p>
+											<p *ngIf=" OfferDetails.job_detail.duration  && OfferDetails.job_detail.job_recurring && OfferDetails.job_detail.job_recurring.recurring_type && OfferDetails.job_detail.job_recurring?.recurring_type == 'Daily' ">Total: {{OfferDetails.job_detail.duration * 7}} hrs</p>
+											<p *ngIf="OfferDetails.job_detail.duration && !OfferDetails.job_detail.job_recurring  ">Total: {{OfferDetails.job_detail.duration}} hrs</p>
+											<p *ngIf="!OfferDetails.job_detail.duration">--</p>
+                                       
+										<!-- <ul>
+											<li class="blue">Completed: 30:00 hrs</li>
+											<li class="red">Upcoming: 2:00 hrs</li>
+										</ul> -->
+									</div>
+								</div>
+								<div class="col-sm-4 job_offer">
+									<h4 *ngIf="!OfferDetails.job_detail.job_recurring">  Weekly Earning</h4>
+									<h4 *ngIf="OfferDetails.job_detail.job_recurring && OfferDetails.job_detail.job_recurring?.recurring_type != 'Monthly'">  Weekly Earning</h4>
+									<h4 *ngIf="OfferDetails.job_detail.job_recurring && OfferDetails.job_detail.job_recurring?.recurring_type == 'Monthly'">  Monthly Earning</h4>
+									<!-- <h4 *ngIf="OfferDetails.job_detail.job_recurring">  Billing for {{OfferDetails.job_detail.job_recurring.recurring_type || ''}}</h4> -->
+									<div class="job_offer_inner">
+										<span>Earnings</span>
+										<p *ngIf="OfferDetails.job_detail.duration && OfferDetails.job_detail.price_type == 'Hourly' && !OfferDetails.job_detail.job_recurring">Total: ${{(OfferDetails.job_detail.duration || 1) * OfferDetails.price}}</p>
+										<p *ngIf="OfferDetails.job_detail.duration && OfferDetails.job_detail.price_type == 'Hourly' && OfferDetails.job_detail.job_recurring && OfferDetails.job_detail.job_recurring?.recurring_type == 'Daily'">Total: ${{(OfferDetails.job_detail.duration || 1) * OfferDetails.price * 7}}</p>
+										<p *ngIf="OfferDetails.job_detail.duration && OfferDetails.job_detail.price_type == 'Hourly' && OfferDetails.job_detail.job_recurring && OfferDetails.job_detail.job_recurring?.recurring_type == 'Weekly'">Total: ${{(OfferDetails.job_detail.duration || 1) * OfferDetails.price}}</p>
+										<p *ngIf="OfferDetails.job_detail.duration && OfferDetails.job_detail.price_type == 'Hourly' && OfferDetails.job_detail.job_recurring && OfferDetails.job_detail.job_recurring?.recurring_type == 'Monthly'">Total: ${{(OfferDetails.job_detail.duration || 1) * OfferDetails.price}}</p>
+										<p *ngIf="OfferDetails.job_detail.duration && OfferDetails.job_detail.price_type == 'Fixed' && !OfferDetails.job_detail.job_recurring">Total : ${{OfferDetails.price}}</p>
+										<p *ngIf="OfferDetails.job_detail.duration && OfferDetails.job_detail.price_type == 'Fixed' && OfferDetails.job_detail.job_recurring && OfferDetails.job_detail.job_recurring?.recurring_type == 'Daily'">Total : ${{OfferDetails.price * 7}}</p>
+										<p *ngIf="OfferDetails.job_detail.duration && OfferDetails.job_detail.price_type == 'Fixed' && OfferDetails.job_detail.job_recurring && OfferDetails.job_detail.job_recurring?.recurring_type != 'Daily'">Total : ${{OfferDetails.price}}</p>
+                                        <p *ngIf="!OfferDetails.job_detail.duration">--</p>
+										
+										<!-- <ul>
+											<li >This Week: $160</li>
+											<li >Upcoming: $30</li>
+										</ul> -->
+									</div>
+								</div>
+
+								<div class="col-sm-12 job_btns">
+									 <!-- <button   class="btn btn-primary mr-3"  *ngIf="OfferDetails.status == 'Pending'" (click)="acceptOffer()" >Accept Offer</button>
+									 <button   class="btn btn-red"  *ngIf="OfferDetails.status == 'Pending'"  (click)="rejectOffer()" >Reject Offer</button>
+									 <button *ngIf="OfferDetails.status != 'Pending'" class="btn btn-red">{{OfferDetails.status}}</button> -->
+									<!--<button   class="btn req"   >Request Payment</button> -->
+                                    <!-- <button   class="btn message_btn"><img src="assets/img/Message-btn.svg"> Message</button> -->
+                                    <button   class="btn btn-primary mr-3"   >Complete Job</button>
+									
+								</div>
+
+							</div>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+	<app-short-footer></app-short-footer>
+</div>
+
+    <!-- Modal -->
+    <div id="acceptOfferModal" class="modal fade" role="dialog" #acceptOfferModal>
+        <div class="modal-dialog">
+        
+        <!-- Modal content-->
+        <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Accept Offer</h4>
+          <button type="button" class="close" (click)="closeAcceptModal()"><img src="../../../assets/img/close-14.svg"></button>
+          
+        </div>
+        <div class="modal-body">
+            <form class="form-group form-show-validation row">
+                <div class="col-lg-12 wk_form">
+                    <label >Job Title <span class="required-label">*</span></label>
+                    <input type="text" class="form-control" disabled [value]="acceptOfferObj.job_title">
+                </div>
+                <div class="col-lg-12 wk_form">
+                    <label >Message</label>
+                    <textarea type="text" class="form-control"  name="acceptReason" [(ngModel)]="acceptReason" placeholder="Enter message"  #accept="ngModel"></textarea>
+                </div>
+                <!-- <div *ngIf="acceptSubmitted || accept.touched || accept.dirty">
+                    <p *ngIf="accept.value == ''" class="text-danger"> Please enter reason</p>
+                </div> -->
+                <div class="col-lg-12 wk_form">
+                    <label >Offer Price <span class="required-label">*</span></label>
+                    <input type="text" class="form-control" disabled [value]="offerPrice || acceptOfferObj.price">
+                   
+                    
+                </div>
+              
+                <div class="col-lg-10">
+                    <button class="btn btn-warning mr-3" (click)="closeAcceptModal()">Cancel</button>
+                    <button class="btn btn-primary" (click)="acceptOfferSubmit()">Accept</button>
+                </div>
+            </form>
+        </div>
+        </div>
+        
+        </div>
+		</div>
+		
+		<!-- Modal -->
+<div id="rejectOfferModal" class="modal fade" role="dialog" #rejectOfferModal>
+    <div class="modal-dialog">
+    
+    <!-- Modal content-->
+    <div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">Decline Offer</h4>
+      <button type="button" class="close" data-dismiss="modal"><img src="assets/img/close-14.svg"></button>
+      
+    </div>
+    <div class="modal-body">
+        <form class="form-group form-show-validation row">
+            <div class="col-lg-12 wk_form">
+                <label >Job Title <span class="required-label">*</span></label>
+                <input type="text" class="form-control" disabled [value]="rejectOfferObj.job_title">
+            </div>
+            <div class="col-lg-12 wk_form">
+                <label >Reason for decline <span class="required-label">*</span></label>
+                <textarea type="text" class="form-control"  name="declineReason" [(ngModel)]="declineReason" placeholder="Enter reason for decline" required="" #decline="ngModel"></textarea>
+            </div>
+            <div *ngIf="declineSubmitted || (decline.touched || decline.dirty)">
+                <p *ngIf="decline.value == ''" class="text-danger"> Please enter reason</p>
+            </div>
+            <div class="col-lg-10">
+                <button class="btn btn-warning mr-3" (click)="closeRejectModal()">Cancel</button>
+                <button class="btn btn-primary" (click)="rejectOfferSubmit()">Decline</button>
+            </div>
+        </form>
+    </div>
+    </div>
+    
+    </div>
+    </div>

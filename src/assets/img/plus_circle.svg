@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60">
+  <g id="plus_circle" transform="translate(-1309 -486)">
+    <rect id="plus_circle-2" data-name="plus_circle" width="60" height="60" rx="30" transform="translate(1309 486)" fill="#1492e6"/>
+    <path id="close" d="M12.482,10.685,20.7,2.47A1.367,1.367,0,0,0,18.765.537L10.549,8.753,2.334.537A1.367,1.367,0,0,0,.4,2.47l8.215,8.216L.4,18.9a1.367,1.367,0,1,0,1.933,1.933l8.215-8.216,8.216,8.216A1.367,1.367,0,0,0,20.7,18.9Zm0,0" transform="translate(1339.447 501.417) rotate(45)" fill="#fff"/>
+  </g>
+</svg>

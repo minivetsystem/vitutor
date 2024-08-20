@@ -1,0 +1,130 @@
+<section class="search_sec search_single_page">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="search_results_main">
+					<div class="row ">
+						<div class=" col-md-10 col-sm-10 search_right m-auto">	
+							<div class=" job_without_login " *ngIf="error == true">
+								
+								<div class="job_desc_inner">
+									<div class="back_btn">
+										<!-- <a [routerLink]="['/searchJob/search-jobs']"> -->
+											<a (click)="goBack()" style="cursor:pointer">
+										<img src="assets/img/images/arrow-left.svg"> Back</a>
+									</div>
+									<h4><a [href]="">{{jobDetail.job_title}}</a></h4>
+									<span><strong>{{jobDetail.price_type}} Price -   Posted on : </strong> {{jobDetail.posted_date}}</span>
+									<span *ngIf="jobDetail.schedule_date">Scheduled on <strong>{{jobDetail.schedule_date}}</strong></span>
+									<span *ngIf="jobDetail.job_recurring">Scheduled on <strong>{{jobDetail.job_recurring.recurring_job_date}} {{jobDetail.job_recurring.time}}</strong></span>
+									<p *ngIf="jobDetail.job_description">{{jobDetail.job_description}}</p>
+				
+									
+								</div>
+								<div class="job_button_right">
+									<div class="tutors"><img [src]="jobDetail.user.photo" (error)="imgLoadError($event)"> {{jobDetail.user.full_name}}</div>
+									<div class="price_pro">
+										<span> {{jobDetail.price}} </span>
+										<strong>{{jobDetail.price_type}}</strong>
+									</div>
+									
+									<a data-toggle="modal" data-target="#apply_job" class="btn btn-primary" *ngIf="!jobDetail.apply_status">Apply Job <img src="assets/img/images/arrow-right-white.svg"></a>
+									<button    class="btn btn-primary"  *ngIf="jobDetail.apply_status" (click)="appliedJob(jobDetail.id)">APPLIED</button>
+
+									
+									<div class="skills">	
+										<h4>Skills and expertise</h4>
+										<ul>
+											<li *ngIf="jobDetail.job_category"><a [href]="">{{jobDetail.job_category}}</a></li>	
+											<li *ngIf="jobDetail.sub_category_id"><a [href]="">{{jobDetail.sub_category_id}}</a></li>
+											</ul>
+
+										<h4>Job Type</h4>
+										<p>{{jobDetail.job_type_data == 'instant-tutoring' ? 'On-Demand' : jobDetail.job_type}}</p>
+										<h4 *ngIf="jobDetail.job_recurring && jobDetail.job_recurring.recurring_type != ''">Occurence</h4>
+										<p *ngIf="jobDetail.job_recurring && jobDetail.job_recurring.recurring_type != ''"> {{jobDetail.job_recurring.recurring_type}} </p>
+										<h4 *ngIf="jobDetail.job_recurring && jobDetail.job_recurring.date != ''">Date of Month</h4>
+										<p *ngIf="jobDetail.job_recurring && jobDetail.job_recurring.date != ''"> {{jobDetail.job_recurring.date}} </p>
+										<h4 *ngIf="jobDetail.job_recurring && jobDetail.job_recurring.day != ''">Day of Week</h4>
+										<p *ngIf="jobDetail.job_recurring && jobDetail.job_recurring.day != ''"> {{jobDetail.job_recurring.day}} </p>
+										
+										<h4>Session Duration</h4>
+										<p>{{jobDetail.duration}} Hours</p>
+
+										<h4 *ngIf="jobDetail.job_recurring && jobDetail.job_recurring.start_date && jobDetail.job_recurring.end_date">Session Date Range</h4>
+										<p *ngIf="jobDetail.job_recurring && jobDetail.job_recurring.start_date && jobDetail.job_recurring.end_date">{{jobDetail.job_recurring.start_date}} - {{jobDetail.job_recurring.end_date}}</p>
+									</div>
+								</div>
+
+							</div>
+							<div class="job_without_login" style="min-height: 300px;" *ngIf="error == false">
+								<div class="job_desc_inner">
+								<div class="back_btn"><a href="javascript:void(0)" (click)="goBack()">
+									<img src="assets/img/images/arrow-left.svg"> Back</a>
+								</div>
+								<div class="text-center">
+								<h3>No Data Found</h3>
+								</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</section>
+<div id="apply_job" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content"> 
+            <div class="modal-header">
+                <h4 class="modal-title">Apply for {{jobDetail.job_title}}</h4>
+                <button type="button" class="close" data-dismiss="modal"><img src="assets/img/images/close-14.svg"></button>
+
+            </div>
+            <div class="modal-body">
+                <form class="form-group form-show-validation row" #ApplyForm="ngForm">
+                   
+
+                    <div class="col-lg-12 wk_form">
+                        <label>Add Message <span class="required-label">*</span></label>
+						<textarea placeholder="Enter Message" class="form-control" name="message" rows="3" #message required></textarea>
+						<p class="text-danger" *ngIf="message.touched && message.errors.required">
+							Message is Required
+						</p>
+					</div>
+					<div class="col-lg-12 wk_form">
+                        <label>Offer Price <span class="required-label">*</span></label>
+						<!-- <textarea placeholder="Enter Message" class="form-control" name="message" rows="3" #message></textarea> -->
+						<input type="text" class="form-control" name="price" #price required [pattern]="pricePattern">
+						<p class="text-danger" *ngIf="price.touched && price.errors.required">
+							Price is Required
+						</p>
+						<p class="text-danger" *ngIf="ApplyErr">
+							Price is invalid
+						</p>
+					</div>
+					<div class="col-lg-12 wk_form">
+                        <label>Attachment</label>
+                        <input (change)="onSelectAttachment($event)" type="file" class="form-control" name="attachment" accept="image/x-png,image/jpeg,application/pdf,application/vnd.ms-excel,application/msword,text/plain, application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+                        <div *ngIf="applySubmitted && (attachmentTypeError || attachmentsizeLimitError || attachmentRequiredError)">
+                            <p *ngIf="attachmentTypeError" class="text-danger">Invalid file format</p>
+                            <p *ngIf="attachmentsizeLimitError" class="text-danger">Support file having size less than 5 MB</p>
+                            <!-- <p *ngIf="attachmentRequiredError" class="text-danger">Attachment is Required</p> -->
+                            <!-- <p *ngIf="createOfferForm.controls.message.errors.pattern" class="text-danger">Price is incorrect</p> -->
+                        </div>
+                    </div>
+                    <div class="col-lg-12 text-center">
+                        <button class="btn btn-primary " (click)="applyJob( message.value, price.value)">Send</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+

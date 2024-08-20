@@ -1,0 +1,58 @@
+{
+  "_from": "@wiris/mathtype-generic@^7.17.0",
+  "_id": "@wiris/mathtype-generic@7.17.0",
+  "_inBundle": false,
+  "_integrity": "sha512-BIamLkHittqlSiBB6QBwW1s+XZVyh866iLFGFUGLBIBDsTWbjPTlJilmN+m3MJbhqgbDRPdPW1ya3VJaVuE28w==",
+  "_location": "/@wiris/mathtype-generic",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "@wiris/mathtype-generic@^7.17.0",
+    "name": "@wiris/mathtype-generic",
+    "escapedName": "@wiris%2fmathtype-generic",
+    "scope": "@wiris",
+    "rawSpec": "^7.17.0",
+    "saveSpec": null,
+    "fetchSpec": "^7.17.0"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/@wiris/mathtype-generic/-/mathtype-generic-7.17.0.tgz",
+  "_shasum": "ee2290676002c617f016b39ec429b5b8af2444f2",
+  "_spec": "@wiris/mathtype-generic@^7.17.0",
+  "_where": "/var/www/html/ScholarBees/scholarbees-fe",
+  "author": {
+    "name": "WIRIS Team",
+    "url": "http://www.wiris.com"
+  },
+  "bugs": {
+    "email": "support@wiris.com"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "MathType Web integration for a generic HTML editor",
+  "files": [
+    "icons"
+  ],
+  "homepage": "http://www.wiris.com/",
+  "keywords": [
+    "chem",
+    "chemistry",
+    "chemtype",
+    "editor",
+    "equation",
+    "latex",
+    "math",
+    "maths",
+    "mathml",
+    "mathtype",
+    "wiris"
+  ],
+  "license": "GPL-3.0",
+  "main": "wirisplugin-generic.js",
+  "name": "@wiris/mathtype-generic",
+  "version": "7.17.0"
+}

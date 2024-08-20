@@ -1,0 +1,170 @@
+* {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  // background: $body-bg-color;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  outline: none;
+  border: 0;
+
+  &:active,
+  &:focus,
+  &:hover {
+    text-decoration: none;
+    outline: none !important;
+  }
+}
+
+img {
+  max-width: 100%;
+}
+
+li,
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  padding: 0;
+  margin: 0;
+}
+
+h1 {
+  font-size: $font-size-h1;
+  // font-weight: 300;
+  font-family: $headings-font-family;
+  font-weight: $headings-font-weight;
+  line-height: $headings-line-height;
+}
+
+h2 {
+  font-size: $font-size-h2;
+  // font-weight: 400;
+  font-family: $headings-font-family;
+  font-weight: $headings-font-weight;
+  line-height: $headings-line-height;
+}
+
+h3 {
+  font-size: $font-size-h3;
+  font-family: $headings-font-family;
+  font-weight: $headings-font-weight;
+  line-height: $headings-line-height;
+}
+
+h4 {
+  font-size: $font-size-h4;
+  font-family: $headings-font-family;
+  font-weight: $headings-font-weight;
+  line-height: $headings-line-height;
+}
+
+h5 {
+  font-size: $font-size-h5;
+  font-family: $headings-font-family;
+  font-weight: $headings-font-weight;
+  line-height: $headings-line-height;
+}
+
+h6 {
+  font-size: $font-size-h6;
+  font-family: $headings-font-family;
+  font-weight: $headings-font-weight;
+  line-height: $headings-line-height;
+}
+
+hr {
+  background: $lines-color;
+  border: medium none;
+  display: block;
+  float: left;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.noPadd {
+  padding: 0 !important;
+}
+
+.noMarg {
+  margin: 0 !important;
+}
+
+.btn.active.focus,
+.btn.active:focus,
+.btn.focus,
+.btn.focus:active,
+.btn:active:focus,
+.btn:focus {
+  outline: 0;
+  outline-offset: -2px;
+}
+
+input:active,
+input:focus {
+  outline: 0;
+}
+
+.modal-backdrop.in {
+  opacity: .30;
+}
+
+.bootstrap-select:not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+  width: 100%;
+}
+bs-dropdown-container {
+  z-index: 100;
+}
+
+.or_text{
+  position: relative;
+  text-align: center;
+  margin-bottom: 20px;
+  span{
+    &::before{
+    content: "";
+    position: absolute;
+    height: 1px;
+    background: #ccc;
+    left: 0;
+    top: 12px;
+    width: 45%;
+    }
+    &::after{
+      content: "";
+      position: absolute;
+      height: 1px;
+      background: #ccc;
+      right: 0;
+      top: 12px;
+      width: 45%;
+    }
+  }
+}
+
+.modal-terms{
+  z-index: 99999;
+}

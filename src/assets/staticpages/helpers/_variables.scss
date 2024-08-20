@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap');
+
+$assetspath : '/assets/staticpages/';
+$gray: #999;
+$black: #000;
+$dark-gray: #333;
+$yellow:#fdc016;
+$white: #fff;
+$light-gray: #ccc;
+$neutral-gray:#f2f5fa;
+$light-black:#666;
+$base-color:#555;
+$fade-gray:#f9f9f9;
+$lighter-gray:#f6f6f6;
+$ultralight-gray:#e0e5eb;
+$light-bg:#fafafa;
+$input-bg:#fdfdfd;
+$red:red;
+$base-color:#555;
+$link-color: $light-gray;
+$link-hover-color: saturate($yellow, 20%);
+$dark-yellow:#f0b616;
+$green:#41c45c;
+$dark-green:#26a541;
+// $link-visited-color: lighten($yellow, 100%);
+
+$base-font-family: 'Raleway', sans-serif;
+$base-font-size: 16px;
+$base-font-weight: normal;
+
+$number-font-family: 'Poppins', sans-serif;
+
+$header-font-size:18px;
+
+$heading-font-family: 'Raleway', sans-serif;
+
+$font-weight-reg: 400;
+$font-weight-med:500;
+$font-weight-semi: 600;
+$font-weight-bold: 700;
+$font-weight-ex-bold: 800;
+$font-weight-black-bold: 900;
+
+/*****/
+$btn-font-weight:  $font-weight-bold;
+$input-btn-padding-y: .6rem;
+$input-btn-padding-x: 2rem;
+$btn-padding-y:   $input-btn-padding-y;
+$btn-padding-x:   $input-btn-padding-x;
+/**********/
+$dark-bg:#333333;
+
+/*************/
+$breakpoint-font-size:14px;
+$tablet-x-lg-width: 1440px;
+$tablet-lg-width: 1200px;
+$tablet-sm-width: 991px;
+$mobile-lg-width: 767px;
+$mobile-sm-width: 575px;
+
+/*
+ * Typography
+ */
+
+a {
+  text-decoration: none;
+  
+  // &:visited {
+  //   color: $link-visited-color;
+  // }
+  
+  &:hover, &:visited:hover {
+    color: $link-hover-color;
+  }
+}
+
+
+.italic { font-style: italic; }
+.bold   { font-weight: $font-weight-bold; }
+.semi-bold   { font-weight: $font-weight-semi; }
+.black{color: $black}
+.yellow{
+  color: $yellow;
+}
+.h1, .h2, .h3, .h4, .h5, .h6 { font-family: $heading-font-family; font-weight:$font-weight-bold; }
+
+
+.unordered-list { list-style-type: disc; }
+.ordered-list { list-style: decimal; }
+
+
+
+

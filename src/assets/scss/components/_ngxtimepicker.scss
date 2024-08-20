@@ -1,0 +1,173 @@
+
+
+.app_ngxtimepicker {
+    display: inline-block;
+    height: 50px;
+    position: relative;
+    width: 100%;
+
+    &.disabled_piker {
+        opacity: 0.3;
+    }
+
+    ngx-timepicker-field {
+        display: inline-block;
+        height: 100%;
+        position: relative;
+        width: 100%;
+
+        .ngx-timepicker {
+            // border: 1px solid red;
+            border: none;
+            width: 100%;
+            ngx-timepicker-time-control, ngx-timepicker-time-control, ngx-timepicker-period-selector { 
+                align-items: center;
+                display: inline-flex;   
+                height: 100%;            
+                position: relative;
+                width: auto;
+            }
+            .ngx-timepicker__time-colon {
+                margin: 0 10px;
+                @include font-size(20px);
+                font-weight: 500;
+            }
+            .ngx-timepicker-control {
+                height: 100%;
+                padding: 0;
+                width: 100px;
+                input:not([type="checkbox"]):not([type="radio"]):not([type="file"]) {
+                    height: 100%;
+                    font-family: $secondary-font;
+                    outline: 0;
+                    padding: 5px 30px 5px 25px;
+                    text-align: left;                
+                }
+                .ngx-timepicker-control__arrows {
+                    height: 100%;
+                    justify-content: center;
+                    right: 10px;
+                }
+                .ngx-timepicker-control__arrow {
+                    // border: 1px solid red;
+                    color: rgba(0, 0, 0, 0);
+                    content: none;
+                    display: inline-block;
+                    height: 15px;
+                    margin: 2px 0;
+                    overflow: hidden;
+                    position: relative;
+                    width: 20px;
+
+                    &::before {                        
+                        background-color: rgba(0, 0, 0, 0);
+                        background-image:url(#{$assetspath}/img/icon-arrow-spinner.png);
+                        @include image-2x("#{$assetspath}/img/icon-arrow-spinner@2x.png", 11px, 30px);
+                        background-position: 0 0;
+                        background-repeat: no-repeat;
+                        background-size: 100%;
+                        border: none;
+                        content: '';
+                        display: inline-block;
+                        height: 6px;
+                        left: 50%;
+                        position: absolute;
+                        top: 50%;    
+                        @include transform(translate(-50%, -50%));
+                        width: 11px;
+                    }
+                    &:hover, &:focus {
+                        &::before {
+                            background-position: 0 -8px;
+                        }    
+                    }
+                    &:first-child {
+                        &::before {
+                            background-position: 0 -16px;
+                        } 
+                        &:hover, &:focus {
+                            &::before {
+                                background-position: 0 bottom;
+                            }    
+                        }    
+                    }
+                }
+                &.ngx-timepicker-control--active {
+                    &::after {
+                        display: none;                
+                    }                    
+                }
+            }
+            .period-control__button {
+                align-items: center;
+                display: inline-flex;
+                justify-content: center;
+                padding: 0 15px;
+                width: auto;                
+                .period-control__arrow {                      
+                    background-color: rgba(0, 0, 0, 0);
+                    background-image:url(#{$assetspath}/img/icon-arrow-spinner.png);
+                    @include image-2x("#{$assetspath}/img/icon-arrow-spinner@2x.png", 100%, auto);
+                    background-position: 0 0;
+                    background-repeat: no-repeat;
+                    background-size: 100%;
+                    border: none;
+                    color: rgba(0,0,0,0);
+                    display: inline-block;
+                    margin-left: 5px;
+                    height: 6px;
+                    width: 11px;
+                }
+                &:not(.period-control__button--disabled):focus::after {
+                    display: none;                
+                }
+                &:hover, &:focus {                
+                    .period-control__arrow {
+                        background-position: 0 -8px;
+                    }
+                }
+            }
+            .period-selector {
+                @include box-shadow(1px 7px 14px 0px rgba(1, 1, 1, 0.04));
+                background-color: #ffffff;
+                border-radius: $border-radius-base;
+                border: 1px solid #f3f6f9;
+                padding: 6px 0;
+                // right: calc(-50% + -60px);
+                right: auto;
+                left: 100%;
+                width: 100px;
+                .period-selector__button {
+                    font-family: $primary-font;
+                    height: auto;
+                    line-height: 40px;
+                    &.period-selector__button--active {
+                        color: $primary-color;
+                    }
+                }
+            }
+            &.ngx-timepicker--disabled {
+                background: rgba(0,0,0,0);
+                border: none;
+                // opacity: 0.4;
+            }
+        }
+
+        @media screen and (max-width: 1370px) {
+            .ngx-timepicker {
+                .ngx-timepicker-control {
+                    width: 85px;
+                    .ngx-timepicker-control__arrows {
+                        right: 5px;
+                    }
+                    input:not([type="checkbox"]):not([type="radio"]):not([type="file"]) {
+                        padding: 5px 20px 5px 20px;
+                    }
+                }
+                .period-control__button {
+                    padding: 0 10px;
+                }
+            }
+        }
+    }
+}

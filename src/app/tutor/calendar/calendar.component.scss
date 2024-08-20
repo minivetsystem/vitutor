@@ -1,0 +1,27 @@
+.userName {
+    margin: 9px 0px 0px 45px;
+    font-size: 16px;
+    font-weight: 600;
+}
+.dot {
+    height: 25px;
+    width: 25px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+  }
+.view_applicants>.modal-dialog {
+    max-width: 70% !important;
+
+    @media screen and (max-width:767px)
+    {
+        max-width: 100% !important;
+    }
+}
+.fc-day:hover{
+    background:darkblue !important;
+}
+
+.grey-background{
+    background: #eeeeee7a !important;
+}

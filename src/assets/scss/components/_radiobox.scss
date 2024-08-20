@@ -1,0 +1,109 @@
+// Botstrap-4 Custom-control Styleover-ride
+.custom-control {
+  margin: 0;
+  padding-left: 30px;
+
+  &.custom-radiobox {
+
+    .custom-control-input-radio,
+    .custom-control-label-radio::before {
+      left: 0;
+      height: 22px;
+      position: absolute;
+      top: 0;
+      width: 22px;
+    }
+
+    .custom-control-label-radio {
+      @include font-size(16px);
+      letter-spacing: .20px;
+      font-weight: normal;
+      margin: 0 !important;
+      max-width: 100%;
+      position: static;
+      z-index: 1;
+      
+      &:before {
+        background-color: #fff;
+        border: #adb5bd solid 1px;
+        border-radius: 100%;
+        content: "";
+        display: block;
+        pointer-events: none;
+        position: absolute;
+      }
+
+      &::after {
+        background: $primary-color;
+        border-radius: 100%;
+        content: "";
+        display: block;
+        height: 12px;
+        left: 5px;
+        opacity: 0;
+        position: absolute;
+        top: 5px;
+        width: 12px;
+      }
+    }
+
+    .custom-control-input-radio {
+      cursor: pointer;
+      opacity: 0;
+      z-index: 2;
+
+      // box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 0 3px rgba(51,51,51,0.1); 
+      &:checked {
+        &~.custom-control-label-radio {
+          color: $secondary-color;
+
+          &::before {
+            color: $primary-color;
+            background-color: #ffffff;
+            border-color: $btn-default-border;
+          }
+
+          &::after {
+            background-image: none;
+            opacity: 1;
+          }
+        }
+      }
+
+      &:not(:disabled):active {
+        &~.custom-control-label-radio {
+          &::before {
+            color: #fff;
+            background-color: lighten($primary-color, 40%);
+            border-color: lighten($btn-default-border, 10%);
+          }
+        }
+      }
+
+      &:focus:not(:checked) {
+        border-color: $btn-default-border;
+
+        &~.custom-control-label-radio::before {
+          border-color: lighten($btn-default-border, 10%);
+        }
+      }
+
+      &:focus {
+        &~.custom-control-label-radio::before {
+          box-shadow: 0 0 0 .2rem rgba(251, 193, 23, .25);
+        }
+      }
+
+      &:disabled {
+        cursor: not-allowed;
+
+        &~.custom-control-label-radio {
+          &::before {
+            background-color: #f9f9f9;
+            opacity: 0.5;
+          }
+        }
+      }
+    }
+  }
+}

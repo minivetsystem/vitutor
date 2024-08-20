@@ -1,0 +1,187 @@
+	<div class="main-panel" [ngClass]="{'side-menu': menuToggle == 1}">
+			<div class="container">
+				
+				<div class="panel-header bg-primary-gradient">
+					
+					<div class="page-inner py-5">
+						<!-- <app-profile-complete userRole="STUDENT" [profileStatusResponse]="result" *ngIf="!result.result.profile_completed"></app-profile-complete> -->
+						<div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+							<div>
+								<h2 class="pb-2 fw-bold panel-header-heading">Dashboard</h2>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="page-inner mt--5">
+					<div class="row mt--2">
+						<div class="col-md-12">
+							
+
+
+							<div class="row">
+								<div class="col-md-5 col-sm-6 wh_box upLeft">
+									<div class="card">
+										<div class="card-header">
+											<div class="card-title">Upcoming Session</div>
+										</div>
+										<div class="card-body">
+											<div class="row Upcoming_sessoion" *ngIf="dashBoard?.upcoming == true">
+												<div class="col-md-3 col-sm-3 Upcoming_sessoion_img">
+													<div class="avatar-sm">
+														<img class="avatar-img" #this [src]="dashBoard?.photo" onError="this.src = '/assets/img/avatar_user.jpg'">
+													</div>
+												</div>
+		
+												<div class="col-md-9 col-sm-9 Upcoming_sessoion_txt ">
+													<ul >
+													  <li><span>Tutor Name</span> {{dashBoard?.upcoming_job_session?.first_name}} {{dashBoard?.upcoming_job_session?.last_name}}</li>
+													  <li><span>Session Name</span> <a [routerLink]="['/viewOffer/view/'+dashBoard?.upcoming_job_session?.offer_id]"> {{dashBoard?.upcoming_job_session?.job_title}} <i class="fas fa-external-link-alt"></i> </a></li>
+													  <li><span>Session Date</span> {{dashBoard?.upcoming_job_session?.session_date}}</li>
+													  <li><span>Time</span><b> Start Time :</b> {{dashBoard?.upcoming_job_session?.start_at | date: "hh:mm a"}}<br> <b>End Time :</b> {{dashBoard?.upcoming_job_session?.end_at | date: "hh:mm a"}}</li>
+													</ul>
+												</div>
+											</div>
+											<div class="row Upcoming_sessoion" *ngIf="dashBoard?.upcoming == false">
+												<h3 class="text-center">No Upcoming Session</h3>
+											</div>
+										</div>
+
+										<div class="card-footer" *ngIf="dashBoard?.upcoming_job_session?.showBtn == true">
+											<span class="text-danger m-2" *ngIf="timer != false">{{timer}}</span>
+											<button class="btn btn-red" *ngIf="dashBoard?.upcoming_job_session?.session_status != 'ended' && dashBoard?.upcoming_job_session?.payment_status == 1" [disabled]="dashBoard?.upcoming_job_session?.session_status != 'started'" (click)="joinSession(dashBoard?.upcoming_job_session?.id)">Join Session <img style="height: 12px;" src="../../../assets/img/Polygon2.svg"></button>
+											<button class="btn btn-primary" *ngIf="!dashBoard?.upcoming_job_session?.payment_status && dashBoard?.upcoming_job_session?.session_status != 'ended'" (click)="makePayment(dashBoard?.upcoming_job_session)">Make Payment </button>
+
+											<button class="btn btn-primary" *ngIf="dashBoard?.upcoming_job_session?.session_status == 'ended'" [disabled]="dashBoard?.upcoming_job_session?.session_status != 'started'"> Session Completed<img style="height: 18px;border: 2px solid #fff;border-radius: 100%;" src="assets/img/tick.svg"></button> 
+										</div>
+										<div class="card-footer" *ngIf="dashBoard?.upcoming_job_session?.showBtn == false">
+											<button class="btn btn-orange"  disabled *ngIf="dashBoard?.upcoming_job_session?.session_status == 'expired' || dashBoard?.upcoming_job_session?.session_status == 'ended'"> Session Time Expired </button> 
+											<button class="btn btn-yellow"  disabled *ngIf="dashBoard?.upcoming_job_session?.session_status == 'upcoming'"> Session Upcoming</button> 
+										</div>
+
+
+									</div>
+								</div>	
+								<div class="col-md-7 col-sm-6 wh_box ChartBox">
+									<div class="card">
+										<div class="card-header">
+											<div class="card-title">Jobs Posted 
+											<select (change)="yearValueChange($event)">
+												<option *ngFor="let year of years" [value]="year">{{year}}</option>
+												
+											</select></div>
+										</div>
+										<div class="card-body">
+											<div id="chart-container">
+												<canvas id="totalIncomeChart" #totalIncomeChart height="240px">{{mytotalIncomeChart}}</canvas>
+											</div>
+										</div>
+									</div>
+								</div>	
+							</div>
+
+							<div class="row">
+								<div class="col-md-12 col-sm-12 Dashboard_table">
+									<div class="card">
+										<div class="card-header">
+											<div class="card-title">Upcoming Sessions <span *ngIf="dashBoard?.today_sessions.length > 0">({{dashBoard?.today_sessions.length || 0}})</span></div>
+										</div>
+										<div class="card-body">
+										 <div class="table-responsive current">
+											<table class="table">
+												<thead>
+													<tr (click)="navigate('upcoming')" >
+														<th scope="col">Session Name</th>
+														<th scope="col">Tutor</th>
+														<th scope="col">Date</th>
+														<th scope="col">Start Time</th>
+														<th scope="col">End Time</th>
+														<th scope="col" width="13%" style="text-align: center;">Status</th>
+													</tr>
+												</thead>
+												<tbody>
+													<ng-container *ngIf="dashBoard?.today_sessions && dashBoard?.today_sessions.length > 0">
+													<tr *ngFor="let session of dashBoard?.today_sessions" [routerLink]="['/viewOffer/view/'+session.offer_id]" >
+														<td>{{session.job_title}}</td>
+														<td>{{session.first_name}} {{session.last_name}}</td>
+														<td>{{convertDate(session.date)}}</td>
+														<td>{{session.start_at | date:"hh:mm a"}}</td>
+                                                    	<td>{{session.end_at | date:"hh:mm a"}}</td>
+														<td>
+															<button class="btn btn-yellow" disabled *ngIf="!session.sessionJoinBtn && !session.makePayment">Upcoming</button>
+															<button class="btn btn-red btnSmall" (click)="joinSession(session.id)" [disabled]="session.sessionJoinBtnDisable" *ngIf="session.sessionJoinBtn && session.payment_status">Join session</button>
+															<button class="btn btn-primary btnSmall" (click)="makePayment(dashBoard?.next_class_detail)" disabled *ngIf="(session.makePayment || session.sessionJoinBtn) && !session.payment_status">Make Payment</button>
+														</td>
+													</tr>
+													</ng-container>
+													<tr style="text-align: center;" *ngIf="dashBoard?.today_sessions.length == 0">
+														<td colspan="6">
+														<h5 class="text-center">No Sessions Available</h5>
+														</td>
+													</tr>
+													<!-- <tr>
+														<td>Duis aute irure dolor Duis aute irur</td>
+														<td>Vani Ganesan</td>
+														<td>10: 30 am</td>
+														<td>11: 30 am</td>
+														<td><button class="btn btn-red">Cancelled</button></td>
+													</tr>
+													<tr>
+														<td>Duis aute irure dolor Duis aute irur</td>
+														<td>Vani Ganesan</td>
+														<td>10: 30 am</td>
+														<td>11: 30 am</td>
+														<td><button class="btn btn-yellow">Upcoming</button></td>
+													</tr>
+													<tr>
+														<td>Duis aute irure dolor Duis aute irur</td>
+														<td>Vani Ganesan</td>
+														<td>10: 30 am</td>
+														<td>11: 30 am</td>
+														<td><button class="btn btn-yellow">Upcoming</button></td>
+													</tr> -->
+												</tbody>
+											</table>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="card">
+								<div class="card-header">
+									<div class="card-title">Overall Statistics</div>
+								</div>
+								<div class="card-body">
+									<div class="row">
+										<div class="col-md-3 col-sm-3 text-center overall_statics">
+											<div id="circles-1"></div>
+											<a [routerLink]="['/student/manage-jobs']" [queryParams]="{tab:'Completed'}"><h6>Total Sessions Completed</h6></a>
+										</div>
+
+										<div class="col-md-3 col-sm-3 text-center overall_statics">
+											<img src="../../../assets/img/job-posted.svg"><br>
+											<span>{{dashBoard?.total_job_created || 0}}</span>
+											<a [routerLink]="['/student/manage-jobs']" [queryParams]="{tab:'JobPosted'}"><h6>Total Jobs Posted</h6></a>
+										</div>
+
+										<div class="col-md-3 col-sm-3 text-center overall_statics">
+											<img src="../../../assets/img/learing-hours.svg"><br>
+											<span>{{dashBoard?.totalHours || 0}} hrs</span>
+											<a [routerLink]="['/student/manage-jobs']" [queryParams]="{tab:'Completed'}"><h6>Total Learning Hours</h6></a>
+										</div>
+										<div class="col-md-3 col-sm-3 text-center overall_statics">
+											<img src="assets/img/candidate.svg"><br>
+											<span>{{dashBoard?.total_accepted_job || 0}}</span>
+											<a [routerLink]="['/student/manage-jobs']" [queryParams]="{tab:'sentOffer'}"><h6 >Total Jobs Accepted</h6></a>
+										</div>
+									</div>
+								</div>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+			<app-short-footer></app-short-footer>
+		</div>
+			
+       

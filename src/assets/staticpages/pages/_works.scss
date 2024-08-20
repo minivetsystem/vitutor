@@ -1,0 +1,137 @@
+.work_teacher {
+    @media (max-width: $tablet-lg-width) {
+        .teach_img {
+            text-align: center;
+            margin-bottom: 30px;
+            img {
+                max-width: 100%;
+            }
+        }
+    }
+}
+
+.work_outer {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 80px;
+    @media (max-width: $tablet-lg-width) {
+        .work_right_img {
+            text-align: center;
+            margin-bottom: 30px;
+            img {
+                max-width: 100%;
+            }
+        }
+    }
+}
+
+.how_sec {
+    .list-how {
+        display: flex;
+        .list-des {
+            h4 {
+                margin-bottom: 10px;
+            }
+        }
+        // &:first-child {
+        //     .how_bul {
+        //         flex: 0 0 48px;
+        //         height: 48px;
+        //         width: 48px;
+        //     }
+        // }
+    }
+    .how_bul {
+        align-self: flex-start;
+        background-color: $yellow;
+        border-radius: 5px;
+        flex: 0 0 48px;
+        height: 48px;
+        line-height: 50px;
+        margin-right: 30px;
+        text-align: center;
+        transform: rotate(45deg);
+        width: 48px;
+        // position: absolute;
+        // left: 8px;
+        // top: 8px;
+        @media (max-width: $tablet-sm-width) {
+            width: 90px;
+        }
+        @media (max-width:$mobile-lg-width) {
+            width: 80px;
+        }
+        @media (max-width:$mobile-sm-width) {
+            margin-right: 15px;
+            flex: 0 0 40px;
+            width: 40px;
+            height: 40px;
+            // transform: none;
+        }
+    }
+    h4.bullet {
+        line-height: 48px;
+        transform: rotate(-45deg);
+        margin: 0;
+        @media (max-width: $mobile-sm-width) {
+            line-height: 40px;
+            // transform: none;
+        }
+    }
+    h5.bullet {
+        line-height: 48px;
+        transform: rotate(-45deg);
+        margin: 0;
+        @media (max-width: $mobile-sm-width) {
+            line-height: 40px;
+            // transform: none;
+        }
+    }
+}
+
+.order-change {
+    .how_bul {
+        order: 2;
+        margin-right: 0;
+        margin-left: 30px;
+        @media (max-width: $mobile-sm-width) {
+            order: 1;
+            margin-left: 0;
+            margin-right: 15px;
+        }
+    }
+    .list-des {
+        text-align: right;
+        @media (max-width: $mobile-sm-width) {
+            order: 2;
+            text-align: left;
+        }
+    }
+}
+
+.align-start {
+    align-items: flex-start;
+}
+
+.list-des-teach {
+    li {
+        img {
+            flex: 0 0 34px;
+            margin-right: 20px;
+        }
+    }
+}
+
+.work_teacher {
+    .work_teach_des {
+        margin-bottom: 40px;
+        h4 {
+            margin-bottom: 20px;
+        }
+    }
+    .text-teach {
+        margin-bottom: 20px;
+        h5 {
+            margin-bottom: 10px;
+        }
+    }
+}

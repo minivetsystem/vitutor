@@ -1,0 +1,219 @@
+<div class="main-panel" [ngClass]="{'side-menu': menuToggle == 1}">
+    <div class="container">
+        <div class="panel-header bg-primary-gradient">
+            <div class="page-inner py-5">
+                <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+                    <div>
+                        <h2 class="pb-2 fw-bold panel-header-heading">Upcoming Session</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-inner mt--5 manage_jobs ">
+            <div class="row mt--2">
+                <div class="col-md-12"> 
+                    <div class="card">
+                        <div class="card-header d-flex">
+                            <div class="card-title">List of upcoming sessions</div>
+
+                            <div class="header_right">
+                                
+                                <!-- <div class="select-box">
+                                    <label> Transactions Filter</label>  
+                                    <select class="form-control" id="Transactions" (change)="changeTransactionType($event)" [(ngModel)]="type">
+                                        <option value="">Select Status</option>
+                                        <option value="succeeded">Succeeded</option>
+                                        <option value="pending">Pending</option>
+                                        <option value="processed">Processed</option>
+                                        <option value="failed">Failed</option>
+                                    </select>
+                                </div> -->
+
+                                
+                                <div class="date_box mt-2">
+                                    <label > Date Filter</label>  
+                                    <div class="input-group">
+                                        <input type="text" class="form-control success" name="birth" required="" aria-invalid="false" autocomplete="off"  ngxDaterangepickerMd [(ngModel)]="selected" placeholder="Choose date" (ngModelChange)="change($event)">
+                                        
+                                        <div class="input-group-append d-flex" [ngClass]="{'clear-btn': showClearButton}">
+                                            <span class="input-group-text">
+                                                <i class="fa fa-calendar-o" *ngIf="!showClearButton"></i>
+                                                <img src="assets/img/close_circle.svg" style="width:20px;cursor:pointer;" (click)="clearDateFilter()" *ngIf="showClearButton">
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="exportBTN" >
+                                    <a class="btn" (click)="exportEarnings()"><img src="assets/img/download_blue.svg"> <span>Export</span></a>
+                                </div> -->
+                                <!-- <div class="create_job mt-3">
+                                    <a  class="btn btn-border" (click)="clearFilter()"> Clear</a> -->
+
+                                    <!-- <input class="form-control" value="Clear" type="button" (click)="clearFilter()"> -->
+                                <!-- </div> -->
+
+
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="tab-1" class="tab-content current">
+                                <div class="manage_table">
+                                    <table class="table">
+                                        <tbody>
+                                            <ng-container *ngIf="jobsList.length>0">
+                                                <tr *ngFor="let job of jobsList" >
+                                                    <td>
+                                                        <span>Job Title</span>
+                                                        <a [routerLink]="['/viewOffer/view/',job.offer_id]" [title]="job.job_title" data-toggle="tooltip" [ngStyle]="{'background' : job.redText == true ? '#fa5a5d' : '' }">{{job.job_title|slice:0:15}}{{job.job_title.length > 15 ? '...' : ''}}</a><br>
+                                                        <div  *ngIf="job.showBtn">
+                                                            <span class="text-danger mt-2" *ngIf="job?.timer?.length > 0 && job.session_status == 'pending'">{{job?.timer}}</span>
+                                                        <button class="btn btn-red startBtn" *ngIf=" job.session_status == 'started' && job.payment_status" (click)="joinSession(job.id)">Join Session <img src="../../../assets/img/Polygon2.svg"></button>
+                                                        <button class="btn btn-primary startBtn" *ngIf="!job.payment_status" (click)="makePayment(job)">Make Payment </button>
+                                                        
+                                                        </div>
+                                                        <button class="btn btn-orange startBtn"  (click)="openCancelSessionModal(job)" *ngIf="job.cancelBtn == true">Cancel Session </button>
+                                                        <!-- <button class="btn btn-primary startBtn"  (click)="openReviewModal()">Rating Session </button> -->
+                                                        <!-- <div class="student_name" *ngIf="job.first_name != ''"><img src="../../../assets/img/student.svg"> {{job.first_name}} {{job.last_name}}</div> -->
+                                                    </td>
+                                                    <td>
+                                                        <span>Tutor Name</span>
+                                                        <strong *ngIf="job.first_name != '' && job.last_name != ''">{{job.first_name}} {{job.last_name}}</strong>
+                                                    </td>
+                                                    <td>
+                                                        <span>Original Price</span>
+                                                        <strong *ngIf="job.price != ''">{{job.price}} {{job.price_type}}</strong>
+                                                    </td>
+                                                    <td>
+                                                        <span>Accepted Price</span>
+                                                        <strong *ngIf="job.accepted_price != ''">{{job.accepted_price}} {{job.price_type}}</strong>
+                                                    </td>
+                                                    <td>
+                                                        <span>Job Type</span>
+                                                        <strong>{{job.job_type_data == 'instant-tutoring' ? 'On-Demand' : job.job_type}}</strong>
+                                                    </td>
+                                                    <td>
+                                                        <span>Scheduled</span>
+                                                        <!-- <strong *ngIf="!(job.job_recurring && job.job_recurring.recurring_job_date)" *ngIf="job.job_recurring && job.job_recurring.recurring_job_date">{{job.job_recurring.recurring_job_date}} {{job.job_recurring.time}}</strong> -->
+                                                        <strong >{{job.schedule_date}}</strong>
+                                                    </td>
+
+                                                    <!-- <td class="vertical_align_center" *n>
+                                                        <button *ngIf="job.payment_status" class="btn btn-red" >Join Session <img src="../../../assets/img/Polygon2.svg"></button>
+                                                        
+                                                        <button *ngIf="!job.payment_status" class="btn btn-primary" >Make Payment</button>
+                                                    </td> -->
+                                                    <td class="vertical_align_center">
+                                                        <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/img/three_dots.svg"></a>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item" [routerLink]="['/viewOffer/view/',job.offer_id]">View Offer</a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </ng-container>
+                                          
+                                                <tr *ngIf="jobsErr==1">
+                                                    <div class="no_jobs">No Available Sessions</div>
+                                                </tr>
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <nav aria-label="..." *ngIf="lastPage && lastPage > 1">
+                                    <ul class="pagination">
+                                        <li class="page-item" [ngClass]="{'disabled' : currentPage == 1}">
+                                            <a class="page-link" (click)="loadMore(currentPage-1)" tabindex="-1"><img src="assets/img/left-caret.svg"></a>
+                                        </li>
+                                        <li *ngFor="let page of pagesCount;" class="page-item" [ngClass]="{'active': currentPage == page}"><a class="page-link" (click)="loadMore(page)" *ngIf="page == lastPage || page == 1 || (page >= (currentPage - 1) && page <= (currentPage+1))">{{page}}</a><span  *ngIf="(page < currentPage - 1 || page > currentPage+1) && page != lastPage && page != 1">.</span></li>
+                                        <li class="page-item" [ngClass]="{'disabled' : currentPage == lastPage}">
+                                            <a class="page-link" (click)="loadMore(currentPage+1)"><img src="assets/img/right-caret.svg"></a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                            
+                            
+                        
+                        
+                        </div>
+                    </div>						
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-short-footer></app-short-footer>
+</div>
+
+ <!-- Cancel session modal -->
+ <div id="cancel_session" class="apply_job modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div  class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Cancel Session</h4>
+                <button type="button" class="close" data-dismiss="modal" (click)="closeSessionModal()"><img src="assets/img/images/close-14.svg"></button>
+            </div>
+            <div class="modal-body">
+                <div *ngIf="cancelSession" class="row">
+                    <div class="col-sm-6 applyJObbox">
+                        <h3>Tutor Details </h3>
+                        <ul>
+                            <li class="tutorNAme">
+                                <div class="avatar">
+                                    <img *ngIf="!cancelSession?.tutor_profile?.image_url" src="assets/img/avatar_invite.jpg">
+                                    <img *ngIf="cancelSession?.tutor_profile?.image_url" #this [src]="cancelSession?.tutor_profile?.image_url" onError="this.src = 'assets/img/avatar_invite.jpg'">
+                                </div> {{cancelSession.first_name}} {{cancelSession.last_name}}</li>
+                                <li class="message-rating"><strong>Rating:-</strong> <app-review-rating-view [reviewsCount]="cancelSession?.tutor_profile?.session_review_count" [rating]="cancelSession?.tutor_profile?.avg_rating" inlineView="true" >
+                                </app-review-rating-view></li>
+                            <li><strong>Location:-</strong> {{cancelSession?.tutor_profile?.location?.country}}</li>
+                            <li><strong>Experience Level:-</strong>{{cancelSession?.tutor_profile?.experince_level}}</li>
+                            <li><strong>Bio:-</strong> {{cancelSession?.tutor_profile?.about_me}}</li> 
+
+                        </ul>
+                    </div>
+                    <div class="col-sm-6 applyJObbox">
+                        <h3>Session Details</h3>
+                        <ul class="job_dtl">
+                            <li><strong>Job Title:-</strong> {{cancelSession?.job_title}} </li>
+                            <li><strong>Session Schedule Date:-</strong> {{dateFormate(cancelSession?.date)}} </li>
+                            <li><strong>Start Time:-</strong> {{timeFormate(cancelSession?.start_time)}} </li>
+                            <li><strong>End Time:-</strong> {{timeFormate(cancelSession?.end_time)}} </li>
+                            <li><strong>Accepted Price:-</strong> {{cancelSession?.accepted_price}} {{cancelSession?.price_type}}</li>
+                            <li><strong>Duration:-</strong> {{cancelSession?.duration}} {{cancelSession?.duration == 1 ? 'Hour': 'Hours'}}</li>
+                            <!-- <li><strong>Job Type:-</strong> {{ChatDetailsTutor?.job_type}}</li>
+                            <li *ngIf="ChatDetailsTutor?.job_type == 'recurring' && ChatDetailsTutor.recurring_type != ''"><strong>Recurring Type:-</strong> {{ChatDetailsTutor?.recurring_type}}</li>
+                            <li><strong>Pricing Type:-</strong> {{ChatDetailsTutor?.price_type}} </li>
+                            <li><strong>Price:-</strong> {{ChatDetailsTutor?.price}} </li>
+                            <li><strong>Proposed Start Time:-</strong>{{ChatDetailsTutor?.proposed_start_time || 'Unknown'}}</li>
+                            <li><strong>Duration:-</strong> {{ChatDetailsTutor?.duration}} {{ChatDetailsTutor?.duration == 1 ? 'Hour': 'Hours'}}</li>
+                            <li><strong>Description:-</strong> {{ChatDetailsTutor?.job_description}}</li> -->
+                        </ul>
+                    </div>
+                </div>
+
+
+                <form [formGroup]="cancelSessionForm" (submit)="cancelSessionSubmit()" class="form-group form-show-validation row">
+                   
+                    <div class="col-lg-12 wk_form">
+                        <label> Message <span class="required-label">*</span></label>
+                        <textarea placeholder="Enter Message" formControlName="message" class="form-control" name="message" rows="3"></textarea>
+                        <div *ngIf="(cancelSessionForm.controls.message.touched || cancelSessionForm.controls.message.dirty) && cancelSessionForm.controls.message.errors">
+                            <p *ngIf="cancelSessionForm.controls.message.errors.required" class="text-danger">Message is required</p>
+                            <!-- <p *ngIf="createOfferForm.controls.message.errors.pattern" class="text-danger">Price is incorrect</p> -->
+                        </div>
+                    </div>
+                  
+                 
+                    
+
+                                   
+                                   
+               
+                    <div class="col-lg-12 text-center">
+                        <button class="btn btn-primary ">Cancel Session</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

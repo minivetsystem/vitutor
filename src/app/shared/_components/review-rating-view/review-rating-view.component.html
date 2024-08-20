@@ -1,0 +1,24 @@
+<div class="rating_dtl">
+    <ul class="rate_stars" *ngIf="display">
+        <li *ngFor="let start of starRating">
+            <i class="fas " [ngClass]="{'fa-star': checkStart(rating,start) , 'fa-star-half ': halfStar }">
+            </i>
+            <i class="fal fa-star" *ngIf="emptyStar"></i>
+        </li>
+
+        <li >
+            <h6 style="color : #212529" *ngIf="display && inlineView">{{rating}} <small>( {{reviewsCount}} {{!smallInfo ? 'Reviews' : ''}})</small></h6>
+        </li>
+    </ul>
+    <!-- <span *ngIf="inlineView">{{rating}}</span> -->
+    <h6 *ngIf="display && !inlineView">{{rating}} <small>( {{reviewsCount}} {{!smallInfo ? 'Reviews' : ''}} )</small></h6>
+   
+        <ul class="rate_stars" *ngIf="!display ">
+            <li >
+                <!-- <i [ngClass]="{'fas ': ratingNumb != 0 , 'fal ': ratingNumb == 0 , 'fa-star': true}"></i> -->
+                <h6 >{{rating}} <small>( {{reviewsCount}} {{!smallInfo ? 'Reviews' : ''}} )</small></h6>
+            </li>
+        </ul>
+        
+        
+</div>

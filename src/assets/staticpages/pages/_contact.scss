@@ -1,0 +1,58 @@
+
+.head_text{
+    h5{
+        font-size: 22px;
+        color: $gray;
+        font-weight: $font-weight-med;
+    }
+}
+.inner_head{
+    h2{
+        font-weight: $font-weight-black-bold;
+        text-transform: uppercase;
+        font-size: 50px;
+        @media (max-width:$mobile-lg-width) {
+            font-size: 30px;
+        }
+    }
+}
+
+.contact_form{
+    input,textarea{
+        background-color: $input-bg;
+    }
+}
+.address_contact{
+    .address_detail{
+        @media (max-width:$mobile-lg-width) {
+            margin-bottom: 20px;
+        }
+        .address_inn{
+            font-size: 20px;    line-height: 30px;
+            p{
+                font-size: 20px;    line-height: 30px;
+            }
+            @media (max-width:$tablet-lg-width) {
+                font-size: 16px;
+            }
+            p{
+                margin: 0;
+            }
+            a{
+                // color: $black;
+            }
+        }
+    }
+    .add_ico{
+        img{
+            @media (max-width:$tablet-lg-width) {
+            max-width: 50px;
+            }
+        }
+    }
+}
+
+.map_outer{
+    background-color: $light-bg;
+    border-top: 1px solid $ultralight-gray;
+}

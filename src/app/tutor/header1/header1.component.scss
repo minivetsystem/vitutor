@@ -1,0 +1,17 @@
+// @import '~src/assets/scss/atlantis.scss';
+// @import '~src/assets/scss/style.scss';
+nav.navbar.navbar-header.navbar-expand-lg.mobile-nav {
+    transform: translate3d(0, 62px, 0) !important;
+    background: #eee !important;
+}
+.main-header .navbar-header[data-background-color] .navbar-nav .nav-item .nav-link[aria-controls="search-nav"]
+{
+    color:#181C2B !important
+}
+#search-nav form 
+{
+    margin: 10px 0px;
+}
+.read_notify {
+    background-color: #dee2e6;
+}

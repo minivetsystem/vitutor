@@ -1,0 +1,29 @@
+   .privacy_content,.terms_content{
+    strong{
+        color: $black;
+    }
+    .list_privacy,.list_terms{
+        @media (min-width:$mobile-sm-width){
+            padding-left: 50px;   
+        }
+        li{
+            margin-bottom: 20px;
+            i{
+                color: $yellow;
+                margin-right: 10px;
+                font-size: 20px;
+                vertical-align: middle;
+            }
+            span{
+                width: calc(100% - 40px);
+                display: inline-block;
+                vertical-align: top;
+            }
+        }
+    }
+   } 
+   
+
+.red{
+    color: $red;
+}

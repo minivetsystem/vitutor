@@ -1,0 +1,100 @@
+<!-- <button class="btn btn-toggle toggle-sidebar" #menuButton style="display:none">
+    <img src="../../../assets/img/menu-icon.svg" alt="menu icon" class="menu-icon">
+</button> -->
+<!-- <button class="navbar-toggler sidenav-toggler ml-auto" #menuButton type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon">
+        <img src="../../../assets/img/menu-icon.svg" alt="menu icon" class="menu-icon">
+    </span>
+</button>
+<input [value]="toggle" (change)="menuButton.click()" style="display:none"> -->
+<div class="sidebar sidebar-style-2">
+    <div class="sidebar-wrapper scrollbar scrollbar-inner">
+        <div class="sidebar-content">
+            <ul class="nav nav-primary">
+                <li class="nav-section">
+                    <span class="sidebar-mini-icon">
+                        <i class="fa fa-ellipsis-h"></i>
+                    </span>
+                </li>
+                <li class="nav-item" [ngClass]="{'active' : route == 'dashboard' }">
+                    <a data-toggle="collapse" [routerLink]="['/student/dashboard']">
+                        <img src="../../../assets/img/home.svg">
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a data-toggle="collapse" [routerLink]="['/search/searchTutor']">
+                        <img src="../../../assets/img/search_sidebar.svg">
+                        <p>Search Tutor</p>
+                    </a>
+                </li>
+                <li class="nav-item" [ngClass]="{'active' : route == 'message-board' }">
+                    <a data-toggle="collapse" routerLink="message-board">
+                        <img src="../../../assets/img/message1.svg">
+                        <p>Message Board</p>
+                    </a>
+                </li>
+                <li class="nav-item" [ngClass]="{'active' : route == 'manage-jobs' }">
+                    <a data-toggle="collapse" routerLink="/student/manage-jobs">
+                        <img src="../../../assets/img/jobs.svg">
+                        <p>Manage Jobs </p>
+                    </a>
+                </li>
+                <li class="nav-item" [ngClass]="{'active' : route == 'student-calendar' }">
+                    <a data-toggle="collapse" routerLink="/student/student-calendar">
+                        <img src="../../../assets/img/calander.svg">
+                        <p>Calendar</p>
+                    </a>
+                </li>
+                <li class="nav-item" [ngClass]="{'active' : route == 'transactions' }">
+                    <a data-toggle="collapse" routerLink="/student/transactions">
+                        <img src="../../../assets/img/transaction.svg">
+                        <p>My Transactions</p>
+                    </a>
+                </li>
+                <li class="nav-item" [ngClass]="{'active' : route == '' }">
+                    <a data-toggle="collapse" routerLink="/student/manage-resources">
+                        <img src="../../../assets/img/resources.svg">
+                        <p>My Resources</p>
+                    </a>
+                </li>
+                <!-- <li class="nav-item">
+                    <a data-toggle="collapse"  href="#profile">
+                        <img src="../../../assets/img/student.svg">
+                        <p>Manage Profile</p>
+                    </a>
+                    <div class="collapse" id="profile">
+                        <ul class="nav nav-collapse">
+                            <li>
+                                <a data-toggle="collapse" >
+                                    <span class="sub-item">Basic Information</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a >
+                                    <span class="sub-item">Work and Education</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a >
+                                    <span class="sub-item">Expertise</span>
+                                </a>
+                            </li>
+                            <li class="active">
+                                <a >
+                                    <span class="sub-item">Manage Timing</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <span class="sub-item">Account Setting</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li> -->
+
+            </ul>
+        </div>
+    </div>
+</div>

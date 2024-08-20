@@ -1,0 +1,423 @@
+<app-login-header></app-login-header>
+<!-- HEADER MAIN CLOSE -->
+
+
+<section class="search_sec">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <form>
+                    <!-- <div class="search_box">
+                        <span class="search_label">Search For Tutors</span> -->
+
+                        <!-- <label class="radio_btn">Search for Jobs
+							<input type="radio" name="radio">
+							<span class="checkmark"></span>
+						</label>
+						<label class="radio_btn">Search Tutors
+							<input type="radio" name="radio">
+							<span class="checkmark"></span>
+						</label> -->
+                    <!-- </div> -->
+
+                    <div class="search_bar">
+                        <div class="search_inner">
+                            <!-- <input class="form-control" placeholder="Enter a subject" type="text" name="search_term"
+								[(ngModel)]="searchFilters.search_term">
+							<button class="btn btn-red search_icon" (click)="getSearch(null)">Search</button> -->
+
+                            <div class="ng-autocomplete">
+                                <ng-autocomplete #auto placeHolder="Enter a subject" [data]="categoriesList" [searchKeyword]="keyword" (selected)='selectEvent($event)' [itemTemplate]="itemTemplate" (inputCleared)="searchCleared()" [notFoundTemplate]="notFoundTemplate" [minQueryLength]="3"
+                                     [initialValue]="initialValue">
+                                </ng-autocomplete>
+                                <ng-template #itemTemplate let-item>
+                                    <a [innerHTML]="item.display_name"></a>
+                                </ng-template>
+
+                                <ng-template #notFoundTemplate let-notFound>
+                                    <div [innerHTML]="notFound"></div>
+                                </ng-template>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-sm-12">
+                <div class="search_results_main">
+                    <div class="row ">
+                        <div class="col-md-3 col-sm-3 search_left">
+                            <div class="filters">
+                                <div class="filter_text"  data-toggle="collapse" data-target="#filtr_box" aria-controls="filtr_box" aria-expanded="false" aria-label="Toggle navigation"><img src="assets/img/images/filter.svg"> Filters</div>
+                                <div class="reset_text" style="cursor: pointer;"><a (click)="resetAll()">Reset All</a></div>
+                            </div>
+
+                            <div class="filter_box_outer collapse" id="filtr_box">
+                                <div class="filter_box">
+                                    <h6>Availability</h6>
+
+                                    <div class="custom_checkboxs">
+                                        <label class="checkbox_btn">Sun
+											<input type="checkbox" [checked]="availability.includes('Sun')"
+												(change)="toggleSelection('Sun')">
+											<span class="checkmark"></span>
+										</label>
+                                        <label class="checkbox_btn">Mon
+											<input type="checkbox" [checked]="availability.includes('Mon')"
+												(change)="toggleSelection('Mon')">
+											<span class="checkmark"></span>
+										</label>
+                                        <label class="checkbox_btn">Tue
+											<input type="checkbox" [checked]="availability.includes('Tue')"
+												(change)="toggleSelection('Tue')">
+											<span class="checkmark"></span>
+										</label>
+                                        <label class="checkbox_btn">Wed
+											<input type="checkbox" [checked]="availability.includes('Wed')"
+												(change)="toggleSelection('Wed')">
+											<span class="checkmark"></span>
+										</label>
+                                        <label class="checkbox_btn">Thu
+											<input type="checkbox" [checked]="availability.includes('Thu')"
+												(change)="toggleSelection('Thu')">
+											<span class="checkmark"></span>
+										</label>
+                                        <label class="checkbox_btn">Fri
+											<input type="checkbox" [checked]="availability.includes('Fri')"
+												(change)="toggleSelection('Fri')">
+											<span class="checkmark"></span>
+										</label>
+                                        <label class="checkbox_btn">Sat
+											<input type="checkbox" [checked]="availability.includes('Sat')"
+												(change)="toggleSelection('Sat')">
+											<span class="checkmark"></span>
+										</label>
+                                    </div>
+                                </div>
+
+
+                                <!-- <div class="filter_box">
+									<h6>Job Type</h6>
+									<select class="form-control" id="job_type" name="search_term" [(ngModel)]="searchFilters.search_term">
+										<option>Select</option>
+										<option>Male</option>
+										<option>Female</option>
+									</select>
+								</div> -->
+
+                                <!-- <div class="filter_box">
+                                    <h6>Categories</h6>
+                                    <select class="form-control" id="subject" name="tutor" [(ngModel)]="searchFilters.tutor" (change)="getSearch(null)">
+										<option value="">Select</option>
+										<option *ngFor="let category of categoriesList" [value]="category.category_name">{{category.category_name}}</option>
+									</select>
+								</div> -->
+
+                                <!-- <div class="filter_box">
+                                    <h6>language</h6>
+                                  
+
+                                    <ng-select #select [multiple]="true" [items]="languageList" [(ngModel)]="selectedLanguagesArr" (remove)="onRemoveLanguages($event)" (change)="setLanguages($event)" bindLabel="name" bindValue="name" (clear)="onClearLanguages()" placeholder="Select Language">
+                                    </ng-select>
+                                </div> -->
+
+                                <!-- <div class="filter_box">
+									<h6>Grade</h6>
+									<select class="form-control" id="grade" >
+										<option>Select</option>
+										<option>A</option>
+										<option>B</option>
+										<option>C</option>
+									</select>
+								</div> -->
+
+                                <div class="filter_box">
+                                    <h6>Hourly Rate($)</h6>
+                                    <div id="slider-range" class="slider-success">
+                                        <ng5-slider [(value)]="searchFilters.hourly_range_from" [(highValue)]="searchFilters.hourly_range_to" [options]="options" (userChangeEnd)="getSearch($event)"></ng5-slider>
+                                    </div>
+                                </div>
+
+                                <div class="filter_box filter_checkbox">
+                                    <h6>Gender</h6>
+
+                                    <div class="custom_checkboxs">
+                                        <label class="checkbox_btn">Male
+											<input type="checkbox" [checked]="gender.includes('Male')"
+												(change)="toggleGenderSelection('Male')">
+											<span class="checkmark"></span>
+										</label>
+                                        <label class="checkbox_btn">Female
+											<input type="checkbox" [checked]="gender.includes('Female')"
+												(change)="toggleGenderSelection('Female')">
+											<span class="checkmark"></span>
+										</label>
+                                    </div>
+                                </div>
+								<div class="filter_box">
+                                    <h6>Student level</h6>
+									<ng-select #select [multiple]="true" [items]="studentLevelArray"
+										[(ngModel)]="selectedLevel" (remove)="removeLevel($event)"
+										(change)="setLevel($event)" bindLabel="name" bindValue="name"
+										 placeholder="Select Student Level">
+									</ng-select>
+								</div>
+                                <div class="filter_box">
+                                    <h6>Experience level</h6> 
+                                    <!-- <select class="form-control" id="subject" name="tutor" [(ngModel)]="searchFilters.tutor" (change)="getSearch(null)">
+										<option value="">Select</option>
+										<option value="Mathematics">Mathematics</option>
+										<option value="English">English</option>
+									</select>-->
+
+                                    <select [(ngModel)]="searchFilters.experince_level" (change)="onChangeExperience()" class="form-control">
+										<option value="">Select Experience</option>
+										<option value="ALL">All</option>
+										<option value="Beginner">Beginner</option>
+										<option value="Intermediate">Intermediate</option>
+										<option value="Expert">Expert</option>
+									</select>
+
+                                    <!-- <ng-select #select [multiple]="true" [items]="languageList"
+										[(ngModel)]="selectedLanguagesArr" (remove)="onRemoveLanguages($event)"
+										(change)="setLanguages($event)" bindLabel="name" bindValue="name"
+										(clear)="onClearLanguages()" placeholder="Select Language">
+									</ng-select> -->
+								</div>
+								<div class="filter_box">
+									<h6>Location</h6>
+									<select class="form-control" name="location" [(ngModel)]="searchFilters.location" (change)="getSearch(null)">
+										<option value="">All Locations</option>
+										<option [value]="location.id" *ngFor="let location of LocationList">{{location.name}}</option>
+									</select>
+								</div>
+								<div class="filter_box">
+									<h6>Tutor Ratings</h6>
+									<select class="form-control" name="rating" [(ngModel)]="searchFilters.rating" (change)="getSearch(null)">
+										<option value="">Any Rating</option>
+										<option value="5">5+ Rating</option>
+										<option value="4">4+ Rating</option>
+										<option value="3">3+ Rating</option>
+										<option value="2">2+ Rating</option>
+										<option value="1">1+ Rating</option>
+										<!-- <option [value]="location.sortname" *ngFor="let location of LocationList">{{location.country}}</option> -->
+									</select>
+								</div>
+								<div class="filter_box">
+									<h6>On-Demand Tutoring</h6>
+									<select class="form-control" name="instant_tutoring" [(ngModel)]="searchFilters.instant_tutoring" (change)="getSearch(null)">
+										<option value="BOTH">Both</option>
+										<option value="1">Yes</option>
+										<option value="0">No</option>
+										<!-- <option [value]="location.sortname" *ngFor="let location of LocationList">{{location.country}}</option> -->
+									</select>
+								</div>
+
+
+
+                            </div>
+                        </div>
+                        <div class="col-md-9 col-sm-9 search_right">
+                            <div class="sort_outer ">
+                                <h5><strong>{{totalCount}} {{searchText}}</strong> fit your choices</h5>
+
+                                <div class="sort_inn">
+                                    <div class="sort_by">Sort by</div>
+                                    <div class="select_box">
+                                        <select class="form-control" name="sort_by" [(ngModel)]="searchFilters['sort-by']" (change)="getSearch(null)">
+											<option value="">Select</option>
+											<option value="Price">Price</option>
+											<option value="Rating">Rating</option>
+										</select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div *ngIf="errorList == true">
+                                <a  (click)="viewTutor(tutor.profile_slug)"  class="profile_details " *ngFor="let tutor of tutorsList;let i=index;">
+                                    <div class="profile_img"><img [src]="tutor.photo" (error)="onImgError($event)">
+                                        <div class="hover_btn">
+                                            <a (click)="viewTutor(tutor.profile_slug)">Video Profile <img
+													src="{{tutor.overview_video_url}}"
+													(error)="onVideoError($event)"></a>
+                                        </div>
+                                    </div>
+                                    <div class="profile_des">
+                                        <h4>{{tutor.full_name}} <span></span></h4>
+										<a *ngIf="tutor.tag_line && tutor.tag_line != ''" class="tutor_tag" (click)="viewTutor(tutor.profile_slug)">{{tutor.tag_line}} <span></span></a>
+									
+										<span><strong>Experience level :</strong> {{tutor.experince_level}}</span>
+										<span class="AvailabilityText" style="display: block;"><strong>Available for On-Demand Tutoring :</strong> {{tutor.instant_tutoring && tutor.instant_tutoring == 1? 'Yes' : 'No'}}</span>
+										
+                                        <p>{{tutor.about_me && tutor.about_me | slice:0:150}}{{tutor.about_me && tutor.about_me.length > 150 ? '....' : '' }}</p>
+                                    </div>
+                                    <div class="profile_rate">
+                                        <div class="price_pro"> ${{tutor.hourly_rate}}/hour </div>
+                                        <app-review-rating-view [reviewsCount]="tutor.rating_count" [rating]="tutor.average_rating">
+                                        </app-review-rating-view>
+                                        <!-- <div class="star_rating">
+										<i class="fas fa-star"></i>
+										<i class="fas fa-star"></i>
+										<i class="fas fa-star"></i>
+										<i class="fas fa-star"></i>
+										<i class="fas fa-star"></i>
+									</div> -->
+                                        <!-- <div class="review_text">{{tutor.rating_count}}/{{tutor.average_rating}} ( {{tutor.tutor_review_count}} Reviews ) </div> -->
+										<!--a [routerLink]="['../viewTutor', tutor.profile_slug]" class="view_profile btn btn-primary">View Profile</a-->
+                                        <!-- <a [routerLink]="['/viewTutor/tutorProfile', tutor.profile_slug]" class="view_profile btn btn-primary">View Profile</a> -->
+                                    </div>
+
+                                </a>
+                                <nav aria-label="...">
+                                    <ul class="pagination">
+                                        <li class="page-item" [ngClass]="{'disabled' : currentPage == 1}">
+                                            <a class="page-link" (click)="loadMore(currentPage-1)" tabindex="-1"><img src="assets/img/left-caret.svg"></a>
+                                        </li>
+                                        <li *ngFor="let page of pagesCount;" class="page-item" [ngClass]="{'active': currentPage == page}"><a class="page-link" (click)="loadMore(page)" *ngIf="page == lastPage || page == 1 || (page >= (currentPage - 1) && page <= (currentPage+1))">{{page}}</a><span  *ngIf="(page < currentPage - 1 || page > currentPage+1) && page != lastPage && page != 1">.</span></li>
+                                        <li class="page-item" [ngClass]="{'disabled' : currentPage == lastPage}">
+                                            <a class="page-link" (click)="loadMore(currentPage+1)"><img src="assets/img/right-caret.svg"></a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                            <ng-template *ngIf="errorList == false">
+                                <div class="no_record_found">
+                                    <h4>No Record Found</h4>
+                                </div>
+                            </ng-template>
+
+                            <!-- about_me: "Hello Students, This is Sachin Bhatia from Tohana (Haryana). I have 5 years of rich experience in teaching line. I have done MSC in math from OEJ university. I have simple techniques to tech. I also provide crash course for AIEEE and JEE"
+average_rating: "5.0"
+city: 1199
+city_name: "Tohana"
+course_reviews: []
+email_verified_at: "2020-10-08 03:02:01"
+favorite_tutors_count: 0
+first_name: "Sachin"
+full_name: "Sachin Bhatia"
+gender: "Male"
+hourly_rate: "₹100.00"
+id: 71
+last_name: "Bhatia"
+overview_video: null
+overview_video_url: null
+photo: "/storage/profile-picture/lvNoPZcGSuVHuibC2ftSAErNcAn6bkI88XJMtqIe.png"
+profile_slug: "sachin-bhatia-2"
+rating_count: 1
+refId: 7
+role_id: 3
+session_reviews: [{id: 3, course_session_id: 0, reference_id: 116, user_id: 2, rating: 5, review: "Good one",…}]
+state: 13
+state_name: "Haryana"
+tag_line: "Mathematics for 10+1, 10+2, AIEEE,JEE"
+tutor_review_count: 1
+user_id: "eyJpdiI6IkV5T2 -->
+
+                            <!-- <div class="profile_details ">
+								<div class="profile_img"><img src="assets/img/images/tutor-img-11.svg">
+									<div class="hover_btn">
+										<a [href]="">Video Profile <img src="assets/img/images/video.svg"></a>
+									</div> 
+								</div>
+								<div class="profile_des ">
+									<h4>James Woolley <span> Jquery Expert</span></h4>
+									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore 
+										et dolore magna aliqua.</p>
+								</div>
+								<div class="profile_rate">
+									<div class="price_pro"> ₹100.00/hour </div>
+									<div class="star_rating">
+										<i class="fas fa-star"></i>
+										<i class="fas fa-star"></i>
+										<i class="fas fa-star"></i>
+										<i class="fas fa-star"></i>
+										<i class="fas fa-star"></i>
+									</div>
+									<div class="review_text">5/5 ( 86 Reviews ) </div>
+
+									<a [href]="" class="view_profile btn btn-primary">View Profile</a>
+								</div>
+
+							</div> -->
+
+
+                            <!-- <div class="profile_details ">
+								<div class="profile_img"><img src="assets/img/images/tutor-img-22.svg">
+									<div class="hover_btn">
+										<a [href]="">Video Profile <img src="assets/img/images/video.svg"></a>
+									</div> 
+								</div>
+								<div class="profile_des ">
+									<h4>James Woolley <span> Jquery Expert</span></h4>
+									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore 
+										et dolore magna aliqua.</p>
+								</div>
+								<div class="profile_rate">
+									<div class="price_pro"> ₹100.00/hour </div>
+									<div class="star_rating">
+										<i class="fas fa-star"></i>
+										<i class="fas fa-star"></i>
+										<i class="fas fa-star"></i>
+										<i class="fas fa-star"></i>
+										<i class="fas fa-star"></i>
+									</div>
+									<div class="review_text">5/5 ( 86 Reviews ) </div>
+
+									<a [href]="" class="view_profile btn btn-primary">View Profile</a>
+								</div>
+
+							</div> -->
+
+                            <!-- <div class="profile_details ">
+								<div class="profile_img"><img src="assets/img/images/tutor-img-44.svg">
+									<div class="hover_btn">
+										<a [href]="">Video Profile <img src="assets/img/images/video.svg"></a>
+									</div> 
+								</div>
+								<div class="profile_des ">
+									<h4>James Woolley <span> Jquery Expert</span></h4>
+									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore 
+										et dolore magna aliqua.</p>
+								</div>
+								<div class="profile_rate">
+									<div class="price_pro"> ₹100.00/hour </div>
+									<div class="star_rating">
+										<i class="fas fa-star"></i>
+										<i class="fas fa-star"></i>
+										<i class="fas fa-star"></i>
+										<i class="fas fa-star"></i>
+										<i class="fas fa-star"></i>
+									</div>
+									<div class="review_text">5/5 ( 86 Reviews ) </div>
+
+									<a [href]="" class="view_profile btn btn-primary">View Profile</a>
+								</div>
+
+							</div> -->
+
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- <section class="getstarted-section">
+	<div class="container">
+		<div class="row align-items-center">
+			<div class="col-md">
+				<h2 class="font-weight-bold">Ready to get started?</h2>
+				<h3>Find out how <strong>Vitutors</strong> works for you</h3>
+			</div>
+			
+			<div class="col-md-auto"><a [href]="" class="btn btn-red btn-lg">For Students</a>
+				 <a class="btn btn-dark btn-black btn-lg" [href]="">For Tutors</a>
+			</div>
+		</div>
+	</div>
+</section> -->

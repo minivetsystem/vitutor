@@ -1,0 +1,60 @@
+.dash_footer.main-panel {
+  background-color: #eaedef;
+  min-height: auto;
+}
+
+.dash_footer.main-panel .page-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dash_footer .copy_text, .dash_footer p {
+  color: #6c7176;
+  display: inline-block;
+  font-size: 14px;
+  line-height: 1.3;
+  margin: 0;
+  position: relative;
+}
+
+.dash_footer .navbar {
+  display: inline-flex;
+  margin: 0 -10px;
+  padding: 0;
+}
+
+.dash_footer .navbar li {
+  display: inline-block;
+  padding: 0 10px;
+}
+
+.dash_footer .navbar li a {
+  color: #6c7176;
+  display: inline-block;
+  font-size: 14px;
+  line-height: 1.3;
+  padding: 0;
+}
+
+.dash_footer .navbar li a:hover {
+  color: #333333;
+}
+
+@media screen and (max-width: 1440px) {
+  .dash_footer.main-panel .page-inner {
+    flex-direction: column;
+    padding: 1rem 2rem;
+    text-align: center;
+  }
+  .dash_footer.main-panel .page-inner .navbar {
+    order: 1;
+    margin-bottom: 7px;
+    justify-content: center;
+  }
+  .dash_footer.main-panel .page-inner .copy_text, .dash_footer.main-panel .page-inner p {
+    order: 2;
+  }
+}
+
+/*# sourceMappingURL=tutor-footer.component.css.map */

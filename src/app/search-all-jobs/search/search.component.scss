@@ -1,0 +1,27 @@
+.view_MORE {
+    cursor: pointer;
+}
+
+.reset_text {
+    cursor: pointer;
+}
+
+.job_title {
+    cursor: pointer;
+}
+
+.canclBtn {
+    margin: 14px 135px 0px 0;
+    background: none;
+    border: none;
+    color: #707985;
+}
+
+#view_applicants>.modal-dialog {
+    max-width: 80%;
+
+    @media screen and (max-width:767px)
+    {
+        max-width: 100%;
+    }
+}

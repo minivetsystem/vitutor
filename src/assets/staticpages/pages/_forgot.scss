@@ -1,0 +1,8 @@
+.forgot_inn{
+    @include box-shadow(12px 0px 73px rgba(0, 0, 0, 0.1));
+    position: relative;
+    padding: 60px 90px;
+    @media (max-width:$tablet-lg-width){
+        padding: 20px;
+        }
+}

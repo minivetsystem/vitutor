@@ -1,0 +1,74 @@
+
+.app_pagination {
+    .pagination {
+        justify-content: flex-end;
+        flex-wrap: wrap;
+        -webkit-user-select: none;
+        user-select: none;
+        .page-item {
+            &.disabled {
+                .page-link {
+                    opacity: 0.5;
+                }
+            }
+            &.active {
+                .page-link {
+                    background-color: $primary-color;
+                    border-color: $primary-color;
+                }
+            }
+            .page-link {
+                align-items: center;
+                background: #e7eaee;
+                border-radius: 100%;
+                color: $secondary-color;
+                cursor: pointer;
+                display: inline-flex;
+                font-family: $secondary-font;
+                font-size: 16px;
+                font-weight: 400;
+                height: 37px;
+                justify-content: center;
+                margin: 5px;
+                padding: 5px;
+                position: relative;
+                width: 37px;
+                &:hover {
+                    background: #dddddd;
+                }
+            }
+            &.pagination-next, &.pagination-prev {
+                .page-link {
+                    // color: rgba($color: #000000, $alpha: 0);
+                    text-indent: 100px;
+                    overflow: hidden;
+                    position: relative;
+                    &::before {
+                        background-color: rgba(0,0,0,0);
+                        background-image:url(#{$assetspath}/img/icon-arrow-pagination.png);
+                        @include image-2x("#{$assetspath}/img/icon-arrow-pagination@2x.png", 100%, auto);
+                        background-position: 0 0;
+                        background-repeat: no-repeat;
+                        background-size: 100%;
+                        content: '';
+                        display: inline-block;
+                        height: 11px;
+                        left: 50%;
+                        position: absolute;
+                        top: 50%;
+                        width: 14px;
+                        @include transform(translate(-50%, -50%));
+                        z-index: 1;
+                    }
+                }                
+            }
+            &.pagination-prev {
+                .page-link {
+                    &::before {
+                        background-position: 0 bottom;
+                    }
+                } 
+            }
+        }
+    }
+}

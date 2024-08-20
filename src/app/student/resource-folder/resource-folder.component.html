@@ -1,0 +1,256 @@
+<div class="main-panel" [ngClass]="{'side-menu': menuToggle == 1}">
+        <div class="container">
+    <div class="panel-header bg-primary-gradient">
+        <div class="page-inner py-5">
+            <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+                <div>
+                    <h2 class="pb-2 fw-bold panel-header-heading">Manage Resources</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-inner mt--5 manage_jobs resources">
+        <div class="row mt--2">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header d-flex">
+                        <div class="card-title "> <div class="back_btn"><a href="javascript:void(0)" (click)="goBack()"><img src="../../../assets/img/arrow-left.svg"></a></div> {{folderName}}</div>
+
+                        <div class="header_right">
+                            
+                            <div class="create_job">
+                                <a href="javascript:void(0)"  (click)="openCreateFolderModal(template)" class="btn btn-border">Create Folder</a>
+                                <a href="javascript:void(0)"  (click)="openCreateFileModal(templateFile)" class="btn btn-border">Add a file</a> </div>
+                                <div class="date_box">
+                                    <label> Date Filter</label>  
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" ngxDaterangepickerMd
+                                            [(ngModel)]="selected" placeholder="Choose date" 
+                                            (ngModelChange)="change($event)" />
+                                        <div class="input-group-append d-flex">
+                                            <span class="input-group-text">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="21.354" height="21.353" viewBox="0 0 21.354 21.353">
+                                                    <g id="Group_7308" data-name="Group 7308" transform="translate(-3798 -3482)">
+                                                      <path id="Path_3002" data-name="Path 3002" d="M59.136,3.674a.757.757,0,0,0-.757-.757H50.758a.757.757,0,0,0-.619,1.193l2.687,3.4.013,3.728a1.466,1.466,0,0,0,2.279,1.216l.955-.707a1.281,1.281,0,0,0,.674-1.125L56.73,7.535,59,4.114A.757.757,0,0,0,59.136,3.674Zm-3.922,3.38.018,3.571-.88.515-.014-4.114L52.216,4.432h4.693Z" transform="translate(3760.219 3490.635)" fill="#939ea8"/>
+                                                      <circle id="Ellipse_203" data-name="Ellipse 203" cx="1.5" cy="1.5" r="1.5" transform="translate(3813.208 3488.353)" fill="#939ea8"/>
+                                                      <path id="Path_3003" data-name="Path 3003" d="M18.016,1.668H16.932V.834a.834.834,0,0,0-1.668,0v.834h-3.8V.834A.834.834,0,1,0,9.8.834v.834H6.047V.834a.834.834,0,0,0-1.668,0v.834H3.336A3.34,3.34,0,0,0,0,5V18.016a3.34,3.34,0,0,0,3.336,3.336h7.495a.834.834,0,1,0,0-1.668H3.336a1.67,1.67,0,0,1-1.668-1.668V5A1.67,1.67,0,0,1,3.336,3.336H4.379V4.17a.834.834,0,0,0,1.668,0V3.336H9.8V4.17a.834.834,0,1,0,1.668,0V3.336h3.8V4.17a.834.834,0,0,0,1.668,0V3.336h1.084A1.67,1.67,0,0,1,19.685,5v3.67a.834.834,0,1,0,1.668,0V5A3.34,3.34,0,0,0,18.016,1.668Z" transform="translate(3798 3482)" fill="#939ea8"/>
+                                                      <circle id="Ellipse_204" data-name="Ellipse 204" cx="1.5" cy="1.5" r="1.5" transform="translate(3809.208 3488.353)" fill="#939ea8"/>
+                                                      <circle id="Ellipse_205" data-name="Ellipse 205" cx="1.5" cy="1.5" r="1.5" transform="translate(3805.208 3492.353)" fill="#939ea8"/>
+                                                      <circle id="Ellipse_206" data-name="Ellipse 206" cx="1.5" cy="1.5" r="1.5" transform="translate(3801.208 3488.353)" fill="#939ea8"/>
+                                                      <circle id="Ellipse_207" data-name="Ellipse 207" cx="1.5" cy="1.5" r="1.5" transform="translate(3801.208 3492.353)" fill="#939ea8"/>
+                                                      <circle id="Ellipse_208" data-name="Ellipse 208" cx="1.5" cy="1.5" r="1.5" transform="translate(3801.208 3496.353)" fill="#939ea8"/>
+                                                      <circle id="Ellipse_209" data-name="Ellipse 209" cx="1.5" cy="1.5" r="1.5" transform="translate(3805.208 3496.353)" fill="#939ea8"/>
+                                                      <circle id="Ellipse_210" data-name="Ellipse 210" cx="1.5" cy="1.5" r="1.5" transform="translate(3805.208 3488.353)" fill="#939ea8"/>
+                                                    </g>
+                                                  </svg>
+                                                  
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ml-3" *ngIf="showClearButton"><a href="javascript:void(0)" (click)="list(null, null)"  class="btn btn-border"><img src="../../../assets/img/create_job.svg"> Clear</a> </div>
+
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!-- <div class="search-results"
+                        infinite-scroll
+                        [infiniteScrollDistance]="scrollDistance"
+                        [infiniteScrollUpDistance]="scrollUpDistance"
+                        [infiniteScrollThrottle]="throttle"
+                        (scrolled)="onScrollDown()">  -->
+                        <div class="search-results">
+                            <div class="my_resources">
+                                <h6>All Files</h6>
+                                <ul class="my_files upload_files" *ngIf="!recordNotFound">
+                                    
+                                    <div class="loop_box" *ngIf="folderLists?.length > 0">
+                                        <li *ngFor="let folder of folderLists; let i = index" draggable="true">
+                                        <a href="javascript:void(0)" (click)="myFunction(folder)">  
+                                            <div (click)="myFunction(folder)">
+                                                    <label>{{folder.folder_name}}</label>
+                                                    <strong>{{folder.created_at}}</strong>
+                                                    <span *ngIf="folder?.folder_all_files.length > 0; else notShow">({{folder.folder_all_files.length}}  {{folder.folder_all_files.length == 1 ? 'file' : 'files'}})</span>
+
+                                                    <ng-template #notShow>
+                                                        <span>(0 file)</span>
+                                                    </ng-template>
+                                                </div>
+                                            </a>  
+
+                                            <div class="file_menu">
+                                                <div class="dropdown">
+                                                    <a href="#" type="button" data-toggle="dropdown"><img src="../../../assets/img/menu.svg"></a>
+                                                        <ul class="dropdown-menu">
+                                                            <li><a href="javascript:void(0)" [routerLink]="['/student/resource-folder/' , folder.id]">View Detail</a></li>
+                                                            <li><a href="javascript:void(0)" (click)="openUpdateFolderModal(template , folder.id)" >Update Folder</a></li>
+                                                            <li><a href="javascript:void(0)" [swal]="deleteFolderParent">Delete Folder</a></li>
+
+                                                            <swal #deleteFolderParent title="Delete?" text="Are you sure to delete {{folder.title}}" type="error"
+                                                                [options]="{ customClass : swalErrorOption, confirmButtonText: 'Confirm' , confirmButtonClass : 'btn btn-warning mr-2',cancelButtonClass : 'btn btn-danger' }"
+                                                                [showCancelButton]="true" [focusCancel]="true"
+                                                                (confirm)="deleteFolder(folder.id)">
+                                                            </swal>
+                                                        </ul>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </div>
+                                    <div class="loop_box" *ngIf="fileLists?.length > 0">
+                                        <li *ngFor="let fileList of fileLists; let i = index" >
+                                            <div class="folders">
+                                                <div class="file_type">
+                                                    <img *ngIf="(fileList.file_type == 'image/jpeg') || fileList.file_type == 'image/jpg'"
+                                                    src="../../../assets/img/ico-jpg.svg" alt="icon" />
+                                                    <img *ngIf="(fileList.file_type == 'application/doc') || fileList.file_type == 'image/docx' || fileList.file_type == 'application/msword'"
+                                                        src="assets/img/msword.jpeg" alt="icon" />
+                                                    <img *ngIf="fileList.file_type == 'image/png'"
+                                                        src="../../../assets/img/ico-png.svg" alt="icon" />
+                                                    <img *ngIf="fileList.file_type == 'text/plain'"
+                                                        src="../../../assets/img/ico-ppt.svg" alt="icon" />
+                                                    <img *ngIf="fileList.file_type == 'application/pdf'"
+                                                        src="../../../assets/img/ico-pdf.svg" alt="icon" />
+                                                    <img *ngIf="fileList.file_type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'"
+                                                        src="../../../assets/img/ico-doc.svg" alt="icon" />
+                                                    <img *ngIf="fileList.file_type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'"
+                                                        src="../../../assets/img/ico-spreadsheet.png" alt="icon" />
+    
+                                                     <div class="overlay_button">
+                                                        <img src="../../../assets/img/download_large.svg">
+                                                    </div>
+                                                </div>
+                                                <div class="file_desc">
+                                                    <h5><img *ngIf="(fileList.file_type == 'image/jpeg') || fileList.file_type == 'image/jpg'"
+                                                        src="../../../assets/img/ico-jpg.svg" alt="icon" />
+                                                    <img *ngIf="(fileList.file_type == 'application/doc') || fileList.file_type == 'image/docx' || fileList.file_type == 'application/msword'"
+                                                        src="assets/img/msword.jpeg" alt="icon" />
+                                                    <img *ngIf="fileList.file_type == 'image/png'"
+                                                        src="../../../assets/img/ico-png.svg" alt="icon" />
+                                                    <img *ngIf="fileList.file_type == 'text/plain'"
+                                                        src="../../../assets/img/ico-ppt.svg" alt="icon" />
+                                                    <img *ngIf="fileList.file_type == 'application/pdf'"
+                                                        src="../../../assets/img/ico-pdf.svg" alt="icon" />
+                                                    <img *ngIf="fileList.file_type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'"
+                                                        src="../../../assets/img/ico-doc.svg" alt="icon" />
+                                                    <img *ngIf="fileList.file_type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'"
+                                                        src="../../../assets/img/ico-spreadsheet.png" alt="icon" /> {{fileList.title}}</h5>
+                                                    <span>{{fileList.created_at}}</span>
+    
+                                                    <div class="file_menu">
+                                                        <div class="dropdown">
+                                                            <a href="#" type="button" data-toggle="dropdown"><img src="../../../assets/img/menu.svg"></a>
+                                                                <ul class="dropdown-menu">
+                                                                <!-- <li><a href="javascript:void(0)" (click)="Downloadfile(fileList.id , fileList.title)">View Detail</a></li> -->
+                                                                <li><a href="javascript:void(0)" (click)="Downloadfile(fileList.id , fileList.title)">Download</a></li>
+                                                                <li><a href="javascript:void(0)" [swal]="deleteFolderFile">Delete File</a></li>
+
+                                                                <swal #deleteFolderFile title="Delete?" text="Are you sure to delete {{fileList.title}}" type="error"
+                                                                    [options]="{ customClass : swalErrorOption, confirmButtonText: 'Confirm' , confirmButtonClass : 'btn btn-warning mr-2',cancelButtonClass : 'btn btn-danger' }"
+                                                                    [showCancelButton]="true" [focusCancel]="true"
+                                                                    (confirm)="deleteFile(fileList.id)">
+                                                                </swal>
+
+                                                            </ul>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </div>
+                                </ul>
+                                <div *ngIf="(fileLists?.length==0) && (folderLists?.length == 0)">
+                                    <span>No record found</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>						
+            </div>
+        </div>
+    </div>
+    <app-short-footer></app-short-footer>
+</div>
+   
+    <ng-template #template>  
+        <div class="modal-header">
+            <h4 class="modal-title">{{action}} Folder</h4>
+            <button type="button" class="close" (click)="closeModal()" ><img src="../../../assets/img/close-14.svg"></button>
+            
+        </div>
+        <div class="modal-body">
+            <form class="form-group form-show-validation row" [formGroup]="addChildFolderForm" id="addChildFolderForm" (ngSubmit)="onFolderSubmit(action)"
+                    ngxScrollToFirstInvalid>                   
+                <div class="form-group col-lg-12 wk_form">
+                    <label for="folder_name">Folder Name <span class="required-label" style="color: red;">*</span></label>
+                    <input type="text" class="form-control" formControlName="folder_name" placeholder="Enter Folder name">
+                    <div
+                        *ngIf="(renderErrors.folder_name.dirty || renderErrors.folder_name.touched) && renderErrors.folder_name.errors">
+                        <div class="has-error" *ngIf="renderErrors.folder_name.errors.required">Folder name is required
+                        </div>
+                        <div class="has-error" *ngIf="renderErrors.folder_name.errors.maxlength">Folder name can be 50
+                        characters long.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 text-center">
+                    <button class="btn btn-primary ">{{action}} folder</button>
+                </div>
+            </form>
+        </div>
+    </ng-template>
+
+    <ng-template #templateFile>  
+        <div class="modal-header">
+            <h4 class="modal-title">Add New File</h4>
+            <button type="button" class="close" (click)="closeModal()" ><img src="../../../assets/img/close-14.svg"></button>
+            
+        </div>
+        <div class="modal-body">
+            <form class="form-group form-show-validation row" [formGroup]="addChildFileForm" id="addChildFileForm" (ngSubmit)="onFileSubmit()"
+                    ngxScrollToFirstInvalid>                   
+                <div class="col-lg-12 wk_form">
+                    <label for="title">File Name <span class="required-label" style="color: red;">*</span></label>
+                    <input type="text" class="form-control" formControlName="title" placeholder="Enter File name">
+                    <div
+                        *ngIf="(renderFileErrors.title.dirty || renderFileErrors.title.touched) && renderFileErrors.title.errors">
+                        <div class="has-error" *ngIf="renderFileErrors.title.errors.required">File name is required
+                        </div>
+                        <div class="has-error" *ngIf="renderFileErrors.title.errors.maxlength">File name can be 50
+                        characters long.
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 wk_form">
+                    <label >Upload <span class="required-label">*</span></label>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="customFile" formControlName="folder_file" (change)="imageUpload($event.target.files)"><img src="../../../assets/img/upload.svg"  id="file-resource-upload">
+                        <label class="custom-file-label" for="customFile">{{ (fileToUpload) ? fileToUpload.name : 'Browse File'}}</label>
+                       
+                        
+                    </div>
+                    <div *ngIf="(renderFileErrors.folder_file.dirty || renderFileErrors.folder_file.touched) && renderFileErrors.folder_file.errors ">
+                        <div class="has-error" *ngIf="renderFileErrors.folder_file.errors.required">Upload File is required
+                        </div>   
+                    </div>
+                    <div class="has-error" *ngIf="fileFormaterror">Please Select the valid file extension. File Type must be in jpeg,png,jpg,doc,pdf,docx
+                    </div>
+                </div>
+             
+                <div class="col-lg-12 wk_form">
+                    <label for="description">Description </label>
+                    <textarea class="form-control" formControlName="description" placeholder="Enter File Description"></textarea>
+                    <div
+                        *ngIf="(renderFileErrors.description.dirty || renderFileErrors.description.touched) && renderFileErrors.description.errors">
+                        <div class="has-error" *ngIf="renderFileErrors.description.errors.maxlength">Description character must be less than 250
+                        </div>
+                        <div class="has-error" *ngIf="renderFileErrors.description.errors.required">Description is required</div>
+                    </div>
+                </div>
+                <div class="col-lg-12 text-center">
+                    <button class="btn btn-primary ">Create File</button>
+                </div>
+            </form>
+        </div>
+    
+    </ng-template>

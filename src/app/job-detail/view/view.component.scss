@@ -1,0 +1,8 @@
+#view_applicants>.modal-dialog {
+    max-width: 80%;
+
+    @media screen and (max-width:767px)
+    {
+        max-width: 100%;
+    }
+}

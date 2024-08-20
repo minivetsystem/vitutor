@@ -1,0 +1,222 @@
+<div class="main-panel" [ngClass]="{'side-menu': menuToggle == 1}">
+    <div class="container">
+        <div class="panel-header bg-primary-gradient">
+            <div class="page-inner py-5">
+            <app-profile-complete userRole="TUTOR" [profileStatusResponse]="result" *ngIf="!result.result.profile_completed"></app-profile-complete>
+
+                <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+                    <div>
+                        <h2 class="pb-2 fw-bold panel-header-heading">Expertise</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-inner mt--5">
+            <div class="row mt--2">
+                <div class="col-md-12">
+                    <div class="card full-height expertise">
+                        <div class="card-body">
+                          <div class="row mb-3">
+                            <form [formGroup]="expertiseLevel" class="form-group form-show-validation row">
+                          <div class="col-md-6 col-sm-6 ">
+                            <h4 class="card-heading">Student Level<span class="required-label">*</span></h4>
+                            <!-- <label for="name" >Student Level<span class="required-label">*</span></label> -->
+                            
+                            <ng-select [multiple]="true" formControlName="student_level"  (change)="onChange($event)" (remove)="onRemove($event)" >
+                                <ng-option *ngFor="let level of studentLevelArray" [value]="level.name" >{{level.name}}</ng-option>
+                            </ng-select>
+                                <div *ngIf="( expertiseLevel.controls.student_level.dirty || expertiseLevel.controls.student_level.touched) && expertiseLevel.controls.student_level.errors">
+                                    <div class="has-error" *ngIf="expertiseLevel.controls.student_level.errors.required">Student Level is required
+                                    </div>
+                                </div>
+                                <!-- <button class="btn btn-primary mt-4 mb-3" (click)="updateStudentLevel()">Update Level</button> -->
+                                </div>
+
+                                </form>
+                                
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6 col-sm-6">
+                                <h4 class="card-heading" style="margin-bottom: 0px;">Expertise</h4>
+                                <p style="padding-top: 0px;">Don't see the subject you are looking for? <a class="btn-link" [href]="contactUs" target="_blank" >Contact us</a> </p>
+                                <form class="app_form col-12 mt-2" name="form"  [formGroup]="subjectForm">
+                                <div id="accordion" formArrayName="subjects">
+                                    <div class="accordion_box" *ngFor="let subject of subjectsArray.controls;let i = index;trackBy:trackByIdentity">
+                                      <div [formGroupName]="i">
+                                      <div class="accordion-header" >
+                                        <a class="card-link" data-toggle="collapse" href="#collapse{{i}}" aria-expanded="false">
+                                            {{ this.courseCategories[i].category_name}}
+                                            <input type="hidden"  formControlName="category_id" [(ngModel)]="courseCategories[i].id">
+                                        </a>
+                                      </div>
+                                      <div id="collapse{{i}}" class="collapse " data-parent="#accordion">
+                                        <div class="accordion-body" formArrayName="sub_categories">
+                                          <ul> 
+                                            <li *ngFor="let subCategory of subject.controls.sub_categories.controls; let j=index; trackBy:trackByIdentity">
+                                              <div [formGroupName]="j">
+                                              <label class="checkbox_btn" >{{courseCategories[i].children[j].category_name}}	
+                                                <input type="checkbox" formControlName="selected_sub_category" (change)="updateSubcategoryStatus(i,j)" [(ngModel)]="courseCategories[i].children[j].tutor_has_subject.categories_sub_id">	
+                                                <input type="hidden" formControlName="sub_category_id" #id
+                                                [(ngModel)]="courseCategories[i].children[j].id">
+                                                <span class="checkmark"></span></label>
+                                                </div>
+                                          	</li>
+                                          </ul>
+                                        </div>
+                                      </div>
+                                      </div>
+                                    </div>
+                                    <!-- <div class="accordion_box">
+                                      <div class="accordion-header">
+                                        <a class="collapsed card-link" data-toggle="collapse" href="#collapseTwo" >
+                                            Science
+                                      </a>
+                                      </div>
+                                      <div id="collapseTwo" class="collapse" data-parent="#accordion">
+                                        <div class="accordion-body">
+                                            <ul>
+                                                <li><label class="checkbox_btn">Lorem Ipsum	<input type="checkbox" checked>	<span class="checkmark"></span></label>	</li>
+                                                <li><label class="checkbox_btn">Lorem Ipsum	<input type="checkbox" >	<span class="checkmark"></span></label>	</li>
+                                                <li><label class="checkbox_btn"> Lorem Ipsum	<input type="checkbox" >	<span class="checkmark"></span></label>	</li>
+                                                <li><label class="checkbox_btn">Lorem Ipsum	<input type="checkbox" >	<span class="checkmark"></span></label>	</li>
+                                                <li><label class="checkbox_btn">Lorem Ipsum	<input type="checkbox">	<span class="checkmark"></span></label>	</li>
+                                            </ul>
+                                        </div>
+                                      </div>
+                                    </div> -->
+                                    <!-- <div class="accordion_box">
+                                      <div class="accordion-header">
+                                        <a class="collapsed card-link" data-toggle="collapse" href="#collapseThree">
+                                            Language
+                                        </a>
+                                      </div>
+                                      <div id="collapseThree" class="collapse" data-parent="#accordion">
+                                        <div class="accordion-body">
+                                            <ul>
+                                                <li><label class="checkbox_btn">Lorem Ipsum	<input type="checkbox" checked>	<span class="checkmark"></span></label>	</li>
+                                                <li><label class="checkbox_btn">Lorem Ipsum	<input type="checkbox" >	<span class="checkmark"></span></label>	</li>
+                                                <li><label class="checkbox_btn"> Lorem Ipsum	<input type="checkbox" >	<span class="checkmark"></span></label>	</li>
+                                                <li><label class="checkbox_btn">Lorem Ipsum	<input type="checkbox" >	<span class="checkmark"></span></label>	</li>
+                                                <li><label class="checkbox_btn">Lorem Ipsum	<input type="checkbox">	<span class="checkmark"></span></label>	</li>
+                                            </ul>
+                                        </div>
+                                      </div>
+                                    </div> -->
+
+                                    <!-- <div class="accordion_box">
+                                        <div class="accordion-header">
+                                          <a class="collapsed card-link" data-toggle="collapse" href="#collapseFour">
+                                            Engineering Entrance Exams
+                                          </a>
+                                        </div>
+                                        <div id="collapseFour" class="collapse" data-parent="#accordion">
+                                          <div class="accordion-body">
+                                              <ul>
+                                                  <li><label class="checkbox_btn">Lorem Ipsum	<input type="checkbox" checked>	<span class="checkmark"></span></label>	</li>
+                                                  <li><label class="checkbox_btn">Lorem Ipsum	<input type="checkbox" >	<span class="checkmark"></span></label>	</li>
+                                                  <li><label class="checkbox_btn"> Lorem Ipsum	<input type="checkbox" >	<span class="checkmark"></span></label>	</li>
+                                                  <li><label class="checkbox_btn">Lorem Ipsum	<input type="checkbox" >	<span class="checkmark"></span></label>	</li>
+                                                  <li><label class="checkbox_btn">Lorem Ipsum	<input type="checkbox">	<span class="checkmark"></span></label>	</li>
+                                              </ul>
+                                          </div>
+                                        </div>
+                                      </div> -->
+
+
+                                      <!-- <div class="accordion_box">
+                                        <div class="accordion-header">
+                                          <a class="collapsed card-link" data-toggle="collapse" href="#collapseFive">
+                                            Medical Entrance Exams
+                                          </a>
+                                        </div>
+                                        <div id="collapseFive" class="collapse" data-parent="#accordion">
+                                          <div class="accordion-body">
+                                              <ul>
+                                                  <li><label class="checkbox_btn">Lorem Ipsum	<input type="checkbox" checked>	<span class="checkmark"></span></label>	</li>
+                                                  <li><label class="checkbox_btn">Lorem Ipsum	<input type="checkbox" >	<span class="checkmark"></span></label>	</li>
+                                                  <li><label class="checkbox_btn"> Lorem Ipsum	<input type="checkbox" >	<span class="checkmark"></span></label>	</li>
+                                                  <li><label class="checkbox_btn">Lorem Ipsum	<input type="checkbox" >	<span class="checkmark"></span></label>	</li>
+                                                  <li><label class="checkbox_btn">Lorem Ipsum	<input type="checkbox">	<span class="checkmark"></span></label>	</li>
+                                              </ul>
+                                          </div>
+                                        </div>
+                                      </div> -->
+
+
+
+                                      <!-- <div class="accordion_box">
+                                        <div class="accordion-header">
+                                          <a class="collapsed card-link" data-toggle="collapse" href="#collapseSix">
+                                            Computer Programming
+                                          </a>
+                                        </div>
+                                        <div id="collapseSix" class="collapse" data-parent="#accordion">
+                                          <div class="accordion-body">
+                                              <ul>
+                                                  <li><label class="checkbox_btn">Lorem Ipsum	<input type="checkbox" checked>	<span class="checkmark"></span></label>	</li>
+                                                  <li><label class="checkbox_btn">Lorem Ipsum	<input type="checkbox" >	<span class="checkmark"></span></label>	</li>
+                                                  <li><label class="checkbox_btn"> Lorem Ipsum	<input type="checkbox" >	<span class="checkmark"></span></label>	</li>
+                                                  <li><label class="checkbox_btn">Lorem Ipsum	<input type="checkbox" >	<span class="checkmark"></span></label>	</li>
+                                                  <li><label class="checkbox_btn">Lorem Ipsum	<input type="checkbox">	<span class="checkmark"></span></label>	</li>
+                                              </ul>
+                                          </div>
+                                        </div>
+                                      </div> -->
+
+
+                                      <!-- <div class="accordion_box">
+                                        <div class="accordion-header">
+                                          <a class="collapsed card-link" data-toggle="collapse" href="#collapseSeven">
+                                            English
+                                          </a>
+                                        </div>
+                                        <div id="collapseSeven" class="collapse" data-parent="#accordion">
+                                          <div class="accordion-body">
+                                              <ul>
+                                                  <li><label class="checkbox_btn">Lorem Ipsum	<input type="checkbox" checked>	<span class="checkmark"></span></label>	</li>
+                                                  <li><label class="checkbox_btn">Lorem Ipsum	<input type="checkbox" >	<span class="checkmark"></span></label>	</li>
+                                                  <li><label class="checkbox_btn"> Lorem Ipsum	<input type="checkbox" >	<span class="checkmark"></span></label>	</li>
+                                                  <li><label class="checkbox_btn">Lorem Ipsum	<input type="checkbox" >	<span class="checkmark"></span></label>	</li>
+                                                  <li><label class="checkbox_btn">Lorem Ipsum	<input type="checkbox">	<span class="checkmark"></span></label>	</li>
+                                              </ul>
+                                          </div>
+                                        </div>
+                                      </div> -->
+                                  </div>
+                                  </form>
+
+                                  <button class="btn btn-primary mt-4 mb-3" (click)="onSubmit()">Update Info</button>
+                            </div>
+
+
+                            <div class="col-md-6 col-sm-6">
+                                <h4 class="card-heading">Your Added Expertise</h4>
+                                <div *ngFor="let subject of tutorSubjects; let subjectIndex = index">
+                                <div class="add_expertise">
+                                    <span>{{subject.category_name}}</span>
+
+                                    <ul>
+                                        <li *ngFor="let subcat of subject.subcat;let currentIndex=index">{{subcat.category_name}} <a [swal]="deleteQualification"><img src="assets/img/images/red_close_icon.svg"></a>
+                                          <swal #deleteQualification title="Delete?"
+                                          text="Are you sure to delete {{subcat.category_name}}" type="error"
+                                          [options]="{customClass : swalErrorOption, confirmButtonText: 'Confirm' , confirmButtonClass : 'btn btn-primary mr-2',cancelButtonClass : 'btn btn-danger' }"
+                                          [showCancelButton]="true" [focusCancel]="true"
+                                          (confirm)="removeRecord(subcat.id,subcat.categories_sub_id, subjectIndex ,currentIndex  )">
+                                        </swal>
+                                        </li>
+                                    </ul>
+                                </div>
+                                </div>
+                            </div>
+
+
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-short-footer></app-short-footer>
+
+</div>

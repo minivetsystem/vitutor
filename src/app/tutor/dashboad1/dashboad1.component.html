@@ -1,0 +1,233 @@
+<div class="main-panel" [ngClass]="{'side-menu': menuToggle == 1}">
+    <div class="container">
+        
+        <div class="panel-header bg-primary-gradient">
+            <div class="page-inner py-5">
+            <!-- <app-profile-complete userRole="TUTOR" [profileStatusResponse]="result" *ngIf="!result.result.profile_completed"></app-profile-complete> -->
+
+                <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+                    <div>
+                        <h2 class="pb-2 fw-bold panel-header-heading">Dashboard</h2>
+                        <!-- <button class="btn btn-orange" [routerLink]="['/video']">Video</button> -->
+                    </div>
+                </div>
+                
+            </div>
+            <div class="page-inner mt--5">
+                <div class="row mt--2">
+                    <div class="col-md-12">
+                       
+
+
+                        <div class="row">
+                            <div class="col-md-5 col-sm-6 wh_box upLeft">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="card-title">Upcoming Session</div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row Upcoming_sessoion" *ngIf="dasBoardData?.upcoming == true">
+                                            <div class="col-md-3 col-sm-3 Upcoming_sessoion_img">
+                                                <div class="avatar-sm">
+                                                    <img class="avatar-img" #this [src]="dasBoardData?.next_class_detail?.photo" onError="this.src='/assets/img/avatar_user.jpg'">
+                                                </div>
+                                            </div>
+    
+                                            <div class="col-md-9 col-sm-9 Upcoming_sessoion_txt">
+                                                <ul>
+                                                  <li><span>Student Name</span> {{dasBoardData?.next_class_detail?.first_name}} {{dasBoardData?.next_class_detail?.last_name}}</li>
+                                                  <li><span>Session Name</span> <a [routerLink]="['/tutor/offerDetails/'+dasBoardData?.next_class_detail?.offer_id]">{{dasBoardData?.next_class_detail?.job_title}} <i class="fas fa-external-link-alt"></i> </a></li>
+                                                   <li><span>Session Date</span> {{dasBoardData?.next_class_detail?.session_date}}</li> 
+                                                  <li><span>Time</span> <b>Start Time :</b> {{dasBoardData?.next_class_detail?.start_at | date: "hh:mm a"}}<br> <b>End Time :</b> {{dasBoardData?.next_class_detail?.end_at | date: "hh:mm a"}}</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="row Upcoming_sessoion" *ngIf="dasBoardData?.upcoming == false">
+                                            <h4 class="text-center">No Upcoming Session</h4>
+                                        </div>
+                                    </div>
+
+                                    <div class="card-footer" *ngIf="dasBoardData?.upcoming != false">
+                                        <span class="text-danger m-2" style="font-weight: 600;" *ngIf="timer != false">{{timer}}</span>
+                                        <button class="btn btn-red" *ngIf="dasBoardData?.next_class_detail?.session_status != 'ended' && earlySessionBtn == false && dasBoardData?.next_class_detail?.session_status != 'upcoming'"  (click)="startSession(dasBoardData)">Start Session <img style="height: 12px;" src="assets/img/Polygon2.svg"></button> 
+                                        <button class="btn btn-success" *ngIf="earlySessionBtn && dasBoardData?.next_class_detail?.session_status == 'early'"  (click)="earlySessionModal()" >Early Start Session </button> 
+                                        <button class="btn btn-primary" *ngIf="dasBoardData?.next_class_detail?.session_status == 'ended'" disabled> Session Completed <img style="height: 18px;border: 2px solid #fff;border-radius: 100%;" src="assets/img/check1.svg"></button> 
+                                        <button class="btn btn-orange"  disabled *ngIf="dasBoardData?.next_class_detail?.session_status == 'expired'"> Session Expired</button> 
+                                        <button class="btn btn-yellow"  disabled *ngIf="dasBoardData?.next_class_detail?.session_status == 'upcoming'"> Session Upcoming</button> 
+                                    </div>
+                                    <!-- <div class="card-footer">
+                                        <button class="btn btn-orange"  disabled *ngIf="dasBoardData?.next_class_detail?.session_status == 'expired'"> Session Expired</button> 
+                                        <button class="btn btn-yellow"  disabled *ngIf="dasBoardData?.next_class_detail?.session_status == 'upcoming'"> Session Upcoming</button> 
+
+                                    </div> -->
+
+
+                                </div>
+                            </div>	
+                            <div class="col-md-7 col-sm-6 wh_box ChartBox">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="card-title">Job Accepted
+                                        <select (change)="yearChangeValue($event)">
+                                            <option *ngFor="let year of years" [value]="year">{{year}}</option>
+                                        </select></div>
+                                    </div>
+                                    <div class="card-body">
+                                        <!-- <app-dashboard-chart  [dataSet]="dataset" ></app-dashboard-chart> -->
+                                        <div id="chart-container">
+                                            <!-- <chart type="line" [data]="data" [options]="options"></chart> -->
+                                            <canvas id="totalIncomeChart" #totalIncomeChart height="240px">{{totalIncomeChartData}}</canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="card">
+                                    <div class="card-header">
+                                        <div class="card-title">Jobs Posted 
+                                        <select (change)="fetchTutorChart($event.target.value)">
+                                            <option *ngFor="let year of years" [value]="year">{{year}}</option>
+                                           
+                                        </select></div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="chart-container">
+                                            <canvas id="totalIncomeChart" #totalIncomeChart height="240px">{{totalIncomeChartData}}</canvas>
+                                        </div>
+                                    </div>
+                                </div> -->
+                            </div>	
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12 Dashboard_table">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="card-title">Upcoming Sessions <span *ngIf="dasBoardData?.today_sessions.length > 0">({{dasBoardData?.today_sessions.length || 0}})</span></div>
+                                    </div>
+                                    <div class="card-body">
+                                     <div class="table-responsive dashboard_upcoming">
+                                        <table class="table current">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Session Name</th>
+                                                    <th scope="col">Student </th>
+                                                    <th scope="col">Date </th>
+                                                    <th scope="col">Start Time</th>
+                                                    <th scope="col">End Time</th>
+                                                    <th scope="col " style="text-align: center;" width="13%">Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let session of dasBoardData?.today_sessions" >
+                                                    <td>{{session.job_title}}</td>
+                                                    <td>{{session.first_name}} {{session.last_name}}</td>
+                                                    <td>{{convertDate(session.date)}}</td>
+                                                    <td>{{session.start_at | date:"hh:mm a"}}</td>
+                                                    <td>{{session.end_at | date:"hh:mm a"}}</td>
+                                                    <td>
+                                                        <button class="btn btn-orange" [routerLink]="['/tutor/offerDetails/'+session.offer_id]" *ngIf="!session.sessionStartBtn">{{session.status}}</button>
+                                                        <button class="btn btn-red btnSmall" *ngIf="session.sessionStartBtn"  (click)="startSession(session.id)">Start Session</button>
+                                                    </td>
+                                                </tr>
+                                                <tr style="text-align: center;" *ngIf="dasBoardData?.today_sessions.length == 0">
+                                                    <td colspan="6">
+                                                    <h3 class="text-center">No Session Available</h3>
+                                                    </td>
+                                                </tr>
+                                                <!-- <tr>
+                                                    <td>Duis aute irure dolor Duis aute irur</td>
+                                                    <td>Vani Ganesan</td>
+                                                    <td>10: 30 am</td>
+                                                    <td>11: 30 am</td>
+                                                    <td><button class="btn btn-red">Cancelled</button></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Duis aute irure dolor Duis aute irur</td>
+                                                    <td>Vani Ganesan</td>
+                                                    <td>10: 30 am</td>
+                                                    <td>11: 30 am</td>
+                                                    <td><button class="btn btn-yellow">Upcoming</button></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Duis aute irure dolor Duis aute irur</td>
+                                                    <td>Vani Ganesan</td>
+                                                    <td>10: 30 am</td>
+                                                    <td>11: 30 am</td>
+                                                    <td><button class="btn btn-yellow">Upcoming</button></td>
+                                                </tr> -->
+                                            </tbody>
+                                        </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">Overall Statistics</div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-3 col-sm-3 text-center overall_statics">
+                                        <div id="circles-1"></div>
+                                        <a [routerLink]="['/tutor/manage-job']" [queryParams]="{tab:'Completed'}"><h6>Total Sessions Completed</h6></a>
+                                    </div>
+
+                                    <div class="col-md-3 col-sm-3 text-center overall_statics">
+                                        <img src="../../../assets/img/job-posted.svg"><br>
+                                        <span>{{dasBoardData?.total_bid || 0}}</span>
+                                        <a [routerLink]="['/tutor/manage-job']" [queryParams]="{tab:'Applied'}"><h6>Total Job Bids</h6></a>
+                                    </div>
+
+                                    <div class="col-md-3 col-sm-3 text-center overall_statics">
+                                        <img src="../../../assets/img/candidate.svg"><br>
+                                        <span>{{dasBoardData?.total_accepted_job || 0}}</span>
+                                        <a [routerLink]="['/tutor/manage-job']" [queryParams]="{tab:'NewOffer'}"><h6>Total Jobs Accepted</h6></a>
+                                    </div>
+
+                                    <div class="col-md-3 col-sm-3 text-center overall_statics">
+                                        <img src="assets/img/learing-hours.svg"><br>
+                                        <span>{{dasBoardData?.total_earning || 0 | currency}}</span>
+                                        <a [routerLink]="['/tutor/earning']" ><h6>Total Earnings</h6></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+       <app-short-footer></app-short-footer>
+        </div>
+
+        <div id="earlySession" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div  class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Start Session Early</h4>
+                        <button type="button" class="close" data-dismiss="modal" ><img src="assets/img/images/close-14.svg"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="col-lg-12 ">
+                        <p><strong>Session Name: </strong> {{dasBoardData?.next_class_detail?.job_title}}</p>
+                        <p><strong>Student Name: </strong> {{dasBoardData?.next_class_detail?.first_name}} {{dasBoardData?.next_class_detail?.last_name}}</p>
+                        <p><strong>Schedule Date: </strong> {{dasBoardData?.next_class_detail?.session_date}}</p>
+                       
+                        <!-- <p> Are you sure you want to start the session early?</p> -->
+                       <!-- <p *ngIf="earlySessionObj?.schedule_date">{{earlySessionObj.schedule_date}}</p> -->
+                       </div>
+                       <div class="col-lg-12 ">
+                        <label><strong>Message</strong></label>
+                        <textarea placeholder="Enter Message" #reason class="form-control" name="review" rows="3"></textarea>
+                        <!-- <p *ngIf="earlyReasonErr == true" class="text-danger">Reason is required </p> -->
+                    </div>
+                        <div class="col-lg-12 text-center">
+                            <button class="btn btn-orange mr-3" data-dismiss="modal">Cancel</button>
+                            <button class="btn btn-primary" (click)="earlyStartRequest(reason.value)">Send Request</button>
+        
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>

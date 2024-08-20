@@ -1,0 +1,848 @@
+<div class="main-panel" [ngClass]="{'side-menu': menuToggle == 1}">
+    <div class="container">
+        <div class="panel-header bg-primary-gradient">
+            <div class="page-inner py-5">
+                <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+                    <div>
+                        <h2 class="pb-2 fw-bold panel-header-heading">Message board</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-inner mt--5 message_board">
+            <div class="row mt--2">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3 col-sm-3 board_left">
+                                    <!--h4>Contacts</h4-->
+                                    <div class="left_search_bar">
+                                        <div  *ngIf="chatwithRoleType == 'student'"  class="inPut_form">
+                                        <div class="input-group">
+                                            <img src="assets/img/images/search_icon.svg" alt="menu icon" class="search-icon">
+                                            <input [(ngModel)]="searchText" type="text" placeholder="Search a job" class="form-control">
+                                        </div>
+                                    </div>
+                                        <ul class="nav nav-pills nav-secondary nav-pills-no-bd" id="pills-tab-without-border" role="tablist">
+                                            <li class="nav-item submenu">
+                                                <a class="nav-link active show" id="pills-home-tab-nobd" data-toggle="pill" href="#pills-home-nobd" (click)="chatRoleType('student')" role="tab" aria-controls="pills-home-nobd" aria-selected="true">Student</a>
+                                            </li>
+                                            <li class="nav-item submenu">
+                                                <a class="nav-link" id="pills-profile-tab-nobd" data-toggle="pill" href="#pills-profile-nobd" (click)="chatRoleType('admin')" role="tab" aria-controls="pills-profile-nobd" aria-selected="false">Admin</a>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content outerDetail-contact" id="pills-without-border-tabContent">
+                                            <div *ngIf="chatwithRoleType == 'student'" class="tab-pane fade active show" id="pills-home-nobd" role="tabpanel" aria-labelledby="pills-home-tab-nobd">
+                                                <div class="all_chats" *ngIf="contactList.length > 0">
+                                                    <ul>
+                                                        <li *ngFor="let contact of contactList | LisitingFilter : searchText; let i = index">
+                                                            <a [ngClass]="{'active' :this.ChatDetails.message_board_room_id == contact.message_board_room_id}" (click)="getMessagesList(contact,i)" style="cursor: pointer;">
+                                                                <div class="avatar-sm">
+                                                                    <img *ngIf="contact.tutor_profile_image" [src]="contact.tutor_profile_image" (error)="chatImageError($event)" alt="..." class="avatar-img rounded-circle">
+                                                                    <img *ngIf="!contact.tutor_profile_image" [src]="getInitials(contact.tutor_name)" (error)="chatImageError($event)" alt="..." class="avatar-img rounded-circle">
+                                                                </div>
+                                                                <div>
+                                                                    <h6><strong>{{contact.tutor_name }} </strong>
+                                                                        <span>
+                                                                            <!-- <img src="assets/img/images/user1.svg"> -->{{checkMessageDate(contact.created_at)}}
+                                                                        </span>
+                                                                    </h6>
+                                                                    <p>{{contact.job_title}} </p>
+                                                                    <span >{{getMessage(contact.message)}}</span>
+                                                                    <span *ngIf="showNewMessageAlert(contact) && this.ChatDetails.message_board_room_id != contact.message_board_room_id" style="background-color: #1992e6;float: right;height: 10px; width: 10px; border-radius:20px; margin-top: 8px;"></span>
+                                                                </div>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <!-- <div *ngIf="searchContactCount == false">
+                                                    <p class="no_contacts">No Contacts</p>
+                                                </div> -->
+                                                <div *ngIf="contactListErr">
+                                                    <p class="no_contacts">No Contacts</p>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="chatwithRoleType == 'admin'" class="tab-pane fade" id="pills-profile-nobd" role="tabpanel" aria-labelledby="pills-profile-tab-nobd">
+                                                <div class="all_chats" *ngIf="AdmincontactList.length > 0">
+                                                    <ul>
+                                                        <li *ngFor="let contact of AdmincontactList let i = index" style="cursor: pointer;">
+                                                            <a [ngClass]="{'active' :this.ChatDetailsAdmin.message_board_room_id == contact.message_board_room_id}" style="cursor: pointer;">
+                                                                <div class="avatar-sm">
+                                                                    <img *ngIf="loginUserDetails?.message?.sender_details?.image_url" [src]="loginUserDetails?.message?.sender_details?.image_url" alt="..." (error)="chatImageError($event)" class="avatar-img rounded-circle">
+                                                                    <img *ngIf="!loginUserDetails?.message?.sender_details?.image_url" [src]="getInitials(loginUserDetails?.message?.sender_details?.full_name)" (error)="chatImageError($event)" alt="..." class="avatar-img rounded-circle">
+                                                                </div>
+                                                                <div>
+                                                                    <h6><strong>{{loginUserDetails?.message?.sender_details?.full_name }} </strong>
+                                                                        <span>
+                                                                            <!-- <img src="assets/img/images/user1.svg"> -->{{checkMessageDate(contact.created_at)}}
+                                                                        </span>
+                                                                    </h6>
+                                                                    <!-- <p>{{contact.job_title}} </p> -->
+                                                                    <span >{{contact.message | limitTo : '25'}}</span>
+                                                                    <span *ngIf="showNewMessageAlert(contact) && this.ChatDetailsAdmin.message_board_room_id != contact.message_board_room_id" style="background-color: #1992e6;float: right;height: 10px; width: 10px;margin-top: 8px; border-radius: 20px;"></span>
+                                                                </div>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <!-- <div *ngIf="searchContactCount">
+                                                    <p class="no_contacts">No Contacts</p>
+                                                </div> -->
+                                                <ng-template *ngIf="adminContactListErr">
+                                                    <p class="no_contacts">No Contacts</p>
+                                                </ng-template>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div *ngIf="chatwithRoleType == 'student'" class="col-md-9 col-sm-9 board_right">
+                                    <div [ngStyle]="{'display': messagesArray.length > 0 ? '':'none'}">
+                                    <div class="board_top_header_outer" *ngIf="ChatDetails && ChatDetails.job_title != ''">
+                                        <div class="board_top_header">
+                                            <div class="header_heading">
+                                                <h6>{{ChatDetails?.tutor_name || ''}} <i (click)="infoBtnClick()" class="info_btn fas fa-info-circle"></i></h6>
+                                                <span *ngIf="!sentOfferDetails?.offer_id">{{ChatDetails?.job_title || ''}} <a [routerLink]="['/jobDetail/job/'+ChatDetails?.job_slug]" ><img src="assets/img/images/chain.svg" *ngIf="ChatDetails && ChatDetails.job_title != ''"></a></span>
+                                                <span *ngIf="sentOfferDetails?.offer_id">{{ChatDetails?.job_title || ''}} <a [routerLink]="['/tutor/offerDetails/'+sentOfferDetails?.offer_id]" target="_blank"><img src="assets/img/images/chain.svg" *ngIf="ChatDetails && ChatDetails.job_title != ''"></a></span>
+                                            </div>
+                                            <a *ngIf="sentOfferDetails?.offer_id" [routerLink]="['/tutor/offerDetails/'+sentOfferDetails?.offer_id]" class="btn gift_button btn-primary"><img src="assets/img/images/gift.svg"> View Offer</a>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="ChatDetails && ChatDetails.job_title != ''" class="outerDetail-chat-outer">
+                                        <div #scrollframe class="outerDetail-chat">
+                                            <div class="spinner-border spinner" role="status" *ngIf="loader">
+                                                <span class="sr-only" id="loading">Loading...</span>
+                                            </div>
+                                            <div *ngIf="!loader">
+                                                <div class="chat_detail" *ngFor="let message of messagesArray">
+                                                    <div class="new_day">{{offerTimeFormat(message.time)}}</div>
+                                                    <div #item class="chat_desc" *ngFor="let chat of message.messages">
+                                                        <div *ngIf="chat.is_offer_sent == 0" [ngClass]="checkMessageType(chat)">
+                                                            <div class="avatar-sm">
+                                                                <img *ngIf="chat.sender_image" [src]="chat.sender_image" (error)="chatImageError($event)" alt="..." class="avatar-img rounded-circle">
+                                                                <img *ngIf="!chat.sender_image" [src]="getInitials(chat.sender_name)" (error)="chatImageError($event)" alt="..." class="avatar-img rounded-circle">
+                                                            </div>
+                                                            <div *ngIf="!chat.file_url && !chat.is_session_updated" class="chat_desc_detail">
+                                                                <p  [ngClass]="{'applyJob': userId != chat.receiver_user_id}"[innerHtml]="chat.message">
+                                                                </p>
+                                                                
+                                                                <div class="date">{{changeTimeFormat(chat.message_time)}}</div>
+                                                                <div class="Name_text"> <i class="fas fa-envelope"></i> {{chat.sender_name}}</div>
+                                                            </div>
+                                                            <div *ngIf="chat.is_session_updated" class="chat_desc_detail " [ngClass]="{'applyJob': userId != chat.receiver_user_id}">
+                                                                <p [innerHTML]="sessionUpdate(chat.json_response, chat.message)"></p>
+                                                                    <!-- <p><strong>{{chat.message}}</strong></p>
+                                                                        <p><strong>Schedule Date:</strong>{{msgSechduleDate(chat.json_response)}} </p>
+                                                                        <p><strong>Previous start Time: </strong> ${moment(data.schedule_date + ' ' + data.previous_start_date,'dddd MM-DD-YYYY h:mm A').utc().tz(this.timezone).format('hh:mm A')}</p>
+                                                                        <p><strong>Previous end Time: </strong> ${moment.utc(moment(data.schedule_date + ' ' + data.previous_end_time,'dddd MM-DD-YYYY h:mm A').utc().format('hh:mm A'), 'hh:mm A').tz(this.timezone).format('hh:mm A')}</p>
+                                                                        <p><strong>Updated start Time: </strong> ${moment(data.schedule_date + ' ' +data.updated_start_time,'dddd MM-DD-YYYY h:mm A').utc().tz(this.timezone).format('hh:mm A')}</p>
+                                                                        <p><strong>Updated end Time: </strong> ${moment(data.updated_end_time,'h:mm A').utc().tz(this.timezone).format('hh:mm A')}</p>
+                                                                    <p> -->
+                                                               
+                                                               <!-- <div class="date">{{changeTimeFormat(chat.message_time)}}<span style="font-weight: 800;">Aman</span></div> -->
+                                                                   
+                                                               <div class="date">{{changeTimeFormat(chat.message_time)}}</div>
+                                                               <div class="Name_text"><i class="fas fa-envelope"></i> {{chat.sender_name}}</div>
+                                                           </div>
+                                                            <div *ngIf="chat.file_url" class="chat_desc_detail">
+                                                                <div class="chat_img">
+                                                                    <a (click)="downloadAttachment(chat,'chat-board-attachments')" target="_blank" style="cursor: pointer; text-decoration: none;">
+                                                                        <img *ngIf="chat.file_type == 'image/jpeg' || chat.file_type == 'image/png'" style="margin-top: 22px; height: 122px; width: 122px;border: 1px dotted;border-radius: 12px;" [src]="chat.file_url">
+                                                                        <img *ngIf="chat.file_type == 'application/pdf'" src="assets/img/ico-pdf.svg">
+                                                                        <img *ngIf="chat.file_type == 'application/msword'" src="assets/img/msword.jpeg">
+                                                                        <img *ngIf="chat.file_type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'" src="assets/img/ico-doc.svg" alt="docx">
+                                                                        <img *ngIf="chat.file_type == 'application/vnd.ms-excel'" alt="excel" src="assets/img/ico-excel.png">
+                                                                        <img *ngIf="chat.file_type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'" src="assets/img/ico-spreadsheet.png" alt="xls">
+                                                                        <img class="download_attachment" style="max-width: 18px;max-height: 15px;margin-top: 3em;" src="assets/img/download_blue.svg">
+                                                                        <div class="file_name">{{chat.filename || ''}}</div>
+                                                                    </a>
+                                                                </div>
+                                                                <p class="applyJob" [innerHtml]="chat.message"></p>
+                                                                <div class="date">{{changeTimeFormat(chat.message_time)}}</div>
+                                                                <div class="Name_text">{{chat.sender_name}}</div>
+                                                            </div>
+                                                        </div>
+                                                        <div *ngIf="chat.is_offer_sent == 1 && chat.sender_role == 'Student'" class="offer_detail tutors_offer ">
+                                                            
+                                                            <div class="offer_img">
+                                                                <img class="attach" src="assets/img/graphic.svg">
+                                                            </div>
+                                                            <div class="offer_content">
+                                                                <strong>Job Name</strong>
+                                                                <p>{{chat.job_title}}</p>
+                                                                <!-- <strong>Student Name</strong>
+                                                                <p>{{chat.sender_name}}</p> -->
+                                                                <strong *ngIf="sentOfferDetails?.job_type == 'one-time' || sentOfferDetails?.job_type == 'instant-tutoring'">Schedule Date</strong>
+                                                                <p *ngIf="sentOfferDetails?.job_type == 'one-time' || sentOfferDetails?.job_type == 'instant-tutoring'">{{scheduleFormat(sentOfferDetails?.scheduled_date,sentOfferDetails?.scheduled_time, chat?.timezone)}}</p>
+                                                                <strong *ngIf="sentOfferDetails?.job_type == 'recurring'">Start Date</strong>
+                                                                <p *ngIf="sentOfferDetails?.job_type == 'recurring'">{{scheduleFormat(sentOfferDetails?.start_date,sentOfferDetails?.time, chat?.timezone)}}</p>
+                                                                <strong *ngIf="sentOfferDetails?.job_type == 'recurring'">End Date</strong>
+                                                                <p *ngIf="sentOfferDetails?.job_type == 'recurring'">{{scheduleFormat(sentOfferDetails?.end_date,sentOfferDetails?.time, chat?.timezone)}}</p>
+                                                                <strong >Start time</strong>
+                                                                <p >{{scheduleTimeFormat(sentOfferDetails?.scheduled_time)}}</p>
+                                                                <!-- <p *ngIf="sentOfferDetails?.job_type == 'recurring'">{{offerTimeFormat(sentOfferDetails?.time)}}</p> -->
+                                                                <strong *ngIf="sentOfferDetails?.job_type == 'recurring' && sentOfferDetails?.recurring_type == 'Weekly'">Days</strong>
+                                                                <p *ngIf="sentOfferDetails?.job_type == 'recurring' && sentOfferDetails?.recurring_type == 'Weekly'"> {{sentOfferDetails?.day}}</p>
+                                                                <strong *ngIf="sentOfferDetails?.job_type == 'recurring' && sentOfferDetails?.recurring_type == 'Monthly'">Dates</strong>
+                                                                <p *ngIf="sentOfferDetails?.job_type == 'recurring' && sentOfferDetails?.recurring_type == 'Monthly'">{{sentOfferDetails?.date}}</p>
+                                                               
+                                                                <strong>Message</strong>
+                                                                <p>{{sentOfferDetails?.message}}</p>
+
+                                                            </div>
+                                                            <div class="offer_right_box">
+                                                                <strong>Job Price</strong>
+                                                                <p>${{sentOfferDetails?.accepted_price}} {{sentOfferDetails?.price_type}}</p>
+                                                                <strong>Sent Date</strong>
+                                                                <p>{{offerDateFormat(chat.message_sent_time, chat?.timezone)}}</p>
+                                                                <strong *ngIf="sentOfferDetails?.attachment_link && sentOfferDetails?.attachment_link != ''">Attachment</strong>
+                                                                <a (click)="downloadAttachment(chat,'job-offers-attachments')" style="cursor: pointer;">
+                                                                    <p *ngIf="sentOfferDetails?.attachment_link && sentOfferDetails?.attachment_link != ''">
+                                                                        <!-- <img class="attach" src="assets/img/download_small.svg"> Download.svg -->
+                                                                        <img class="attach" *ngIf="sentOfferDetails.file_type == 'image/jpeg'" src="assets/img/ico-jpg.svg">
+                                                                        <img class="attach" *ngIf="sentOfferDetails.file_type == 'image/png'" src="assets/img/ico-png.svg">
+                                                                        <img class="attach" *ngIf="sentOfferDetails.file_type == 'application/pdf'" src="assets/img/ico-pdf.svg">
+                                                                        <img class="attach" *ngIf="sentOfferDetails.file_type == 'application/msword'" src="assets/img/msword.jpeg">
+                                                                        <img class="attach" *ngIf="sentOfferDetails.file_type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'" src="assets/img/ico-doc.svg" alt="docx">
+                                                                        <img class="attach" *ngIf="sentOfferDetails.file_type == 'application/vnd.ms-excel'" alt="excel" src="assets/img/ico-excel.png">
+                                                                        <img class="attach" *ngIf="sentOfferDetails.file_type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'" src="assets/img/ico-spreadsheet.png" alt="xls">
+                                                                        <img class="download_attachment" style="max-width: 18px;max-height: 15px;margin-top: 3em;" src="assets/img/download_blue.svg">
+                                                                        <!--{{this.sentOfferDetails.attachment_name
+                                                                    || ''}}-->
+                                                                    </p>
+                                                                </a>
+                                                                <strong>Sender</strong>
+                                                            <p> {{chat.sender_name}}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div *ngIf="chat.is_offer_sent == 1 && chat.sender_role == 'Tutor' " class="offer_detail">
+                                                            <div class="offer_img">
+                                                                <img class="attach" src="assets/img/tutors.png">
+                                                                <!-- <div *ngIf="chat.updated_status == 'Pending'" class="offer_btnss">
+                                                                    <button class="btn btn-primary">&#x2714;</button>
+                                                                    <button class="btn btn-red">&#x2718;</button>
+                                                                </div> -->
+                                                                
+                                                            </div>
+                                                            <div class="offer_content">
+                                                                <span *ngIf="chat.updated_status " class="badge" [ngClass]="{'badge-success': chat.updated_status=='Accepted', 'badge-danger': chat.updated_status == 'Declined', 'badge-warning': chat.updated_status == 'Expired', 'badge-primary': chat.updated_status == 'Pending'}">{{chat.updated_status}}</span>
+                                                                
+                                                               
+                                                                <!--span class="badge badge-danger">Reject</span-->
+                                                                <strong>Job Name</strong>
+                                                                <p>{{chat.job_title}}</p>
+                                                                <!-- <p>{{stringify(sentOfferDetails)}}</p>
+                                                                <p>{{stringify(chat)}}</p> -->
+                                                                <!-- <strong>Tutor Name</strong>
+                                                                <p>{{chat.receiver_name}}</p> -->
+                                                                <strong *ngIf="chat.updated_schedule_date && chat.updated_schedule_date != '0000-00-00'">Schedule Date</strong>
+                                                                <p *ngIf="chat.updated_schedule_date && chat.updated_schedule_date != '0000-00-00'">{{scheduleFormat(chat?.updated_schedule_date,chat?.tutor_updated_time, chat?.timezone)}}</p>
+                                                                <strong *ngIf="chat.updated_end_date && chat.updated_end_date != '0000-00-00'">Start Date</strong>
+                                                                <p *ngIf="chat.updated_end_date && chat.updated_end_date != '0000-00-00'">{{scheduleFormat(chat?.updated_start_date,chat?.tutor_updated_time, chat?.timezone)}}</p>
+                                                                <strong *ngIf="chat.updated_end_date && chat.updated_end_date != '0000-00-00'">End Date</strong>
+                                                                <p *ngIf="chat.updated_end_date && chat.updated_end_date != '0000-00-00'">{{scheduleFormat(chat?.updated_end_date,chat?.tutor_updated_time, chat?.timezone)}}</p>
+                                                                <strong >Start time</strong>
+                                                                <p *ngIf="chat.tutor_updated_time && chat.tutor_updated_time != ''">{{scheduleTimeFormat(chat.tutor_updated_time )}}</p>
+                                                                <!-- <p *ngIf="!chat.updated_end_date || chat.updated_end_date == '0000-00-00'">{{offerTimeFormat(chat?.tutor_updated_time)}}</p> -->
+                                                                <strong *ngIf="chat.updated_day && chat.updated_day != ''">Days</strong>
+                                                                <p *ngIf="chat.updated_day && chat.updated_day != ''"> {{chat?.updated_day}}</p>
+                                                                <strong *ngIf="chat.updated_date && chat.updated_date != ''">Dates</strong>
+                                                                <p *ngIf="chat.updated_date && chat.updated_date != ''">{{chat?.updated_date}}</p>
+                                                                
+                                                                <strong>Message</strong>
+                                                                <p [innerHtml]="chat?.message"></p>
+
+                                                            </div>
+                                                            <div class="offer_right_box">
+                                                                <strong>Job Price</strong>
+                                                                <p>${{chat.updated_accepted_price}} {{chat.price_type}}</p>
+                                                                
+                                                                <strong>Sent Date</strong>
+                                                                <p>{{offerDateFormat(chat.message_sent_time, chat?.timezone)}}</p>
+                                                                <strong *ngIf="chat.updated_attachment && chat.updated_attachment != ''">  Attachment</strong>
+                                                                <!-- <a (click)="downloadAttachment(chat,'job-offers-attachments')" style="cursor: pointer;"> -->
+                                                                    <a (click)="downloadAttachment(chat,'tutor-edit-offer-attachments')" style="cursor: pointer;">
+                                                                    <p *ngIf="chat.updated_attachment && chat.updated_attachment != ''">
+                                                                        <!-- <img class="attach" src="assets/img/download_small.svg"> Download.svg -->
+                                                                        <img class="attach" *ngIf="chat.updated_file_type == 'image/jpeg'" src="assets/img/ico-jpg.svg">
+                                                                        <img class="attach" *ngIf="chat.updated_file_type == 'image/png'" src="assets/img/ico-png.svg">
+                                                                        <img class="attach" *ngIf="chat.updated_file_type == 'application/pdf'" src="assets/img/ico-pdf.svg">
+                                                                        <img class="attach" *ngIf="chat.updated_file_type == 'application/msword'" src="assets/img/msword.jpeg">
+                                                                        <img class="attach" *ngIf="chat.updated_file_type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'" src="assets/img/ico-doc.svg" alt="docx">
+                                                                        <img class="attach" *ngIf="chat.updated_file_type == 'application/vnd.ms-excel'" alt="excel" src="assets/img/ico-excel.png">
+                                                                        <img class="attach" *ngIf="chat.updated_file_type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'" src="assets/img/ico-spreadsheet.png" alt="xls">
+                                                                        <img class="download_attachment" style="max-width: 18px;max-height: 15px;margin-top: 3em;" src="assets/img/download_blue.svg">
+                                                                        <!--{{this.sentOfferDetails.attachment_name
+                                                                    || ''}}-->
+
+
+                                                                    </p>
+                                                                </a>
+                                                                <strong >Sender Name</strong>
+                                                            <p> {{chat.sender_name}}</p>
+                                                           
+                                                            </div>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="cancel-box" *ngIf="lastMessage.is_application_cancel == 1">You have withdrawn application, You cannot further reply to this conversation</div>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="aboutMenu" class="abt_sec">
+                                            <!--h3>About</h3-->
+                                            <div class="avatar">
+                                                <img *ngIf="!ChatDetails.tutor_profile_image" (error)="chatImageError($event)" src="assets/img/avatar_user2.jpg">
+                                                <img *ngIf="ChatDetails.tutor_profile_image" (error)="chatImageError($event)" [src]="ChatDetails.tutor_profile_image">
+                                            </div>
+                                            <h4>{{ChatDetails?.tutor_name || ''}}</h4>
+                                            <ul>
+
+                                                <!-- <li><strong>Experience Level</strong> <span>{{ChatDetails?.experience_level ? ChatDetails?.experience_level : ''}}</span></li> -->
+                                                <li><strong>Location </strong> <span>{{ChatDetails?.country}}</span> </li>
+                                                <!-- <li><strong>Rating </strong> <span><i class="fas fa-star"></i> {{ChatDetails?.rating}} <span>({{ChatDetailsTutor.rating_count}}  Reviews)</span></span>
+                                                </li> -->
+                                                <!-- <li><strong>Experience Level </strong> <span></span> </li> -->
+
+                                                <!-- <li class="bio"><strong>Bio </strong> <span>{{ChatDetailsTutor?.about_me}}</span> </li> -->
+                                            </ul>
+
+
+
+                                        </div>
+                                    </div>
+                                    <div *ngIf="uploadFile && !loader" class="text_box up_box">
+                                        <div class="col-12 d-flex justify-content-between">
+                                            <div class="file-up">
+                                                <span>{{uploadFile.name}}</span>
+                                                <span>{{uploadFile.size}}</span>
+                                            </div>
+                                            <div class="uploadBtn">
+                                                <button class="btn btn-red" type="button" (click)="removeUploadFile()">remove</button>
+                                                <button class="btn btn-primary" type="button" (click)="sendUploadFile()">Send</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="has-error" *ngIf="fileTypeError || sizeLimitError">
+                                        <span *ngIf="fileTypeError">Invalid file format,</span><span *ngIf="sizeLimitError">Support file having size less than 5 MB,</span> Please select another file
+                                    </div>
+                                    <div class="text_box" *ngIf="ChatDetails && ChatDetails.job_title != ''">
+                                        <label for="file-upload" (change)="onselectFile($event)" class="attachment" type="button">
+                                            <img class="attach" src="assets/img/images/attach.svg">
+                                            <input [(ngModel)]="uploadedFileObject" id="file-upload" type="file" accept=".pdf,image/png,image/jpeg,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>                                                                                
+                                        </label>
+                                        <textarea [disabled]="this.uploadFile" name="chat_message" [(ngModel)]="message" #chatMessage></textarea>
+                                        <button class="btn btn-primary" (click)="sendMessage()" [disabled]="checkInvalidMessage()">Send <img src="assets/img/images/send.svg"></button>
+                                    </div>
+                                    </div>
+                                    <div class="empty_message" [ngStyle]="{'display': messagesArray.length == 0 ? '':'none'}">
+                                        <img src="assets/img/chatting.png">
+                                        <h3>No Message available</h3>
+                                    </div>
+                                    
+                                </div>
+                                <div *ngIf="chatwithRoleType == 'admin'" class="col-md-9 col-sm-9 board_right">
+                                    <div class="board_top_header_outer" *ngIf="ChatDetailsAdmin">
+                                        <div class="board_top_header">
+                                            <div class="header_heading">
+                                                <h6>{{loginUserDetails?.message?.sender_details?.full_name}}</h6>
+                                                <!-- <span>{{ChatDetailsTutor?.job_title || ''}} <a *ngIf="sentOfferDetails" [routerLink]="['/viewOffer/view/'+sentOfferDetails?.offer_id]" target="_blank"><img src="assets/img/images/chain.svg" *ngIf="ChatDetailsTutor.job_title || ChatDetailsTutor.job_title != ''"></a></span> -->
+                                            </div>
+                                            <div class="left_auto">
+                                                <!-- <button *ngIf="!sentOfferDetails" class="btn gift_button btn-primary" (click)="onclickSendOffer()"><img src="assets/img/images/gift.svg">Send Offer</button>
+                                                <a *ngIf="sentOfferDetails" [routerLink]="['/viewOffer/view/'+sentOfferDetails?.offer_id]" class="btn gift_button btn-primary"><img src="assets/img/images/gift.svg">View Offer</a> -->
+                                                <!--a class="btn info_btn btn-primary" (click)="infoBtnClick()"><i class="fas fa-info-circle"></i> Info</a-->
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div *ngIf="ChatDetailsAdmin" class="outerDetail-chat-outer">
+                                        <div #scrollframe class="outerDetail-chat">
+                                            <div class="spinner-border spinner" role="status" *ngIf="loader">
+                                                <span class="sr-only" id="loading">Loading...</span>
+                                            </div>
+                                            <div *ngIf="!loader">
+                                                <div class="chat_detail" *ngFor="let message of messagesArray">
+                                                    <div class="new_day">{{offerTimeFormat(message.time)}}</div>
+                                                    <div #item class="chat_desc" *ngFor="let chat of message.messages">
+                                                        <div [ngClass]="checkAdminMessageType(chat)">
+                                                            <div class="avatar-sm">
+                                                                <img *ngIf="loginUserDetails?.message?.sender_details?.image_url" [src]="loginUserDetails?.message?.sender_details?.image_url" (error)="chatImageError($event)" alt="..." class="avatar-img rounded-circle">
+                                                                <img *ngIf="!loginUserDetails?.message?.sender_details?.image_url" [src]="getInitials(loginUserDetails?.message?.sender_details?.full_name)" (error)="chatImageError($event)" alt="..." class="avatar-img rounded-circle">
+                                                            </div>
+                                                            <div *ngIf="!chat.file_url" class="chat_desc_detail">
+                                                                <p>{{chat.message}}
+                                                                </p>
+                                                                <div class="date">{{changeTimeFormat(chat.message_time)}}</div>
+                                                                <!-- <div class="Name_text"> <i class="fas fa-envelope"></i> Aman Kaur</div> -->
+                                                            </div>
+                                                            <div *ngIf="chat.file_url" class="chat_desc_detail">
+                                                                <div class="chat_img">
+                                                                    <a (click)="downloadAttachment(chat,'chat-board-attachments')" target="_blank" style="cursor: pointer; text-decoration: none;">
+                                                                        <img *ngIf="chat.file_type == 'image/jpeg' || chat.file_type == 'image/png'" style="margin-top: 22px; height: 122px; width: 122px;border: 1px dotted;border-radius: 12px;" [src]="chat.file_url">
+                                                                        <img *ngIf="chat.file_type == 'application/pdf'" src="assets/img/ico-pdf.svg">
+                                                                        <img *ngIf="chat.file_type == 'application/msword'" src="assets/img/msword.jpeg">
+                                                                        <img *ngIf="chat.file_type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'" src="assets/img/ico-doc.svg" alt="docx">
+                                                                        <img *ngIf="chat.file_type == 'application/vnd.ms-excel'" alt="excel" src="assets/img/ico-excel.png">
+                                                                        <img *ngIf="chat.file_type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'" src="assets/img/ico-spreadsheet.png" alt="xls">
+                                                                        <div class="file_name">{{chat.filename || ''}}</div>
+                                                                    </a>
+                                                                </div>
+                                                                <p>{{chat.message}}</p>
+                                                                <div class="date">{{changeTimeFormat(chat.message_time)}}</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- <div *ngIf="aboutMenu && (ChatDetailsTutor.job_title || ChatDetailsTutor.job_title != '')" class="abt_sec"> -->
+                                        <div *ngIf="aboutMenu" class="abt_sec">
+                                            <!--h3>About</h3-->
+                                            <div class="avatar"><img src="assets/img/avatar_user2.jpg"></div>
+                                            <h4>Test</h4>
+                                            <ul>
+
+                                                <li><strong>Hourly Rate</strong> <span>$15</span></li>
+                                                <li><strong>Location </strong> <span>Pakistan</span> </li>
+                                            
+                                                <li><strong>Experience Level </strong> <span>Expert</span> </li>
+
+                                                <li class="bio"><strong>Bio </strong> <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text                                                </span>                                                    </li>
+                                            </ul>
+
+
+
+                                        </div>
+                                    </div>
+                                    <div *ngIf="uploadFile && !loader" class="text_box">
+                                        <div class="col-12 d-flex justify-content-between">
+                                            <div>
+                                                <span>{{uploadFile.name}}</span>
+                                                <span>{{uploadFile.size}}</span>
+                                            </div>
+                                            <div class="uploadBtn">
+                                                <button class="btn btn-red" type="button" (click)="removeUploadFile()">remove</button>
+                                                <button class="btn btn-primary" type="button" (click)="sendUploadfileByAdmin()">Send</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="has-error" *ngIf="fileTypeError || sizeLimitError">
+                                        <span *ngIf="fileTypeError">Invalid file format,</span><span *ngIf="sizeLimitError">Support file having size less than 5 MB,</span> Please select another file
+                                    </div>
+                                    <div class="text_box" *ngIf="(ChatDetailsTutor && ChatDetailsTutor.job_title != '') || ChatDetailsAdmin">
+                                        <label for="file-upload" (change)="onselectFile($event)" class="attachment" type="button">
+                                            <img class="attach" src="assets/img/images/attach.svg">
+                                            <input [(ngModel)]="uploadedFileObject" id="file-upload" type="file" accept=".pdf,image/png,image/jpeg,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>                                                                                
+                                        </label>
+                                        <textarea [disabled]="this.uploadFile" name="chat_message" [(ngModel)]="message" #chatMessage ></textarea>
+                                        <button class="btn btn-primary" (click)="sendMessageToAdmin()" [disabled]="checkInvalidMessage()">Send <img src="assets/img/images/send.svg"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+   <app-short-footer></app-short-footer>
+</div>
+
+
+<div class="quick-sidebar">
+    <a href="#" class="close-quick-sidebar">
+        <i class="flaticon-cross"></i>
+    </a>
+    <div class="quick-sidebar-wrapper">
+        <ul class="nav nav-tabs nav-line nav-color-secondary" role="tablist">
+            <li class="nav-item"> <a class="nav-link active show" data-toggle="tab" href="#messages" role="tab" aria-selected="true">Messages</a> </li>
+            <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#tasks" role="tab" aria-selected="false">Tasks</a> </li>
+            <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#settings" role="tab" aria-selected="false">Settings</a> </li>
+        </ul>
+        <div class="tab-content mt-3">
+            <div class="tab-chat tab-pane fade show active" id="messages" role="tabpanel">
+                <div class="messages-contact">
+                    <div class="quick-wrapper">
+                        <div class="quick-scroll scrollbar-outer">
+                            <div class="quick-content contact-content">
+                                <span class="category-title mt-0">Contacts</span>
+                                <div class="avatar-group">
+                                    <div class="avatar">
+                                        <img src="https://via.placeholder.com/50" alt="..." class="avatar-img rounded-circle border border-white">
+                                    </div>
+                                    <div class="avatar">
+                                        <img src="https://via.placeholder.com/50" alt="..." class="avatar-img rounded-circle border border-white">
+                                    </div>
+                                    <div class="avatar">
+                                        <img src="https://via.placeholder.com/50" alt="..." class="avatar-img rounded-circle border border-white">
+                                    </div>
+                                    <div class="avatar">
+                                        <img src="https://via.placeholder.com/50" alt="..." class="avatar-img rounded-circle border border-white">
+                                    </div>
+                                    <div class="avatar">
+                                        <span class="avatar-title rounded-circle border border-white">+</span>
+                                    </div>
+                                </div>
+                                <span class="category-title">Recent</span>
+                                <div class="contact-list contact-list-recent">
+                                    <div class="user">
+                                        <a href="#">
+                                            <div class="avatar avatar-online">
+                                                <img src="https://via.placeholder.com/50" alt="..." class="avatar-img rounded-circle border border-white">
+                                            </div>
+                                            <div class="user-data">
+                                                <span class="name">Jimmy Denis</span>
+                                                <span class="message">How are you ?</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="user">
+                                        <a href="#">
+                                            <div class="avatar avatar-offline">
+                                                <img src="https://via.placeholder.com/50" alt="..." class="avatar-img rounded-circle border border-white">
+                                            </div>
+                                            <div class="user-data">
+                                                <span class="name">Chad</span>
+                                                <span class="message">Ok, Thanks !</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="user">
+                                        <a href="#">
+                                            <div class="avatar avatar-offline">
+                                                <img src="https://via.placeholder.com/50" alt="..." class="avatar-img rounded-circle border border-white">
+                                            </div>
+                                            <div class="user-data">
+                                                <span class="name">John Doe</span>
+                                                <span class="message">Ready for the meeting today with...</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <span class="category-title">Other Contacts</span>
+                                <div class="contact-list">
+                                    <div class="user">
+                                        <a href="#">
+                                            <div class="avatar avatar-online">
+                                                <img src="https://via.placeholder.com/50" alt="..." class="avatar-img rounded-circle border border-white">
+                                            </div>
+                                            <div class="user-data2">
+                                                <span class="name">Jimmy Denis</span>
+                                                <span class="status">Online</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="user">
+                                        <a href="#">
+                                            <div class="avatar avatar-offline">
+                                                <img src="https://via.placeholder.com/50" alt="..." class="avatar-img rounded-circle border border-white">
+                                            </div>
+                                            <div class="user-data2">
+                                                <span class="name">Chad</span>
+                                                <span class="status">Active 2h ago</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="user">
+                                        <a href="#">
+                                            <div class="avatar avatar-away">
+                                                <img src="https://via.placeholder.com/50" alt="..." class="avatar-img rounded-circle border border-white">
+                                            </div>
+                                            <div class="user-data2">
+                                                <span class="name">Talha</span>
+                                                <span class="status">Away</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="messages-wrapper">
+                    <div class="messages-title">
+                        <div class="user">
+                            <div class="avatar avatar-offline float-right ml-2">
+                                <img src="https://via.placeholder.com/50" alt="..." class="avatar-img rounded-circle border border-white">
+                            </div>
+                            <span class="name">Chad</span>
+                            <span class="last-active">Active 2h ago</span>
+                        </div>
+                        <button class="return">
+                                <i class="flaticon-left-arrow-3"></i>
+                            </button>
+                    </div>
+                    <div class="messages-body messages-scroll scrollbar-outer">
+                        <div class="message-content-wrapper">
+                            <div class="message message-in">
+                                <div class="avatar avatar-sm">
+                                    <img src="https://via.placeholder.com/50" alt="..." class="avatar-img rounded-circle border border-white">
+                                </div>
+                                <div class="message-body">
+                                    <div class="message-content">
+                                        <div class="name">Chad</div>
+                                        <div class="content">Hello, Rian</div>
+                                    </div>
+                                    <div class="date">12.31</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="message-content-wrapper">
+                            <div class="message message-out">
+                                <div class="message-body">
+                                    <div class="message-content">
+                                        <div class="content">
+                                            Hello, Chad
+                                        </div>
+                                    </div>
+                                    <div class="message-content">
+                                        <div class="content">
+                                            What's up?
+                                        </div>
+                                    </div>
+                                    <div class="date">12.35</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="message-content-wrapper">
+                            <div class="message message-in">
+                                <div class="avatar avatar-sm">
+                                    <img src="https://via.placeholder.com/50" alt="..." class="avatar-img rounded-circle border border-white">
+                                </div>
+                                <div class="message-body">
+                                    <div class="message-content">
+                                        <div class="name">Chad</div>
+                                        <div class="content">
+                                            Thanks
+                                        </div>
+                                    </div>
+                                    <div class="message-content">
+                                        <div class="content">
+                                            When is the deadline of the project we are working on ?
+                                        </div>
+                                    </div>
+                                    <div class="date">13.00</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="message-content-wrapper">
+                            <div class="message message-out">
+                                <div class="message-body">
+                                    <div class="message-content">
+                                        <div class="content">
+                                            The deadline is about 2 months away
+                                        </div>
+                                    </div>
+                                    <div class="date">13.10</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="message-content-wrapper">
+                            <div class="message message-in">
+                                <div class="avatar avatar-sm">
+                                    <img src="https://via.placeholder.com/50" alt="..." class="avatar-img rounded-circle border border-white">
+                                </div>
+                                <div class="message-body">
+                                    <div class="message-content">
+                                        <div class="name">Chad</div>
+                                        <div class="content">
+                                            Ok, Thanks !
+                                        </div>
+                                    </div>
+                                    <div class="date">13.15</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="messages-form">
+                        <div class="messages-form-control">
+                            <input type="text" placeholder="Type here" class="form-control input-pill input-solid message-input">
+                        </div>
+                        <div class="messages-form-tool">
+                            <a href="#" class="attachment">
+                                <i class="flaticon-file"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="tasks" role="tabpanel">
+                <div class="quick-wrapper tasks-wrapper">
+                    <div class="tasks-scroll scrollbar-outer">
+                        <div class="tasks-content">
+                            <span class="category-title mt-0">Today</span>
+                            <ul class="tasks-list">
+                                <li>
+                                    <label class="custom-checkbox custom-control checkbox-secondary">
+                                            <input type="checkbox" checked="" class="custom-control-input"><span class="custom-control-label">Planning new project structure</span>
+                                            <span class="task-action">
+                                                <a href="#" class="link text-danger">
+                                                    <i class="flaticon-interface-5"></i>
+                                                </a>
+                                            </span>
+                                        </label>
+                                </li>
+                                <li>
+                                    <label class="custom-checkbox custom-control checkbox-secondary">
+                                            <input type="checkbox" class="custom-control-input"><span class="custom-control-label">Create the main structure							</span>
+                                            <span class="task-action">
+                                                <a href="#" class="link text-danger">
+                                                    <i class="flaticon-interface-5"></i>
+                                                </a>
+                                            </span>
+                                        </label>
+                                </li>
+                                <li>
+                                    <label class="custom-checkbox custom-control checkbox-secondary">
+                                            <input type="checkbox" class="custom-control-input"><span class="custom-control-label">Add new Post</span>
+                                            <span class="task-action">
+                                                <a href="#" class="link text-danger">
+                                                    <i class="flaticon-interface-5"></i>
+                                                </a>
+                                            </span>
+                                        </label>
+                                </li>
+                                <li>
+                                    <label class="custom-checkbox custom-control checkbox-secondary">
+                                            <input type="checkbox" class="custom-control-input"><span class="custom-control-label">Finalise the design proposal</span>
+                                            <span class="task-action">
+                                                <a href="#" class="link text-danger">
+                                                    <i class="flaticon-interface-5"></i>
+                                                </a>
+                                            </span>
+                                        </label>
+                                </li>
+                            </ul>
+
+                            <span class="category-title">Tomorrow</span>
+                            <ul class="tasks-list">
+                                <li>
+                                    <label class="custom-checkbox custom-control checkbox-secondary">
+                                            <input type="checkbox" class="custom-control-input"><span class="custom-control-label">Initialize the project							</span>
+                                            <span class="task-action">
+                                                <a href="#" class="link text-danger">
+                                                    <i class="flaticon-interface-5"></i>
+                                                </a>
+                                            </span>
+                                        </label>
+                                </li>
+                                <li>
+                                    <label class="custom-checkbox custom-control checkbox-secondary">
+                                            <input type="checkbox" class="custom-control-input"><span class="custom-control-label">Create the main structure							</span>
+                                            <span class="task-action">
+                                                <a href="#" class="link text-danger">
+                                                    <i class="flaticon-interface-5"></i>
+                                                </a>
+                                            </span>
+                                        </label>
+                                </li>
+                                <li>
+                                    <label class="custom-checkbox custom-control checkbox-secondary">
+                                            <input type="checkbox" class="custom-control-input"><span class="custom-control-label">Updates changes to GitHub							</span>
+                                            <span class="task-action">
+                                                <a href="#" class="link text-danger">
+                                                    <i class="flaticon-interface-5"></i>
+                                                </a>
+                                            </span>
+                                        </label>
+                                </li>
+                                <li>
+                                    <label class="custom-checkbox custom-control checkbox-secondary">
+                                            <input type="checkbox" class="custom-control-input"><span title="This task is too long to be displayed in a normal space!" class="custom-control-label">This task is too long to be displayed in a normal space!				</span>
+                                            <span class="task-action">
+                                                <a href="#" class="link text-danger">
+                                                    <i class="flaticon-interface-5"></i>
+                                                </a>
+                                            </span>
+                                        </label>
+                                </li>
+                            </ul>
+
+                            <div class="mt-3">
+                                <div class="btn btn-primary btn-rounded btn-sm">
+                                    <span class="btn-label">
+                                            <i class="fa fa-plus"></i>
+                                        </span> Add Task
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="settings" role="tabpanel">
+                <div class="quick-wrapper settings-wrapper">
+                    <div class="quick-scroll scrollbar-outer">
+                        <div class="quick-content settings-content">
+
+                            <span class="category-title mt-0">General Settings</span>
+                            <ul class="settings-list">
+                                <li>
+                                    <span class="item-label">Enable Notifications</span>
+                                    <div class="item-control">
+                                        <input type="checkbox" checked data-toggle="toggle" data-onstyle="primary" data-style="btn-round" data-size>
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="item-label">Signin with social media</span>
+                                    <div class="item-control">
+                                        <input type="checkbox" data-toggle="toggle" data-onstyle="primary" data-style="btn-round">
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="item-label">Backup storage</span>
+                                    <div class="item-control">
+                                        <input type="checkbox" data-toggle="toggle" data-onstyle="primary" data-style="btn-round">
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="item-label">SMS Alert</span>
+                                    <div class="item-control">
+                                        <input type="checkbox" checked data-toggle="toggle" data-onstyle="primary" data-style="btn-round">
+                                    </div>
+                                </li>
+                            </ul>
+
+                            <span class="category-title mt-0">Notifications</span>
+                            <ul class="settings-list">
+                                <li>
+                                    <span class="item-label">Email Notifications</span>
+                                    <div class="item-control">
+                                        <input type="checkbox" checked data-toggle="toggle" data-onstyle="primary" data-style="btn-round">
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="item-label">New Comments</span>
+                                    <div class="item-control">
+                                        <input type="checkbox" checked data-toggle="toggle" data-onstyle="primary" data-style="btn-round">
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="item-label">Chat Messages</span>
+                                    <div class="item-control">
+                                        <input type="checkbox" checked data-toggle="toggle" data-onstyle="primary" data-style="btn-round">
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="item-label">Project Updates</span>
+                                    <div class="item-control">
+                                        <input type="checkbox" data-toggle="toggle" data-onstyle="primary" data-style="btn-round">
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="item-label">New Tasks</span>
+                                    <div class="item-control">
+                                        <input type="checkbox" checked data-toggle="toggle" data-onstyle="primary" data-style="btn-round">
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

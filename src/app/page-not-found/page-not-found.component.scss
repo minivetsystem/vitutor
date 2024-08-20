@@ -1,0 +1,105 @@
+// @import '../../../assets/staticpages/main.scss';
+// @import '../../../assets/staticpages/pages/about';
+
+#ErrorPage {
+    padding: 100px 0;
+}
+#ErrorPage h1 {
+    font-size: 2rem;
+    font-weight: 300;
+    color: #111;
+    position: relative;
+    display: inline-block;
+}
+#ErrorPage h1 span.shadow {
+    height: 8px;
+    border-radius: 3px;
+    width: 56px;
+    position: absolute;
+    text-indent: -9999px;
+    overflow: hidden;
+    bottom: -16px;
+    background: -moz-radial-gradient(center, ellipse cover, rgba(0,0,0,0.26) 0%, rgba(0,0,0,0.26) 2%, rgba(0,0,0,0) 93%, rgba(0,0,0,0) 94%);
+    background: -webkit-radial-gradient(center, ellipse cover, rgba(0,0,0,0.26) 0%,rgba(0,0,0,0.26) 2%,rgba(0,0,0,0) 93%,rgba(0,0,0,0) 94%);
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.26) 0%,rgba(0,0,0,0.26) 2%,rgba(0,0,0,0) 93%,rgba(0,0,0,0) 94%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#42000000', endColorstr='#00000000',GradientType=1 );
+}
+#ErrorPage h1 span.shadow1 {
+    left: 0;
+    animation: bg1 5s infinite;
+    animation-name: bg1;
+}
+#ErrorPage h1 span.shadow2 {
+    left: 110px;
+    animation: bg2 5s infinite;
+    animation-name: bg2;
+}
+#ErrorPage h1 span.shadow1, #ErrorPage h1 span.shadow2 {
+    animation-duration: 1.3s;
+    animation-timing-function: cubic-bezier(0.66, 0.1, 0.32, 0.85);
+    animation-delay: 0s;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+    animation-fill-mode: none;
+    animation-play-state: running;
+}
+#ErrorPage h1 span.error {
+    font-size: 6rem;
+    display: inline-block;
+    font-weight: 700;
+    color: #fdc016;
+    animation: pulse 5s infinite;
+    animation-name: pulse;
+    animation-duration: 1.3s;
+    animation-timing-function: cubic-bezier(0.66, 0.1, 0.32, 0.85);
+    animation-delay: 0s;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+    animation-fill-mode: none;
+    animation-play-state: running;
+}
+@keyframes pulse {
+  0% {
+      transform: rotateZ(-10deg);
+      transition: all ease .2s;
+  }
+  100% {
+    transform: rotateZ(10deg);
+      transition: all ease .2s;
+  }
+}
+@keyframes bg1 {
+  0% {
+      opacity: .7;
+  }
+  100% {
+      opacity: 0;
+  }
+}
+@keyframes bg2 {
+  0% {
+      opacity: 0;
+  }
+  100% {
+      opacity: .7;
+  }
+}
+#ErrorPage .input-group .form-control {
+    background-color: #f4f4f4;
+    border-color: #eee;
+}
+#ErrorPage .input-group .input-group-text {
+    padding:0;
+    border:none;
+}
+
+#ErrorPage .input-group .input-group-text, 
+#ErrorPage .input-group .btn {
+    border-radius: 0 5px 5px 0;
+    height: 100%;
+}
+#ErrorPage .input-group .btn {
+    // border-radius: 0;
+    background-color: #fdc016;
+    color: #fff;
+}

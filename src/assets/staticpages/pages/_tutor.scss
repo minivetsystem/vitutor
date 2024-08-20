@@ -1,0 +1,110 @@
+.tutor_outer {
+
+  .already_acc {
+    .term_and_conditions {
+      font-size: 13px;
+      border-bottom: 1px solid #efefef;
+      padding-bottom: 9px;
+      margin-bottom: 10px;
+      text-shadow: 0px 0px 2px 2px rgba(255, 255, 255, 1);
+    }
+  }
+
+  .tutor_content {
+    h2 {
+      margin-bottom: 10px;
+    }
+  }
+
+  @media (max-width: $tablet-sm-width) {
+    margin-bottom: 100px;
+  }
+
+  .why_tutor {
+    max-width: 500px;
+
+    .why_inn {
+      .why_des {
+        h4 {
+          margin-bottom: 10px;
+        }
+      }
+
+      .why_ico {
+        img {
+          max-width: inherit;
+        }
+      }
+    }
+  }
+
+  .tutor_right {
+    @include box-shadow(10px 70px 73px rgba(0, 0, 0, 0.1));
+    padding: 40px 34px;
+    border-top: 10px solid $yellow;
+    position: relative;
+
+    .form_head {
+      h3 {
+        margin-bottom: 10px;
+      }
+    }
+
+    @media (max-width: $tablet-sm-width) {
+      padding: 20px;
+      margin-bottom: 40px;
+    }
+
+    &:before {
+      content: "";
+      position: absolute;
+      width: 50%;
+      height: 100px;
+      top: 93%;
+      background: #fff;
+      left: 0;
+      transform: skewY(20deg);
+      z-index: 1;
+    }
+
+    &:after {
+      content: "";
+      position: absolute;
+      width: 50%;
+      height: 100px;
+      top: 93%;
+      background: #fff;
+      right: 0;
+      transform: skewY(-20deg);
+      z-index: 1;
+    }
+
+    &>div {
+      position: relative;
+      z-index: 10;
+    }
+
+    form {
+      margin-bottom: 25px;
+      position: relative;
+      z-index: 10;
+
+      .form-group {
+        @media screen and (min-width: 992px) and (max-width: 1199px) {
+          input[type="checkbox"].css-checkbox+label.css-label {
+            line-height: 1.2;
+            margin-bottom: 15px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.already_acc {
+  p {
+    margin-bottom: -40px;
+    position: relative;
+    z-index: 9;
+  }
+}

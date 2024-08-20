@@ -1,0 +1,9 @@
+
+<app-header2></app-header2>
+<ng-container *ngIf="isTutor">
+    <app-sidebar1></app-sidebar1>
+</ng-container>
+<ng-container *ngIf="!isTutor">
+    <app-sidebar2></app-sidebar2>
+</ng-container>
+<router-outlet></router-outlet>

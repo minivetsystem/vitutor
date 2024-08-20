@@ -1,0 +1,36 @@
+.userName {
+    margin: 9px 0px 0px 45px;
+    font-size: 16px;
+    font-weight: 600;
+}
+.dot {
+    height: 25px;
+    width: 25px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  .view_applicants>.modal-dialog {
+    max-width: 70% !important;
+
+    @media screen and (max-width:767px)
+    {
+        max-width: 100% !important;
+    }
+}
+
+.expired{
+    background: darkgray !important;
+}
+
+.download_btns button {
+    margin: 0 !important;
+}
+.typeRe{
+    background-color: #5aa3d4;
+    border-radius: 6px;
+    color: white;
+    margin-top: 6px;
+    font-size: 14px;
+    padding: 0;
+}

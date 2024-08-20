@@ -1,0 +1,34 @@
+.app_editor {
+    display: inline-block;
+    width: 100%;
+    .fr-box {
+        &.fr-basic {
+            border-radius: $border-radius-base !important;
+            border: 1px solid $gray-dark;
+            .fr-element {
+                min-height: 265px;
+            }
+            .second-toolbar {
+                display: none;
+            }
+            .fr-toolbar {
+                border: none;           
+            }
+            .fr-wrapper {
+                border: none;
+                border-radius: 5px;            
+            }
+        }
+    }
+    @media screen and (max-width: 580px) {
+        .fr-box {
+            &.fr-basic {
+                .fr-toolbar {
+                    .fr-btn-grp {
+                        margin: 0;        
+                    }
+                }
+            }
+        }
+    }
+}

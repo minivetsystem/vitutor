@@ -1,0 +1,264 @@
+
+$assetspath : '/assets/';
+// background-image:url(#{$assetspath}/img/icon-sidebar.png);
+
+//=============== Typography 
+
+// font-family: 'Raleway', sans-serif;    | Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900
+// font-family: 'Poppins', sans-serif;    | Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900
+// font-family: 'Montserrat', sans-serif; | Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900
+
+
+
+$primary-font   : 'Raleway', sans-serif;
+$secondary-font : 'Poppins', sans-serif;
+
+$font-size-base:          14px;
+$font-size-large:         ceil(($font-size-base * 1.25)); // ~18px
+$font-size-small:         ceil(($font-size-base * 0.85)); // ~12px
+
+$font-size-h1:            floor(($font-size-base * 2.6)); // ~36px
+$font-size-h2:            floor(($font-size-base * 2.15)); // ~30px
+$font-size-h3:            ceil(($font-size-base * 1.7)); // ~24px
+$font-size-h4:            ceil(($font-size-base * 1.25)); // ~18px
+$font-size-h5:            $font-size-base;
+$font-size-h6:            ceil(($font-size-base * 0.85)); // ~12px
+
+//** Unit-less `line-height` for use in components like buttons.
+$line-height-base:        1.3; // 20/14
+//** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
+$line-height-computed:    floor(($font-size-base * $line-height-base)); // ~20px
+
+//** By default, this inherits from the `<body>`.
+$headings-font-family:    inherit;
+$headings-font-weight:    500;
+$headings-line-height:    1.1;
+$headings-color:          inherit;
+
+// Font Weight
+$font-weight-light     : 300;
+$font-weight-normal    : 400;
+$font-weight-medium    : 500;
+$font-weight-semi-bold : 600;
+$font-weight-bold      : 700;
+$font-weight-extrabold : 800;
+$font-weight-black     : 900;
+
+
+%nav-item-hover-before {
+    content: '';
+    height: 100%;
+    left: 0;
+    opacity: 1 !important;
+    position: absolute;
+    top: 0;
+    width: 3px;
+    z-index: 1;
+}
+
+
+//=============== Colors 
+
+$primary-color  : #ffcb1a;
+$secondary-color: #333333;
+
+$lines-color    : rgba(0,0,0,.27);
+
+$success-color  : #7cc576;
+$success2-color : #2BB930;
+$warning-color  : #FFAD46;
+$warning2-color : #FF9E27;
+$danger-color   : #ff3506;
+$danger2-color  : #EA4d56;
+
+//## Gray and brand colors for use across Bootstrap.
+
+// Redefined Gray colors for theme
+$gray-darker:            #a2a2a2;
+$gray-dark:              #cccccc;
+// $gray:                   #f1f4f7;
+$gray-light:             #eeeeee;
+$gray-lighter:           #edf1f2;
+
+// Brand color Variants
+
+// $amountOfLight: 10%;
+
+// $brand-primary-light:          lighten($brand-primary, $amountOfLight);
+
+// $brand-primary-dark:           darken($brand-primary, $amountOfLight);
+
+
+
+
+
+//=============== Scaffolding
+//
+//## Settings for some of the most global styles.
+
+//** Background color for `<body>`.
+$body-bg:               #ffffff;
+//** Global text color on `<body>`.
+$text-color:            #999999;
+
+//** Global textual link color.
+$link-color:            $secondary-color;
+//** Link hover color set via `darken()` function.
+$link-hover-color:      darken($link-color, 15%);
+//** Link hover decoration.
+$link-hover-decoration: underline;
+//** Common border radius.
+$border-radius-base  : 5px;
+$border-radius-large : 10px;
+$border-radius-small : 3px;
+
+
+
+
+
+//=============== Tables
+
+//## Customizes the `.table` component with basic values, each used across all table variations.
+
+//** Padding for `<th>`s and `<td>`s.
+$table-cell-padding:            8px;
+//** Padding for cells in `.table-condensed`.
+$table-condensed-cell-padding:  5px;
+
+//** Default background color used for all tables.
+$table-bg:                      transparent;
+//** Background color used for `.table-striped`.
+$table-bg-accent:               #fafbfc;
+//** Background color used for `.table-hover`.
+$table-bg-hover:                #fafbfc;
+$table-bg-active:               $table-bg-hover;
+
+//** Border color for table and cell borders.
+$table-border-color:            #eee;
+
+
+
+
+
+
+//=============== Buttons
+//
+//## For each of Bootstrap's buttons, define text, background and border color.
+
+$btn-height:                     50px;
+
+$btn-font-weight:                $font-weight-medium;
+
+$btn-default-color:              #333;
+$btn-default-bg:                 $primary-color;
+$btn-default-border:             darken($primary-color, 7%);
+
+$btn-primary-color:              $secondary-color;
+$btn-primary-bg:                 $primary-color;
+$btn-primary-border:             darken($btn-primary-bg, 1%);
+
+$btn-success-color:              #fff;
+$btn-success-bg:                 $success-color;
+$btn-success-border:             darken($btn-success-bg, 1%);
+
+// $btn-info-color:                 #fff;
+// $btn-info-bg:                    $brand-info;
+// $btn-info-border:                darken($btn-info-bg, 1%);
+
+$btn-warning-color:              #fff;
+$btn-warning-bg:                 $warning-color;
+$btn-warning-border:             darken($btn-warning-bg, 1%);
+
+$btn-danger-color:               #fff;
+$btn-danger-bg:                  $danger-color;
+$btn-danger-border:              darken($btn-danger-bg, 1%);
+
+$btn-link-disabled-color:        $gray-light;
+
+// Allows for customizing button radius independently from global border radius
+$btn-border-radius-base:         $border-radius-base !default;
+$btn-border-radius-large:        $border-radius-large !default;
+$btn-border-radius-small:        $border-radius-small !default;
+
+
+//-- Z-index master list
+//
+// Warning: Avoid customizing these values. They're used for a bird's eye view
+// of components dependent on the z-axis and are designed to all work together.
+//
+// Note: These variables are not generated into the Customizer.
+
+$zindex-navbar:            1000;
+$zindex-dropdown:          1000;
+$zindex-popover:           1060;
+$zindex-tooltip:           1070;
+$zindex-navbar-fixed:      1030;
+$zindex-modal-background:  1040;
+$zindex-modal:             1050;
+
+
+//== Media queries breakpoints
+//
+//## Define the breakpoints at which your layout will change, adapting to different screen sizes.
+
+// Extra small screen / phone
+//** Deprecated `$screen-xs` as of v3.0.1
+$screen-xs:                  480px;
+//** Deprecated `$screen-xs-min` as of v3.2.0
+$screen-xs-min:              $screen-xs;
+//** Deprecated `$screen-phone` as of v3.0.1
+$screen-phone:               $screen-xs-min;
+
+// Small screen / tablet
+//** Deprecated `$screen-sm` as of v3.0.1
+$screen-sm:                  768px;
+$screen-sm-min:              $screen-sm;
+//** Deprecated `$screen-tablet` as of v3.0.1
+$screen-tablet:              $screen-sm-min;
+
+// Medium screen / desktop
+//** Deprecated `$screen-md` as of v3.0.1
+$screen-md:                  992px;
+$screen-md-min:              $screen-md;
+//** Deprecated `$screen-desktop` as of v3.0.1
+$screen-desktop:             $screen-md-min;
+
+// Large screen / wide desktop
+//** Deprecated `$screen-lg` as of v3.0.1
+$screen-lg:                  1200px;
+$screen-lg-min:              $screen-lg;
+//** Deprecated `$screen-lg-desktop` as of v3.0.1
+$screen-lg-desktop:          $screen-lg-min;
+
+// So media queries don't overlap when required, provide a maximum
+$screen-xs-max:              ($screen-sm-min - 1);
+$screen-sm-max:              ($screen-md-min - 1);
+$screen-md-max:              ($screen-lg-min - 1);
+
+
+//== Badges
+//
+//##
+
+$badge-color:                 #fff;
+//** Linked badge text color on hover
+$badge-link-hover-color:      #fff;
+$badge-bg:                    $gray-light;
+
+//** Badge text color in active nav link
+$badge-active-color:          $link-color;
+//** Badge background color in active nav link
+$badge-active-bg:             #fff;
+
+$badge-font-weight:           bold;
+$badge-line-height:           1;
+$badge-border-radius:         10px;
+
+
+
+
+
+
+//=============== Forms
+
+$textarea-height: 210px;

@@ -1,0 +1,532 @@
+
+html,
+body {
+  scroll-behavior: smooth;
+  margin-top: 0px;
+}
+body {
+    font-family: 'Quicksand', sans-serif;
+    color: #181C2B;
+    font-size: 1rem;
+}
+@media (min-width: 1200px) {
+    body {
+        font-size: 1.15rem;
+    }
+}
+
+
+a {
+    color: #1492E6;
+}
+
+/*-- Element - Customzied --*/
+.btn {
+    border: 2px solid transparent;
+    font-weight: 600;
+}
+.btn-primary {
+    background-color: #FA5A5D;
+    box-shadow: 0px 8px 20px rgb(0 0 0 / 20%);
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+    background-color: #DC2E32;
+    box-shadow: 0px 8px 20px rgb(197 0 20 / 34%);
+    border-color: #DC2E32;
+}
+.btn-check:active+.btn-primary:focus, .btn-check:checked+.btn-primary:focus, .btn-primary.active:focus, .btn-primary:active:focus, .show>.btn-primary.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgb(197 0 20 / 34%);
+}
+.btn-gradient {
+    background: #2687dc;
+    background: -moz-linear-gradient(left,  #2687dc 0%, #3CC0FB 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left,  #2687dc 0%,#3CC0FB 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right,  #2687dc 0%,#3CC0FB 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2687dc', endColorstr='#3CC0FB',GradientType=1 ); /* IE6-9 */
+    padding: .375rem 1.3rem;
+    box-shadow: 0px 8px 20px rgb(0 0 0 / 20%);
+    color: #fff;
+    border: none;
+    position: relative;
+    background-clip: padding-box;
+}
+.btn-gradient:before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    z-index: -1;
+    margin: -2px; /* !importanté */
+    border-radius: inherit; /* !importanté */
+    background: #2687dc; /* Old browsers */
+    background: -moz-linear-gradient(left,  #2687dc 0%, #4ac7ff 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left,  #2687dc 0%,#4ac7ff 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right,  #2687dc 0%,#4ac7ff 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2687dc', endColorstr='#4ac7ff',GradientType=1 ); /* IE6-9 */
+}
+.btn-gradient:hover, .btn-gradient:focus, .btn-gradient:active {
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#2687dc+0,3cc0fb+100 */
+    background: #2687dc; /* Old browsers */
+    background: -moz-linear-gradient(left,  #0973CF 0%, #17A9EB 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left,  #0973CF 0%,#17A9EB 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right,  #0973CF 0%,#17A9EB 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0973CF', endColorstr='#17A9EB',GradientType=1 ); /* IE6-9 */
+    box-shadow: 0 6px 20px rgb(28 140 216 / 49%);
+    color: #fff;
+}
+.btn-rounded {
+    border-radius: 30px !important;
+}
+.btn-bordered {
+    border: solid 2px #181C2B;
+    background-color: transparent;
+}
+.btn-danger {
+    color: #fff;
+    background-color: #FA5A5D;
+    border-color: #FA5A5D;
+}
+
+.btn-danger:hover {
+    color: #fff;
+    background-color: #DC2E32;
+    border-color: #DC2E32;
+}
+.form-control {
+    border-radius: 25px !important;
+}
+.form-control-lg {
+    border-radius: 30px !important;
+    min-height: calc(2em + 1rem + 2px);
+    font-size: 1rem;
+    border-width: 2px;
+}
+.form-control-lg:focus {
+    box-shadow: 0 7px 20px rgba(15 53 97 / 10%);
+}
+button:focus {
+    outline: none !important;
+}
+.btn-check:focus+.btn, .btn:focus {
+    box-shadow: none;
+}
+.text-primary {
+    color: #1492E6; !important;
+}
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    margin-top: 0;
+    margin-bottom: .8rem;
+    line-height: 1.3;
+}
+@media (max-width: 1366px) {
+    .container {
+        max-width: 95%;
+    }
+}
+@media (max-width: 1200px) {
+    .container {
+        max-width: 100%;
+    }
+}
+@media (min-width: 1200px) {
+    .h2, h2 {
+        font-size: 2.4rem;
+    }
+}
+
+.userenter-container {
+    display: flex;
+    justify-content: space-between;
+    align-content: stretch;
+    height: 100vh;
+    background-color: #f3f8fe;
+    min-height: 770px;
+}
+.userenter-col-right {
+    flex: 0 0 40%;
+    max-width: 40%;
+    background-image: url(../images/userentry-bg.jpg);
+    background-repeat: no-repeat;
+    background-position: left top;
+    background-size: 100% auto;
+    background-color: #e7ecf2;
+}
+.userenter-inner-wrap {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    width: calc(100% - 25px);
+    margin: 0 auto;
+}
+.userenter-body {
+    position: relative;
+    z-index: 2;
+}
+.userenter-body h1 {
+    font-size: 2.5rem;
+    margin-top: 50px;
+}
+.userenter-body h1 span {
+    font-weight: bold;
+}
+.userenter-inner-wrap .brand-logo {
+    position: absolute;
+    top: 1rem;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    font-size: 2rem;
+}
+.userenter-inner-wrap .brand-logo a {
+    display: inline-block;
+    text-decoration: none;
+}
+.userenter-col-left{
+    flex: 0 0 60%;
+    max-width: 60%;
+    position: relative;
+}
+.tutor--signup_banner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+.tutor--signup_banner img {
+    height: 100%;
+    width: auto;
+    position: absolute;
+    right:0;
+    top: 0;
+}
+.signup-nav {
+    margin-bottom: 1.2rem;
+}
+.signup-nav .nav {
+    justify-content: center;
+    display: inline-flex;
+    border: solid 1px #ddd;
+    position: relative;
+    background-color: rgb(255 255 255 / 50%);
+}
+.signup--form {
+    max-width: 450px;
+    margin: 0 auto;
+    font-size: .9rem;
+}
+.signup--form p {
+    font-size: .95rem;
+    margin-bottom: 8px;
+}
+.social-entry_wrap {
+    margin-top: 20px;
+}
+.social-btns {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.social-btns .dvdr {
+    height: 30px;
+    width: 1px;
+    background-color: #000;
+    opacity: .3;
+    margin: 0 15px;
+}
+.signup-nav .nav-pills .nav-link {
+    display: block;
+    padding: .8rem 2.5rem;
+    min-width: 220px;
+    color: #686F74;
+    font-weight: bold;
+}
+.signup-nav .nav-pills .nav-link.active {
+    color: #fff;
+    background-color: #1492E6;
+}
+.view-password {
+    position: absolute;
+    right: 23px;
+    top: 13px;
+    z-index: 1;
+    opacity: .45;
+    transition: all ease .3s;
+}
+.view-password.active {
+    opacity: 1;
+}
+.view-password img {
+    width: 23px;
+}
+.signup--form .password-strenth {
+    margin-top: 8px;
+    font-size: .8rem;
+    color: #686F74;
+    text-align: left;
+}
+.signup--form .password-strenth .progress {
+    height: .5rem;
+    background-color: white;
+}
+.signupagree {
+    font-size: .8rem;
+    margin-top: 20px;
+}
+.haveaccount {
+    font-size: 1rem;
+    margin-top: 20px;    
+}
+.input-icn {
+    position: absolute;
+    left: 28px;
+    top: 12px;
+}
+.login_form .form-control {
+    padding-left: 60px;
+}
+.userenter__footer {
+    position: absolute;
+    bottom: 0;
+    background-image: url(../images/svg/login-ftr-bg.svg);
+    background-size: 100% auto;
+    background-position: bottom;
+    min-height: 261px;
+    z-index: 1;
+    left: 0;
+    background-repeat: no-repeat;
+    width: calc(100% + 25px);
+    margin-left: -13px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    padding: 0 0 20px 48px;
+    color: #fff;
+}
+.userenter__footer h3 {
+    font-size: 1.4rem;
+}
+.userenter__footer h3 span {
+    font-weight: bold;
+}
+.btn-register {
+    border-color: #fff;
+    color: #fff;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    margin-right: 20px;
+}
+.btn-register:hover {
+    background-color: #fff;
+    color: #181C2B;
+}
+.with--footer {
+    margin-bottom: 6rem;
+}
+.forgotpasswrd {
+    text-align: right;
+}
+
+
+@media (max-width: 1500px) {
+    .userenter-col-right {
+        flex: 0 0 45%;
+        max-width: 45%;
+    }
+    .userenter-col-left {
+        flex: 0 0 55%;
+        max-width: 55%;
+    }        
+    .signup-nav .nav-pills .nav-link {
+        padding: .8rem 2rem;
+        min-width: 200px;
+    }
+    .userenter__footer {
+        background-size: 120% auto;
+    }
+}
+@media (max-width: 1366px) {
+    .userenter__footer {
+        background-size: 107% auto; 
+        padding: 0 0 20px 17px;
+    }
+    .tutor--signup_banner img {
+        right: -26%;
+    }
+    .allcategries-bg {
+        width: 99%;
+    }
+    .tutor-card-col {
+        padding: 1.2rem;
+    } 
+    .signup-nav .nav-pills .nav-link {
+        padding: .8rem 2rem;
+        min-width: 180px;
+    }
+}
+@media (max-height: 771px) {
+    .userenter-container {
+        min-height: 770px;        
+    }
+    .userenter__footer {
+        background-position: center 35px;
+    }
+}
+@media (max-width: 1199px) {    
+    .userenter__footer {
+        background-size: 166% auto; 
+        padding: 0 0 20px 17px;
+        background-position: -62px 37px;
+    }    
+    .btn-register {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        margin-right: 10px;
+        font-size: .9rem;
+    }
+    .tutor--signup_banner img {
+        right: -50%;
+    }
+    .signup-nav .nav-pills .nav-link {
+        padding: 0.5rem 1.6rem;
+        min-width: 152px;
+    }
+    .haveaccount {
+        margin-top: 8px;
+    }
+    .signupagree {
+        font-size: .7rem;
+        margin-top: 10px;
+    }
+    .signup--form .g-3 {
+        --bs-gutter-y: .7rem;
+        --bs-gutter-x: .3rem;
+    }
+    .userenter-inner-wrap .brand-logo {
+        top: 1rem;
+    }    
+    .signup--form {
+        max-width: 400px;
+        margin: 0 auto;
+    }  
+    .userenter__footer h3 {
+        font-size: 1.2rem;
+    }
+}
+@media only screen and (max-width: 1200px) and (orientation: landscape) {
+  .userenter__footer {
+        background-size: 156% auto;
+        padding: 0 0 20px 17px;
+        background-position: -43px 44px;
+    }
+}
+@media only screen and (max-width: 1200px) and (orientation: portrait) {
+  .userenter__footer {
+        background-size: 150% auto;
+        padding: 0 0 20px 84px;
+        background-position: -36px 34px;
+    }
+}
+@media (max-width: 991px) {  
+    .haveaccount {
+        margin-top: 15px;
+    }
+    .btn-group-lg>.btn, .btn-lg {
+        padding: .4rem 1rem;
+        font-size: 1rem;
+    }
+    .subscribe-wrap {
+        margin-top: 0;    
+    }
+    .site-header .navbar-light .navbar-toggler:focus {
+        outline: none;
+        box-shadow: none;
+    }
+    .userenter__footer {
+        /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#2687dc+0,3cc0fb+100 */
+        background: #2687dc; /* Old browsers */
+        background: -moz-linear-gradient(left,  #2687dc 0%, #3CC0FB 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(left,  #2687dc 0%,#3CC0FB 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to right,  #2687dc 0%,#3CC0FB 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2687dc', endColorstr='#3CC0FB',GradientType=1 ); /* IE6-9 */
+        min-height: 138px;
+        align-items: center;
+        padding-left: 0;
+    }
+    .userenter__footer .d-flex {
+        justify-content: center;
+    }
+    .signup--form .form-control-lg {
+        min-height: calc(1.5em + 1rem + 2px);
+        font-size: .9rem;
+    }    
+    .input-icn {
+        left: 21px;
+        top: 11px;
+        width: .89rem;
+    }
+    .view-password {
+        right: 15px;
+        top: 9px;
+    }
+    .userenter-container {
+        height: 100%;    
+    }  
+    .userenter-col-right {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    .userenter-col-left {
+        display: none;
+    }
+    html, body {
+        height: 100%;
+    }
+}
+@media (max-width: 767px) {
+    .userenter-col-left {
+        display: none;
+    }
+    .userenter-col-right {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    .htw-tutor-col {
+        padding-right: 0;
+        /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#2687dc+0,3cc0fb+100 */
+        background: #2687dc; /* Old browsers */
+        background: -moz-linear-gradient(left,  #2687dc 0%, #3CC0FB 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(left,  #2687dc 0%,#3CC0FB 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to right,  #2687dc 0%,#3CC0FB 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2687dc', endColorstr='#3CC0FB',GradientType=1 ); /* IE6-9 */
+        padding-top: 31px;
+        padding-bottom: 33px;
+        margin-bottom: 30px;
+        border-radius: 20px 20px 0 0;
+    }
+    .getstarted-section, .contactus-section {
+        text-align: center;    
+    }
+    .getstarted-section h3, .contactus-section h3 {
+        margin-bottom: 22px;
+        font-size: 1.2rem;
+    }
+    .tutor-card-col:nth-child(2), .tutor-card-col:nth-child(5), .tutor-card-col:nth-child(7) {
+        transform: translateY(0);
+    }
+    .tutor-card-col:nth-child(3), .tutor-card-col:nth-child(6) {
+        transform: translateY(0);
+    }
+    .explore-btn {
+        margin-top: 30px;
+    }
+}
+

@@ -1,0 +1,312 @@
+<div class="main-panel" [ngClass]="{'side-menu': menuToggle == 1}">
+<div class="container">
+    <div class="panel-header bg-primary-gradient">
+        <div class="page-inner py-5">
+            <app-profile-complete userRole="TUTOR" [profileStatusResponse]="result" *ngIf="!result.result.profile_completed"></app-profile-complete>
+
+            <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+                <div>
+                    <h2 class="pb-2 fw-bold panel-header-heading">Manage Profile</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-inner mt--5">
+        <div class="row mt--2">
+            <div class="col-md-12">
+                <div class="card full-height">
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-auto profile_box">
+                                <div *ngIf="showImage" class="profile_box_inner">
+                                    <img  [src]="imageUrl" (error)="profilePictureError($event)">
+                                </div>
+                                <div *ngIf="!showImage" class="profile_box_inner">
+                                    <img src="../../../assets/img/user.png">
+                                </div>	
+
+                                <span>Change profile picture <br>
+                                    <input type="file" #file accept="image/jpeg, image/jpg"  (change)="imageUpload($event)" (error)="file.src = '../../../assets/img/user.png'" style="display:none">
+                                    <button class="btn btn-primary" (click)="file.click()"><img src="../../../assets/img/camera.svg">  Browse Image</button>
+                                </span>
+                               
+                            </div>
+                            <div class="col	 form_box">
+                                <h4 class="card-heading">Basic information</h4>
+                                <form  *ngIf="userDetails" class="form-group form-show-validation row" [formGroup]="basicInformation" (ngSubmit)="onSubmit()" autocomplete="off" ngxScrollToFirstInvalid>
+
+                                <div class="col-lg-4 col-md-4 col-sm-6 wk_form">
+                                    <label for="name" >First Name <span class="required-label">*</span></label>
+                                    <input maxlength="30" type="text" formControlName="first_name" class="form-control" placeholder="First Name">
+                                    <div *ngIf="(submitted || renderErrors.first_name.dirty) && renderErrors.first_name.errors">
+                                        <div class="has-error" *ngIf="renderErrors.first_name.errors.required">First name required
+                                        </div>
+                                        <div class="has-error" *ngIf="renderErrors.first_name.errors.maxlength">
+                                            First name can be 50 characters long</div>
+                                    </div>
+
+                                    
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 wk_form">
+                                    <label for="name" >Last Name <span class="required-label">*</span></label>
+                                    <input maxlength="30" type="text" formControlName="last_name" class="form-control" placeholder="Last Name">
+                                    <div *ngIf="(submitted || renderErrors.last_name.dirty) && renderErrors.last_name.errors">
+                                        <div class="has-error" *ngIf="renderErrors.last_name.errors.required">Last name required
+                                        </div>
+                                        <div class="has-error" *ngIf="renderErrors.last_name.errors.maxlength">Last name can be 50 characters long</div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 wk_form">
+                                    <label for="name" >Email Address <span class="required-label">*</span></label>
+                                    <input maxlength="100" type="text" formControlName="email" class="form-control" placeholder="abc@example.com" readonly >
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 wk_form">
+                                    <label>Gender <span class="required-label">*</span></label>
+
+                                    <div class="custom_checkboxs">
+                                        <label class="checkbox_btn">Male <input type="radio" value="Male"  formControlName="gender"><span class="checkmark"></span></label> 
+                                        <label class="checkbox_btn">Female <input type="radio" value="Female"  formControlName="gender"><span class="checkmark"></span></label>
+                                    </div>
+                                    
+                                    <!--select formControlName="gender" class="form-control" [(ngModel)]="userDetails.gender"  required >
+                                        <option value="">Select Gender</option>
+                                            <option *ngFor="let item of people" value="{{item}}">{{item}}</option> 
+                                            
+                                    </select-->
+
+                                    
+                                    <div *ngIf="(submitted || renderErrors.gender.dirty) && renderErrors.gender.errors">
+                                        <div class="has-error" *ngIf="renderErrors.gender.errors.required">Gender is required
+                                        </div>
+                                    </div>
+                                </div>
+                              
+                                <div class="col-lg-4 col-md-4 col-sm-6 wk_form">
+                                    <label for="name" >Phone No <span class="required-label">*</span></label>
+                                    <!-- <country-picker [flag]="true"></country-picker> -->
+                                    <!-- <input class="form-control" placeholder="Phone number"  type="text"   formControlName="phone" name="phone"/> -->
+                                    <!-- <ngx-intl-tel-input [cssClass]="'custom'"
+                                    [preferredCountries]="preferredCountries"
+                                    [enableAutoCountrySelect]="true"
+                                    [enablePlaceholder]="true"
+                                    [searchCountryFlag]="true"
+                                    [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+                                    [selectFirstCountry]="false"
+                                    [selectedCountryISO]="CountryISO.India"
+                                    [maxLength]="15"
+                                    [tooltipField]="TooltipLabel.Name"
+                                    [phoneValidation]="true"
+                                    [separateDialCode]="separateDialCode"
+                                    name="phone"
+                                    formControlName="phone">
+                                </ngx-intl-tel-input> -->
+                                <!-- <input type="text"
+                                    ng2TelInput
+                                    (hasError)="hasError($event)"
+                                    (ng2TelOutput)="getNumber($event)"
+                                    (intlTelInputObject)="telInputObject($event)"
+                                    (countryChange)="onCountryChange($event)" 
+                                    [ng2TelInputOptions]="{initialCountry: 'in', utilsScript: 'node_modules/intl-tel-input/build/js/utils.js'}"/> -->
+                                    <!-- <input type="text" class="form-control" ng2TelInput formControlName="phone" [(value)]="phone_number_standard" (intlTelInputObject)="telInputObject($event)" [ng2TelInputOptions]="telOptions" (ng2TelOutput)="getNumber($event)" (countryChange)="onCountryChange($event)"/> -->
+                                    <!-- <input type="text" list="country"> -->
+                                    <!-- <datalist id="country">
+                                        <option *ngFor="let country of countryListing" [value]="country.short_name">{{country.country}}</option>
+                                    </datalist> -->
+                                    <!-- <select>
+                                        <option *ngFor="let country of countryListing" data-image="assets/countryFlags/svg/{{coutry.short_name}}.svg" [value]="country.short_name" >{{country.country}}</option>
+                                    </select> -->
+                                    <!-- <intl-input-phone></intl-input-phone> -->
+                                    <input type="text" class="form-control" ng2TelInput (change)="test()" name="phone" formControlName="phone" (ng2TelOutput)="getNumber($event)" (hasError)="hasError($event)" (intlTelInputObject)="telInputObject($event)">
+
+                                <div *ngIf="(submitted || renderErrors.phone.dirty) && renderErrors.phone.errors">
+                                    <div class="has-error" *ngIf="renderErrors.phone.errors.required">Phone is required
+                                    </div>
+                                    <div class="has-error" *ngIf="renderErrors.phone.errors.maxlength">Phone number can be 15 characters long
+                                    </div>
+                                    
+                                </div>
+                                <div *ngIf="(renderErrors.phone.touched || renderErrors.phone.dirty) && validPhoneNumber ">
+                                    <div class="has-error" *ngIf="validPhoneNumber">Please enter valid phone number</div>
+                                </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 wk_form">
+                                    <label for="name" >Date Of Birth  <span class="required-label">*</span></label>
+                                    <div class="input-group">
+                                            <input type="date" class="form-control success"  formControlName="dob"  [max]="getToday()" required="" aria-invalid="false">
+                                        <div *ngIf="(submitted || renderErrors.dob.dirty) && renderErrors.dob.errors">
+                                            <div class="has-error" *ngIf="renderErrors.dob.errors.required">Date is required
+                                            </div>
+                                        </div>
+                                        <div style="width:100%;" *ngIf="(submitted || renderErrors.dob.dirty) && renderErrors.dob.errors">
+                                            <div class="has-error" *ngIf="renderErrors.dob.errors.minimum_age">Tutor must be 18 years or older
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6 col-md-6 col-sm-6 wk_form">
+                                    <label for="name" >Address Line 1  <span class="required-label">*</span></label>
+                                    <div class="location_input">
+                                        <input type="text" class="form-control"  formControlName="address1" placeholder="Enter Location">
+                                        <div *ngIf="(submitted || renderErrors.address1.dirty) && renderErrors.address1.errors">
+                                            <div class="has-error" *ngIf="renderErrors.address1.errors.required">
+                                                Address Line 1 is required</div>
+                                        </div>
+                                    </div>
+                                </div> 
+                                <div class="col-lg-6 col-md-6 col-sm-6 wk_form">
+                                    <label for="name" >Address Line 2  </label>
+                                    <input type="text" formControlName="address2" class="form-control" placeholder="Address Line 2">
+                                    <div *ngIf="(submitted || renderErrors.address2.dirty) && renderErrors.address2.errors">
+                                        <div class="has-error" *ngIf="renderErrors.address2.errors.required">Address Line 2 is required
+                                        </div>
+                                    </div>                                
+                                </div>
+
+                                <div class="col-lg-6 col-md-6 col-sm-6 wk_form">
+                                    <label class="input-label">Country <span style="color: red;">*</span></label>
+                                    <div class="select2-input">
+                                        <select formControlName="country" #country class="form-control"  required (change)="getStatesList(country.value)">
+                                            <option value="">Select Country</option>
+                                                <option *ngFor="let country of countriesList" [value]="country.id">{{country.name}}</option> 
+                                                
+                                        </select>
+                                    </div>
+                                    
+                                    <!-- <ng-select formControlName="country" class="app_select form-control" [items]="countriesArray" bindLabel="name" bindValue="id" placeholder="Select Country" [(ngModel)]="selected_country" (change)="onChangeCountry($event,true)">
+                                    </ng-select> -->
+                                    <div *ngIf="(submitted || renderErrors.country.dirty) && renderErrors.country.errors">
+                                        <div class="has-error" *ngIf="renderErrors.country.errors.required">Country is required
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6 col-md-6 col-sm-6 wk_form">
+                                    <label class="input-label">State <span style="color: red;">*</span></label>
+                                    <div class="select2-input">
+                                        <select formControlName="state" #state class="form-control" required (change)="getCitiesList(state.value)">
+                                            <option value="">Select State</option>
+                                            <option *ngFor="let state of statesList" [value]="state.id">{{state.name}}</option> 
+                                        </select>
+                                    </div>
+                                        <!-- <ng-select class="app_select form-control" formControlName="state" [items]="statesArr" bindLabel="name" bindValue="id" [(ngModel)]="selected_state" placeholder="Select state" (change)="onChangeState('none',true)">
+                                        </ng-select> -->
+                                        <div *ngIf="(submitted || renderErrors.state.dirty) && renderErrors.state.errors">
+                                            <div class="has-error" *ngIf="renderErrors.state.errors.required">State is required
+                                            </div>
+                                        </div>
+                                </div>
+                               
+                                <div class="col-lg-6 col-md-6 col-sm-6 wk_form">
+                                    <label class="input-label">City <span style="color: red;">*</span></label>
+                                    <div class="select2-input">
+                                        <select formControlName="city" class="form-control" required >
+                                            <option value="">Select City</option>
+                                            <option *ngFor="let city of citiesList" [ngValue]="city.id">{{city.name}}</option> 
+                                        </select>
+                                    </div>
+                                        <!-- <ng-select class="app_select form-control" [(ngModel)]="selected_city" formControlName="city" [items]="citiesArr" bindLabel="name" bindValue="id" placeholder="Select city">
+                                        </ng-select> -->
+                                        <div *ngIf="(submitted || renderErrors.city.dirty) && renderErrors.city.errors">
+                                            <div class="has-error" *ngIf="renderErrors.city.errors.required">City is required
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 wk_form">
+                                    <label for="name" >Postal / Zip Code <span class="required-label">*</span></label>
+                                    <input type="text"  maxlength="6"  formControlName="zip_code" class="form-control" placeholder="Enter your postal code" autocomplete="off">
+                                        <div *ngIf="(submitted || renderErrors.zip_code.dirty) && renderErrors.zip_code.errors">
+                                            <div class="has-error" *ngIf="renderErrors.zip_code.errors.required">Zip code is required
+                                            </div>
+                                            <div class="has-error" *ngIf="!renderErrors.zip_code.errors.pattern && renderErrors.zip_code.errors.minlength">
+                                                ZIP code minimum 4 characters long.</div>
+                                            <div class="has-error" *ngIf="renderErrors.zip_code.errors.pattern">Please enter valid ZIP code</div>
+                                        </div>
+                                </div>
+                                <!-- <div class="col-lg-12 col-md-12 col-sm-12 ">
+                                    <label for="name" >Student Level<span class="required-label">*</span></label>
+                                   
+                                    <ng-select [multiple]="true" formControlName="student_level" (change)="onChange($event)" (remove)="onRemove($event)">
+                                        <ng-option *ngFor="let level of studentLevelArray" [value]="level.name" >{{level.name}}</ng-option>
+                                    </ng-select>
+                                        <div *ngIf="(submitted || renderErrors.student_level.dirty) && renderErrors.student_level.errors">
+                                            <div class="has-error" *ngIf="renderErrors.student_level.errors.required">Student Level is required
+                                            </div>
+                                        </div>
+                                </div> -->
+                                <div class="col-lg-12 col-md-12 col-sm-12 wk_form">
+                                    <label for="name" >Profile Title <span class="required-label">*</span></label>
+                        
+                                    <input type="text" class="form-control" name="tag_line" formControlName="tag_line" placeholder="Please enter Profile Title">
+
+                                <div *ngIf="(submitted || renderErrors.tag_line.dirty) && renderErrors.tag_line.errors">
+                                    <div class="has-error" *ngIf="renderErrors.tag_line.errors.required">Profile Title is required
+                                    </div>
+                                    <div class="has-error" *ngIf="renderErrors.tag_line.errors.maxlength">Profile Title can be 60 characters long
+                                    </div>
+                                </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 wk_form">
+                                    <label for="name" class="bold" ><b>Bio</b> (Introduction) <span class="required-label">*</span></label>
+                                    <textarea  formControlName="about_me" (blur)="trimAboutMe()" placeholder="Type something about you here" class="form-control"></textarea>
+                                        <div *ngIf="(submitted || renderErrors.about_me.dirty) && renderErrors.about_me.errors">
+                                            <div class="has-error" *ngIf="renderErrors.about_me.errors.required">About me is required.
+                                            </div>
+                                            <div class="has-error" *ngIf="renderErrors.about_me.errors.minlength">
+                                                minimum of {{ 100 -userDetails.about_me.length}} characters required.
+                                            </div>
+                                        </div>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12 col-sm-12 wk_form">
+                                    <label for="name" class="bold" ><b>Profile Overview Video</b> </label>
+                                    <span><img src="../../../assets/img/info.svg"> Note : Adding Profile Overview video is highly recommended. Keep the video short yet informative</span>
+                                </div>
+
+                                <div class="col-lg-6 col-md-6 col-sm-6 wk_form">
+                                    <div *ngIf="!showVideo">
+                                        <div  class="add_video">
+                                            <div>
+                                                <img src="../../../assets/img/add_video.svg">
+                                                <span>Preview</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="showVideo">
+                                        <div class="add_video video_added">
+                                            <div>
+                                                <!-- <video width="100%" autoplay controls>
+                                                    <source [src]="showVideo" type="video/mp4">
+                                                    <source [src]="showVideo" type="video/ogg">
+                                                  </video> -->
+                                            <!-- <video [src] ="showVideo"></video>
+                                                <video controls="controls" name="Video Name" src="{{showVideo}}&html5=true"></video> -->
+                                                <iframe [src]="showVideo" style="width:100%" allowfullscreen></iframe>
+                                                                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 wk_form link_url">
+                                    <label for="name" >Paste your video URL here</label>
+                                    <img src="../../../assets/img/www.svg">
+                                    <input #overview_video_link (blur)="courseVideoLink(overview_video_link.value)" type="text" formControlName="overview_video_link" class="form-control">
+                                    <div *ngIf="((submitted || renderErrors.overview_video_link.dirty) && renderErrors.overview_video_link.errors)">
+                                        <div class="has-error" *ngIf="renderErrors.overview_video_link.errors.pattern">
+                                            Enter Correct Url
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12"><button class="btn btn-primary">Update Info</button></div>
+                            </form>
+                        </div>
+                    </div>            
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<app-short-footer></app-short-footer>
+
+</div>

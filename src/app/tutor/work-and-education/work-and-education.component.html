@@ -1,0 +1,341 @@
+<div class="main-panel" [ngClass]="{'side-menu': menuToggle == 1}">
+    <div class="container">
+        <div class="panel-header bg-primary-gradient">
+            <div class="page-inner py-5">
+            <app-profile-complete userRole="TUTOR" [profileStatusResponse]="result" *ngIf="!result.result.profile_completed"></app-profile-complete>
+
+                <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+                    <div>
+                        <h2 class="pb-2 fw-bold panel-header-heading">Work and Education </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-inner mt--5">
+            <div class="row mt--2">
+                <div class="col-md-12">
+                    <div class="card full-height">
+                        <div class="card-body">
+                          <div class="row">
+
+                            <h4 class="card-heading" *ngIf="educationArray.length">Your Education </h4>
+                            <div class="table-responsive" *ngIf="educationArray.length">
+                                <table class="table your_education">
+                                    <tbody>
+                                        <ng-template ngFor let-education [ngForOf]="educationArray"
+                                                    let-i="index">
+                                            <tr>
+                                                <td>
+                                                    <label>Institute Name</label>
+                                                    <span>{{education.institute_name}}</span>
+                                                </td>
+                                              
+                                                <td>
+                                                    <label>Year Completed</label>
+                                                    <span>{{!education.session_end ? 'Present' : education.session_end}}</span>
+                                                </td>
+                                                <td style="width: 30px;">
+                                                    <button class="remove-btn cross_icon"
+                                                        [swal]="deleteQualification"><img src="../../../assets/img/images/close_circle.svg"> <span
+                                                            class="icon-dlt"></span></button>
+                                                    <swal #deleteQualification title="Delete?"
+                                                        text="Are you sure to delete {{education.major_subject }}"
+                                                        type="error"
+                                                        [options]="{ customClass : swalErrorOption,confirmButtonText: 'Confirm' , confirmButtonClass : 'btn btn-warning mr-2',cancelButtonClass : 'btn btn-danger' }"
+                                                        [showCancelButton]="true" [focusCancel]="true"
+                                                        (confirm)="removeRecord('education',i)">
+                                                    </swal>  
+                                                </td>
+                                            </tr>
+                                        </ng-template>           
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                            <div class="col-md-12 col-sm-12	form_box">
+                                <div *ngIf="educationFormToggle">
+                                <h4 class="card-heading">Schools Attended</h4>
+                                <form class="form-group form-show-validation row" [formGroup]="addEducationForm"
+                                (ngSubmit)="submitEducationForm()" ngxScrollToFirstInvalid>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 wk_form">
+                                        <label >Institute Name <span
+                                            style="color: red;">*</span></label>
+                                        <input maxlength="50" type="text"
+                                        formControlName="institute_name" class="form-control" id=""
+                                        placeholder="Enter School Name">
+                                    <div *ngIf="educationSubmit && educationFormErros.institute_name.errors">
+                                        <div class="has-error" *ngIf="educationFormErros.institute_name.errors.required">
+                                            Institute Name is required</div>
+                                    </div>
+                                    </div>
+                                     
+                                        <div class="col-lg-2 col-md-3 col-sm-4 wk_form years">
+                                            <label class="input-label">Year Completed <span
+                                                style="color: red;">*</span></label>
+                                                <select formControlName="session_end" class="form-control"   name="select-year" required >
+                                                    <option  value="null" >Select Year</option>
+                                                    <option *ngFor="let year of endEducationalYears" value="{{year}}">{{year}}</option> 
+                                                </select>
+                                           
+                                        <div *ngIf="educationSubmit && educationFormErros.session_end.errors">
+                                            <div class="has-error"
+                                                *ngIf="educationFormErros.session_end.errors.required">
+                                                Year is required
+                                            </div>
+                                        </div>
+                                                                                 
+                                    </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-4 wk_form wk_form_btn">                
+                                        <button type="submit" class="btn btn_bordered">Save</button>
+                                    </div>
+
+                                    <!-- <div class="col-lg-4 col-md-4 col-sm-2 wk_form padding_0 "  *ngIf="toggle">
+                                       <button type="submit" class="cross_icon">
+                                        <img class="plus_btn" src="../../../assets/img/images/plus_circle.svg"></button> 
+                                        <a  href="#" type="button" class="cross_icon"><img src="../../../assets/img/images/plus_circle.svg"></a>
+                                    </div> -->
+                                </form>
+                            </div>
+                                <div class="col-lg-4 col-md-4 col-sm-2 wk_form padding_0 " *ngIf="toggle" (click)="ShowEducationForm()">
+                                    <button type="button" class="cross_icon">
+                                     <img class="plus_btn" src="../../../assets/img/images/plus_circle.svg"></button> 
+                                     <!-- <a  href="#" type="button" class="cross_icon"><img src="../../../assets/img/images/plus_circle.svg"></a> -->
+                                 </div>
+
+                            <h4 class="card-heading" *ngIf="workExperienceArray.length">Your Experience </h4>
+                            <div class="table-responsive" *ngIf="workExperienceArray.length">
+                                <table class="table your_education">
+                                    <tbody>
+                                        <ng-template ngFor let-workExperience [ngForOf]="workExperienceArray"
+                                        let-i="index">
+                                            <tr>
+                                                <td>
+                                                    <label>Institute Name</label>
+                                                    <span>{{workExperience.institute_name}}</span>
+                                                </td>
+                                                <td>
+                                                    <label>Designation</label>
+                                                    <span>{{workExperience.designation}}</span>
+                                                </td>
+                                                <td>
+                                                    <label>From</label>
+                                                    <span>{{workExperience.start_from}}</span>
+                                                </td>
+                                              
+                                                <td>
+                                                    <label>To</label>
+                                                    <span>{{!workExperience.end_to ? 'Present' : workExperience.end_to}}</span>
+                                                </td>
+                                                <td style="width: 30px;">
+                                                    <button class="remove-btn cross_icon"
+                                                        [swal]="deleteWorkExperience"><img src="../../../assets/img/images/close_circle.svg"> <span
+                                                            class="icon-dlt"></span></button>
+                                                        <swal #deleteWorkExperience title="Delete?"
+                                                            text="Are you sure to delete {{workExperience.designation }}"
+                                                            type="error"
+                                                            [options]="{ customClass : swalErrorOption,confirmButtonText: 'Confirm' , confirmButtonClass : 'btn btn-warning mr-2',cancelButtonClass : 'btn btn-danger' }"
+                                                            [showCancelButton]="true" [focusCancel]="true"
+                                                            (confirm)="removeRecord('workExperience',i)">
+                                                        </swal>
+                                                </td>
+                                            </tr>
+                                        </ng-template>           
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div *ngIf="workFormToggle">
+                                <h4 class="card-heading mt-3">Work Experience</h4>
+                                    <form class="app_form  form-group" [formGroup]="addWordExperience"
+                                    (ngSubmit)="submitWorkExperienceForm()" action="" method="POST" role="form"
+                                    ngxScrollToFirstInvalid>
+                                        <div class="worK_exp row">
+                                            <div class="col-lg-5 col-md-5 col-sm-6 wk_form">
+                                                <label >Job Title <span
+                                                    style="color: red;">*</span> </label>
+                                                <input type="text" class="form-control" formControlName="designation"  placeholder="Job Title" required>
+                                                <div
+                                                    *ngIf="workExperienceSubmit && workExperienceFormErros.designation.errors">
+                                                    <div class="has-error"
+                                                        *ngIf="workExperienceFormErros.designation.errors.required">
+                                                        Job Title is required.</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-5 col-md-5 col-sm-6 wk_form">
+                                                <label >Company / Institute Name  <span
+                                                    style="color: red;">*</span></label>
+                                                <input type="text" formControlName="institute_name" class="form-control"  placeholder="Company / Institute Name" required>
+                                                <div *ngIf="workExperienceSubmit && workExperienceFormErros.institute_name.errors">
+                                                    <div class="has-error"
+                                                        *ngIf="workExperienceFormErros.institute_name.errors.required">
+                                                        Company / Institute Name is required.
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-5 col-md-5 col-sm-6 wk_form">
+                                                <label >From  <span
+                                                    style="color: red;">*</span></label>
+                                                <select formControlName="start_from" required  #start_from class="form-control" (change)="onChangeWorkAndExperienceYears(start_from.value)"    name="select-year" >
+                                                    <option value="null">Select Year</option>
+                                                    <option *ngFor="let year of endEducationalYears" value="{{year}}">{{year}}</option> 
+
+                                                </select>
+                                                <div
+                                                    *ngIf="workExperienceSubmit && workExperienceFormErros.start_from.errors">
+                                                    <div class="has-error"
+                                                        *ngIf="workExperienceFormErros.start_from.errors.required">
+                                                        Start year is required.</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-5 col-md-5 col-sm-6 wk_form">
+                                                <label >To  <span
+                                                    style="color: red;">*</span></label>
+                                                <select name="select-year" class="form-control" formControlName="end_to" required>
+                                                    <option value="null">Select Year</option>
+                                                    <option *ngFor="let expYear of endWorkAndExperienceYears" value="{{expYear}}">{{expYear}}</option> 
+
+                                                </select>
+
+                                                <label class="checkbox_btn"
+                                                for="workExperience-label">Check
+                                                if current
+                                                <input type="checkbox" [checked]="workExperienceToggle"
+                                                                    (change)="toggleCurrentWorkExperience()"
+                                                                    class="custom-control-input" id="workExperience-label"
+                                                                    formControlName="current">
+                                                            
+                                                
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                                <div
+                                                    *ngIf="workExperienceSubmit && workExperienceFormErros.start_from.errors">
+                                                    <div class="has-error"
+                                                        *ngIf="workExperienceFormErros.start_from.errors.required">
+                                                        End year is required.</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-sm-12">                
+                                                <button type="submit" class="btn btn_bordered">Save</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                            </div>
+                            <div class="col-lg-12 col-sm-12" *ngIf="addMoreToggle" (click)="ShowWorkExperinceForm()">                
+                                <button type="submit" class="btn btn_bordered"><img src="../../../assets/img/images/plus.svg"> Add More</button>
+                            </div>
+                                
+
+
+                                    <div class="related_document row">
+                                        <h4 class="card-heading mt-5">Related Documents</h4>
+                                        
+                                        <div class="col-lg-4 col-md-4 col-sm-6 wk_form">
+                                        <form class="app_form form-group" [formGroup]="addAttachmentForm"
+                                        (ngSubmit)="onSubmitUploadAttachment()" action="" method="POST" role="form"
+                                        ngxScrollToFirstInvalid>
+                                            <div class=" wk_form">
+                                                <label>Upload Verification Documents / Certificates <span class="required-label">*</span></label>
+                                                <div class="custom-file">
+                                                <input type="file" formControlName="certificate_file"  class="custom-file-input" (change)="imageUpload($event.target.files)" aria-describedby="inputGroupFileAddon01"  id="customFile"><img src="../../../assets/img/images/upload.svg">
+                                                <label class="custom-file-label" for="customFile">{{ (fileToUpload) ? fileToUpload.name : 'Browse file'}}</label>
+                                                </div>
+
+                                                <span>Please attach your degree certificate 
+                                                    (ppt, doc, pdf, jpg, png)</span>
+                                                <div
+                                                    *ngIf="attachmentSubmit && attachmentFormErros.certificate_file.errors">
+                                                    <div class="has-error"
+                                                        *ngIf="attachmentFormErros.certificate_file.errors.required">
+                                                        Certificate file is required.</div>
+                                                </div>
+                                            </div>
+                                            <input maxlength="50" class="form-control mb-4" formControlName="title" type="text"
+                                                            name="Title" placeholder="Title" required>
+                                                <div
+                                                    *ngIf="attachmentSubmit && attachmentFormErros.title.errors">
+                                                    <div class="has-error"
+                                                        *ngIf="attachmentFormErros.title.errors.required">
+                                                        Title is required.</div>
+                                                </div>
+                                                <label class="checkbox_btn"
+                                                for="is-public-label">Is public
+                                                <input type="checkbox" 
+                                                                    class="custom-control-input" id="is-public-label"
+                                                                    formControlName="is_public">
+                                                            
+                                                
+                                                    <span class="checkmark"></span>
+                                                </label>
+                                            <button class="btn btn_bordered" type="submit"><img src="../../../assets/img/images/upload_blue.svg"> Upload File</button>
+                                        </form> 
+                                        </div>
+                                           
+                                        <div class="col-lg-8 col-sm-8 col-sm-6" *ngIf="attachmentArray?.length >0">
+                                             <span>Uploaded Documents</span>
+                                            <div class="certification documents">
+                                                <div class="cerfication_img">
+                                                    <ng-template ngFor let-attachment [ngForOf]="attachmentArray"
+                                                        let-i="index">
+
+                                                    <div class="ceft_img"  (click)="downloadFile(attachment.id,attachment.certificate_file)">
+                                                        <span *ngIf="attachment.mime_type == 'image/jpeg' || attachment.mime_type == 'image/jpg'">
+                                                            <img src="../../../assets/img/ico-jpg.svg">
+                                                        </span>
+                                                        <span *ngIf="attachment.mime_type == 'image/png'">
+                                                            <img src="../../../assets/img/ico-png.svg">
+                                                        </span>
+                                                        
+                                                        <span *ngIf="attachment.mime_type == 'application/pdf'">
+                                                            <img src="../../../assets/img/images/pdf1.svg">
+                                                        </span>
+                                                        <span *ngIf="attachment.mime_type == 'application/msword'">
+                                                            <img src="../../../assets/img/images/excel.svg">
+                                                        </span>
+                                                        <button class="cross_overlay" type="button"
+                                                        [swal]="deleteAttachment"> <img src="../../../assets/img/images/cross-red.svg"></button>
+                                                    <swal #deleteAttachment title="Delete?"
+                                                        text="Are you sure to delete {{attachment.title }}"
+                                                        type="error"
+                                                        [options]="{customClass : swalErrorOption, confirmButtonText: 'Confirm' , confirmButtonClass : 'btn btn-warning mr-2',cancelButtonClass : 'btn btn-danger' }"
+                                                        [showCancelButton]="true"
+                                                        [focusCancel]="true"
+                                                        (confirm)="removeRecord('remove-attachment',i)">
+                                                    </swal>
+
+                                                    <div class="download_btns">
+                                                        <button
+                                                        (click)="downloadFile(attachment.id,attachment.certificate_file)"
+                                                        class="remove_btn"
+                                                        
+                                                        [ngStyle]="{'color': '#cccccc'}"
+                                                        type="button"><i class="fas fa-cloud-download-alt"></i></button>
+                                                       <div class="document_name">{{attachment.title}}</div> 
+                                                    </div>
+                                                    
+                                                    </div>
+                                                    <!--div class="cell">
+                                                        <div class="file_description">
+                                                            <h3>{{attachment.title}}</h3>
+                                                        </div>
+                                                    </div-->
+                                             
+                                                    </ng-template>
+                                                </div>
+                                            </div>
+                                        </div>                                                                       
+                                    </div>
+                                </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-short-footer></app-short-footer>
+
+</div>

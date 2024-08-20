@@ -1,0 +1,22 @@
+<div class="notification_box w-100 mb-3" *ngIf="!profileStatusResponse?.result?.profile_completed" >
+	<div class="cell">
+	  <span class="d-inline-flex align-items-center w-100 mb-3">
+		<h3 class="my-2 mr-5" style="word-wrap: normal;"><i class="fas fa-info-square"></i> Note :</h3>
+		
+		<p class="txt m-0 pr-4" [innerHtml]="profileStatusResponse?.result?.message">
+		  <!-- <b>Profile is incomplete:</b> Please complete your profile and give tutors a chance to know you better. -->
+		</p>
+	  </span>
+	  </div>
+	  <div class="cell flex-grow-1" *ngIf="profileStatusResponse?.result?.stepsArr.length > 0">
+	   <div class="steps col-12 mt-2 p-0" >
+		<ol class="progress-Slidebar">
+            <ng-container *ngFor="let link of profileStatusResponse?.result?.stepsArr; let i = index ">
+            <li  [ngClass]="{'active': link.is_completed == true}"><a [routerLink]="link.link"><span class="numtxt ">{{i+1}}. {{link.text}}</span></a></li>
+		<!-- <li><span class="numtxt">2.Subjects of interest</span></li>
+        <li><span class="numtxt">3.Subjects of interest</span></li></ol> -->
+        </ng-container>
+        </ol>
+		</div>
+	 </div>
+</div>

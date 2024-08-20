@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="58" height="51" viewBox="0 0 58 51">
+  <g id="bank1" transform="translate(-468 -1070)">
+    <rect id="Rectangle_2140" data-name="Rectangle 2140" width="58" height="51" rx="6" transform="translate(468 1070)" fill="#2a465a"/>
+    <g id="bank" transform="translate(481 1074.85)">
+      <path id="Path_3085" data-name="Path 3085" d="M211,180.85h5.474v16.482H211Z" transform="translate(-198.167 -169.71)" fill="#c0e1f0"/>
+      <path id="Path_3086" data-name="Path 3086" d="M61,180.85h5.474v16.482H61Z" transform="translate(-57.29 -169.71)" fill="#c0e1f0"/>
+      <path id="Path_3087" data-name="Path 3087" d="M361,180.85h5.474v16.482H361Z" transform="translate(-339.044 -169.71)" fill="#8fc3d9"/>
+      <path id="Path_3088" data-name="Path 3088" d="M256,180.85h2.737v16.482H256Z" transform="translate(-240.43 -169.71)" fill="#8fc3d9"/>
+      <path id="Path_3089" data-name="Path 3089" d="M31,421.85H58.369v4.561H31Z" transform="translate(-29.115 -396.053)" fill="#edf9ff"/>
+      <path id="Path_3090" data-name="Path 3090" d="M256,421.85h13.684v4.561H256Z" transform="translate(-240.43 -396.053)" fill="#c0e1f0"/>
+      <path id="Path_3091" data-name="Path 3091" d="M31,120.85H58.369v5.474H31Z" transform="translate(-29.115 -113.359)" fill="#edf9ff"/>
+      <path id="Path_3092" data-name="Path 3092" d="M256,120.85h13.684v5.474H256Z" transform="translate(-240.43 -113.359)" fill="#c0e1f0"/>
+      <path id="Path_3093" data-name="Path 3093" d="M15.57.15,0,5.94V9.315H31.139V5.94Z" fill="#c0e1f0"/>
+      <path id="Path_3094" data-name="Path 3094" d="M271.57,5.94V9.315H256V.15Z" transform="translate(-240.43 0)" fill="#8fc3d9"/>
+      <path id="Path_3095" data-name="Path 3095" d="M256,421.85h13.684v4.561H256Z" transform="translate(-240.43 -396.053)" fill="#c0e1f0"/>
+      <path id="Path_3096" data-name="Path 3096" d="M0,481.85H31.139v1.825H0Z" transform="translate(0 -452.403)" fill="#97de3d"/>
+      <path id="Path_3097" data-name="Path 3097" d="M256,481.85h15.57v1.825H256Z" transform="translate(-240.43 -452.403)" fill="#59c36a"/>
+      <path id="Path_3098" data-name="Path 3098" d="M241,60.85h1.825v1.825H241Z" transform="translate(-226.343 -57.008)" fill="#2d5177"/>
+      <path id="Path_3099" data-name="Path 3099" d="M256,60.85h.912v1.825H256Z" transform="translate(-240.43 -57.008)" fill="#32405d"/>
+    </g>
+    <text id="ABC_BANK" data-name="ABC BANK" transform="translate(483 1114)" fill="#fff" font-size="5" font-family="GothamRounded-Medium, Gotham Rounded" font-weight="500" letter-spacing="0.005em"><tspan x="0" y="0">ABC BANK</tspan></text>
+  </g>
+</svg>

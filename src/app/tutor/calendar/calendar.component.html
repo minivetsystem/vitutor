@@ -1,0 +1,529 @@
+<div class="main-panel" [ngClass]="{'side-menu': menuToggle == 1}">
+    <div class="container">
+        <div class="panel-header bg-primary-gradient">
+            <div class="page-inner py-5">
+                <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+                    <div>
+                        <h2 class="pb-2 fw-bold panel-header-heading">Calender</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-inner mt--5 calender_page">
+            <div class="row mt--2">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div  class="card-body" *ngIf="calendarLoader == false">
+                            <full-calendar  #calendar defaultView="dayGridMonth" [header]="{
+                                left: 'prev,next today',
+                                center: 'title',
+                                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                            }" [displayEventTime]="false" [plugins]="calendarPlugins" [height]="600" [eventLimit]="2" [selectable]="false" [showNonCurrentDates]="true" (eventRender)="renderPopover($event)" (select)="selectDateRange($event,'')" [events]="availability"
+                                (dayRender)="onDayRender($event)" (dateClick)="handleDateClick($event,'dayDetails')" (eventClick)="getEventsDetails($event,'eventDetails')" >
+                            </full-calendar>
+                        </div>
+                        <div class="card-body text-center" *ngIf="calendarLoader == true">
+                            <h1><div class="spinner-border text-primary" role="status">
+                                <span class="sr-only">Loading...</span>
+                              </div> Loading </h1>
+                        </div>
+                        <div class="dots_box">
+                            <span class="dot" style="background-color: #d7d7d7;"> Past Sessions</span>
+                            <span class="dot" style="background-color: #fcf8e3;"> Open Slots</span>
+                            <span class="dot" style="background-color: #1492E6; color:#fff;"> Booked Slots</span>
+                            <span class="text-danger"> *Availability can be set on clicking date </span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-short-footer></app-short-footer>
+</div>
+
+<div id="dayDetails" #dayDetails class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <!-- <h4 class="modal-title pull-left">{{updateAvailabilityModalTitle}} Availability / Unavailability</h4> -->
+                <h4 class="modal-title pull-left">Manage Schedule for the day</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="closeDayModel('dayDetails')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="app_form" [formGroup]="availabilityUpdateForm" (submit)="onUpdateForm()" method="post">
+                    <div *ngIf="availabilityControl.controls.length" id="form-inputs">
+                        <div class="row" formArrayName="availability">
+                            <div class="weekform_sec col-12">
+                                <!-- <h4 class="form-title mb-4">Choose your open days and hours</h4> -->
+                                <div class="weekly_schedule col-12 p-0">
+
+                                    <div class="schedule_header1 col-12 p-0 mb-3">
+                                        <span class="title">Date</span>
+                                    </div>
+                                    <!-- /.schedule_header -->
+
+                                    <div class="schedule_body col-12 p-0">
+                                        <ng-template ngFor let-availability [ngForOf]="availabilityControl.controls" let-i="index" >
+                                            <!-- /.day_container -->
+                                            <div class="day_container" [formGroupName]="i">
+                                                <!-- Repeat this div fro days-->
+                                                <div class="row">
+
+                                                    <div class="daydate_wrap col-12 col-xl-2 pr-md-0">
+                                                        <span class="day_name numtxt">{{rangeDates[i].date | date }}</span>
+                                                    </div>
+                                                    <div class="time_add_continer col-12 col-xl-10">
+                                                        <div class="row">
+                                                            <div formArrayName="availability_slots" class="cell avail_slots_container flex-wrap d-inline-flex align-items-end">
+
+                                                                <ng-template *ngIf="availability.get('availability_slots').controls.length" ngFor let-children [ngForOf]="availability.get('availability_slots').controls" let-child="index" let-lastIndex="last" >
+                                                                    <!-- Repeate this div here to add (.day_time_span) new row  -->
+                                                                    <div [formGroupName]="child" class="day_time_span">
+                                                                        <div class="span_cell flex-column d-inline-flex justify-content appDate_{{lastIndex}}" id="appDate_{{lastIndex}}">
+                                                                            <label class="lbl">Start
+                                                                                Time</label>
+                                                                            <div class="app_ngxtimepicker" [ngClass]="{'disabled_piker' : setShowvalue(availability.get('mark_all_day').value,availabilityTypeValue) }" *ngIf="updateAvailabilitySlotsArray[rangeDates[i].date][child];else elseStartTimeBlock">
+                                                                                <ngx-timepicker-field formControlName="start_time" #start_time (keyup)="getCurrentTimeSlot(availability,children,child)" (click)="getCurrentTimeSlot(availability,children,child)" [(ngModel)]="updateAvailabilitySlotsArray[rangeDates[i].date][child].start_time"
+                                                                                    [disabled]="setControlDisable(children,updateAvailabilitySlotsArray[rangeDates[i].date][child])" [controlOnly]="true" [attr.readonly]="readonly">
+                                                                                </ngx-timepicker-field>
+
+                                                                                <input type="hidden" formControlName="id" #idoftheslot [(ngModel)]="updateAvailabilitySlotsArray[rangeDates[i].date][child].id">
+                                                                            </div>
+                                                                            <ng-template #elseStartTimeBlock>
+                                                                                <div class="app_ngxtimepicker" [ngClass]="{'disabled_piker' : setShowvalue(availability.get('mark_all_day').value,availabilityTypeValue)  }">
+                                                                                    <ngx-timepicker-field formControlName="start_time" #sss [(ngModel)]="children.value.start_time" (keyup)="getCurrentTimeSlot(availability,children,child)" (click)="getCurrentTimeSlot(availability,children,child)" [controlOnly]="true">
+                                                                                    </ngx-timepicker-field>
+                                                                                    <input type="hidden" formControlName="id">
+                                                                                </div>
+                                                                            </ng-template>
+
+                                                                            <div class="has-error col-12 p-0" *ngIf="updateAvailabilityFormSubmitted && children.controls?.start_time?.errors">
+                                                                                <div *ngIf="children.controls.start_time.errors?.required">
+                                                                                    This field is required
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="span_cell flex-column d-inline-flex  justify-content">
+                                                                            <label class="lbl">End
+                                                                                Time</label>
+                                                                            <div class="app_ngxtimepicker" [ngClass]="{'disabled_piker' : setShowvalue(availability.get('mark_all_day').value,availabilityTypeValue) }" *ngIf="updateAvailabilitySlotsArray[rangeDates[i].date][child];else elseEndTimeBlock">
+                                                                                <ngx-timepicker-field formControlName="end_time" #end_time (keyup)="getCurrentTimeSlot(availability,children,child)" (click)="getCurrentTimeSlot(availability,children,child)" [disabled]="setControlDisable(children,updateAvailabilitySlotsArray[rangeDates[i].date][child])"
+                                                                                    [(ngModel)]="updateAvailabilitySlotsArray[rangeDates[i].date][child].end_time" [controlOnly]="true">
+                                                                                </ngx-timepicker-field>
+                                                                            </div>
+                                                                            <ng-template #elseEndTimeBlock>
+                                                                                <div class="app_ngxtimepicker" [ngClass]="{'disabled_piker' : setShowvalue(availability.get('mark_all_day').value,availabilityTypeValue) }">
+                                                                                    <ngx-timepicker-field (click)="getCurrentTimeSlot(availability,children,child)" #ddd [(ngModel)]="children.value.end_time" formControlName="end_time" [controlOnly]="true">
+                                                                                    </ngx-timepicker-field>
+                                                                                    <!-- <h2>{{children.controls.end_time.errors | json}}</h2> -->
+                                                                                </div>
+                                                                            </ng-template>
+                                                                            <div class="has-error col-12 p-0" *ngIf="updateAvailabilityFormSubmitted && children.controls.end_time.errors">
+                                                                                <div *ngIf="children.controls.end_time.errors?.required">
+                                                                                    This field is required
+                                                                                </div>
+                                                                                <div class="has-error" *ngIf="children.controls.end_time.errors?.checkTime">
+                                                                                    End time must be greater than start time
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+                                                                        <div class="span_cell flex-column d-inline-flex justify-content">
+                                                                            <div class="availabilityRadio">
+                                                                                <div class="switchToggle" *ngIf="updateAvailabilitySlotsArray[rangeDates[i].date][child];else elseTypeBlock">
+                                                                                    <div class="badge badge-primary" *ngIf="updateAvailabilitySlotsArray[rangeDates[i].date][child].status == 3;else elsebutton">
+                                                                                        <ng-template #popTemplate>
+                                                                                            <div class="booking_descripition_tooltip" [innerHtml]="updateAvailabilitySlotsArray[rangeDates[i].date][child].description">
+                                                                                            </div>
+                                                                                        </ng-template>
+                                                                                        <span triggers="hover" containerClass="booking_descripition_tooltip_containerClass" [delay]="1000" [tooltip]="popTemplate">Booked</span>
+                                                                                    </div>
+                                                                                    <ng-template #elsebutton>
+                                                                                        <input type="checkbox" formControlName="status" #ss [checked]="updateAvailabilitySlotsArray[rangeDates[i].date][child].status == 1" [(ngModel)]="updateAvailabilitySlotsArray[rangeDates[i].date][child].status"  [disabled]="setControlDisable(children,updateAvailabilitySlotsArray[rangeDates[i].date][child])"
+                                                                                            id="switch_{{child}}{{rangeDates[i].date}}" (change)="testChange(updateAvailabilitySlotsArray[rangeDates[i].date][child].status, child, rangeDates[i].date)">
+                                                                                        <label for="switch_{{child}}{{rangeDates[i].date}}">Toggle</label>
+                                                                                    </ng-template>
+                                                                                   
+
+
+                                                                                </div>
+                                                                                <ng-template #elseTypeBlock>
+                                                                                    <div class="switchToggle">
+                                                                                        <input type="checkbox" formControlName="type" id="switch_{{child}}{{rangeDates[i].date}}">
+                                                                                        <label for="switch_{{child}}{{rangeDates[i].date}}">Toggle</label>
+                                                                                    </div>
+                                                                                </ng-template>
+
+                                                                            </div>
+                                                                        </div>
+                                                                        <ng-container *ngIf="child != 0">
+                                                                        <div *ngIf="updateAvailabilitySlotsArray[rangeDates[i].date][child] && updateAvailabilitySlotsArray[rangeDates[i].date][child]?.status != 3 ">
+                                                                            <button *ngIf="setUpdateSubmitFlag" class="delet_btn" type="button" [disabled]="availability.controls.mark_all_day.value" (click)="deleteTimeSlot(availability,child,updateAvailabilitySlotsArray[rangeDates[i].date][child]?.id)">
+                                                                                <i class="far fa-times-circle"></i>
+                                                                                <span style="display: none;">Remove
+                                                                                    Slot</span>
+                                                                            </button>
+                                                                        </div>
+                                                                    </ng-container>
+                                                                        <!-- <ng-template #elseDeleteButtonBlock>
+                                                                            <p>Delete Block</p>
+                                                                        </ng-template> -->
+
+                                                                        <button *ngIf="!updateAvailabilitySlotsArray[rangeDates[i].date][child]" class="delet_btn" type="button" [disabled]="availability.controls.mark_all_day.value" (click)="deleteTimeSlot(availability,child,updateAvailabilitySlotsArray[rangeDates[i].date][child]?.id)">
+                                                                            <i class="far fa-times-circle"></i>
+                                                                            <span style="display: none;">Remove
+                                                                                Slot</span>
+                                                                        </button>
+
+
+                                                                    </div>
+                                                                    <div class="fullwidtherror has-error col-12 my-2 p-0" *ngIf="updateAvailabilityFormSubmitted && children.controls?.start_time?.errors">
+                                                                        <div *ngIf="children.controls.start_time.errors?.incorrect && (!children.controls.end_time.errors)">
+                                                                            <i class="fal fa-exclamation-triangle"></i> This slot is not available
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <!-- <div class="day_time_span has-error" *ngIf="updateAvailabilityFormSubmitted && children.controls?.end_time?.errors">
+                                                                
+                                                                        <div *ngIf="children.controls.end_time.errors?.invalidStartTime && (!children.controls.start_time.errors)">
+                                                                            End Time must be after 11:59 AM
+                                                                        </div>
+                                                                    </div> -->
+                                                                    <!-- end day slot -->
+                                                                </ng-template>
+                                                            </div>
+                                                            <div class="cell text-right wh_cell" style="margin : -8px" *ngIf="setUpdateSubmitFlag ">
+                                                                <div class="d-inline-flex align-items-center">
+                                                                    <button type="button" (click)="addTimeSlotForUpdate(availability)" class="add_timespan-btn" [disabled]="setShowvalue(availability.get('mark_all_day').value,availabilityTypeValue)">
+                                                                        <span class="icon-plus"></span>
+                                                                        <span class="res_txt" style="display: none;">Add
+                                                                            new slot</span>
+                                                                    </button>
+                                                                    <!-- <div class="check_day"
+                                                                        *ngIf="availability.get('availability_slots').controls.length == 0">
+                                                                        <div class="custom-control custom-checkbox">
+                                                                            <input type="checkbox"
+                                                                                class="custom-control-input"
+                                                                                id="mark_all_day_label"
+                                                                                (click)="markAllDay(availability)"
+                                                                                formControlName="mark_all_day"
+                                                                                name="mark_all_day_label">
+                                                                            <label class="custom-control-label"
+                                                                                for="mark_all_day_label">All Day</label>
+                                                                        </div>
+
+                                                                    </div> -->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="btn-group formCheckterms col-12 mt-3">
+
+                                                                <div class="custom-control custom-checkbox mr-3">
+                                                                    <input class="custom-control-input" type="checkbox" [checked]="availabilityTypeValue == true" id="radiocheck1" #radiocheck (change)="setTypeAvailabilityForAllDay(availability,'available',$event)">
+                                                                    <label class="custom-control-label" for="radiocheck1">Mark full day
+                                                                        Availability</label>
+                                                                </div>
+
+                                                                <div class="custom-control custom-checkbox mr-3">
+                                                                    <input class="custom-control-input" type="checkbox" [checked]="availabilityTypeValue == false" id="radiocheck2" (change)="setTypeAvailabilityForAllDay(availability,'unavailable',$event)">
+                                                                    <label class="custom-control-label" for="radiocheck2">Mark full day
+                                                                        Unavailability</label>
+                                                                </div>
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.time_add_continer -->
+
+                                                </div>
+                                            </div>
+                                            <!-- /.day_container -->
+                                        </ng-template>
+                                    </div>
+                                    <!-- /.schedule_body -->
+
+                                </div>
+                                <!-- .weekly_schedule -->
+                            </div>
+                        </div>
+                        <div class="row">
+                            <fieldset class="form-group footer_btn col-12 col-md-6 mt-3 mb-0">
+                                <button *ngIf="setUpdateSubmitFlag" class="comn_btn btn btn-primary" type="submit">
+                                    Update</button>
+                            </fieldset>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="eventDetails" #eventDetail class="modal fade view_applicants " role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">{{jobDetails?.header}}</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="closeEventModel('eventDetails')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class=" job_without_login application_recieved " >
+
+                    <div class="job_desc_inner">
+
+
+                        <div class="send_offer1">
+                            <div class="row">
+
+                                <div class="col-sm-12 tutor_outer">
+                                    <div class="tutorLEFT">
+                                        <div class="tutor-image">
+                                            <img (error)="img.src='assets/img/avatar_user2.jpg'" #img [src]="jobDetails?.extendedProps.student_photo">
+                                        </div>
+                                       
+                                        <!-- <a class="wklink" (click)="navigateProfile('/search/viewTutor/'+ applicant?.user?.profile_slug)" >View Profile</a> -->
+                                    </div>
+
+                                    <div class="tutor_desc">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <strong>Student Name </strong>
+                                                <p>{{jobDetails?.extendedProps.student_name}}</p>
+                                            </div>
+                                            <!-- <div class="col-sm-6">
+                                                <strong>Hourly Rate </strong>
+                                                <p>{{jobDetails.extendedProps.student_name}}</p>
+                                            </div> -->
+                                            <div class="col-sm-6">
+                                                <strong>Location </strong>
+                                                <p>{{jobDetails?.extendedProps.location || 'Not Found'}}</p>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <strong>Schedule date </strong>
+                                                <p>{{jobDetails?.schedule_date}}</p>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <strong>Start Time </strong>
+                                                <p>{{jobDetails?.startTime}}</p>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <strong>End Time </strong>
+                                                <p>{{jobDetails?.endTime}}</p>
+                                            </div>
+                                            <!-- <div class="col-sm-6">
+                                                <strong>Experience level</strong>
+                                                <p>{{applicant.user.experince_level}}</p>
+                                            </div> -->
+
+                                            
+                                            
+                                           
+
+                                            <!-- <div class="col-sm-12">
+                                                <strong>Bio </strong>
+                                                <p>{{applicant.user.about_me}}</p>
+                                                 -->
+                                                <!-- <a class="btn btn-primary" [routerLink]="['/search/viewTutor/]">View Profile</a> -->
+                                            <!-- </div> -->
+                                            
+                                        </div>
+
+
+                                        
+
+                                        <!--div class="row">
+                                            <div class="col-sm-6">
+                                                <strong>Application Status</strong>
+                                                <p class="badge badge-success" *ngIf="applicant?.status == 'Applied'">{{applicant?.status}}</p>
+                                                <p class="badge badge-warning" *ngIf="applicant?.status == 'Cancelled'">{{applicant?.status}}</p>
+                                            </div>
+                                        </div-->
+
+                               
+                                        
+
+                                    </div>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                    <div class="job_button_right wh_job_button_right">
+
+                        <!--div class="price_pro">
+                            <img src="assets/img/gift.svg"> <strong>Applied price
+                                <span>{{applicant.offer_price}}</span>
+                            </strong>
+                        </div--> 
+                        <div class="job_time_date">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <strong>Accepted price</strong>
+                                    <p>{{jobDetails?.extendedProps.accepted_price}}</p>
+                                </div>
+                                <!-- <div class="col-sm-6" *ngIf="applicant.job.proposed_start_time">
+                                     <strong>Job Schedule </strong>
+                                    <p >{{jobDetails.extendedProps.accepted_price}}</p> -->
+                                    <!-- <p *ngIf="jobDetails.extendedProps.accepted_price == 'Recurring'">{{applicant.job.job_recurring?.recurring_job_date}} {{applicant.job.job_recurring?.time}}</p> -->
+                                    
+                                <!-- </div> -->
+                                <div class="col-sm-6">
+                                    <strong>Proposed Start Date</strong>
+                                    <p>{{jobDetails?.extendedProps.proposed_start_time}}</p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <strong>Applied On </strong>
+                                    <p>{{jobDetails?.extendedProps.offer_sent_on}}</p>
+                                </div>
+                                <div class="col-sm-6 attach">
+                                    <strong>Attachment :</strong>
+                                    <div class="certification">
+                                        <div class="cerfication_img">
+                                            <div *ngIf="jobDetails?.extendedProps.offer_attachment" class="ceft_img" (click)="downloadAttachment(jobDetails,'job-offers-attachments', jobDetails.extendedProps.offer_image_title)">
+                                                <span>
+                                                    <img *ngIf="jobDetails?.extendedProps.offer_attachment_file_type == 'image/jpeg' " src="assets/img/ico-jpg.svg">
+                                                    <img *ngIf="jobDetails?.extendedProps.offer_attachment_file_type == 'image/png' " src="assets/img/ico-png.svg">
+                                                    <img *ngIf="jobDetails?.extendedProps.offer_attachment_file_type == 'application/pdf' " src="assets/img/ico-pdf.svg">
+                                                    <img *ngIf="jobDetails?.extendedProps.offer_attachment_file_type == 'application/msword' " src="assets/img/msword.jpeg">
+                                                    <img *ngIf="jobDetails?.extendedProps.offer_attachment_file_type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' " src="assets/img/ico-doc.png" alt="docx">
+                                                    <img *ngIf="jobDetails?.extendedProps.offer_attachment_file_type == 'application/vnd.ms-excel' " alt="excel" src="assets/img/ico-excel.png">
+                                                    <img *ngIf="jobDetails?.extendedProps.offer_attachment_file_type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' " src="assets/img/ico-spreadsheet.png" alt="xls">
+                                                    <!--img *ngIf="jobDetails?.extendedProps.offer_attachment?.attachment || applicant.attachment.length > 0" class="download_icon"  src="assets/img/download_blue.svg"-->
+                                                </span>
+                                                <div class="download_btns">
+                                                     <button type="button" style="color: rgb(204, 204, 204);" (click)="downloadAttachment(jobDetails,'job-offers-attachments', jobDetails.extendedProps.offer_image_title)"><i class="fas fa-cloud-download-alt"></i></button>
+                                                    <div *ngIf="jobDetails?.extendedProps.offer_image_title " class="document_name">{{jobDetails.extendedProps.offer_image_title}}</div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <p *ngIf="!jobDetails?.extendedProps.offer_attachment || jobDetails?.extendedProps.offer_attachment.length == 0" style="text-decoration: none;">No Attachments</p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <strong>Message </strong>
+                                    <p>{{jobDetails?.extendedProps.offer_message}}</p>
+                                </div>
+                               
+                            </div>
+
+
+                        </div>
+                    </div>
+                    
+                   
+                </div>
+                <div class="txtCenter">
+                    <span class="text-danger mr-3" [innerHtml]="timer" *ngIf="timer != false && (jobDetails?.type == 'Upcoming' )"> </span>
+                     <button class="btn btn-red" *ngIf=" !earlyStartBtn && startBtn && jobDetails?.type=='Upcoming'" [disabled]="jobDetails?.extendedProps.job_status == 'Upcoming' && (timer != false || !currentDate)" (click)="startSession(jobDetails)">Start Session</button>
+                     <!-- {{!oldDate }}{{ earlyStartBtn }}{{ expired}} -->
+                      <button class="btn btn-success" *ngIf="jobDetails?.type=='Upcoming' && !oldDate && earlyStartBtn && !expired" (click)="earlySessionModal(jobDetails)">Early Start Session</button>
+                    <button class="btn btn-primary ml-2"  *ngIf="jobDetails?.type=='Upcoming' && (timer == false && !oldDate && jobDetails?.extendedProps.job_status == 'Upcoming') || (oldDate && jobDetails?.extendedProps.job_status == 'Missed')" disabled>{{jobDetails?.extendedProps.job_status}}</button>
+                    <div *ngIf="jobDetails?.type =='Missed' ||  jobDetails?.type=='Null'" class="bg-warning">Seems like session expired or Missed!!</div>
+                    <div *ngIf=" jobDetails?.type=='Completed' " class="bg-success">Seems like session completed!!</div>
+                    <div *ngIf="jobDetails?.type == 'Cancelled' " class="bg-info">Seems like session cancelled!!</div>
+
+                    <!-- <button class="btn btn-primary"  (click)="viewSessionDetail(jobDetails?.extendedProps.offer_id)">View Offer Detail</button> -->
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="terminateOfferModal" class="modal fade" role="dialog" #terminateOfferModal>
+    <div class="modal-dialog">
+    
+    <!-- Modal content-->
+    <div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">Terminate Offer</h4>
+      <button type="button" class="close" ><img src="assets/img/close-14.svg"></button>
+      
+    </div>
+    <div class="modal-body">
+        <form class="form-group form-show-validation row">
+            <div class="col-lg-12 wk_form">
+                <label >Job Title <span class="required-label">*</span></label>
+                <input type="text" class="form-control" disabled [value]="terminateOfferObj.job_title">
+            </div>
+            <div class="col-lg-12 wk_form">
+                <label >Message <span class="required-label">*</span></label>
+                <textarea type="text" class="form-control"  name="terminateReason" [(ngModel)]="terminateReason" placeholder="Enter message" required="" #terminateMsg="ngModel"></textarea>
+            </div>
+            <div *ngIf="terminateSubmitted && ( terminateMsg.touched || terminateMsg.dirty)">
+                <p *ngIf="terminateMsg.value == ''" class="text-danger"> Message is required</p>
+            </div>
+            
+           
+            <div class="col-lg-10">
+                <button class="btn btn-warning mr-3" (click)="closeTerminateModal()">Cancel</button>
+                <button class="btn btn-primary" (click)="terminateOfferSubmit()">Terminate</button>
+            </div>
+        </form>
+    </div>
+    </div>
+    
+    </div>
+    </div>
+
+    <!-- <div class="wh_event_detail">
+        <div *ngIf="jobDetails" class="row">
+            <div class="col-sm-5">
+                <img  #this [src]="jobDetails.extendedProps.student_photo" (error)="errorImage($event,'assets/img/no_image_found.jpg')">
+                <h5 class="userName">{{jobDetails.extendedProps.student_name}}</h5>
+            </div>
+            <div class="col-sm-7">
+                <h5><a routerLink="">{{jobDetails.extendedProps.header}}</a></h5>
+                <p>{{jobDetails.extendedProps.description}}</p>
+                <ul>
+                    
+                    <li class="offer_price">Offer Price <strong>{{jobDetails.extendedProps.accepted_price}}</strong></li>
+                    <li>Start Time: <strong>{{jobDetails.startTime}}</strong></li>
+                    <li>End Time: <strong>{{jobDetails.endTime}}</strong></li>
+                </ul>
+                <button class="btn btn-primary">Start Session</button> -->
+                <!-- <button class="btn btn-orange ml-2" (click)="terminateOffer()">Cancel Offer</button> -->
+<!--                 
+            </div>
+        </div>
+    </div> -->
+
+    <div id="earlySession" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div  class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Start Session Early</h4>
+                <button type="button" class="close" data-dismiss="modal" ><img src="assets/img/images/close-14.svg"></button>
+            </div>
+            <div class="modal-body">
+                <div class="col-lg-12 ">
+                <p><strong>Session Name: </strong> {{earlySessionObj?.header}}</p>
+                <p><strong>Student Name: </strong> {{earlySessionObj?.extendedProps.student_name}} </p>
+                <p><strong>Schedule Date: </strong> {{earlySessionObj?.schedule_date}} {{earlySessionObj?.startTime}}</p>
+                <!-- <p *ngIf="earlySessionObj?.notification_message && earlySessionObj?.notification_message.length > 0"><strong>Student's Reason: </strong> {{earlySessionObj?.notification_message}}</p>                -->
+
+                <!-- <p> Are you sure you want to start the session early?</p> -->
+               <!-- <p *ngIf="earlySessionObj?.schedule_date">{{earlySessionObj.schedule_date}}</p> -->
+               </div>
+               <div class="col-lg-12 ">
+                <label><strong> Message </strong></label>
+                <textarea placeholder="Enter Message" #reason class="form-control" name="review" rows="3"></textarea>
+            </div>
+                <div class="col-lg-12 text-center">
+                    <button class="btn btn-orange mr-3" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-primary" (click)="earlyStartRequest(reason.value)">Send Request</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

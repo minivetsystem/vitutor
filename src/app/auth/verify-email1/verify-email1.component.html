@@ -1,0 +1,49 @@
+<div class="userenter-container">
+    <div  class="userenter-col-right">
+        <div class="userenter-inner-wrap">                  
+            <div class="brand-logo"><a href="index.html">
+                <img src="assets/img/images/svg/Vitutor-logo.svg" alt=""></a>
+            </div>
+            <div *ngIf="!notVerified" class="userenter-body">
+                <!-- <h3 class="mb-3">{{response.title}}</h3>
+                <p>{{response.message}}</p> -->
+                <h1>Almost there…</h1>
+                <div class="row justify-content-center">
+                    <div class="col-xl-8 col-lg-12 col-md-10">
+                        <figure><img class="img-fluid" src="assets/img/images/svg/mail-sent.svg" alt=""></figure>
+                        <p>We have sent an email to verify your email account. Please check your inbox and follow the instruction to verify your account. If you don't find the email in inbox, please check 
+spam folder too.</p>
+                    </div>
+                </div>                                          
+                <div class="row">
+                    <div class="col-12"><div class="haveaccount">Did not receive verification email? <a [routerLink]="" (click)="resendEmail()">Click to Resend</a></div></div>
+                </div>                                           
+                <div class="row">
+                    <div class="col-12"><div class="haveaccount">If you have verified your email already,  <a [routerLink]="['/login']">Login</a></div></div>
+                </div>
+            </div>
+            <div class="userenter-body" *ngIf="notVerified">
+                <h1>EMAIL VERIFIED</h1>
+                <div class="row justify-content-center">
+                    <div class="col-xl-8 col-lg-12 col-md-10">
+                        <p>
+                            Congratulations, Your email have been verified. Please proceed to login.
+                        </p>
+                        <!-- <button type="button" [routerLink]="['/login']" class="btn btn-primary btn-sm btn-rounded btn-block">Login</button> -->
+                    </div>
+                </div>                                          
+                <div class="row justify-content-center">
+                    <div class="col-lg-11">                             
+                        <div class="signup--form login_form">  
+                        <button type="button" [routerLink]="['/login']" class="btn btn-primary btn-lg btn-rounded btn-block">Login</button>
+                        </div>
+                     </div>
+                </div>    
+            </div>
+        </div>
+    </div>
+
+    <div class="userenter-col-left">
+        <div class="tutor--signup_banner"><img src="assets/img/images/student-studying.jpg" alt="tutor sign up"></div>
+    </div>
+</div>

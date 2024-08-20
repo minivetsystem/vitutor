@@ -1,0 +1,239 @@
+<div class="userenter-container">
+  <div class="userenter-col-right">
+      <div class="userenter-inner-wrap">                  
+        <div class="brand-logo"><a href="index.html">
+            <img src="assets/img/images/svg/Vitutor-logo.svg" alt=""></a>
+        </div>
+          <div class="userenter-body">
+              <h1>Get started today</h1>
+              <div class="row justify-content-center">
+                  <div class="col-lg-11">
+                      <nav class="signup-nav text-center">
+                          <div class="nav nav-pills btn-rounded" id="pills-tab" role="tablist">
+                            <a class="nav-link btn-rounded active" id="nav-tutors-tab" data-toggle="pill" #navTutor href="#nav-tutors" role="tab" aria-controls="nav-tutors" [attr.aria-selected]="role=='tutor'">For Tutors</a>
+                            <a class="nav-link btn-rounded " id="nav-student-tab" data-toggle="pill" #navStudent href="#nav-student" role="tab" aria-controls="nav-student" [attr.aria-selected]="role=='student'">For Students</a>
+                          </div>
+                      </nav>
+                      <div class="tab-content signup--form" id="pills-tabContent">                          
+                          <div class="tab-pane fade show active" id="nav-tutors" role="tabpanel" aria-labelledby="nav-tutors-tab">
+                              <p>Enter the below information to create a Tutor Account</p>
+                              <form class="row g-3" [formGroup]="tutorRegisterForm" ngxScrollToFirstInvalid (ngSubmit)="onSubmit()">
+                                  <div class="col-lg-6 ">
+                                    <input type="text" class="form-control form-control-lg" formControlName="first_name" id="" placeholder="Type your first name">
+                                    <div
+                                      *ngIf="(submittedTutor || renderErrors.first_name.dirty || renderErrors.first_name.touched) && renderErrors.first_name.errors">
+                                      <div class="has-error" *ngIf="renderErrors.first_name.errors.required">First name is required
+                                      </div>
+                                      <div class="has-error" *ngIf="renderErrors.first_name.errors.maxlength">First name can be 50
+                                        characters long.
+                                      </div>
+                                  </div>
+                                  </div>
+                                  
+                                  <div class="col-lg-6 mr_16">
+                                    <input type="text" class="form-control form-control-lg" formControlName="last_name" placeholder="Type your Last Name" id="">
+                                    <div
+                                        *ngIf="(submittedTutor || renderErrors.last_name.dirty || renderErrors.last_name.touched) && renderErrors.last_name.errors">
+                                        <div class="has-error" *ngIf="renderErrors.last_name.errors.required">Last name is required
+                                        </div>
+                                        <div class="has-error" *ngIf="renderErrors.last_name.errors.maxlength">Last name can be 50
+                                          characters long.
+                                        </div>
+                                    </div>
+                                  
+                                  </div>
+                                  
+                                  <div class="col-12 mt-20">
+                                      <!-- <input type="text" class="form-control form-control-lg" id="" placeholder="Email Address*"> -->
+                                      <input type="email" class="form-control form-control-lg" formControlName="email" placeholder="johndoe@example.com"
+                                      pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
+                                      [ngClass]="{ 'is-invalid': NoSpace }" (keydown.space)="$event.preventDefault();" (blur)="trimValue()">
+                                    <div *ngIf="(submittedTutor || renderErrors.email.dirty || renderErrors.email.touched) && renderErrors.email.errors">
+                                      <div class="has-error" *ngIf="renderErrors.email.errors.required">Email is required</div>
+                                      <div class="has-error" *ngIf="renderErrors.email.errors.pattern">Please enter valid email
+                                        address</div>
+                                    </div>
+                                  </div>
+                                  <div class="col-12 mt-20">
+                                    <ng-select [searchable]="true" autocomplete="off" formControlName="timezone" [clearable]="false" [items]="timeZoneListArray" bindLabel="name" bindValue="value" placeholder="Select TimeZone*">
+                                    
+                                    </ng-select>
+                                    <div *ngIf="(submittedStudent || renderErrors.timezone.dirty || renderErrors.timezone.touched) && renderErrors.timezone.errors">
+                                      <div class="has-error" *ngIf="renderErrors.timezone.errors.required">Timezone is required</div>
+                                    </div>
+                                  </div>
+                                  <div class="col-12 position-relative mt-20">
+                                      <!-- <input type="text" class="form-control form-control-lg" id="" placeholder="Enter Password*"> -->
+                                      <input type="{{ (!password) ? 'password' : 'text' }}" class="form-control form-control-lg" formControlName="password"
+                                        placeholder="Set a password" maxlength="50">
+                                      <a class="view-password active" (click)="password =!password"><img src="assets/img/images/svg/eye-icn.svg" alt=""></a>
+                                      <password-strength-meter *ngIf="renderErrors.password.touched && renderErrors.password.value != ''" [password]="renderErrors.password.value" [minPasswordLength]="8" >
+                                    </password-strength-meter>
+                                    <div 
+                                      *ngIf="(submittedTutor || renderErrors.password.dirty || renderErrors.password.touched) && renderErrors.password.errors">
+                                      <div class="has-error" *ngIf="renderErrors.password.errors.required">Password is required</div>
+                                      <!-- <div class="has-error"
+                                        *ngIf="renderErrors.password.errors.minlength && !renderErrors.password.errors.passwordStrength">
+                                        Password should be 8 characters long</div> -->
+                                      <div class="has-error" *ngIf="renderErrors.password.errors.passwordStrength && renderErrors.password.value != ''">
+                                        A special character, an upper case, a lower case, a number & minimum 8 characters are required.
+                                      </div>
+                                    </div>
+                                  </div>
+                                      <!-- <div class="password-strenth">
+                                          <div class="progress">
+                                              <div class="progress-bar bg-danger" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>     
+                                          </div>
+                                          <small>Please choose a password that is at least 8 characters</small>
+                                      </div> -->
+                                  <!-- </div> -->
+                                  <div class="col-12 position-relative mt-20">
+                                    <!-- <input type="text" class="form-control form-control-lg" id="" placeholder="Re-enter Password*"> -->
+                                    <input maxlength="50" type="{{ (!confirm_password) ? 'password' : 'text' }}" class="form-control form-control-lg"
+                                    formControlName="confirm_password" placeholder="Re-enter Password">
+                                      <a class="view-password"(click)="confirm_password =!confirm_password"><img src="assets/img/images/svg/eye-icn.svg" alt=""></a>
+                                      <div
+                                      *ngIf="(submittedTutor|| renderErrors.confirm_password.dirty || renderErrors.confirm_password.touched) && renderErrors.confirm_password.errors">
+                                      <div class="has-error" *ngIf="renderErrors.confirm_password.errors.required">Confirm Password is
+                                        required</div>
+                                      <div class="has-error" *ngIf="renderErrors.confirm_password.errors.mustMatch">Confirm Passwords
+                                        must match</div>
+                    
+                                    </div>
+                                  
+                                    </div>
+                                  
+                
+                                  <div class="col-12 mt-20">
+                                    <button type="submit" class="btn btn-primary btn-lg btn-rounded btn-block">Submit</button>
+                                  </div>
+                              </form>
+                              <div class="social-entry_wrap">
+                                <p>Signup with your social Account</p>
+                                <div class="social-btns">
+                                    <a (click)="signInSocialLogin(this.socialLoginFacebook,this.roleTutor)"><img src="assets/img/images/svg/facebook-icn-clr.svg" alt="Facebook Login"></a>
+                                    <div class="dvdr"></div>
+                                    <a (click)="signInSocialLogin(this.socialLoginGoogle,this.roleTutor)"><img src="assets/img/images/svg/google-icn-clr.svg" class="Google Login"></a>
+                                </div>
+                            </div>
+                          </div>
+                          <div class="tab-pane fade" id="nav-student" role="tabpanel" aria-labelledby="nav-student-tab">
+                              <p>Enter the below information to create a Student Account</p>
+                              <form class="row g-3" [formGroup]="studentRegisterForm" ngxScrollToFirstInvalid (ngSubmit)="formSubmit()">
+                                  <div class="col-lg-6">
+                                    <input type="text" class="form-control form-control-lg" formControlName="first_name" placeholder="Type your first name" id="">
+                                    <div
+                                    *ngIf="(submittedStudent || studentRenderErrors.first_name.dirty || studentRenderErrors.first_name.touched) && studentRenderErrors.first_name.errors">
+                                    <div class="has-error" *ngIf="studentRenderErrors.first_name.errors.required">First name is required
+                                    </div>
+                                    <div class="has-error" *ngIf="studentRenderErrors.first_name.errors.maxlength">First name can be 50
+                                      characters long.
+                                    </div>
+                                 </div>
+                                  
+                                  </div>
+                                  
+                                  <div class="col-lg-6 mr_16">
+                                    <input type="text" class="form-control form-control-lg" formControlName="last_name" placeholder="Type your Last Name" id="">
+                                    <div
+                                    *ngIf="(submittedStudent || studentRenderErrors.last_name.dirty || studentRenderErrors.last_name.touched) && studentRenderErrors.last_name.errors">
+                                    <div class="has-error" *ngIf="studentRenderErrors.last_name.errors.required">Last name is required
+                                    </div>
+                                    <div class="has-error" *ngIf="studentRenderErrors.last_name.errors.maxlength">Last name can be 50
+                                      characters long.
+                                    </div>
+                                  </div>
+                                  </div>
+                                 
+                                  <div class="col-12 mt-20">
+                                      <input type="email" class="form-control form-control-lg" formControlName="email" id="" placeholder="johndoe@example.com"
+                                      pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
+                                      [ngClass]="{ 'is-invalid': NoSpace }" (keydown.space)="$event.preventDefault();" (blur)="stutrimValue()">
+                                      <div *ngIf="(submittedStudent || studentRenderErrors.email.dirty || studentRenderErrors.email.touched) && studentRenderErrors.email.errors">
+                                        <div class="has-error" *ngIf="studentRenderErrors.email.errors.required">Email is required</div>
+                                        <div class="has-error" *ngIf="studentRenderErrors.email.errors.pattern">Please enter valid email
+                                          address</div>
+                                      </div>
+                                    </div>
+                                    <div class="col-12 mt-20">
+                                      <ng-select [searchable]="true" autocomplete="off" formControlName="timezone" [clearable]="false" [items]="timeZoneListArray" bindLabel="name" bindValue="value" placeholder="Select TimeZone*" ></ng-select>
+                                      <div *ngIf="(submittedStudent || studentRenderErrors.timezone.dirty || studentRenderErrors.timezone.touched) && studentRenderErrors.timezone.errors">
+                                        <div class="has-error" *ngIf="studentRenderErrors.timezone.errors.required">Timezone is required</div>
+                                      </div>
+                                    </div>
+                                  
+                                  <div class="col-12 position-relative mt-20 ">
+                                      <input type="{{ (!stu_password) ? 'password' : 'text' }}" class="form-control form-control-lg" formControlName="password" id="" placeholder="Set a password">
+                                      <a class="view-password active" (click)="stu_password =! stu_password"><img src="assets/img/images/svg/eye-icn.svg" alt=""></a>
+                                      <!-- <div class="password-strenth">
+                                          <div class="progress">
+                                              <div class="progress-bar bg-danger" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>     
+                                          </div>
+                                          <small>Pl
+                                            ease choose a password that is at least 8 characters</small>
+                                      </div> -->
+                                      <password-strength-meter *ngIf="studentRenderErrors.password.touched && studentRenderErrors.password.value != ''" [password]="studentRenderErrors.password.value" [minPasswordLength]="8">
+                                      </password-strength-meter>
+                                      <div *ngIf="(submittedStudent || studentRenderErrors.password.dirty || studentRenderErrors.password.touched) && studentRenderErrors.password.errors">
+                                        <div class="has-error" *ngIf="studentRenderErrors.password.errors.required">Password is required</div>
+                                        <div class="has-error" *ngIf=" studentRenderErrors.password.errors.passwordStrength">
+                                          A special character, an upper case, a lower case, a number & minimum 8 characters are required.
+                                        </div>
+                                      </div>
+                                      
+                                  </div>
+                                  <div class="col-12 position-relative mt-20">
+                                    <input type="{{ (!stu_confirm_password) ? 'password' : 'text' }}" class="form-control form-control-lg" id="" formControlName="confirm_password" placeholder="Re-enter Password">
+                                      <a class="view-password" (click)="stu_confirm_password =!stu_confirm_password"><img src="assets/img/images/svg/eye-icn.svg" alt=""></a>
+                                      <div *ngIf="(submittedStudent || studentRenderErrors.confirm_password.dirty || studentRenderErrors.confirm_password.touched) && studentRenderErrors.confirm_password.errors">
+                                        <div class="has-error" *ngIf="studentRenderErrors.confirm_password.errors.required">Confirm Password is required</div>
+                                        <div class="has-error" *ngIf="studentRenderErrors.confirm_password.errors.mustMatch">Confirm Passwords
+                                          must match</div>
+                                      </div>
+                                  </div>
+                                  <div class="col-12 mt-20">
+                                    <button type="submit" class="btn btn-primary btn-lg btn-rounded btn-block">Submit</button>
+                                  </div>
+                                </form>                                  
+                                <div class="social-entry_wrap">
+                                  <p>Signup with your social Account</p>
+                                  <div class="social-btns">
+                                      <a (click)="signInSocialLogin(this.socialLoginFacebook,this.roleStudent)"><img src="assets/img/images/svg/facebook-icn-clr.svg" alt="Facebook Login"></a>
+                                      <div class="dvdr"></div>
+                                      <a (click)="signInSocialLogin(this.socialLoginGoogle,this.roleStudent)"><img src="assets/img/images/svg/google-icn-clr.svg" class="Google Login"></a>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>                                        
+              </div>
+              <div class="row">
+                  <div class="col-12">
+                    <!-- <div class="signupagree"> -->
+                    <label class="checkbox_btn" for="is-public-label">By signing up, I agree with  <a href="https://vitutors.com/terms-conditions/" target="_blank">ViTutors terms of use</a> and <a href="https://vitutors.com/privacy-policy/" target="_blank">privacy policies.</a>
+                      <input type="checkbox" [checked]="false"
+                                          class="custom-control-input" id="is-public-label"
+                                          [(ngModel)]="terms_privacy_conditions">
+                                  
+                      
+                  <span class="checkmark"></span>
+                  </label>
+                  <div *ngIf="submittedTutor || submittedStudent">
+                    <div *ngIf="!terms_privacy_conditions" class="text-danger">
+                      *Please agree to ViTutors Terms of use and privacy policies.
+                    </div>
+
+                  </div>
+                 </div>
+              </div>
+                                   
+              <div class="row">
+                  <div class="col-12"><div class="haveaccount">Already have an account?  <a [href]="" [routerLink]="['/login']">Log in</a></div></div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="userenter-col-left">
+      <div class="tutor--signup_banner"><img src="assets/img/images/signup-tutor-bg.jpg" alt="tutor sign up"></div>
+  </div>
+</div>

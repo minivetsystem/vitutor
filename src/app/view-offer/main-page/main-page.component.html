@@ -1,0 +1,876 @@
+<div class="main-panel" [ngClass]="{'side-menu': menuToggle == 1}">
+    <div class="container" *ngIf="validErr == 'valid'">
+        <div class="panel-header bg-primary-gradient">
+            <div class="page-inner py-5">
+                <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+                    <div>
+                        <h2 class="pb-2 fw-bold panel-header-heading">
+                            {{offerDetails.job_detail.job_title}}
+                                <span *ngIf="offerDetails.job_detail.status=='Terminated'" style="display: inline;color:white;font-weight: 400;" class="badge badge-danger ml-2">Terminated</span>
+                                <span *ngIf="offerDetails.job_detail.status!='Terminated' && offerDetails?.status=='Cancelled'" style="display: inline;color:white;font-weight: 400;" class="badge badge-warning ml-2">Cancelled</span>
+                                <span *ngIf=" offerDetails.job_detail.status!='Terminated' && offerDetails?.status=='Accepted'" style="display: inline;color:white;font-weight: 400;" class="badge badge-success ml-2">Accepted</span>
+                                <span *ngIf="offerDetails.job_detail.status!='Terminated' && offerDetails?.status=='Rejected' || offerDetails?.status=='Declined'" style="display: inline;color:white;font-weight: 400;" class="badge badge-Danger ml-2">Rejected</span>
+                                <span *ngIf="offerDetails.job_detail.status!='Terminated' && offerDetails?.status=='Closed' " style="display: inline;color:white;font-weight: 400;" class="badge badge-Primary ml-2">Closed</span>
+                        </h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-inner mt--5 job_single_page">
+            <div class="row mt--2">
+                <div class="col-md-12">
+                    <div class=" job_without_login nwPage">
+
+                        <div class="job_desc_inner">
+                            <!--div class="back_btn">
+                                <a (click)="goBack()" style="cursor:pointer">
+                                    <img src="assets/img/images/arrow-left.svg"> Back</a>
+                            </div-->
+
+                            <div class="job_title_top">
+                              <a [routerLink]="['/search/viewTutor/', offerDetails?.tutor?.profile_slug]" class="tUTOr_Img">
+                                    <div class="tutor-image-new">
+                                        <img *ngIf="offerDetails?.tutor?.image_url" [src]="offerDetails?.tutor?.image_url">
+                                        <img *ngIf="!offerDetails?.tutor?.image_url" src="https://via.placeholder.com/50">
+                                    </div>
+                                    {{offerDetails?.tutor?.first_name}} {{offerDetails?.tutor?.last_name}}
+                                </a>
+                                
+                            </div>
+
+
+                            <div class="send_offer">
+                                <div class="row">
+
+                                    <!--div class="col-sm-12 d-flex justify-content-end">
+                                        <p>Offer : {{offerDetails.status}}</p>
+                                    </div-->
+
+                                    <div class="col-sm-12 tutor_outer">
+                                        <!--div class="tutorLEFT">
+                                            <div class="tutor-image">
+                                                <img *ngIf="offerDetails?.tutor?.image_url" [src]="offerDetails?.tutor?.image_url">
+                                                <img *ngIf="!offerDetails?.tutor?.image_url" src="https://via.placeholder.com/50">
+                                            </div>
+                                            <div class="tutor_rating">
+                                                <app-review-rating-view reviewsCount="5.0" reviewBar="hide" rating="{{offerDetails?.tutor?.avg_rating}}">
+                                                </app-review-rating-view>
+                                                <h6>{{offerDetails?.tutor?.avg_rating| slice:0:3}} <small>( 5.0 )</small></h6>
+
+                                            </div>
+                                        </div-->
+
+                                        <div class="tutor_desc">
+                                            <ul class="Uldesign">
+                                                <li><strong>Hourly Rate:</strong> {{offerDetails?.tutor?.hourly_rate}}</li>
+                                                <li><strong>Tutor Rating:</strong> <app-review-rating-view [reviewsCount]="offerDetails.tutor?.session_review_count" [rating]="offerDetails.tutor?.avg_rating">
+                                                </app-review-rating-view> </li>
+                                                <li><strong>Location: </strong> {{offerDetails?.tutor?.location?.country || 'Not Found'}}</li>
+                                                <li><strong>Experience level:</strong> {{offerDetails?.tutor?.experince_level}}</li>
+                                                <li><strong>Bio:</strong> {{offerDetails?.tutor?.about_me}}</li>
+                                                <li><strong *ngIf="!offerDetails.job_detail.job_recurring">Weekly Billing:</strong>
+                                                    <strong *ngIf="offerDetails.job_detail.job_recurring && offerDetails.job_detail.job_recurring.recurring_type && offerDetails.job_detail.job_recurring.recurring_type != 'Monthly'">Weekly Billing</strong>
+                                                    <strong *ngIf="offerDetails.job_detail.job_recurring && offerDetails.job_detail.job_recurring.recurring_type && offerDetails.job_detail.job_recurring.recurring_type == 'Monthly'">Monthly Billing</strong>
+                                                
+                                                    <ng-container *ngIf="offerDetails.job_detail.job_type_data=='one-time'">
+                                                        <span *ngIf="offerDetails.job_detail.duration ">{{offerDetails.job_detail.duration}}  {{offerDetails.job_detail.duration == 1? 'Hour': 'Hours'}}</span>
+                                                   </ng-container>
+                                                   <ng-container *ngIf="offerDetails.job_detail.job_type_data=='recurring'">
+                                                       <span *ngIf="offerDetails.job_detail.duration && offerDetails.job_detail.job_recurring  && offerDetails.job_detail.job_recurring?.recurring_type== 'Monthly'">{{offerDetails.job_detail.duration * (selectedDates.length > 0 ? selectedDates.length : 1)}} {{offerDetails.job_detail.duration == 1? 'Hour': 'Hours'}}</span>
+                                                       <!-- <p *ngIf="offerDetails.job_detail.duration && !offerDetails.job_detail.job_recurring"><strong>Earnings</strong> Total : {{offerDetails.job_detail.duration}} hrs</p> -->
+                                                        <span *ngIf="offerDetails.job_detail.duration  && offerDetails.job_detail.job_recurring && offerDetails.job_detail.job_recurring.recurring_type && offerDetails.job_detail.job_recurring?.recurring_type == 'Weekly' "> {{offerDetails.job_detail.duration * (selectedDays.length > 0 ? selectedDays.length : 1)}} {{offerDetails.job_detail.duration == 1? 'Hour': 'Hours'}}</span>
+                                                       <span *ngIf=" offerDetails.job_detail.duration  && offerDetails.job_detail.job_recurring && offerDetails.job_detail.job_recurring.recurring_type && offerDetails.job_detail.job_recurring?.recurring_type == 'Daily' "> {{offerDetails.job_detail.duration * (offerDetails?.job_session.length > 7? 7 : offerDetails?.job_session.length)}} Hours</span>
+                                                       <!-- <span *ngIf=" offerDetails.job_detail.duration  && offerDetails.job_detail.job_recurring && offerDetails.job_detail.job_recurring.recurring_type && offerDetails.job_detail.job_recurring?.recurring_type == 'Monthly' "><strong>Session Timings</strong> {{offerDetails.job_detail.duration }} {{offerDetails.job_detail.duration == 1? 'Hour': 'Hours'}}</span> -->
+                                                       <span *ngIf="!offerDetails.job_detail.duration"> --</span>
+                                                       <!-- <span>{{offerDetails?.job_session.length > 7? 7 : offerDetails?.job_session.length}}</span> -->
+                                                   </ng-container>
+                                                  <ng-container *ngIf="offerDetails.job_detail.job_type_data == 'instant-tutoring'">
+                                                   <span *ngIf="offerDetails.job_detail.duration"> {{offerDetails.job_detail.duration}}  {{offerDetails.job_detail.duration == 1? 'Hour': 'Hours'}}</span>
+                                                  </ng-container>
+                                                
+                                                </li>
+                                                <li>
+                                                    <strong *ngIf="!offerDetails.job_detail.job_recurring"> Weekly Earning:</strong>
+                                                    <strong *ngIf="offerDetails.job_detail.job_recurring && offerDetails.job_detail.job_recurring?.recurring_type != 'Monthly'"> Weekly Earnings</strong>
+                                                    <strong *ngIf="offerDetails.job_detail.job_recurring && offerDetails.job_detail.job_recurring?.recurring_type == 'Monthly'"> Monthly Earnings</strong>
+                                                    <!-- <span><strong>Earnings</strong> Total : $15.00</span> -->
+                                                    <span *ngIf="offerDetails.job_detail.duration && offerDetails.job_detail.price_type == 'Hourly' && !offerDetails.job_detail.job_recurring">${{(offerDetails.job_detail.duration || 1) * offerDetails.price}}</span>
+                                                    <span *ngIf="offerDetails.job_detail.duration && offerDetails.job_detail.price_type == 'Hourly' && offerDetails.job_detail.job_recurring && offerDetails.job_detail.job_recurring?.recurring_type == 'Daily'">${{(offerDetails.job_detail.duration || 1) * offerDetails.price * (offerDetails?.job_session.length > 7? 7 : offerDetails?.job_session.length)}}</span>
+                                                    <span *ngIf="offerDetails.job_detail.duration && offerDetails.job_detail.price_type == 'Hourly' && offerDetails.job_detail.job_recurring && offerDetails.job_detail.job_recurring?.recurring_type == 'Weekly'">${{(offerDetails.job_detail.duration || 1)* (selectedDays.length > 0 ? selectedDays.length : 1) * offerDetails.price}}</span>
+                                                    <span *ngIf="offerDetails.job_detail.duration && offerDetails.job_detail.price_type == 'Hourly' && offerDetails.job_detail.job_recurring && offerDetails.job_detail.job_recurring?.recurring_type == 'Monthly'"> ${{(offerDetails.job_detail.duration || 1) * (selectedDates.length > 0 ? selectedDates.length : 1)* offerDetails.price}}</span>
+                                                    <span *ngIf="offerDetails.job_detail.duration && offerDetails.job_detail.price_type == 'Fixed' && !offerDetails.job_detail.job_recurring">${{offerDetails.price}}</span>
+                                                    <span *ngIf="offerDetails.job_detail.duration && offerDetails.job_detail.price_type == 'Fixed' && offerDetails.job_detail.job_recurring && offerDetails.job_detail.job_recurring?.recurring_type == 'Daily'">${{offerDetails.price * (offerDetails?.job_session.length > 7? 7 : offerDetails?.job_session.length)}}</span>
+                                                    <span *ngIf="offerDetails.job_detail.duration && offerDetails.job_detail.price_type == 'Fixed' && offerDetails.job_detail.job_recurring && offerDetails.job_detail.job_recurring?.recurring_type != 'Daily'"> ${{offerDetails.price}}</span>
+                                                    <span *ngIf="!offerDetails.job_detail.duration"> -- </span>                                             
+                                                </li>
+                                            </ul>
+                                            
+
+                                            <!--div class="row">
+                                                
+                                                <div class="col-sm-6">
+                                                    <strong>Hourly Rate </strong>
+                                                    <p>{{offerDetails?.tutor?.hourly_rate}}</p>
+                                                </div>
+                                                <div class="col-sm-6 tutr_rating">
+                                                    <strong>Tutor Rating </strong>
+                                                    <p><app-review-rating-view reviewsCount="5.0" reviewBar="hide" rating="{{offerDetails?.tutor?.avg_rating}}">
+                                                    </app-review-rating-view> {{offerDetails?.tutor?.avg_rating| slice:0:3}} <small>( 5.0 )</small>
+                                                   </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <strong>Location </strong>
+                                                    <p>{{offerDetails?.tutor?.location?.country}}</p>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <strong>Experience level</strong>
+                                                    <p>{{offerDetails?.tutor?.experince_level}}</p>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <strong>Bio </strong>
+                                                    <p>{{offerDetails?.tutor?.about_me}}</p>
+                                                    <a [routerLink]="['/search/viewTutor/', offerDetails?.tutor?.profile_slug]" class="btn btn-primary">View Profile</a>
+                                                    
+                                                </div>
+                                            </div-->
+
+
+                                            <!--strong>Job Title </strong>
+                                            <p>{{offerDetails.job_detail.job_title}}</p-->
+
+
+
+
+                                            <!--strong>Offer sent date </strong>
+                                            <p>{{offerDetails.offer_sent_on}}</p>
+                                            <strong>Message </strong>
+                                            <p>{{offerDetails.message}}</p-->
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row weekly" style="display:none;">
+                                        <div class="col-sm-6">
+                                            <div class="weekly_box">
+                                                <!-- <h5>Weekly Billing</h5> -->
+                                                <h5 *ngIf="!offerDetails.job_detail.job_recurring">Weekly Billing</h5>
+                                                <h5 *ngIf="offerDetails.job_detail.job_recurring && offerDetails.job_detail.job_recurring.recurring_type && offerDetails.job_detail.job_recurring.recurring_type != 'Monthly'">Weekly Billing</h5>
+                                                <h5 *ngIf="offerDetails.job_detail.job_recurring && offerDetails.job_detail.job_recurring.recurring_type && offerDetails.job_detail.job_recurring.recurring_type == 'Monthly'">Monthly Billing</h5>
+                                                <!-- <span><strong>Session Timings</strong> 2 hrs</span> -->
+                                                <ng-container *ngIf="offerDetails.job_detail.job_type_data=='one-time'">
+                                                     <span *ngIf="offerDetails.job_detail.duration "><strong>Session Timings</strong> {{offerDetails.job_detail.duration}}  {{offerDetails.job_detail.duration == 1? 'Hour': 'Hours'}}</span>
+                                                </ng-container>
+                                                <ng-container *ngIf="offerDetails.job_detail.job_type_data=='recurring'">
+                                                    <span *ngIf="offerDetails.job_detail.duration && offerDetails.job_detail.job_recurring  && offerDetails.job_detail.job_recurring?.recurring_type== 'Monthly'"><strong>Session Timings</strong> {{offerDetails.job_detail.duration * (selectedDates.length > 0 ? selectedDates.length : 1)}} {{offerDetails.job_detail.duration == 1? 'Hour': 'Hours'}}</span>
+                                                    <!-- <p *ngIf="offerDetails.job_detail.duration && !offerDetails.job_detail.job_recurring"><strong>Earnings</strong> Total : {{offerDetails.job_detail.duration}} hrs</p> -->
+                                                     <span *ngIf="offerDetails.job_detail.duration  && offerDetails.job_detail.job_recurring && offerDetails.job_detail.job_recurring.recurring_type && offerDetails.job_detail.job_recurring?.recurring_type == 'Weekly' "><strong>Session Timings</strong> {{offerDetails.job_detail.duration * (selectedDays.length > 0 ? selectedDays.length : 1)}} {{offerDetails.job_detail.duration == 1? 'Hour': 'Hours'}}</span>
+                                                    <span *ngIf=" offerDetails.job_detail.duration  && offerDetails.job_detail.job_recurring && offerDetails.job_detail.job_recurring.recurring_type && offerDetails.job_detail.job_recurring?.recurring_type == 'Daily' "><strong>Session Timings</strong> {{offerDetails.job_detail.duration * (offerDetails?.job_session.length > 7? 7 : offerDetails?.job_session.length)}} Hours</span>
+                                                    <!-- <span *ngIf=" offerDetails.job_detail.duration  && offerDetails.job_detail.job_recurring && offerDetails.job_detail.job_recurring.recurring_type && offerDetails.job_detail.job_recurring?.recurring_type == 'Monthly' "><strong>Session Timings</strong> {{offerDetails.job_detail.duration }} {{offerDetails.job_detail.duration == 1? 'Hour': 'Hours'}}</span> -->
+                                                    <span *ngIf="!offerDetails.job_detail.duration"><strong>Session Timings</strong> --</span>
+                                                    <!-- <span>{{offerDetails?.job_session.length > 7? 7 : offerDetails?.job_session.length}}</span> -->
+                                                </ng-container>
+                                               <ng-container *ngIf="offerDetails.job_detail.job_type_data == 'instant-tutoring'">
+                                                <span *ngIf="offerDetails.job_detail.duration"><strong>Session Timings</strong> {{offerDetails.job_detail.duration}}  {{offerDetails.job_detail.duration == 1? 'Hour': 'Hours'}}</span>
+                                               </ng-container>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="weekly_box">
+                                                <!-- <h5>Weekly Earning</h5> -->
+                                                <h5 *ngIf="!offerDetails.job_detail.job_recurring"> Weekly Earning</h5>
+                                                <h5 *ngIf="offerDetails.job_detail.job_recurring && offerDetails.job_detail.job_recurring?.recurring_type != 'Monthly'"> Weekly Earning</h5>
+                                                <h5 *ngIf="offerDetails.job_detail.job_recurring && offerDetails.job_detail.job_recurring?.recurring_type == 'Monthly'"> Monthly Earning</h5>
+                                                <!-- <span><strong>Earnings</strong> Total : $15.00</span> -->
+                                                <span *ngIf="offerDetails.job_detail.duration && offerDetails.job_detail.price_type == 'Hourly' && !offerDetails.job_detail.job_recurring"><strong>Earnings</strong> Total : ${{(offerDetails.job_detail.duration || 1) * offerDetails.price}}</span>
+                                                <span *ngIf="offerDetails.job_detail.duration && offerDetails.job_detail.price_type == 'Hourly' && offerDetails.job_detail.job_recurring && offerDetails.job_detail.job_recurring?.recurring_type == 'Daily'"><strong>Earnings</strong> Total : ${{(offerDetails.job_detail.duration || 1) * offerDetails.price * (offerDetails?.job_session.length > 7? 7 : offerDetails?.job_session.length)}}</span>
+                                                <span *ngIf="offerDetails.job_detail.duration && offerDetails.job_detail.price_type == 'Hourly' && offerDetails.job_detail.job_recurring && offerDetails.job_detail.job_recurring?.recurring_type == 'Weekly'"><strong>Earnings</strong> Total : ${{(offerDetails.job_detail.duration || 1)* (selectedDays.length > 0 ? selectedDays.length : 1) * offerDetails.price}}</span>
+                                                <span *ngIf="offerDetails.job_detail.duration && offerDetails.job_detail.price_type == 'Hourly' && offerDetails.job_detail.job_recurring && offerDetails.job_detail.job_recurring?.recurring_type == 'Monthly'"><strong>Earnings</strong> Total : ${{(offerDetails.job_detail.duration || 1) * (selectedDates.length > 0 ? selectedDates.length : 1)* offerDetails.price}}</span>
+                                                <span *ngIf="offerDetails.job_detail.duration && offerDetails.job_detail.price_type == 'Fixed' && !offerDetails.job_detail.job_recurring"><strong>Earnings</strong> Total : ${{offerDetails.price}}</span>
+                                                <span *ngIf="offerDetails.job_detail.duration && offerDetails.job_detail.price_type == 'Fixed' && offerDetails.job_detail.job_recurring && offerDetails.job_detail.job_recurring?.recurring_type == 'Daily'"><strong>Earnings</strong> Total : ${{offerDetails.price * (offerDetails?.job_session.length > 7? 7 : offerDetails?.job_session.length)}}</span>
+                                                <span *ngIf="offerDetails.job_detail.duration && offerDetails.job_detail.price_type == 'Fixed' && offerDetails.job_detail.job_recurring && offerDetails.job_detail.job_recurring?.recurring_type != 'Daily'"><strong>Earnings</strong> Total : ${{offerDetails.price}}</span>
+                                                <span *ngIf="!offerDetails.job_detail.duration"><strong>Earnings</strong> Total : -- </span>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 ">
+                                           
+                                            
+                                            <div class="whBtn" *ngIf="offerDetails?.status == 'Accepted'  ">
+                                                <a  *ngIf="offerDetails?.status == 'Accepted' && !isJobCompleted" (click)="cancelOffer()" class="newBtn btn btn-warning">Cancel Offer</a>
+                                                <a  *ngIf="!sessionDetails?.transaction_id && sessionDetails?.status == 'Pending'" (click)="makePayment()" class=" newBtn btn btn-primary">Make Payment</a>
+                                                <button class="newBtn btn btn-red" *ngIf="joinSessionBtn && (sessionDetails?.transaction_id) && sessionDetails?.status == 'Pending'" (click)="joinSession()" style=" padding: 3px 10px;margin: 2px;min-width: inherit;" [disabled]="joinSessionBtnDisabled">Join session</button>
+                                                <div class="row" *ngIf="sessionDetails?.status == 'Pending'">
+                                                <p class="text-danger" style="font-size: 10px;" *ngIf="timer != false ">{{timer}}</p>
+                                                </div>
+                                                
+                                            </div>
+                                            <!-- <div class="whBtn" *ngIf="offerDetails?.status == 'Accepted' && !sessionDetails?.transaction_id && sessionDetails?.status == 'Pending'">
+                                               
+    
+                                            </div> -->
+                                        </div>
+                                        
+                                        <!-- <div class="col-sm-6">
+                                            <a  *ngIf="offerDetails.status == 'Accepted'" disabled class="btn btn-red ">Join Session</a>
+                                        </div> -->
+                                    </div>
+                                    <!-- <div class="col-sm-12">
+                                        
+                                    </div> -->
+                                    <!-- <div class="col-sm-12"><button class="btn btn-primary">Reply</button></div> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="job_button_right wh_job_button_right">
+                            <div class="tutors wh_tutors">
+                                <div class="avatar-sm">
+                                    <img *ngIf="offerDetails.student.image_url" [src]="offerDetails.student.image_url">
+                                    <img *ngIf="!offerDetails.student.image_url" src="assets/img/avatar_user2.jpg">
+                                </div> {{offerDetails.student.full_name}} <button *ngIf="offerDetails.status == 'Pending'" class="btn btn-primary" (click)="editOfferDetails()"><img src="assets/img/edit.svg"></button></div>
+                            <!--div class="price_pro">
+                                <img src="assets/img/gift.svg"> <strong>Offer price
+                                    <span>{{offerDetails.accepted_price}}</span>
+                                </strong>
+                            </div-->
+                            <div class="job_time_date">
+                                <div class="row">
+                                    <div class="col-sm-6 dFLex">
+                                        <strong>Offer price: </strong>
+                                        <p>{{offerDetails.accepted_price}}</p>
+                                        
+                                    </div>
+                                    <div class="col-sm-6 dFLex">
+                                        <strong>Offer sent date: </strong>
+                                        <p>{{offerDetails.offer_sent_on}}</p>
+                                    </div>
+                                
+                                    <div class="col-sm-6 dFLex">
+                                        <strong>Proposed Start Date:</strong>
+                                        <p *ngIf="offerDetails.job_detail.proposed_start_time">{{offerDetails?.job_detail?.proposed_start_time}}</p>
+                                        <p *ngIf="!offerDetails.job_detail?.proposed_start_time">Unknown</p>
+                                        
+                                    </div>
+                                    <!-- <div class="col-sm-6">
+                                        <strong>Job Schedule </strong>
+                                        <p *ngIf="offerDetails.job_detail.job_type_data == 'one-time'">{{schedule_date.date}} {{schedule_date.time}}</p>
+                                        <p *ngIf="offerDetails.job_detail.job_type_data == 'recurring'">{{schedule_date.date}} {{schedule_date.time}}</p>
+                                    </div> -->
+                                    <div class="col-sm-6 dFLex">
+                                        <strong>Job Type: </strong>
+                                        <p *ngIf="offerDetails.job_detail.job_type">{{offerDetails.job_detail.job_type_data == 'instant-tutoring' ? 'On-Demand': offerDetails.job_detail.job_type}}</p>
+                                    </div>
+                                    <div class="col-sm-6 dFLex" *ngIf="offerDetails.job_detail.job_type_data == 'recurring'">
+                                        <strong>On-Demand Type: </strong>
+                                        <p >{{offerDetails.job_detail.job_recurring?.recurring_type}}</p>
+                                    </div>
+                                    <div class="col-sm-6 dFLex" *ngIf="offerDetails.job_detail.job_type_data == 'recurring' && offerDetails.job_detail.job_recurring?.recurring_type == 'Weekly'">
+                                        <strong>On-Demand Day of Week:</strong>
+                                        <p >{{selectedDaysCommaSeparated}}</p>
+                                    </div>
+                                    <div class="col-sm-6 dFLex" *ngIf="offerDetails.job_detail.job_type_data == 'recurring' && offerDetails.job_detail.job_recurring?.recurring_type == 'Monthly'">
+                                        <strong>On-Demand Date of Month</strong>
+                                        <p >{{offerDetails.job_detail.job_recurring?.date}}</p>
+                                    </div>
+                                    <br/>
+                                    <div class="col-sm-12 attach dFLex">
+                                        <strong>Job Attachment:</strong>
+                                        <div class="certification">
+                                            <div *ngIf="uploadedDocuments" class="cerfication_img">
+                                                <ng-container *ngFor="let document of uploadedDocuments">
+                                                <div class="ceft_img" (click)="downloadAttachment(document,'job-attachments', document.file_name)">
+                                                    
+                                                    <span >
+                                                        <img *ngIf="document.file_type == 'image/jpeg' " src="assets/img/ico-jpg.svg">
+                                                        <img *ngIf="document.file_type == 'image/png' " src="assets/img/ico-png.svg">
+                                                        <img *ngIf="document.file_type == 'application/pdf' " src="assets/img/ico-pdf.svg">
+                                                        <img *ngIf="document.file_type == 'application/msword' " src="assets/img/msword.jpeg">
+                                                        <img *ngIf="document.file_type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' " src="assets/img/ico-doc.svg" alt="docx">
+                                                        <img *ngIf="document.file_type == 'application/vnd.ms-excel' " alt="excel" src="assets/img/ico-excel.png">
+                                                        <img *ngIf="document.file_type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' " src="assets/img/ico-spreadsheet.png" alt="xls">
+                                                        <!-- <img *ngIf="document.attachment || offerDetails.attachment.length > 0" class="download_icon"  src="assets/img/download_blue.svg" > -->
+                                                    </span>
+                                                    <div class="download_btns">
+                                                        <button type="button" style="color: rgb(204, 204, 204);" (click)="downloadAttachment(document,'job-attachments', document.file_name)"><i class="fas fa-cloud-download-alt"></i></button>
+                                                        <div *ngIf="document" class="document_name">{{document.file_name}}</div>
+                                                    </div>
+                                                   
+                                                </div>
+                                            </ng-container>
+                                            </div>
+                                            <p *ngIf="!uploadedDocuments" style="text-decoration: none;">No Attachments</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 attach dFLex">
+                                        <strong>Offer Attachment:</strong>
+                                        <div class="certification">
+                                            <div *ngIf="offerDetails.attachment" class="cerfication_img">
+                                                <div class="ceft_img" (click)="downloadAttachment(offerDetails,'job-offers-attachments', offerDetails.image_title? offerDetails.image_title: offerDetails.attachment)">
+                                                    <span>
+                                                        <img *ngIf="offerDetails.file_type == 'image/jpeg' && offerDetails.attachment && offerDetails.attachment.length > 0" src="assets/img/ico-jpg.svg">
+                                                        <img *ngIf="offerDetails.file_type == 'image/png' && offerDetails.attachment && offerDetails.attachment.length > 0" src="assets/img/ico-png.svg">
+                                                        <img *ngIf="offerDetails.file_type == 'application/pdf' && offerDetails.attachment && offerDetails.attachment.length > 0" src="assets/img/ico-pdf.svg">
+                                                        <img *ngIf="offerDetails.file_type == 'application/msword' && offerDetails.attachment && offerDetails.attachment.length > 0" src="assets/img/msword.jpeg">
+                                                        <img *ngIf="offerDetails.file_type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' && offerDetails.attachment && offerDetails.attachment.length > 0" src="assets/img/ico-doc.svg" alt="docx">
+                                                        <img *ngIf="offerDetails.file_type == 'application/vnd.ms-excel' && offerDetails.attachment && offerDetails.attachment.length > 0" alt="excel" src="assets/img/ico-excel.png">
+                                                        <img *ngIf="offerDetails.file_type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' && offerDetails.attachment && offerDetails.attachment.length > 0" src="assets/img/ico-spreadsheet.png" alt="xls">
+                                                        <!-- <img *ngIf="offerDetails.attachment || offerDetails.attachment.length > 0" class="download_icon"  src="assets/img/download_blue.svg" > -->
+                                                    </span>
+                                                    <div class="download_btns">
+                                                        <button type="button" style="color: rgb(204, 204, 204);" (click)="downloadAttachment(offerDetails,'job-offers-attachments', offerDetails.image_title? offerDetails.image_title: offerDetails.attachment)"><i class="fas fa-cloud-download-alt"></i></button>
+                                                        <div *ngIf="offerDetails.attachment && offerDetails.attachment.length > 0" class="document_name">{{offerDetails.image_title? offerDetails.image_title: offerDetails.attachment}}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <p *ngIf="!offerDetails.attachment || offerDetails.attachment.length == 0" style="text-decoration: none;">No Attachments</p>
+                                        </div>
+
+
+
+                                    </div>
+                                    <br>
+                                    <div class="col-sm-12 dFLex">
+                                        <strong>Message: </strong>
+                                        <p>{{offerDetails.message}}</p>
+                                    </div>
+                                    <br>
+                                    <div class="col-sm-12 tutorTime">
+                                        <span><strong>Tutoring time:</strong> </span>
+                                        <div class="table-responsive wKTABle" *ngIf="getJobTime.length > 0; else no_data">
+                                        <table class="table table-borderless">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Date</th>
+                                                    <th scope="col">Start Time</th>
+                                                    <th scope="col">End Time</th>
+                                                    <th scope="col">Total Time</th>
+                                                    <th scope="col">Total Amount</th>
+                                                    <!-- <th scope="col">Status</th> -->
+                                                    <th scope="col"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let time of getJobTime | paginate: { itemsPerPage: p, currentPage : 1 }">
+                                                    <td>{{time.date}}</td>
+                                                    <td>{{time.startTime}}</td>
+                                                    <td>{{time.endTime}}</td>
+                                                    <td>{{time.totalTime}} Hour</td>
+                                                    <td>${{time.totalAmount}}</td>
+                                                    <!-- <td>{{!time.status || time.status == 'Pending'  ? 'Upcoming' : time.status}}</td> -->
+                                                    <td class="vertical_align_center" *ngIf="time.status=='Pending' && time.isEditable && offerDetails?.status!='Pending'">
+                                                        <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/img/three_dots.svg"></a>
+                                                        <div class="dropdown-menu">
+                                                            <a class="dropdown-item"  (click)="checkAvailabilityDate(time)" >Edit</a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                            <a class="btn btn-primary" (click)="loadMore()" *ngIf="loadMoreBtn && getJobTime.length > 5">Load More</a>
+                                            <a class="btn btn-primary" (click)="showLess()" *ngIf="!loadMoreBtn">Show Less</a>
+                                        </table>
+                                        </div>
+                                        <ng-template #no_data>
+                                            <p> NO DATA</p>
+                                        </ng-template>
+                                    </div>
+                                </div>
+
+                                <!-- <span><strong>Job Time :</strong> 05:15PM</span> -->
+
+
+                            </div>
+
+                            <!-- <button style="width:100%;"  class="btn btn-red"   >Reject</button> -->
+
+                            <div class="attacments_offer atth">
+                                <strong style="color: #1492E6;"></strong>
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container" *ngIf="validErr == 'invalid' || validErr == 'not_found'">
+        <div class="page-inner mt--5 job_single_page">
+            <div class="row mt--2">
+                <div class="col-md-12">
+                    <div class=" job_without_login ">
+    
+                        <div class="job_desc_inner">
+                            <div class="send_offer">
+                                <div class="row">
+    
+                                    <!--div class="col-sm-12 d-flex justify-content-end">
+                                        <p>Offer : {{offerDetails.status}}</p>
+                                    </div-->
+                                   
+    
+                                    <div class="col-sm-12 ">
+
+                                        <!-- <div class="tutor_desc"> -->
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <h3>You are not authorise to view offer</h3>
+                                                </div>
+                                            <div class="col-sm-12">
+                                                <button class="btn btn-primary" [routerLink]="['/student/manage-jobs']">Back</button>
+                                            </div>
+                                            
+                                            <!-- </div> -->
+                                            </div>
+                                        </div>
+                                        </div>
+                                        </div>
+                        </div>
+                          
+                            </div>
+                            </div>
+                            </div>
+                            </div>
+                       
+       
+    </div>
+    <app-short-footer></app-short-footer>
+    <!-- <footer class="footer">
+        <div class="container-fluid">
+
+            <div class="copyright ">
+                ©2020 Vitutors | All rights reserved
+            </div>
+            <nav class="pull-left ml-auto">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+							Privacy Policy
+						</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+							Terms of Use
+						</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+							FAQ’s
+						</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+							Contact Support
+						</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </footer> -->
+</div>
+
+
+
+<!-- Modal -->
+<div id="rejectOfferModal" class="modal fade" role="dialog" #rejectOfferModal>
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Decline Offer</h4>
+                <button type="button" class="close" data-dismiss="modal"><img src="../../../assets/img/close-14.svg"></button>
+
+            </div>
+            <div class="modal-body">
+                <form class="form-group form-show-validation row">
+                    <div class="col-lg-12 wk_form">
+                        <label>Job Title <span class="required-label">*</span></label>
+                        <input type="text" class="form-control" disabled [value]="rejectOfferObj.job_title">
+                    </div>
+                    <div class="col-lg-12 wk_form">
+                        <label>Reason for decline <span class="required-label">*</span></label>
+                        <textarea type="text" class="form-control" name="declineReason" [(ngModel)]="declineReason" placeholder="Enter reason for decline" required="" #decline="ngModel"></textarea>
+                    </div>
+                    <div *ngIf="declineSubmitted || (decline.touched || decline.dirty)">
+                        <p *ngIf="decline.value == ''" class="text-danger"> Please enter reason</p>
+                    </div>
+                    <div class="col-lg-10">
+                        <button class="btn btn-warning mr-3" (click)="closeRejectModal()">Cancel</button>
+                        <button class="btn btn-primary" (click)="rejectOfferSubmit()">Decline</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="acceptOfferModal" class="modal fade" role="dialog" #acceptOfferModal>
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Accept Offer</h4>
+                <button type="button" class="close" (click)="closeAcceptModal()"><img src="../../../assets/img/close-14.svg"></button>
+
+            </div>
+            <div class="modal-body">
+                <form class="form-group form-show-validation row">
+                    <div class="col-lg-12 wk_form">
+                        <label>Job Title <span class="required-label">*</span></label>
+                        <input type="text" class="form-control" disabled [value]="acceptOfferObj.job_title">
+                    </div>
+                    <div class="col-lg-12 wk_form">
+                        <label>Reason for accept <span class="required-label">*</span></label>
+                        <textarea type="text" class="form-control" name="acceptReason" [(ngModel)]="acceptReason" placeholder="Enter reason" required="" #accept="ngModel"></textarea>
+                    </div>
+                    <div *ngIf="acceptSubmitted || accept.touched || accept.dirty">
+                        <p *ngIf="accept.value == ''" class="text-danger"> Please enter reason</p>
+                    </div>
+                    <div class="col-lg-12 wk_form">
+                        <label>Offer Price <span class="required-label">*</span></label>
+                        <input type="text" class="form-control" disabled [value]="acceptOfferObj.accepted_price ">
+
+
+                    </div>
+
+                    <div class="col-lg-10">
+                        <button class="btn btn-warning mr-3" (click)="closeAcceptModal()">Cancel</button>
+                        <button class="btn btn-primary" (click)="acceptOfferSubmit()">Accept</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="edit_job" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Offer</h4>
+                <button type="button" class="close" data-dismiss="modal"><img src="assets/img/images/close-14.svg"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="editOfferForm"  class="form-group form-show-validation row">
+                    <div class="col-lg-12 wk_form">
+                        <label>Offer Price($)<span class="required-label">*</span></label>
+                        <input  type="text" class="form-control" formControlName="price" name="price">
+                        <div *ngIf="formSubmitted && editOfferForm.controls.price.errors">
+                            <p *ngIf="editOfferForm.controls.price.errors.required" class="text-danger">Price is required</p>
+                            <p *ngIf="editOfferForm.controls.price.errors.pattern" class="text-danger">Price is incorrect</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 wk_form">
+                        <label> Message <span class="required-label">*</span></label>
+                        <textarea  placeholder="Enter Message" formControlName="message" class="form-control" name="message" rows="3"></textarea>
+                        <div *ngIf="formSubmitted && editOfferForm.controls.message.errors">
+                            <p *ngIf="editOfferForm.controls.message.errors.required" class="text-danger">Message is required</p>
+                            <!-- <p *ngIf="editOfferForm.controls.message.errors.pattern" class="text-danger">Price is incorrect</p> -->
+                        </div>
+                    </div>
+                    <div class="col-lg-6 wk_form" *ngIf="!isRecurring">
+                        <label>Set Date <span class="required-label">*</span></label>
+                        <div class="input-group">
+                           
+                            <input type="text"  placeholder="Set date" class="form-control success" formControlName="schedule_date"  [owlDateTime]="dt2">
+                            <div class="input-group-append d-flex">
+                                <span class="input-group-text">
+                                    <i class="fa fa-calendar-o"  [owlDateTimeTrigger]="dt2"></i>
+                                </span>
+                            </div>
+                            <owl-date-time #dt2 [pickerType]="'calendar'"></owl-date-time>
+                        </div>
+                        <div *ngIf="(editOfferForm.controls.schedule_date.dirty || editOfferForm.controls.schedule_date.touched ) && editOfferForm.controls.schedule_date.errors">
+                            <div class="text-danger" *ngIf="editOfferForm.controls.schedule_date.errors.required">Date is required</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 " *ngIf="recurringTypeField == 'Weekly'">
+                        <label>Weekly Day <span class="required-label">*</span></label>
+                        <!-- <select class="form-control" formControlName="day">
+                            <option value="">Select day</option>
+                            <option value="Sunday">Sunday</option>
+                            <option value="Monday">Monday</option>
+                            <option value="Tuesday">Tuesday</option>
+                            <option value="Wednesday">Wednesday</option>
+                            <option value="Thursday">Thursday</option>
+                            <option value="Friday">Friday</option>
+                            <option value="Saturday">Saturday</option>
+                        </select> -->
+                        <ng-select #select [multiple]="true" 
+                            formControlName="day"
+                            placeholder="Select Days">
+                            <ng-option *ngFor="let days of daysArray" [value]="days.name" >{{days.name}}</ng-option>
+                        </ng-select>
+                        <div *ngIf="( editOfferForm.controls.day.dirty || editOfferForm.controls.day.touched) && editOfferForm.controls.day.errors">
+                            <div class="text-danger" *ngIf="editOfferForm.controls.day.errors.required">Atleast one Day is required</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 " *ngIf="recurringTypeField == 'Monthly'">
+                        <label>Monthly Date <span class="required-label">*</span></label>
+                        <!-- <select class="form-control" formControlName="date">
+                            <option value="">Select date</option>
+                            <option *ngFor='let in of [].constructor(31),let i = index' value="{{i+1}}">{{i+1}}</option>
+                        </select> -->
+                        <ng-select #select [multiple]="true" 
+                            formControlName="date"
+                            placeholder="Select Monthly Date">
+                            <ng-option *ngFor="let dates of datesArray" [value]="dates.name" >{{dates.name}}</ng-option>
+                        </ng-select>
+                        <div *ngIf="( editOfferForm.controls.date.dirty || editOfferForm.controls.date.touched) && editOfferForm.controls.date.errors">
+                            <div class="text-danger" *ngIf="editOfferForm.controls.date.errors.required">Atleast one Date is required</div>
+                        </div>
+                    </div>
+                    <div  class="col-lg-6 col-md-6 col-sm-6 wk_form">
+                        <label>Set Time <span class="required-label">*</span></label>
+                        <input [ngxTimepicker]="picker" formControlName="time" class="form-control success">
+                        <ngx-material-timepicker #picker></ngx-material-timepicker>
+                        <div *ngIf="( editOfferForm.controls.time.dirty || editOfferForm.controls.time.touched) && editOfferForm.controls.time.errors">
+                            <div class="text-danger" *ngIf="editOfferForm.controls.time.errors.required">Time is required</div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 wk_form" *ngIf="isRecurring">
+                        <label>Start Date <span class="required-label">*</span></label>
+                        <div class="input-group">
+                            <input type="text"  placeholder="Set start date" class="form-control success" formControlName="start_date" (ngModelChange)="changeStartDate($event)" [owlDateTime]="dt3">
+                            <div class="input-group-append d-flex">
+                                <span class="input-group-text">
+                                    <i class="fa fa-calendar-o" [owlDateTimeTrigger]="dt3"></i>
+                                </span>
+                            </div>
+                            <owl-date-time [pickerType]="'calendar'" #dt3></owl-date-time>
+                        </div>
+                        <div *ngIf="(editOfferForm.controls.start_date.dirty || editOfferForm.controls.start_date.touched ) && editOfferForm.controls.start_date.errors">
+                            <div class="text-danger" *ngIf="editOfferForm.controls.start_date.errors.required">Start Date is required</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 wk_form" *ngIf="isRecurring">
+                        <label>End Date <span class="required-label">*</span></label>
+                        <div class="input-group">
+                            <input type="text" [min]="editOfferForm.controls.start_date.value || currentDate" placeholder="Set end date" class="form-control success" formControlName="end_date" (ngModelChange)="change($event)" [owlDateTime]="dt4">
+                            <div class="input-group-append d-flex">
+                                <span class="input-group-text">
+                                    <i class="fa fa-calendar-o" [owlDateTimeTrigger]="dt4"></i>
+                                </span>
+                            </div>
+                            <owl-date-time [pickerType]="'calendar'" #dt4></owl-date-time>
+                        </div>
+                        <div *ngIf="(editOfferForm.controls.end_date.dirty || editOfferForm.controls.end_date.touched ) && editOfferForm.controls.end_date.errors">
+                            <div class="text-danger" *ngIf="editOfferForm.controls.end_date.errors.required">End Date is required</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 wk_form">
+                        <label>Attachment</label>
+                        <input (change)="onSelectAttachment($event)" type="file" formControlName="attachment" class="form-control" name="attachment">
+                        <div *ngIf="formSubmitted && (attachmentTypeError || attachmentsizeLimitError)">
+                            <p *ngIf="attachmentTypeError" class="text-danger">Invalid file format</p>
+                            <p *ngIf="attachmentsizeLimitError" class="text-danger">Support file having size less than 5 MB</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 text-center" *ngIf="dateRangeErr != ''">
+                        <p class="text-danger">{{dateRangeErr}}</p>
+                    </div>
+                    <div class="col-lg-12 text-center">
+                        <!-- <button class="btn btn-primary " (click)="onSubmit()">Update</button> -->
+                        <button class="btn btn-primary " (click)="openAvailabilityModal()" type="button">Proceed</button>
+                        
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+ <!-- Modal -->
+ <div id="cancelOfferModal" class="modal fade" role="dialog" #cancelOfferModal>
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Cancel Offer</h4>
+                <button type="button" class="close" (click)="closeCancelModal()"><img src="assets/img/close-14.svg"></button>
+
+            </div>
+            <div class="modal-body">
+                <form class="form-group form-show-validation row">
+                    <div class="col-lg-12 wk_form">
+                        <label>Job Title <span class="required-label">*</span></label>
+                        <input type="text" class="form-control" disabled [value]="offerDetails?.job_detail?.job_title">
+                    </div>
+                    <div class="col-lg-12 wk_form">
+                        <label>Message </label>
+                        <textarea type="text" class="form-control" name="reason" [(ngModel)]="reason" placeholder="Enter reason for cancel" required="" #decline="ngModel"></textarea>
+                    </div>
+
+                    <div class="col-lg-10">
+                        <button class="btn btn-warning mr-3" (click)="closeCancelModal()">Close</button>
+                        <button class="btn btn-primary" (click)="cancelOfferSubmit()">Cancel Offer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- <div id="sessionTimeUpdate" class="modal fade" role="dialog" #sessionTimeUpdate>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Update session</h4>
+                <button type="button" class="close" data-dismiss="modal"><img src="assets/img/close-14.svg"></button>
+
+            </div>
+            <div class="modal-body">
+                <form class="form-group form-show-validation row" [formGroup]="updateSessionForm">
+                    <div class="col-lg-12 wk_form">
+                        <label>Job Title <span class="required-label">*</span></label>
+                        <input type="text" class="form-control" disabled formControlName="jobTitle" [value]="offerDetails?.job_detail?.job_title">
+                    </div>
+                    <div class="col-lg-12 wk_form">
+                        <label>Schedule Date</label>
+                        <input type="text" class="form-control" disabled formControlName="schedule_date" [value]="offerDetails?.job_detail?.job_title">
+                    </div>
+                    <div class="col-lg-6 wk_form">
+                        <label>Start Time</label>
+                        <input [ngxTimepicker]="picker1" placeholder="Set Time" formControlName="start_time" class="form-control" >
+                        <ngx-material-timepicker #picker1  (closed)="changeTime($event)"></ngx-material-timepicker>
+                        <div *ngIf="(updateSessionForm.controls.start_time.dirty || updateSessionForm.controls.start_time.touched ) && updateSessionForm.controls.start_time.errors">
+                            <div class="text-danger" *ngIf="updateSessionForm.controls.start_time.errors.required">Start Time is required</div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-6 wk_form">
+                        <label>End Time</label>
+                        <input [ngxTimepicker]="picker2" placeholder="Set Time" formControlName="end_time" class="form-control"  disabled="true">
+                        <ngx-material-timepicker #picker2 (closed)="changeTime($event)" ></ngx-material-timepicker>
+                        <div *ngIf="(updateSessionForm.controls.end_time.dirty || updateSessionForm.controls.end_time.touched ) && updateSessionForm.controls.end_time.errors">
+                            <div class="text-danger" *ngIf="updateSessionForm.controls.end_time.errors.required">End Time is required</div>
+                        </div>
+                    </div>
+  
+                        <p class="text-danger" *ngIf="updateErr == 'StartTimeLess'">Start time must be greater than current time</p>
+                        <p class="text-danger" *ngIf="updateErr == 'Durationless'">Start time and End Time must have a difference of {{updateSessionForm.controls.duration.value}} hour(s) </p>
+                        <p class="text-danger" *ngIf="updateErr == 'EndTimeLess'"> Session start time and end time must be on same schedule date</p>
+                   
+
+                    <div class="col-lg-10">
+                        <button class="btn btn-primary" (click)="updateTime()">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div> -->
+<div id="sessionTimeUpdate" class="modal fade" role="dialog" #sessionTimeUpdate>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Update session</h4>
+                <button type="button" class="close" data-dismiss="modal"><img src="assets/img/close-14.svg"></button>
+
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                      <form class="row" [formGroup]="updateSessionForm">
+                       
+                          <div class="col-md-12 form-group mb-3">
+                              <label>Date</label>
+                              <input type="text" placeholder="Please choose date" class="form-control" formControlName="schedule_date" disabled>
+                              <div *ngIf="(form.schedule_date.touched || form.schedule_date.dirty) && form.schedule_date.errors">
+                                <p class="text-danger" *ngIf="form.schedule_date.errors.required">Date is required</p>
+                              </div>
+                          </div>
+                         
+                          <div class="col-md-12 form-group mb-3">
+                           
+                              <label>Start Time</label>
+                                <input [ngxTimepicker]="picker1" placeholder="Set Time" formControlName="start_time" class="form-control"  >
+                                <ngx-material-timepicker #picker1 (closed)="changeTime($event)"  disabled="true"></ngx-material-timepicker>
+                                <div *ngIf="(form.start_time.touched || form.start_time.dirty) && form.start_time.errors">
+                                  <p class="text-danger" *ngIf="form.start_time.errors.required">Start Time is required</p>
+                                </div>
+                              
+                          </div>
+                          <div class="col-md-12  form-group">
+                            <label>End Time</label>
+                            <input [ngxTimepicker]="picker2" placeholder="Set Time" formControlName="end_time" class="form-control"  disabled="true">
+                                        <ngx-material-timepicker #picker2  disabled="true"></ngx-material-timepicker>
+                            <div *ngIf="(form.end_time.touched || form.end_time.dirty) && form.end_time.errors">
+                              <p class="text-danger" *ngIf="form.end_time.errors.required">End Time is required</p>
+                            </div>
+                        </div>
+                       
+                        <!-- <div class="col-md-12 mt-3 mb-3 float-right">
+                            <button class="btn btn-primary m-1" type="button" (click)="updateAvailabilitySession()" [disabled]="!successMsg">Update Slot</button>
+                            <button class="btn btn-warning m-1" type="button" (click)="removeAvailabilitySlot()" [disabled]="!slotErr" *ngIf="availability.length > 1">Remove Slot</button>
+                        </div> -->
+                      </form>
+                  </div>
+            
+                  <div class="col-sm-6 borderLeft">
+                    <div class="bookSLot mb-3">
+                      <h6>Tutor's Availability :</h6>
+                      <ul *ngIf="availablilitySlots.length > 0">
+                        <!-- <li class="text-success" >9:00 AM - 10:00 AM</li> -->
+                        <li class="text-success" *ngFor="let slot of availablilitySlots">{{timeSlot(slot.start_time)}} - {{timeSlot(slot.end_time)}}</li>
+            
+                      </ul>
+                      <p *ngIf="availablilitySlots.length == 0 ">No Available Slot(s) </p>
+                      
+                    </div>
+                    <div class="bookSLot">
+                      <h6>Booked slots :</h6>
+                      <ul *ngIf="bookedSlots.length > 0 && availablilitySlots.length != 0">
+                        <li class="text-danger" *ngFor="let slot of bookedSlots">{{timeSlot(slot.start_time)}} - {{timeSlot(slot.end_time)}}</li>
+                        <!-- <li>test</li> -->
+                      </ul>
+                      <p *ngIf="(!bookedSlots  || bookedSlots?.length == 0) ">No Booking(s) </p>
+                      
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="row">
+                    <div class="col text-center">
+                        <div class="text-danger" *ngIf="slotErr">
+                            <p>{{slotErr}}</p>
+                          </div>
+                          <div class="text-success" *ngIf="successMsg">
+                            <p>{{successMsg}}</p>
+                          </div>
+                        <p class="text-danger" *ngIf="updateErr == 'StartTimeLess'">Start time must be greater than current time</p>
+                        <p class="text-danger" *ngIf="updateErr == 'Durationless'">Start time and End Time must have a difference of {{updateSessionForm.controls.duration.value}} hour(s) </p>
+                        <p class="text-danger" *ngIf="updateErr == 'EndTimeLess'"> Session start Time and end Time must be of same schedule date</p>
+                    </div>
+                </div> -->
+               
+                <div class="row">
+                    <div class="col-12">
+                        <button class="btn btn-primary" (click)="updateTime()">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

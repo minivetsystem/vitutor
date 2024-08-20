@@ -1,0 +1,675 @@
+<div class="main-panel" [ngClass]="{'side-menu': menuToggle == 1}">
+    <div class="container">
+        <div class="panel-header bg-primary-gradient">
+            <div class="page-inner py-5">
+                <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+                    <div>
+                        <h2 class="pb-2 fw-bold panel-header-heading">Message board</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-inner mt--5 message_board">
+            <div class="row mt--2">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3 col-sm-3 board_left">
+                                    <!--h4>Contacts</h4-->
+                                    <div class="left_search_bar">
+                                        <div *ngIf="chatwithRoleType == 'tutor'" class="inPut_form">
+                                        <div  class="input-group">
+                                            <img src="assets/img/images/search_icon.svg" alt="menu icon" class="search-icon">
+                                            <input [(ngModel)]="searchText" type="text" placeholder="Search a job" class="form-control">
+                                        </div>
+                                    </div>
+                                        <ul class="nav nav-pills nav-secondary nav-pills-no-bd" id="pills-tab-without-border" role="tablist">
+                                            <li class="nav-item submenu">
+                                                <a class="nav-link active show" id="pills-home-tab-nobd" data-toggle="pill" href="#pills-home-nobd" (click)="chatRoleType('tutor')" role="tab" aria-controls="pills-home-nobd" aria-selected="true">Tutor</a>
+                                            </li>
+                                            <li class="nav-item submenu">
+                                                <a class="nav-link" id="pills-profile-tab-nobd" data-toggle="pill" href="#pills-profile-nobd" (click)="chatRoleType('admin')" role="tab" aria-controls="pills-profile-nobd" aria-selected="false">Admin</a>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content outerDetail-contact" id="pills-without-border-tabContent">
+                                            <div *ngIf="chatwithRoleType == 'tutor'" class="tab-pane fade active show" id="pills-home-nobd" role="tabpanel" aria-labelledby="pills-home-tab-nobd">
+                                                <div class="all_chats" *ngIf="contactList.length > 0">
+                                                    <ul id="contact_list_container">
+                                                        <li *ngFor="let contact of contactList | LisitingFilter : searchText; let i = index" id="scroll_list_{{contact.message_board_room_id}}" #scrollContactList>
+                                                            <a  [ngClass]="{'active' :this.ChatDetailsTutor.message_board_room_id == contact.message_board_room_id}" (click)="getMessagesList(contact,i)" style="cursor: pointer;">
+                                                                <div class="avatar-sm">
+                                                                    <img *ngIf="contact.tutor_profile_image" [src]="contact.tutor_profile_image" (error)="chatImageError($event)" alt="..." class="avatar-img rounded-circle">
+                                                                    <img *ngIf="!contact.tutor_profile_image" src="assets/img/avatar_user2.jpg" (error)="chatImageError($event)" alt="..." class="avatar-img rounded-circle">
+                                                                </div>
+                                                                <div>
+                                                                    <h6><strong>{{contact.tutor_name }} </strong>
+                                                                        <span>
+                                                                            <!-- <img src="assets/img/images/user1.svg"> -->{{checkMessageDate(contact.created_at)}}
+                                                                        </span>
+                                                                    </h6>
+                                                                    <p>{{contact.job_title}} </p>
+                                                                    <span>{{getMessage(contact.message)}}</span>
+                                                                    <span *ngIf="showNewMessageAlert(contact) && this.ChatDetailsTutor.message_board_room_id != contact.message_board_room_id" style="background-color: #1992e6;float: right;height: 10px; width: 10px;margin-top: 8px; border-radius: 20px;"></span>
+                                                                </div>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <!-- <div *ngIf="!searchContactCount">
+                                                    <p class="no_contacts">No Contacts</p>
+                                                </div> -->
+                                                <div *ngIf="contactListErr">
+                                                    <p class="no_contacts">No Contacts</p>
+                                                </div>
+                                            </div>
+                                            <div *ngIf="chatwithRoleType == 'admin'" class="tab-pane fade" id="pills-profile-nobd" role="tabpanel" aria-labelledby="pills-profile-tab-nobd">
+                                                <div class="all_chats" *ngIf="AdmincontactList.length > 0">
+                                                    <ul>
+                                                        <li *ngFor="let contact of AdmincontactList; let i = index" >
+                                                            <a [ngClass]="{'active' :this.ChatDetailsAdmin.message_board_room_id == contact.message_board_room_id}" style="cursor: pointer;">
+                                                                <div class="avatar-sm">
+                                                                    <img *ngIf="loginUserDetails?.message?.sender_details?.image_url" [src]="loginUserDetails?.message?.sender_details?.image_url" (error)="chatImageError($event)"  alt="..." class="avatar-img rounded-circle">
+                                                                    <img *ngIf="!loginUserDetails?.message?.sender_details?.image_url" [src]="getInitials(loginUserDetails?.message?.sender_details?.full_name)" (error)="chatImageError($event)" alt="..." class="avatar-img rounded-circle">
+                                                                </div>
+                                                                <div>
+                                                                    <h6><strong>{{loginUserDetails?.message?.sender_details?.full_name }} </strong>
+                                                                        <span>
+                                                                            <!-- <img src="assets/img/images/user1.svg"> -->{{checkMessageDate(contact.created_at)}}
+                                                                        </span>
+                                                                    </h6>
+                                                                    <!-- <p>{{contact.job_title}} </p> -->
+                                                                    <span>{{contact.message | limitTo : '25'}}</span>
+                                                                    <span *ngIf="showNewMessageAlert(contact) && this.ChatDetailsAdmin.message_board_room_id != contact.message_board_room_id" style="background-color: #1992e6;float: right;height: 10px; width: 10px;margin-top: 8px; border-radius: 20px;"></span>
+                                                                </div>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <!-- <div *ngIf="!searchContactCount">
+                                                     <p class="no_contacts">No Contacts</p> 
+                                                </div> -->
+                                                <ng-template *ngIf="adminContactListErr">
+                                                    <p class="no_contacts">No Contacts</p>
+                                                </ng-template>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                    <!-- chart with tutor  -->
+                                <div *ngIf="chatwithRoleType == 'tutor'" class="col-md-9 col-sm-9 board_right">
+                                    <div [ngStyle]="{'display': messagesArray.length > 0 ? '':'none'}">
+                                    <div class="board_top_header_outer" *ngIf="ChatDetailsTutor && ChatDetailsTutor.job_title != '' ">
+                                        <div class="board_top_header">
+                                            <div class="header_heading">
+                                                <h6>{{ChatDetailsTutor?.tutor_name || ''}} <i (click)="infoBtnClick()" class="info_btn fas fa-info-circle"></i></h6>
+                                                <span>{{ChatDetailsTutor?.job_title || ''}} <a *ngIf="sentOfferDetails" [routerLink]="['/viewOffer/view/'+sentOfferDetails?.offer_id]" target="_blank"><img src="assets/img/images/chain.svg" *ngIf="ChatDetailsTutor.job_title || ChatDetailsTutor.job_title != ''"></a></span>
+                                                <span *ngIf="!sentOfferDetails?.offer_id"> <a [routerLink]="['/jobDetail/job/'+ChatDetailsTutor?.job_slug]" ><img src="assets/img/images/chain.svg" *ngIf="ChatDetailsTutor && ChatDetailsTutor.job_title != ''"></a></span>
+                                            </div>
+                                            <div class="left_auto">
+                                                <button *ngIf="!sentOfferDetails && lastMessage.is_application_cancel != 1" class="btn gift_button btn-primary" (click)="onclickSendOffer()"><img src="assets/img/images/gift.svg">Send Offer</button>
+                                                <a *ngIf="sentOfferDetails" [routerLink]="['/viewOffer/view/'+sentOfferDetails?.offer_id]" class="btn gift_button btn-primary"><img src="assets/img/images/gift.svg">View Offer</a>
+                                                <!--a class="btn info_btn btn-primary" (click)="infoBtnClick()"><i class="fas fa-info-circle"></i> Info</a-->
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                
+                                    
+                                    <div *ngIf="ChatDetailsTutor && ChatDetailsTutor.job_title != '' " class="outerDetail-chat-outer">
+                                        <div #scrollframe class="outerDetail-chat">
+                                            <div class="spinner-border spinner" role="status" *ngIf="loader">
+                                                <span class="sr-only" id="loading">Loading...</span>
+                                            </div>
+                                            <div *ngIf="!loader">
+                                                <div class="chat_detail" *ngFor="let message of messagesArray">
+                                                    <div class="new_day">{{offerTimeFormat(message.time)}}</div>
+                                                    <div #item class="chat_desc" *ngFor="let chat of message.messages">
+                                                        <div *ngIf="chat.is_offer_sent == 0" [ngClass]="checkMessageType(chat)">
+                                                            <div class="avatar-sm">
+                                                                <img *ngIf="chat.sender_image" [src]="chat.sender_image"  (error)="chatImageError($event)" alt="..." class="avatar-img rounded-circle">
+                                                                <!-- <img *ngIf="chat.receiver_image" (error)="chatImageError($event)"    [src]="chat.receiver_image" alt="..." class="avatar-img rounded-circle"> -->
+                                                                <img *ngIf="!chat.sender_image" [src]="getInitials(chat.sender_name)" (error)="chatImageError($event)" alt="..." class="avatar-img rounded-circle">
+                                                            </div>
+                                                      
+                                                            <div *ngIf="!chat.file_url && !chat.is_session_updated" class="chat_desc_detail " [ngClass]="{'applyJob': userId != chat.receiver_user_id}">
+                                                                <p [innerHtml]="chat.message">
+                                                                </p>
+                                                                <!-- <div class="date">{{changeTimeFormat(chat.message_time)}}<span style="font-weight: 800;">Aman</span></div> -->
+
+                                                                <div class="date">{{changeTimeFormat(chat.message_time, chat?.timezone)}}</div>
+                                                                <div class="Name_text"><i class="fas fa-envelope"></i> {{chat.sender_name}}</div>
+                                                            </div>
+                                                            <div *ngIf="chat.is_session_updated" class="chat_desc_detail " [ngClass]="{'applyJob': userId != chat.receiver_user_id}">
+                                                                 <p [innerHTML]="sessionUpdate(chat.json_response, chat.message)"><p>
+                                                                
+                                                                <!-- <div class="date">{{changeTimeFormat(chat.message_time)}}<span style="font-weight: 800;">Aman</span></div> -->
+
+                                                                <div class="date">{{changeTimeFormat(chat.message_time, chat?.timezone)}}</div>
+                                                                <div class="Name_text"><i class="fas fa-envelope"></i> {{chat.sender_name}}</div>
+                                                            </div>
+                                                            <div *ngIf="chat.file_url" class="chat_desc_detail">
+                                                                <div class="chat_img">
+                                                                    <a (click)="downloadAttachment(chat,'chat-board-attachments')" target="_blank" style="cursor: pointer; text-decoration: none;">
+                                                                        <img *ngIf="chat.file_type == 'image/jpeg' || chat.file_type == 'image/png'" style="margin-top: 22px; height: 122px; width: 122px;border: 1px dotted;border-radius: 12px;" [src]="chat.file_url">
+                                                                        <img *ngIf="chat.file_type == 'application/pdf'" src="assets/img/ico-pdf.svg">
+                                                                        <img *ngIf="chat.file_type == 'application/msword'" src="assets/img/msword.jpeg">
+                                                                        <img *ngIf="chat.file_type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'" src="assets/img/ico-doc.svg" alt="docx">
+                                                                        <img *ngIf="chat.file_type == 'application/vnd.ms-excel'" alt="excel" src="assets/img/ico-excel.png">
+                                                                        <img *ngIf="chat.file_type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'" src="assets/img/ico-spreadsheet.png" alt="xls">
+                                                                        <img class="download_attachment" style="max-width: 18px;max-height: 15px;margin-top: 3em;" src="assets/img/download_blue.svg">
+                                                                        <div class="file_name">{{chat.filename || ''}}</div>
+                                                                    </a>
+                                                                </div>
+                                                                <p [innerHtml]="chat.message"></p>
+                                                                <div class="date">{{changeTimeFormat(chat.message_time, chat?.timezone)}} </div>
+                                                                <div class="Name_text"><i class="fas fa-envelope"></i> {{chat.sender_name}}</div>
+                                                                
+                                                            </div>
+                                                        </div>
+                                                        <div *ngIf="chat.is_offer_sent == 1 && chat.sender_role == 'Student' " class="offer_detail">
+                                                            <div class="offer_img">
+                                                                <img class="attach" src="assets/img/graphic.svg">
+                                                                <!-- <div class="offer_btnss">
+                                                                    <button class="btn btn-primary">Accept</button>
+                                                                <button class="btn btn-red">Reject</button>
+                                                                </div> -->
+                                                                
+                                                            </div>
+                                                            <div class="offer_content">
+                                                                <!-- <span class="badge badge-success">Accept</span> -->
+                                                                <!--span class="badge badge-danger">Reject</span-->
+                                                                <strong>Job Name</strong>
+                                                                <p>{{chat.job_title}}</p>
+                                                                <!-- <strong>Tutor Name</strong>
+                                                                <p>{{chat.receiver_name}}</p> -->
+                                                                <!-- {{stringify(sentOfferDetails)}} -->
+                                                                <strong *ngIf="sentOfferDetails?.job_type == 'one-time' || sentOfferDetails?.job_type == 'instant-tutoring'">Schedule Date</strong>
+                                                                <p *ngIf="sentOfferDetails?.job_type == 'one-time' || sentOfferDetails?.job_type == 'instant-tutoring'">{{scheduleFormat(sentOfferDetails?.scheduled_date,sentOfferDetails?.scheduled_time, chat?.timezone)}}</p>
+                                                                <strong *ngIf="sentOfferDetails?.job_type == 'recurring'">Start Date</strong>
+                                                                <p *ngIf="sentOfferDetails?.job_type == 'recurring'">{{scheduleFormat(sentOfferDetails?.start_date, sentOfferDetails?.scheduled_time || sentOfferDetails?.time, chat?.timezone)}}</p>
+                                                                <strong *ngIf="sentOfferDetails?.job_type == 'recurring'">End Date</strong>
+                                                                <p *ngIf="sentOfferDetails?.job_type == 'recurring'">{{scheduleFormat(sentOfferDetails?.end_date, sentOfferDetails?.scheduled_time || sentOfferDetails?.time, chat?.timezone)}}</p>
+                                                                <strong >Start time</strong>
+                                                                <!-- <p *ngIf="sentOfferDetails?.job_type == 'recurring'">{{offerTimeFormat(sentOfferDetails?.time)}}</p> -->
+                                                                <p >{{scheduleTimeFormat(sentOfferDetails?.start_at || sentOfferDetails?.scheduled_time, sentOfferDetails?.scheduled_time || sentOfferDetails?.time, chat?.timezone)}}</p>
+                                                                <strong *ngIf="sentOfferDetails?.job_type == 'recurring' && sentOfferDetails?.recurring_type == 'Weekly'">Days</strong>
+                                                                <p *ngIf="sentOfferDetails?.job_type == 'recurring' && sentOfferDetails?.recurring_type == 'Weekly'"> {{sentOfferDetails?.day}}</p>
+                                                                <strong *ngIf="sentOfferDetails?.job_type == 'recurring' && sentOfferDetails?.recurring_type == 'Monthly'">Dates</strong>
+                                                                <p *ngIf="sentOfferDetails?.job_type == 'recurring' && sentOfferDetails?.recurring_type == 'Monthly'">{{sentOfferDetails?.date}}</p>
+                                                                <strong>Message</strong>
+                                                                <p>{{sentOfferDetails?.message}}</p>
+
+                                                            </div>
+                                                            <div class="offer_right_box">
+                                                                <strong>Job Price</strong>
+                                                                <p>${{sentOfferDetails?.accepted_price}} {{sentOfferDetails?.price_type}}</p>
+                                                                <strong>Sent Date</strong>
+                                                                <p>{{offerDateFormat(chat.message_sent_time, chat?.timezone)}}</p>
+                                                                <strong *ngIf="sentOfferDetails?.attachment_link && sentOfferDetails?.attachment_link != ''">  Attachment</strong>
+                                                                <a (click)="downloadAttachment(chat,'job-offers-attachments')" style="cursor: pointer;">
+                                                                    <p *ngIf="sentOfferDetails?.attachment_link && sentOfferDetails?.attachment_link != ''">
+                                                                        <!-- <img class="attach" src="assets/img/download_small.svg"> Download.svg -->
+                                                                        <img class="attach" *ngIf="sentOfferDetails?.file_type == 'image/jpeg'" src="assets/img/ico-jpg.svg">
+                                                                        <img class="attach" *ngIf="sentOfferDetails?.file_type == 'image/png'" src="assets/img/ico-png.svg">
+                                                                        <img class="attach" *ngIf="sentOfferDetails?.file_type == 'application/pdf'" src="assets/img/ico-pdf.svg">
+                                                                        <img class="attach" *ngIf="sentOfferDetails?.file_type == 'application/msword'" src="assets/img/msword.jpeg">
+                                                                        <img class="attach" *ngIf="sentOfferDetails?.file_type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'" src="assets/img/ico-doc.svg" alt="docx">
+                                                                        <img class="attach" *ngIf="sentOfferDetails?.file_type == 'application/vnd.ms-excel'" alt="excel" src="assets/img/ico-excel.png">
+                                                                        <img class="attach" *ngIf="sentOfferDetails?.file_type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'" src="assets/img/ico-spreadsheet.png" alt="xls">
+                                                                        <img class="download_attachment" style="max-width: 18px;max-height: 15px;margin-top: 3em;" src="assets/img/download_blue.svg">
+                                                                        <!--{{this.sentOfferDetails.attachment_name
+                                                                    || ''}}-->
+
+
+                                                                    </p>
+                                                                </a>
+                                                                <strong >Sender Name</strong>
+                                                            <p> {{chat.sender_name}}</p>
+                                                           
+                                                            </div>
+                                                            
+                                                        </div>
+
+
+                                                        <div *ngIf="chat.is_offer_sent == 1 && chat.sender_role == 'Tutor' " class="offer_detail tutors_offer">
+                                                            <div class="offer_img">
+                                                                <img class="attach" src="assets/img/tutors.png">
+                                                                <div *ngIf="chat.updated_status == 'Pending'" class="offer_btnss">
+                                                                    <!-- <button class="btn btn-primary" (click)="acceptTutorOffer(chat.updated_offer_id)">Accept</button> -->
+                                                                    <button class="btn btn-primary" (click)="tutorEditOfferAcceptCalendar(chat.updated_offer_id)">Accept</button>
+                                                                    <button class="btn btn-red" (click)="rejectTutorOffer(chat.updated_offer_id)">Reject</button>
+                                                                </div>
+                                                                
+                                                            </div>
+                                                            <!-- {{stringify(chat)}} -->
+                                                            <div class="offer_content">
+                                                                <span *ngIf="chat?.updated_status && chat?.updated_status != 'Pending'" class="badge" [ngClass]="{'badge-success': chat?.updated_status=='Accepted', 'badge-danger': chat?.updated_status == 'Declined', 'badge-warning': chat?.updated_status == 'Expired'}">{{chat?.updated_status}}</span>
+                                                                <!--span class="badge badge-danger">Reject</span-->
+                                                                <strong>Job Name</strong>
+                                                                <p>{{chat?.job_title}}</p>
+                                                                <!-- <strong>Tutor Name</strong>
+                                                                <p>{{chat?.receiver_name}}</p> -->
+                                                                <!-- {{stringify(chat)}} -->
+                                                                <strong *ngIf="chat?.updated_schedule_date && chat?.updated_schedule_date != '0000-00-00'">Schedule Date</strong>
+                                                                <p *ngIf="chat?.updated_schedule_date && chat?.updated_schedule_date != '0000-00-00'">{{scheduleFormat(chat?.updated_schedule_date,chat?.updated_time, chat?.timezone)}}</p>
+                                                                <strong *ngIf="chat?.updated_end_date && chat.updated_end_date != '0000-00-00'">Start Date</strong>
+                                                                <p *ngIf="chat?.updated_end_date && chat.updated_end_date != '0000-00-00'">{{scheduleFormat(chat?.updated_start_date,chat?.updated_time, chat?.timezone)}}</p>
+                                                                <strong *ngIf="chat?.updated_end_date && chat?.updated_end_date != '0000-00-00'">End Date</strong>
+                                                                <p *ngIf="chat?.updated_end_date && chat?.updated_end_date != '0000-00-00'">{{scheduleFormat(chat?.updated_end_date,chat?.updated_time, chat?.timezone)}}</p>
+                                                                <strong *ngIf="chat?.tutor_updated_time">Start time</strong>
+                                                                <p *ngIf="chat?.tutor_updated_time">{{scheduleTimeFormat(chat?.tutor_updated_time || chat?.updated_schedule_time, chat?.timezone)}}</p>
+                                                                <strong *ngIf="chat?.updated_day && chat.updated_day != ''">Days</strong>
+                                                                <p *ngIf="chat?.updated_day && chat.updated_day != ''"> {{chat?.updated_day}}</p>
+                                                                <strong *ngIf="chat?.updated_date && chat.updated_date != ''">Dates</strong>
+                                                                <p *ngIf="chat?.updated_date && chat.updated_date != ''">{{chat?.updated_date}}</p>
+                                                                <strong>Message</strong>
+                                                                <p>{{chat?.message}}</p>
+
+                                                            </div>
+                                                            <div class="offer_right_box">
+                                                                <strong>Job Price</strong>
+                                                                <p>${{chat.updated_accepted_price}} {{chat.price_type}}</p> 
+                                                                <strong>Date</strong>
+                                                                <p>{{offerDateFormat(chat?.message_sent_time, chat?.timezone)}}</p>
+                                                                <strong *ngIf="chat?.updated_attachment && chat?.updated_attachment != ''">  Attachment</strong>
+                                                                <!-- <a (click)="downloadAttachment(chat,'job-offers-attachments')" style="cursor: pointer;"> -->
+                                                                <a (click)="downloadAttachment(chat,'tutor-edit-offer-attachments')" style="cursor: pointer;">
+                                                                    <p *ngIf="chat?.updated_attachment && chat?.updated_attachment != ''">
+                                                                        <!-- <img class="attach" src="assets/img/download_small.svg"> Download.svg -->
+                                                                        <img class="attach" *ngIf="chat?.updated_file_type == 'image/jpeg'" src="assets/img/ico-jpg.svg">
+                                                                        <img class="attach" *ngIf="chat?.updated_file_type == 'image/png'" src="assets/img/ico-png.svg">
+                                                                        <img class="attach" *ngIf="chat?.updated_file_type == 'application/pdf'" src="assets/img/ico-pdf.svg">
+                                                                        <img class="attach" *ngIf="chat?.updated_file_type == 'application/msword'" src="assets/img/msword.jpeg">
+                                                                        <img class="attach" *ngIf="chat?.updated_file_type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'" src="assets/img/ico-doc.svg" alt="docx">
+                                                                        <img class="attach" *ngIf="chat?.updated_file_type == 'application/vnd.ms-excel'" alt="excel" src="assets/img/ico-excel.png">
+                                                                        <img class="attach" *ngIf="chat?.updated_file_type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'" src="assets/img/ico-spreadsheet.png" alt="xls">
+                                                                        <img class="download_attachment" style="max-width: 18px;max-height: 15px;margin-top: 3em;" src="assets/img/download_blue.svg">
+                                                                        <!--{{this.sentOfferDetails.attachment_name
+                                                                    || ''}}-->
+
+
+                                                                    </p>
+                                                                </a>
+                                                                <strong >Sender Name</strong>
+                                                            <p> {{chat?.sender_name}}</p>
+                                                           
+                                                            </div>
+                                                            
+                                                        </div>
+
+
+                                                        
+                                                    </div>
+                                                    
+                                                </div>
+                                                <div class="cancel-box" *ngIf="lastMessage.is_application_cancel == 1">Tutor has withdrawn application, You cannot further reply to this conversation</div>
+                                            </div>
+                                        </div>
+
+                                        <!-- <div *ngIf="aboutMenu && (ChatDetailsTutor.job_title || ChatDetailsTutor.job_title != '')" class="abt_sec"> -->
+                                        <div *ngIf="aboutMenu" class="abt_sec">
+                                            <!--h3>About</h3-->
+                                            <!-- <div class="avatar">
+                                                <img *ngIf="!ChatDetails.tutor_profile_image" (error)="chatImageError($event)" src="assets/img/avatar_user2.jpg">
+                                                <img *ngIf="ChatDetails.tutor_profile_image" (error)="chatImageError($event)" [src]="ChatDetails.tutor_profile_image">
+                                            </div> -->
+                                            <div class="avatar">
+                                                <img *ngIf="ChatDetailsTutor?.tutor_profile_image" [src]="ChatDetailsTutor?.tutor_profile_image" (error)="chatImageError($event)">
+                                                <img *ngIf="!ChatDetailsTutor?.tutor_profile_image" src="assets/img/avatar_user2.jpg">
+                                            </div>
+                                            <h4>{{ChatDetailsTutor?.tutor_name || ''}}</h4>
+                                            <ul>
+                                                <li><strong>Hourly Rate</strong> <span>{{ChatDetailsTutor.hourly_rate ? '$'+ChatDetailsTutor.hourly_rate : ''}}</span></li>
+                                                <li><strong>Location </strong><span>{{ChatDetailsTutor.country}}</span> </li>
+                                                <!-- <li><strong>Rating </strong> <span>
+                                                     {{ChatDetailsTutor.rating}} <span>({{ChatDetailsTutor.rating_count}}  Reviews)</span></span>
+                                                </li> -->
+                                                <li style="justify-content: space-between;"><strong>Rating </strong> 
+                                                    <app-review-rating-view [reviewsCount]="ChatDetailsTutor.rating_count" [rating]="ChatDetailsTutor.rating" inlineView="true" reviewBar="hide">
+                                                    </app-review-rating-view>
+                                                   
+                                                </li>
+                                                <li><strong>Experience Level </strong> <span>{{ChatDetailsTutor.experience_level}}</span> </li>
+
+                                                <li class="bio"><strong>Bio </strong> <span>{{ChatDetailsTutor?.about_me}}</span> </li>
+                                            </ul>
+
+
+
+                                        </div>
+                                    </div>
+
+                                  
+
+                                    <div *ngIf="uploadFile && !loader" class="text_box up_box">
+                                        <div class="col-12 d-flex justify-content-between">
+                                            <div class="file-up">
+                                                <span>{{uploadFile.name}}</span>
+                                                <span>{{uploadFile.size}}</span>
+                                            </div>
+                                            <div class="uploadBtn">
+                                                <button class="btn btn-red" type="button" (click)="removeUploadFile()">remove</button>
+                                                <button class="btn btn-primary" type="button" (click)="sendUploadFile()">Send</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="has-error" *ngIf="fileTypeError || sizeLimitError">
+                                        <span *ngIf="fileTypeError">Invalid file format,</span><span *ngIf="sizeLimitError">Support file having size less than 5 MB,</span> Please select another file
+                                    </div>
+                                    <div class="text_box" *ngIf="ChatDetailsTutor && ChatDetailsTutor.job_title != ''">
+                                        <label for="file-upload" (change)="onselectFile($event)" class="attachment" type="button">
+                                            <img class="attach" src="assets/img/images/attach.svg">
+                                            <input [(ngModel)]="uploadedFileObject" id="file-upload" type="file" accept=".pdf,image/png,image/jpeg,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>                                                                                
+                                        </label>
+                                        <textarea [disabled]="this.uploadFile" name="chat_message" [(ngModel)]="message" #chatMessage [innerHtml]="test"></textarea>
+                                        <button class="btn btn-primary" (click)="sendMessage()" [disabled]="checkInvalidMessage()">Send <img src="assets/img/images/send.svg"></button>
+                                    </div>
+                                </div>
+                                   
+                                <div class="empty_message" [ngStyle]="{'display': messagesArray.length == 0 ? '':'none'}">
+                                    <img src="assets/img/chatting.png">
+                                    <h3>No Message available</h3>
+                                </div>
+                                    
+                                </div>
+                                <!-- chart with tutor -->
+                                <!-- chart with admin  -->
+
+                                <div *ngIf="chatwithRoleType == 'admin'" class="col-md-9 col-sm-9 board_right">
+                                    <div class="board_top_header_outer" *ngIf="ChatDetailsAdmin">
+                                        <div class="board_top_header">
+                                            <div class="header_heading">
+                                                <h6>{{loginUserDetails?.message?.sender_details?.full_name}}</h6>
+                                                <!-- <span>{{ChatDetailsTutor?.job_title || ''}} <a *ngIf="sentOfferDetails" [routerLink]="['/viewOffer/view/'+sentOfferDetails?.offer_id]" target="_blank"><img src="assets/img/images/chain.svg" *ngIf="ChatDetailsTutor.job_title || ChatDetailsTutor.job_title != ''"></a></span> -->
+                                            </div>
+                                            <div class="left_auto">
+                                                <!-- <button *ngIf="!sentOfferDetails" class="btn gift_button btn-primary" (click)="onclickSendOffer()"><img src="assets/img/images/gift.svg">Send Offer</button>
+                                                <a *ngIf="sentOfferDetails" [routerLink]="['/viewOffer/view/'+sentOfferDetails?.offer_id]" class="btn gift_button btn-primary"><img src="assets/img/images/gift.svg">View Offer</a> -->
+                                                <!--a class="btn info_btn btn-primary" (click)="infoBtnClick()"><i class="fas fa-info-circle"></i> Info</a-->
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div *ngIf="ChatDetailsAdmin" class="outerDetail-chat-outer">
+                                        <div #scrollframe class="outerDetail-chat">
+                                            <div class="spinner-border spinner" role="status" *ngIf="loader">
+                                                <span class="sr-only" id="loading">Loading...</span>
+                                            </div>
+                                            <div *ngIf="!loader">
+                                                <div class="chat_detail" *ngFor="let message of messagesArray">
+                                                    <div class="new_day">{{offerTimeFormat(message.time)}}</div>
+                                                    <div #item class="chat_desc" *ngFor="let chat of message.messages">
+                                                        <div [ngClass]="checkAdminMessageType(chat)">
+                                                            <div class="avatar-sm">
+                                                                <img *ngIf="loginUserDetails?.message?.sender_details?.image_url" (error)="chatImageError($event)"    [src]="loginUserDetails?.message?.sender_details?.image_url" alt="..." class="avatar-img rounded-circle">
+                                                                <img *ngIf="!loginUserDetails?.message?.sender_details?.image_url" (error)="chatImageError($event)"   [src]="getInitials(loginUserDetails?.message?.sender_details?.full_name)" alt="..." class="avatar-img rounded-circle">
+                                                            </div>
+                                                            <div *ngIf="!chat.file_url" class="chat_desc_detail">
+                                                                <p>{{chat.message}}
+                                                                </p>
+                                                                <div class="date">{{changeTimeFormat(chat.message_time, chat?.timezone)}}</div>
+                                                            </div>
+                                                            <div *ngIf="chat.file_url" class="chat_desc_detail">
+                                                                <div class="chat_img">
+                                                                    <a (click)="downloadAttachment(chat,'chat-board-attachments')" target="_blank" style="cursor: pointer; text-decoration: none;">
+                                                                        <img *ngIf="chat.file_type == 'image/jpeg' || chat.file_type == 'image/png'" style="margin-top: 22px; height: 122px; width: 122px;border: 1px dotted;border-radius: 12px;" [src]="chat.file_url">
+                                                                        <img *ngIf="chat.file_type == 'application/pdf'" src="assets/img/ico-pdf.svg">
+                                                                        <img *ngIf="chat.file_type == 'application/msword'" src="assets/img/msword.jpeg">
+                                                                        <img *ngIf="chat.file_type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'" src="assets/img/ico-doc.svg" alt="docx">
+                                                                        <img *ngIf="chat.file_type == 'application/vnd.ms-excel'" alt="excel" src="assets/img/ico-excel.png">
+                                                                        <img *ngIf="chat.file_type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'" src="assets/img/ico-spreadsheet.png" alt="xls">
+                                                                        <img class="download_attachment" style="width: 12px; height: 10px;" src="assets/img/download_blue.svg">
+                                                                        <div class="file_name">{{chat.filename || ''}}</div>
+                                                                    </a>
+                                                                </div>
+                                                                <p>{{chat.message}}</p>
+                                                                <div class="date">{{changeTimeFormat(chat.message_time, chat?.timezone)}}</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- <div *ngIf="aboutMenu && (ChatDetailsTutor.job_title || ChatDetailsTutor.job_title != '')" class="abt_sec"> -->
+                                        <div *ngIf="aboutMenu" class="abt_sec">
+                                            <h3>About</h3>
+                                            <div class="avatar"><img src="assets/img/avatar_user2.jpg"></div>
+                                            <h4>Test</h4>
+                                            <ul>
+
+                                                <li><strong>Hourly Rate</strong> <span>$15</span></li>
+                                                <li><strong>Location </strong> <span>Pakistan</span> </li>
+                                                <li><strong>Rating </strong> <span><i class="fas fa-star"></i> 5.0 <span>(35)</span></span>
+                                                </li>
+                                                <li><strong>Experience Level </strong> <span>Expert</span> </li>
+
+                                                <li class="bio"><strong>Bio </strong> <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text                                                </span>                                                    </li>
+                                            </ul>
+
+
+
+                                        </div>
+                                    </div>
+                                    <div *ngIf="uploadFile && !loader" class="text_box">
+                                        <div class="col-12 d-flex justify-content-between">
+                                            <div>
+                                                <span>{{uploadFile.name}}</span>
+                                                <span>{{uploadFile.size}}</span>
+                                            </div>
+                                            <div class="uploadBtn">
+                                                <button class="btn btn-red" type="button" (click)="removeUploadFile()">remove</button>
+                                                <button class="btn btn-primary" type="button" (click)="sendUploadfileByAdmin()">Send</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="has-error" *ngIf="fileTypeError || sizeLimitError">
+                                        <span *ngIf="fileTypeError">Invalid file format,</span><span *ngIf="sizeLimitError">Support file having size less than 5 MB,</span> Please select another file
+                                    </div>
+                                    <div class="text_box" *ngIf="(ChatDetailsTutor && ChatDetailsTutor.job_title != '') || ChatDetailsAdmin">
+                                        <label for="file-upload" (change)="onselectFile($event)" class="attachment" type="button">
+                                            <img class="attach" src="assets/img/images/attach.svg">
+                                            <input [(ngModel)]="uploadedFileObject" id="file-upload" type="file" accept=".pdf,image/png,image/jpeg,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>                                                                                
+                                        </label>
+                                        <textarea [disabled]="this.uploadFile" name="chat_message" [(ngModel)]="message" #chatMessage [innerHtml]="test"></textarea>
+                                        <button class="btn btn-primary" (click)="sendMessageToAdmin()" [disabled]="checkInvalidMessage()">Send <img src="assets/img/images/send.svg"></button>
+
+                                    </div>
+                                </div>
+
+                                <!-- chart with admin  -->
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <app-short-footer></app-short-footer>
+</div>
+   
+
+
+
+<div id="apply_job" class="apply_job modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div *ngIf="ChatDetailsTutor" class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Offer Details</h4>
+                <button type="button" class="close" data-dismiss="modal"><img src="assets/img/images/close-14.svg"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-6 applyJObbox">
+                        <h3>Tutor Details <a (click)="navigateViewTutor( ChatDetailsTutor.profile_slug)" style="cursor: pointer;">View Profile</a></h3>
+                        <ul>
+                            <li class="tutorNAme">
+                                <div class="avatar">
+                                    <img *ngIf="!ChatDetailsTutor?.tutor_profile_image" src="assets/img/avatar_invite.jpg">
+                                    <img *ngIf="ChatDetailsTutor?.tutor_profile_image" [src]="ChatDetailsTutor?.tutor_profile_image">
+                                </div> {{ChatDetailsTutor?.tutor_name}}</li>
+                            <li *ngIf="ChatDetailsTutor.hourly_rate"><strong>Hourly Rate:-</strong> {{'$'+(''+ChatDetailsTutor.hourly_rate).split('$').join()}}</li>
+                            <li><strong>Location:-</strong> {{ChatDetailsTutor.country}}</li>
+                            <li><strong>Experience Level:-</strong>{{ChatDetailsTutor.experience_level}}</li>
+                            <li class="message-rating"><strong>Rating </strong> 
+                                <app-review-rating-view [reviewsCount]="ChatDetailsTutor.rating_count" [rating]="ChatDetailsTutor.rating" >
+                                </app-review-rating-view>
+                               
+                            </li>
+                            <li><strong>Bio:-</strong> {{ChatDetailsTutor?.about_me}}</li>
+
+                        </ul>
+                    </div>
+                    <div class="col-sm-6 applyJObbox">
+                        <h3>Job Details</h3>
+                        <ul class="job_dtl">
+                            <li><strong>Job Title:-</strong> {{ChatDetailsTutor.job_title}} </li>
+                            <li><strong>Job Type:-</strong> {{ChatDetailsTutor?.job_type == 'instant-tutoring' ? 'On-Demand' : ChatDetailsTutor?.job_type}}</li>
+                            <li *ngIf="ChatDetailsTutor?.job_type == 'recurring' && ChatDetailsTutor.recurring_type != ''"><strong>Recurring Type:-</strong> {{ChatDetailsTutor?.recurring_type}}</li>
+                            <li><strong>Pricing Type:-</strong> {{ChatDetailsTutor?.price_type}} </li>
+                            <li><strong>Price:-</strong> {{ChatDetailsTutor?.price }} </li>
+                            <li><strong>Proposed Start Time:-</strong>{{ChatDetailsTutor?.proposed_start_time || 'Unknown'}}</li>
+                            <li><strong>Duration:-</strong> {{ChatDetailsTutor?.duration}} {{ChatDetailsTutor?.duration == 1 ? 'Hour': 'Hours'}}</li>
+                            <li *ngIf="ChatDetailsTutor?.no_of_sessions && ChatDetailsTutor?.no_of_sessions > 0"><strong>Number of Sessions:-</strong> {{ChatDetailsTutor?.no_of_sessions}} </li>
+                            <li><strong>Description:-</strong> {{ChatDetailsTutor?.job_description}}</li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <form [formGroup]="createOfferForm"  class="form-group form-show-validation row">
+                    <div class="col-lg-12 wk_form">
+                        <label>Offer Price($) <span class="required-label">*</span></label>
+                        <input type="text" class="form-control" formControlName="price" name="price" placeholder="Set Offer Price">
+                        <div *ngIf="formSubmitted && createOfferForm.controls.price.errors">
+                            <p *ngIf="createOfferForm.controls.price.errors.required" class="text-danger">Price is required</p>
+                            <p *ngIf="createOfferForm.controls.price.errors.pattern" class="text-danger">Price is incorrect</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-12 wk_form">
+                        <label> Message <span class="required-label">*</span></label>
+                        <textarea placeholder="Enter Message" formControlName="message" class="form-control" name="message" rows="3"></textarea>
+                        <div *ngIf="formSubmitted && createOfferForm.controls.message.errors">
+                            <p *ngIf="createOfferForm.controls.message.errors.required" class="text-danger">Message is required</p>
+                            <!-- <p *ngIf="createOfferForm.controls.message.errors.pattern" class="text-danger">Price is incorrect</p> -->
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 " *ngIf="recurringTypeField == 'Weekly'">
+                        <label>Weekly Day(s) <span class="required-label">*</span></label>
+                        <!-- <select class="form-control" formControlName="day">
+                            <option value="">Select day</option>
+                            <option value="Sunday">Sunday</option>
+                            <option value="Monday">Monday</option>
+                            <option value="Tuesday">Tuesday</option>
+                            <option value="Wednesday">Wednesday</option>
+                            <option value="Thursday">Thursday</option>
+                            <option value="Friday">Friday</option>
+                            <option value="Saturday">Saturday</option>
+                        </select> -->
+                         <ng-select #select [multiple]="true" 
+										formControlName="day"
+										placeholder="Select Days">
+                                        <ng-option *ngFor="let days of daysArray" [value]="days.name" >{{days.name}}</ng-option>
+						</ng-select>
+                        <div *ngIf="( createOfferForm.controls.day.dirty || createOfferForm.controls.day.touched) && createOfferForm.controls.day.errors">
+                            <div class="text-danger" *ngIf="createOfferForm.controls.day.errors.required">Atleast one Day is required</div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 " *ngIf="recurringTypeField == 'Monthly'">
+                        <label>Monthly Date(s) <span class="required-label">*</span></label>
+                        <!-- <select class="form-control" formControlName="date">
+                            <option value="">Select date</option>
+                            <option *ngFor='let in of [].constructor(31),let i = index' value="{{i+1}}">{{i+1}}</option>
+                        </select> -->
+                        <ng-select #select [multiple]="true" 
+										formControlName="date"
+										placeholder="Select Monthly Date">
+                                        <ng-option *ngFor="let dates of datesArray" [value]="dates.name" >{{dates.name}}</ng-option>
+						</ng-select>
+                        <div *ngIf="( createOfferForm.controls.date.dirty || createOfferForm.controls.date.touched) && createOfferForm.controls.date.errors">
+                            <div class="text-danger" *ngIf="createOfferForm.controls.date.errors.required">Atleast one Date is required</div>
+                        </div>
+                    </div>
+                     <div class="col-lg-6 wk_form" *ngIf="!isRecurring">
+                                        <label>Set Date <span class="required-label">*</span></label>
+                                        <div class="input-group">
+                                           
+                                            <input type="text" [min]="currentDate" placeholder="Set date" class="form-control success" formControlName="schedule_date" (ngModelChange)="change($event)" [owlDateTime]="dt2">
+                                            <div class="input-group-append d-flex">
+                                                <span class="input-group-text">
+                                                    <i class="fa fa-calendar-o"  [owlDateTimeTrigger]="dt2"></i>
+                                                </span>
+                                            </div>
+                                            <owl-date-time #dt2 [pickerType]="'calendar'"></owl-date-time>
+                                        </div>
+                                        <div *ngIf="(createOfferForm.controls.schedule_date.dirty || createOfferForm.controls.schedule_date.touched ) && createOfferForm.controls.schedule_date.errors">
+                                            <div class="text-danger" *ngIf="createOfferForm.controls.schedule_date.errors.required">Schedule Date is required</div>
+                                        </div>
+                                    </div>
+
+                                    <div  class="col-lg-6 col-md-6 col-sm-6 wk_form">
+                                        <label>Set Time <span class="required-label">*</span></label>
+                                        <input [ngxTimepicker]="picker" placeholder="Set Time" formControlName="time" class="form-control success">
+                                        <ngx-material-timepicker #picker></ngx-material-timepicker>
+                                        <div *ngIf="( createOfferForm.controls.time.dirty || createOfferForm.controls.time.touched) && createOfferForm.controls.time.errors">
+                                            <div class="text-danger" *ngIf="createOfferForm.controls.time.errors.required">Time is required</div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 wk_form" *ngIf="isRecurring">
+                                        <label>Start Date <span class="required-label">*</span></label>
+                                        <div class="input-group">
+                                            <input type="text" [min]="currentDate" placeholder="Set start date" class="form-control success" formControlName="start_date" (ngModelChange)="changeStartDate($event)" [owlDateTime]="dt3">
+                                            <div class="input-group-append d-flex">
+                                                <span class="input-group-text">
+                                                    <i class="fa fa-calendar-o" [owlDateTimeTrigger]="dt3"></i>
+                                                </span>
+                                            </div>
+                                            <owl-date-time [pickerType]="'calendar'" #dt3></owl-date-time>
+                                        </div>
+                                        <div *ngIf="(createOfferForm.controls.start_date.dirty || createOfferForm.controls.start_date.touched ) && createOfferForm.controls.start_date.errors">
+                                            <div class="text-danger" *ngIf="createOfferForm.controls.start_date.errors.required">Start Date is required</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 wk_form" *ngIf="isRecurring">
+                                        <label>End Date <span class="required-label">*</span></label>
+                                        <div class="input-group">
+                                            <input type="text" [min]="createOfferForm.controls.start_date.value || currentDate" placeholder="Set end date" class="form-control success" formControlName="end_date" (ngModelChange)="change($event)" [owlDateTime]="dt4">
+                                            <div class="input-group-append d-flex">
+                                                <span class="input-group-text">
+                                                    <i class="fa fa-calendar-o" [owlDateTimeTrigger]="dt4"></i>
+                                                </span>
+                                            </div>
+                                            <owl-date-time [pickerType]="'calendar'" #dt4></owl-date-time>
+                                        </div>
+                                        <div *ngIf="(createOfferForm.controls.end_date.dirty || createOfferForm.controls.end_date.touched ) && createOfferForm.controls.end_date.errors">
+                                            <div class="text-danger" *ngIf="createOfferForm.controls.end_date.errors.required">End Date is required</div>
+                                        </div>
+                                    </div>
+                    <div class="col-lg-12 wk_form">
+                        <label>Attachment</label>
+                        <input (change)="onSelectAttachment($event)" type="file" formControlName="attachment" class="form-control" name="attachment">
+                        <div *ngIf="formSubmitted && (attachmentTypeError || attachmentsizeLimitError)">
+                            <p *ngIf="attachmentTypeError" class="text-danger">Invalid file format</p>
+                            <p *ngIf="attachmentsizeLimitError" class="text-danger">Support file having size less than 5 MB</p>
+                            <!-- <p *ngIf="createOfferForm.controls.message.errors.pattern" class="text-danger">Price is incorrect</p> -->
+                        </div>
+                    </div>
+                    <div *ngIf="dateRangeErr != ''" class="col-lg-12 text-center" id ="datetime_div">
+                        <p class="text-danger" >{{dateRangeErr}}</p>
+                    </div>
+                    <div class="col-lg-12 text-center">
+                        <!-- <button class="btn btn-primary " (click)="onSubmit()" type="button">Send</button> -->
+                        <button class="btn btn-primary" (click)="openAvailibilityModal()" type="button">Proceed <img src="assets/img/images/send.svg"></button>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

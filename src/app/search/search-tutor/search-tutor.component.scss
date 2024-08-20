@@ -1,0 +1,24 @@
+// @import '~src/assets/scss/atlantis.scss';
+// @import '~src/assets/scss/style.scss';
+.site-afterlogin {
+    display: inline-block !important;
+}
+
+.page-item.active .page-link {
+    z-index: 3 !important;
+    color: #fff !important;
+    background-color: #007bff !important;
+    border-color: #007bff !important;
+}
+
+.filter_box_outer{
+    background-color: #ffffff;
+    border-radius: 20px;
+    display: inline-block;
+    width: 100%;
+    position: -webkit-sticky;
+    position: sticky;
+    height: 80vh;
+    top: 100px;
+    overflow: scroll;
+}

@@ -1,0 +1,68 @@
+.app_datepicker {
+    display: flex;
+    position: relative;
+    flex-wrap: wrap;
+    width: 100%;
+    input {
+        font-family: $secondary-font;
+        position: relative;
+        z-index: 1;
+    }
+    button.datePicker_trigger {
+        align-items: center;
+        background: none;
+        border: none;
+        display: inline-flex;
+        height: 100%;
+        justify-content: center;
+        min-width: 50px;
+        padding: 5px 15px 5px 5px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        z-index: 10;
+        .icon-calendar {
+            background-color: rgba(0,0,0,0);
+            background-image:url(#{$assetspath}/img/icon-calender.png);
+            @include image-2x("#{$assetspath}/img/icon-calender@2x.png", 100%, auto);
+            background-position: 0 0;
+            background-repeat: no-repeat;
+            background-size: 100%;
+            border: none;
+            display: inline-block;
+            height: 30px;
+            position: relative;
+            width: 31px;
+        }    
+        &:hover, &:focus {
+            outline: none;
+            .icon-calendar {
+                background-position: 0 bottom;
+            }    
+        }
+    }
+}
+.bs-datepicker {    
+    z-index: calc($zindex-navbar - 1);
+    .bs-datepicker-head {
+        background-color: $primary-color;
+        font-family: $secondary-font;
+        button {
+            color: $secondary-color;
+        }
+    }
+    .bs-datepicker-body {
+        table {
+            tbody {
+                font-family: $secondary-font;
+            }
+            td {
+                &.week {
+                    span {
+                        color:  $primary-color;                
+                    }
+                }
+            }
+        }
+    }   
+}

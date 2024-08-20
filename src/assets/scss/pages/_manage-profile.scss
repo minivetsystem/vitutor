@@ -1,0 +1,2664 @@
+.app_educationPage {
+  .app_form {
+    .form-title {
+      @include font-size(20px);
+      line-height: $headings-line-height;
+      font-weight: $font-weight-medium;
+      margin-bottom: 30px;
+    }
+
+    .form-group {
+      .custom-control {
+        margin-bottom: -35px;
+        position: absolute;
+        bottom: 0;
+      }
+    }
+    @media screen and (max-width: 1191px) {
+      .form-group {
+        .custom-control {
+          margin-bottom: 0;
+          margin-top: 15px;
+          position: relative;
+          bottom: 0;
+        }
+      }
+    }
+  }
+
+  .card_sec_separator {
+    margin: 5em 0 3em;
+  }
+
+  .added_data_table {
+    margin-bottom: 50px;
+    padding: 0;
+    position: relative;
+
+    .table {
+      border-collapse: separate;
+      border-spacing: 0;
+      margin: 0;
+
+      tr {
+        td {
+          padding: 15px 24px;
+
+          &:first-child {
+            max-width: 68px;
+            padding-right: 5px;
+            width: 68px;
+          }
+
+          &:last-child {
+            max-width: 160px;
+            width: 160px;
+            text-align: right;
+          }
+        }
+      }
+
+      tbody {
+        tr {
+          @include transition(all 0.25s ease);
+
+          &.spacer {
+            box-shadow: none;
+            height: 5px;
+
+            &:last-child {
+              display: none;
+            }
+          }
+
+          &:hover {
+            background-color: rgba(0,0,0,0);
+
+            td {
+              background-color: rgba(0,0,0,0.02);
+              @include transition(all 0.25s ease);
+            }
+          }
+
+          td {
+            @include transition(all 0.25s ease);
+            border-color: $gray-dark;
+            border-style: solid;
+            border-width: 1px 0;
+            color: #333333;
+            font-size: 15px;
+            font-weight: 600;
+            line-height: 1.3;
+            position: relative;
+            vertical-align: middle;
+
+            &:first-child {
+              border-width: 1px 0 1px 1px;
+              border-bottom-left-radius: 5px;
+              border-top-left-radius: 5px;
+            }
+
+            &:last-child {
+              border-width: 1px 1px 1px 0;
+              border-bottom-right-radius: 5px;
+              border-top-right-radius: 5px;
+            }
+
+            .icon.icon_degree {
+              background-color: rgba(0,0,0,0);
+              background-image: url("#{$assetspath}/img/icon-certificate.png");
+              @include image-2x("#{$assetspath}/img/icon-certificate@2x.png", 100%, auto);
+              background-position: 0 0;
+              background-repeat: no-repeat;
+              background-size: 100%;
+              border: none;
+              display: inline-block;
+              height: 36px;
+              position: relative;
+              width: 36px;
+            }
+
+            .fa-file-certificate {
+              color: $primary-color;
+              @include font-size(36px);
+            }
+
+            p {
+              color: $text-color;
+              display: inline-block;
+              @include font-size(16px);
+              font-weight: $font-weight-medium;
+              margin: 0;
+              position: relative;
+
+              & > b:first-child,
+              & > span:first-child {
+                margin-bottom: 3px;
+              }
+
+              b {
+                color: $secondary-color;
+                font-weight: $font-weight-medium;
+                @include font-size(18px);
+                @include clearfix;
+                // width: 100%;
+              }
+
+              span {
+                @include font-size(16px);
+                position: relative;
+                @include clearfix;
+              }
+
+              .num_text {
+                font-family: $secondary-font;
+                font-weight: $font-weight-normal;
+              }
+            }
+
+            .remove-btn {
+              @include font-size(16px);
+              color: $danger-color;
+              align-items: center;
+              background-color: rgba(0,0,0,0);
+              background-position: 0 0;
+              border: none;
+              display: inline-flex;
+              justify-content: center;
+              position: relative;
+
+              i {
+                @include font-size(20px);
+                margin-left: 10px;
+              }
+
+              .icon-dlt {
+                background-color: rgba(0,0,0,0);
+                background-image: url("#{$assetspath}/img/icon-delete.png");
+                @include image-2x("#{$assetspath}/img/icon-delete@2x.png", 100%, auto);
+                background-position: 0 0;
+                background-repeat: no-repeat;
+                background-size: 100%;
+                border: none;
+                display: inline-block;
+                height: 22px;
+                margin-left: 10px;
+                position: relative;
+                width: 21px;
+              }
+
+              &:active,
+              &:focus,
+              &:hover {
+                //   color: $secondary-color;
+                opacity: .7;
+                //   .icon-dlt {
+                //     background-position: 0 bottom;
+                //   }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .card_section {
+    &.documents_Sec {
+      .row.pad--30 {
+        margin: 0 -30px;
+
+        &:last-child {
+          margin-bottom: -1rem;
+        }
+      }
+
+      .app_form {
+        .form-group {
+          .input-group {
+            margin: 0;
+
+            & > .custom-file {
+              height: 50px;
+
+              .custom-file-input {
+                height: 50px;
+              }
+
+              .custom-file-label {
+                &::after {
+                  align-items: center;
+                  color: #333;
+                  display: flex;
+                  height: 100%;
+                  justify-content: center;
+                  line-height: 1.3;
+                  width: 120px;
+                }
+              }
+
+            }
+          }
+
+          .note {
+            color: $text-color;
+            line-height: $line-height-base;
+            @include font-size(15px);
+            font-weight: $font-weight-normal;
+            margin: 5px 0 10px;
+            position: relative;
+            width: 100%;
+          }
+
+          textarea {
+            min-height: 80px;
+          }
+
+          .comn_btn {
+            // @include font-size(14px);
+            // font-weight: $font-weight-medium;
+            i {
+              margin-right: 15px;
+            }
+          }
+        }
+      }
+
+      .input_sec {
+        border-right: 1px solid $gray-dark;
+        padding: 0 30px;
+
+        .custom-file-label {
+          @include border-radius ($border-radius-base);
+          @include box-shadow(none);
+          @include transform(all 0.25s ease);
+          align-items: center;
+          background-color: #ffffff;
+          border: 1px solid $gray-dark;
+          color: $text-color;
+          display: inline-flex;
+          float: left;
+          font-size: $font-size-large;
+          font-weight: $font-weight-normal;
+          height: 50px;
+          line-height: $line-height-base;
+          margin: 0;
+          overflow: hidden;
+          padding: 15px 25px;
+          width: 100%;
+
+          &:hover {
+            border-color: darken($gray-dark, 20%);
+          }
+
+          &:focus {
+            border-color: $secondary-color;
+            box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 0 3px rgba(51,51,51,0.1);
+          }
+        }
+      }
+
+      .document_Sec {
+        padding: 0 30px;
+
+        h4 {
+          @include font-size(18px);
+          line-height: $headings-line-height;
+          font-weight: $font-weight-medium;
+          margin-bottom: 30px;
+        }
+
+        .up_file_list {
+          float: left;
+          width: 100%;
+          position: relative;
+
+          li {
+            float: left;
+            width: 100%;
+          }
+
+          .uplded_file {
+            background: #f3f6f9;
+            border-radius: 5px;
+            display: block;
+            float: left;
+            margin-bottom: 10px;
+            padding: 15px;
+            width: 100%;
+            
+            & > .row {
+              flex-wrap: nowrap;
+              margin: 0 -8px;
+            }
+
+            .cell {
+              align-items: center;
+              display: inline-flex;
+              flex-grow: 1;
+              padding: 0 8px;
+
+              &:first-child {
+                max-width: 68px;
+                min-width: 68px;
+                width: 68px;
+              }
+
+              &:last-child {
+                justify-content: flex-end;
+                max-width: 160px;
+                min-width: 160px;
+                width: 160px;
+              }
+            }
+
+            .icon {
+              display: flex;
+              position: relative;
+              margin-right: 5px;
+
+              & > svg {
+                max-width: 45px;
+                min-width: 45px;
+                width: 45px;
+              }
+
+              img {
+                float: left;
+                height: 45px;
+                width: 45px;
+              }
+            }
+
+            .file_description {
+              display: inline-block;
+              position: relative;
+
+              h3 {
+                color: #000000;
+                float: left;
+                @include font-size(14px);
+                font-weight: $font-weight-semi-bold;
+                position: relative;
+                margin: 0 0 5px;
+                width: 100%;
+              }
+
+              p {
+                color: $text-color;
+                float: left;
+                @include font-size(14px);
+                font-weight: $font-weight-normal;
+                position: relative;
+                line-height: $line-height-base;
+                margin: 0;
+                width: 100%;
+              }
+            }
+
+            .remove-btn {
+              @include font-size(16px);
+              color: $danger-color;
+              align-items: center;
+              background-color: rgba(0,0,0,0);
+              background-position: 0 0;
+              border: none;
+              display: inline-flex;
+              justify-content: center;
+              position: relative;
+              padding: 10px;
+
+              .icon-dlt {
+                background-color: rgba(0,0,0,0);
+                background-image: url("#{$assetspath}/img/icon-delete.png");
+                @include image-2x("#{$assetspath}/img/icon-delete@2x.png", 100%, auto);
+                background-position: 0 0;
+                background-repeat: no-repeat;
+                background-size: 100%;
+                border: none;
+                display: inline-block;
+                height: 22px;
+                margin-left: 10px;
+                margin-top: -3px;
+                position: relative;
+                width: 21px;
+              }
+
+              &:active,
+              &:focus,
+              &:hover {
+                //   color: $secondary-color;
+                opacity: .7;
+                //   .icon-dlt {
+                //     background-position: 0 bottom;
+                //   }
+              }
+            }
+          }
+
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 1300px) {
+    .card_section {
+      &.documents_Sec {
+        // .row.pad--30:last-child {
+        //   flex-wrap: nowrap;
+        // }
+        .document_Sec,
+        .input_sec {
+          flex: 0 0 100%;
+          max-width: 100%;
+        }
+
+        .input_sec {
+          border-bottom: 1px solid #cccccc;
+          border-right: none;
+          margin-bottom: 20px;
+          padding-bottom: 10px;
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 767px) {
+    .card_section {
+      &.documents_Sec {
+        .row.pad--30 {
+          margin: 0 -15px;
+        }
+
+        .document_Sec,
+        .input_sec {
+          padding: 0 15px;
+        }
+
+        .document_Sec {
+          .up_file_list {
+            .uplded_file > .row {
+              // flex-wrap: wrap;
+              justify-content: space-between;
+              .cell {
+                &:last-child {
+                  justify-content: flex-end;
+                }
+                &:first-child{
+                  justify-content: flex-start;
+                  min-width: 68px;
+                }
+              }
+            }
+
+            .uplded_file {
+              .cell {
+                &:first-child,
+                &:last-child {
+                  max-width: auto;
+                  min-width: auto;
+                  width: auto;
+                }
+              }
+
+              .remove-btn {
+                margin: 15px 0;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.app_settingPage {
+  .app_form {
+    .form-group {
+      .comn_btn {
+        margin-top: 20px;
+      }
+
+      .prefix-doller {
+        display: inline-block;
+        position: relative;
+        width: 100%;
+
+        &::before {
+          @include font-size(18px);
+          align-items: center;
+          color: $text-color;
+          content: '$';
+          display: inline-flex;
+          height: 100%;
+          justify-content: center;
+          left: 0;
+          padding: 5px 15px 5px 25px;
+          position: absolute;
+          top: 0;
+          z-index: 5;
+        }
+
+        & > input {
+          position: relative;
+          z-index: 1;
+        }
+
+        & > input:not([type="checkbox"]):not([type="radio"]):not([type="file"]) {
+          padding: 15px 25px 15px 50px;
+        }
+      }
+
+      .prefix-inr {
+        display: inline-block;
+        position: relative;
+        width: 100%;
+
+        &::before {
+          @include font-size(18px);
+          align-items: center;
+          color: $text-color;
+          content: '₹';
+          display: inline-flex;
+          height: 100%;
+          justify-content: center;
+          left: 0;
+          padding: 5px 15px 5px 25px;
+          position: absolute;
+          top: 0;
+          z-index: 5;
+          font-weight: 600;
+          font-size: 1.4rem;
+        }
+
+        & > input {
+          position: relative;
+          z-index: 1;
+        }
+
+        & > input:not([type="checkbox"]):not([type="radio"]):not([type="file"]) {
+          padding: 15px 25px 15px 50px;
+        }
+      }
+    }
+  }
+}
+
+.app_locationPage {
+  .app_form {
+    .form-group {
+      p {
+        @include font-size(16px);
+        color: $text-color;
+
+        a {
+          color: $link-color;
+          display: inline-block;
+          font-weight: $font-weight-medium;
+          position: relative;
+          @include transition(all 0.25s ease);
+        }
+      }
+
+      .input-label-txt {
+        color: $text-color;
+        line-height: $line-height-base;
+        @include font-size(16px);
+        font-weight: $font-weight-normal;
+        margin: 0 0 6px;
+        position: relative;
+        width: 100%;
+      }
+
+      .mapwrap {
+        @include border-radius ($border-radius-base);
+        @include box-shadow(none);
+        @include transform(all 0.25s ease);
+        background-color: #ffffff;
+        border: 1px solid $gray-dark;
+        display: flex;
+        max-width: 100%;
+        min-height: 500px;
+        position: relative;
+        width: 100%;
+
+        & > iframe, & > agm-map {
+          min-height: 100%;
+          max-width: 100%;
+          width: 100%;
+          position: relative;
+        }
+        .agm-map-container-inner {
+          max-width: 100%;
+        }
+      }
+
+      .check_list {
+        display: flex;
+        margin: 0 -30px;
+        position: relative;
+        width: auto;
+
+        li {
+          display: inline-block;
+          margin-bottom: 15px;
+          padding: 0 30px;
+        }
+      }
+    }
+  }
+}
+
+.app_subjectPage {
+  .page-inner {
+    .card-body {
+      .addsubsec {
+        @media(max-width: 767px){
+          margin-bottom: 30px;
+        }
+      }
+      .sec_title {
+        border-bottom: 1px solid $gray-dark;
+        @include font-size(22px);
+        color: $secondary-color;
+        font-weight: $font-weight-bold;
+        line-height: 1.3;
+        margin-bottom: 15px;
+        padding-bottom: 15px;
+        position: relative;
+        width: 100%;
+      }
+
+      p.hdr_lbl {
+        @include font-size(16px);
+        color: $text-color;
+        font-weight: normal;
+        line-height: 1.3;
+        margin-bottom: 35px;
+        position: relative;
+        width: 100%;
+      }
+    }
+
+    .collapse_row {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 2px;
+      width: 100%;
+
+      &:last-child {
+        margin: 0;
+      }
+    }
+
+    .collapse_title {
+      align-items: center;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid #ccc;
+      color: #333;
+      display: flex;
+      font-size: 18px;
+      font-weight: 500;
+      justify-content: space-between;
+      line-height: 1.3;
+      padding: 12px 0;
+      position: relative;
+      text-align: left;
+      width: 100%;
+
+      p {
+        margin: 0;
+        position: relative;
+        width: 100%;
+      }
+
+      .carret_down {
+        background-color: rgba(0, 0, 0, 0);
+        background-image: url("#{$assetspath}/img/arrow-down.png");
+        @include image-2x("#{$assetspath}/img/arrow-down@2x.png", 100%, auto);
+        background-position: 0 0;
+        background-repeat: no-repeat;
+        background-size: 100%;
+        border: none;
+        height: 11px;
+        position: relative;
+        width: 21px;
+      }
+
+      &:hover {
+        background-color: #f9f9f9;
+        color: $primary-color;
+      }
+
+      &:focus {
+        outline: none;
+      }
+
+      &[aria-expanded="false"] {
+        &:hover {
+          background: transparent;
+          color: #333;
+        }
+      }
+    }
+
+    .collapse {
+      width: 100%;
+
+      .card {
+        @include border-radius(0);
+        @include box-shadow(none);
+        border: none;
+        background-color: #fbfbfb;
+        margin-bottom: 0;
+        padding: 20px 15px;
+
+        & > .row {
+          margin-bottom: -15px;
+        }
+
+        .dummyText {
+          @include font-size(26px);
+          color: #b1b1b1;
+          float: left;
+          font-weight: $font-weight-semi-bold;
+          font-weight: 600;
+          padding: 45px;
+          position: relative;
+          text-align: center;
+          width: 100%;
+
+          & > b {
+            color: #000000;
+            display: inline-block;
+            position: relative;
+            margin-left: 10px;
+            @include font-size(45px);
+            font-weight: $font-weight-bold;
+          }
+        }
+
+        .custom-control {
+          .custom-control-label {
+            @include font-size(14px);
+            line-height: 24px;
+          }
+        }
+      }
+    }
+
+    .sub_category {
+      background: #fafbfe;
+      @include border-radius($border-radius-base);
+      margin-bottom: 25px;
+      padding: 10px;
+      position: relative;
+      width: 100%;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      & > .row {
+        margin: 0 -7px;
+        padding: 0 15px;
+      }
+
+      .cat_title {
+        @include font-size(20px);
+        color: $secondary-color;
+        font-weight: $font-weight-semi-bold;
+        line-height: 1.3;
+        margin: 0;
+        padding: 15px;
+        position: relative;
+        width: 100%;
+      }
+
+      .sub_tag {
+        align-items: center;
+        background: #eceff5;
+        @include border-radius(100px);
+        display: inline-flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        line-height: 1.3;
+        margin: 7px;
+        padding: 5px 15px;
+        position: relative;
+
+        display: block;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: pre-wrap;
+
+        .tag_dlt {
+          background-color: rgba(0, 0, 0, 0);
+          border: none;
+          display: inline-block;
+          position: relative;
+          margin: 0 0 0 10px;
+          padding: 2px;
+          vertical-align: middle;
+
+          .icon-cross {
+            background-color: rgba(0, 0, 0, 0);
+            background-image: url("#{$assetspath}/img/icon-cross.png");
+            @include image-2x("#{$assetspath}/img/icon-cross@2x.png", 100%, auto);
+            background-position: 0 0;
+            background-repeat: no-repeat;
+            background-size: 100%;
+            border: none;
+            display: block;
+            height: 23px;
+            position: relative;
+            width: 23px;
+          }
+
+          &:focus,
+          &:hover {
+            opacity: .8;
+          }
+        }
+      }
+    }
+  }
+}
+
+.app_availabilitytPage {
+  .page-inner {
+    .card-body {
+      .calender_box {
+        // border: 1px solid red;
+        display: flex;
+        // max-height: 500px;
+        overflow: hidden;
+      }
+
+      .help_info {
+        display: inline-block;
+
+        .wrapper {
+          align-items: flex-start;
+          border-bottom: 1px solid #d7d7d7;
+          display: inline-flex;
+          // flex-wrap: wrap;
+          // & > .cell {
+          //   display: inline-flex;
+          // }
+        }
+
+        .btn {
+          color: red;
+          display: inline-block;
+          font-size: 24px;
+          height: auto;
+          position: relative;
+
+          i {
+            float: left;
+          }
+        }
+
+        h3 {
+          align-items: center;
+          color: #333333;
+          color: #fab007;
+          display: inline-flex;
+          float: left;
+          font-size: 15px;
+          font-weight: 600;
+          margin-top: 0;
+          padding-right: 10px;
+          white-space: nowrap;
+
+          i {
+            font-size: 22px;
+            margin-right: 5px;
+          }
+        }
+
+        .txt {
+          color: #999999;
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 1.3;
+          margin: 0 0 20px;
+          position: relative;
+
+          b {
+            // color: #7F7F7F;
+            color: #333333;
+            display: inline-block;
+            font-weight: 600;
+
+            i {
+              font-size: 18px;
+              float: left;
+              line-height: 1.1;
+              position: relative;
+              width: auto;
+            }
+          }
+
+          i {
+            float: left;
+          }
+        }
+      }
+
+      .calender_actions {
+        align-items: center;
+        display: flex;
+        // flex-direction: column;
+        // flex-wrap: wrap;
+        justify-content: space-between;
+        // margin-bottom: 30px;
+
+        .fc-view-container {
+          max-height: 500px;
+        }
+
+        .label_list {
+          margin: 0 -10px;
+
+          & > li {
+            padding: 0 10px;
+          }
+        }
+
+        .calendar-label {
+          float: left;
+          @include font-size(14px);
+          font-weight: $font-weight-normal;
+          line-height: 20px;
+          margin: 5px 0;
+          padding-left: 25px;
+          position: relative;
+          width: 100%;
+
+          &::before {
+            background-color: #fff;
+            border: 1px solid $gray-dark;
+            @include border-radius(3px);
+            content: "";
+            display: block;
+            height: 20px;
+            left: 0;
+            pointer-events: none;
+            position: absolute;
+            top: 0;
+            @include transition(background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out);
+            width: 20px;
+          }
+
+          &.available-clr {
+            &::before {
+              background-color: $success-color;
+              border-color: $success-color;
+            }
+          }
+
+          &.slot-booked {
+            &::before {
+              background-color: $primary-color;
+              border-color: $primary-color;
+            }
+          }
+
+          &.unavailable-clr {
+            &::before {
+              background-color: #ebebeb;
+              border-color: #ebebeb;
+            }
+          }
+        }
+
+        .btn-group {
+          align-content: flex-start;
+          margin: 20px 0;
+
+          & > .btn-group:not(:last-child) > .btn,
+          & > .btn:not(:last-child):not(.dropdown-toggle) {
+            border-top-right-radius: $border-radius-base;
+            border-bottom-right-radius: $border-radius-base;
+          }
+
+          .comn_btn {
+            @include font-size(14px);
+            font-weight: $font-weight-medium;
+            // min-width: 250px;
+            // max-width: 250px;
+            height: 45px;
+            margin: 0 0 0 10px;
+            white-space: nowrap;
+
+            i {
+              font-size: 18px;
+              line-height: 18px;
+              margin-right: 10px;
+            }
+
+            &:first-child {
+              // margin-bottom: 0;
+              margin: 0;
+            }
+          }
+        }
+      }
+    }
+
+    .app_ngxtimepicker {
+      margin: 10px 0 0;
+      height: 38px;
+      width: 186px;
+      background: #ffffff;
+      border-radius: 4px;
+      border: 1px solid #cccccc;
+
+      ngx-timepicker-field {
+        height: 38px;
+        width: 186px;
+      }
+
+      ngx-timepicker-period-selector {
+        padding: 0 10px;
+
+        .period {
+          border-left: 1px solid #cccccc;
+          margin-left: 0;
+        }
+      }
+
+      ngx-timepicker-field {
+        .ngx-timepicker {
+          .ngx-timepicker-control {
+            width: 50px;
+
+            input:not([type=checkbox]):not([type=radio]):not([type=file]) {
+              padding: 5px 10px 5px 5px;
+              background: rgba(0,0,0,0);
+              text-align: center;
+            }
+
+            .ngx-timepicker-control__arrow {
+              color: $gray-dark;
+              height: auto;
+              margin: 0;
+              width: auto;
+
+              &::before {
+                content: none;
+              }
+            }
+          }
+
+          .ngx-timepicker-control__arrows {
+            right: 0;
+          }
+
+          .ngx-timepicker__time-colon {
+            margin: 0 5px;
+          }
+
+          .period-control__button {
+            padding: 0 0 0 10px;
+            width: auto;
+            font-size: 14px;
+            font-weight: 500;
+
+            // .period-control__arrow {
+            //   height: 7px;
+            //   width: 14px;
+            //   margin-left: 3px;
+            // }
+          }
+        }
+      }
+    }
+
+    .addavailability_section {
+      background-color: #f8fbfe;
+      border-top: 1px solid $gray-dark;
+      padding: 35px 50px;
+
+      .counter-container {
+        .counter-field {
+          margin: 0;
+          padding: 5px;
+          text-align: center;
+          width: 40px;
+        }
+      }
+
+      form.app_form {
+        .form-title {
+          color: $secondary-color;
+        }
+
+        .add_weekly_avail {
+          .table.week_days_table {
+            margin: 0;
+            width: auto;
+
+            & > thead {
+              th {
+                color: $text-color;
+                border: none;
+                @include font-size(16px);
+                font-weight: $font-weight-medium;
+                padding: 0 0 10px;
+              }
+            }
+
+            & > tbody {
+              & > tr {
+                &:last-child {
+                  border-bottom: none;
+                }
+
+                & > td {
+                  border-color: $gray-dark;
+                  border-style: solid;
+                  border-width: 0 0 1px;
+                  padding: 0;
+
+                  &:first-child {
+                    min-width: 160px;
+                    padding-left: 0;
+                    width: 160px;
+                  }
+
+                  .day_title {
+                    color: $secondary-color;
+                    display: inline-block;
+                    @include font-size(18px);
+                    font-weight: $font-weight-normal;
+                    height: 100%;
+                    line-height: $line-height-base;
+                    padding: 40px 0;
+                    position: relative;
+                  }
+                }
+              }
+            }
+          }
+        }
+
+      }
+
+      .time_span_box {
+        display: flex;
+
+        .cell {
+          align-items: center;
+          display: inline-flex;
+          justify-content: flex-start;
+          padding: 0 20px;
+          text-align: left;
+          width: 50%;
+        }
+      }
+
+      .weekly_schedule {
+        max-width: 930px;
+
+        .schedule_header {
+          .title {
+            color: $text-color;
+            border: none;
+            @include font-size(16px);
+            font-weight: $font-weight-medium;
+            padding: 0;
+          }
+        }
+
+        .day_time_span {
+          display: flex;
+          margin: 0 -15px;
+          position: relative; 
+          align-items: flex-end;
+
+          .span_cell {
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0 15px;
+            text-align: left;
+            width: 50%;
+
+            label {
+              @include font-size(16px);
+              color: $text-color;
+              display: none;
+              font-weight: 500;
+              margin: 0;
+              text-align: left;
+              width: 100%;
+            }
+          }
+        }
+
+        .schedule_body {
+          .day_container {
+            border-bottom: 1px solid $gray-dark;
+            // border: 1px solid red;
+            margin-bottom: 5px;
+            padding: 0 0 5px;
+            max-width: 910px;
+            width: 100%;
+
+            &:last-child {
+              border: none;
+              margin-bottom: 0;
+            }
+
+            .day_time_span {
+              .span_cell {
+                position: relative;
+
+                .switchToggle {
+                  width: 140px;
+
+                  label {
+                    display: inline-block !important;
+                    font-size: 14px;
+
+                    &:before {
+                      width: 100%;
+                    }
+                  }
+                }
+              }
+            }
+
+            &:first-child {
+              .day_time_span:first-child {
+                .span_cell {
+                  position: relative;
+
+                  label {
+                    display: block;
+                    position: absolute;
+                    top: -23px;
+                    left: 15px;
+                  }
+
+                  .switchToggle {
+                    label {
+                      position: relative;
+                      top: auto;
+                      left: 0;
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          .day_name {
+            color: $secondary-color;
+            display: inline-block;
+            @include font-size(18px);
+            font-weight: $font-weight-normal;
+            line-height: $line-height-base;
+            padding: 23px 0;
+            position: relative;
+          }
+
+          .add_timespan-btn {
+            align-items: center;
+            background: $primary-color;
+            @include border-radius(100px);
+            border: none;
+            @include box-shadow(none);
+            display: inline-flex;
+            @include font-size(25px);
+            height: 40px;
+            justify-content: center;
+            line-height: 40px;
+            // margin: 10px 10px 10px 0;
+            padding: 0;
+            position: relative;
+            width: 40px;
+
+            .icon-plus {
+              background-color: rgba(0,0,0,0);
+              background-image: url("#{$assetspath}/img/icon-add-plus.png");
+              @include image-2x("#{$assetspath}/img/icon-add-plus@2x.png", 100%, auto);
+              background-position: 0 0;
+              background-repeat: no-repeat;
+              background-size: 100%;
+              border: none;
+              display: inline-block;
+              height: 20px;
+              position: relative;
+              width: 20px;
+            }
+          }
+
+          .check_day {
+            margin-left: 20px;
+          }
+        }
+
+        .day_container {
+          .containerCelltime_add_continer {
+            & > .row {
+              flex-wrap: nowrap;
+
+              & > .cell {
+                /* flex-grow: 1; */
+                padding: 0 15px;
+              }
+            }
+
+            .avail_slots_container {
+              flex-grow: 1;
+            }
+
+            .slots_action_sec {
+              flex: 0 0 200px;
+              max-width: 200px;
+              min-width: 200px;
+            }
+          }
+        }
+      }
+
+      .avail_slots_container {
+        position: relative;
+        z-index: 10;
+
+        button.delet_btn {
+          border: none;
+          padding: 5px;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          position: absolute;
+          right: -25px;
+          top: 15px;
+          background: rgba(0, 0, 0, 0);
+          font-size: 20px;
+          color: red;
+          line-height: 1;
+          cursor: pointer;
+        }
+      }
+      // .time_add_continer {
+      //   button.delet_btn {
+      //     border: none;
+      //     padding: 5px;
+      //     display: inline-flex;
+      //     align-items: center;
+      //     justify-content: center;
+      //     position: absolute;
+      //     right: -25px;
+      //     top: 15px;
+      //     background: rgba(0, 0, 0, 0);
+      //     font-size: 20px;
+      //     color: red;
+      //     line-height: 1;
+      //     cursor: pointer;
+      //   }
+      // }    
+    }
+    @media screen and (max-width: 1480px) {
+      // .calender_box {
+      //   flex: 0 0 66.666%;
+      //   max-width: 66.666%;
+      // }
+      // .calender_actions {
+      //   flex: 0 0 33.333%;
+      //   max-width: 33.333%;
+      // }
+      .addavailability_section {
+        padding: 30px 22px;
+
+        .app_form {
+          .input_sec,
+          .weekform_sec {
+            flex: 0 0 100%;
+            max-width: 100%;
+          }
+        }
+      }
+    }
+    @media screen and (min-width: 1199px) and (max-width: 1400px) {
+      .addavailability_section {
+        .weekly_schedule {
+          .schedule_body {
+            .day_container {
+              .day_time_span {
+                .span_cell {
+                  display: inline-block !important;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .app_ngxtimepicker {
+        width: 100%;
+
+        ngx-timepicker-field .ngx-timepicker ngx-timepicker-period-selector,
+        ngx-timepicker-field .ngx-timepicker ngx-timepicker-time-control,
+        ngx-timepicker-time-control {
+          width: auto;
+        }
+
+        .ngx-timepicker-control__arrow {
+          font-size: 9px;
+        }
+
+        ngx-timepicker-field {
+          width: 100%;
+
+          .ngx-timepicker {
+            width: 100%;
+
+            .ngx-timepicker-control {
+              width: auto;
+
+              input:not([type=checkbox]):not([type=radio]):not([type=file]) {
+                padding: 5px 10px 5px 0;
+              }
+            }
+
+            .period-control__button {
+              padding: 0 0 0 5px;
+
+              .period-control__arrow {
+                background: transparent;
+                color: #cccccc;
+                font-size: 10px;
+                height: auto;
+                width: auto;
+              }
+            }
+          }
+        }
+
+        ngx-timepicker-period-selector {
+          padding: 0 5px 0 0;
+
+          .period {
+            margin-left: 0;
+          }
+        }
+      }
+    }
+    @media screen and (max-width: 1279px) {
+      .addavailability_section {
+        .weekly_schedule {
+          .schedule_body {
+            .day_container {
+              .time_add_continer {
+                & > .row {
+                  & > .cell {
+                    &.justify-content-end {
+                      justify-content: flex-start !important;
+                    }
+
+                    .d-inline-flex.pl-3 {
+                      padding: 0 !important;
+                    }
+                  }
+                }
+              }
+
+            }
+          }
+        }
+      }
+    }
+    @media screen and (max-width: 1199px) {
+      .addavailability_section {
+        .avail_slots_container {
+          button.delet_btn {
+            bottom: 0;
+            top: auto;
+          }
+        }
+
+        .weekly_schedule {
+          .day_container {
+            .containerCelltime_add_continer {
+              & > .row {
+                flex-wrap: wrap;
+              }
+
+              .slots_action_sec {
+                &.justify-content-end {
+                  justify-content: flex-start !important;
+                }
+
+                & > div {
+                  padding: 10px 0 5px !important;
+                }
+              }
+            }
+          }
+        }
+
+        .weekly_schedule {
+          & > .schedule_header {
+            display: none;
+          }
+
+          .schedule_body {
+            .day_container {
+              &:first-child {
+                .day_time_span {
+                  &:first-child {
+                    .span_cell {
+                      label {
+                        display: block;
+                        position: relative;
+                        top: 0;
+                        left: 0;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    @media screen and (min-width: 992px) and (max-width: 1024px) {
+      .app_ngxtimepicker {
+        width: 175px;
+        ngx-timepicker-field {
+          width: 175px;
+          .ngx-timepicker {
+            .ngx-timepicker-control {
+              width: 45px;
+            }
+          }
+        }
+      }
+      .addavailability_section {
+        .weekly_schedule {
+          // .day_time_span {
+          //   .span_cell {
+          //     .switchToggle {
+          //       label {
+          //         font-size: 12px;
+          //       }
+          //     }
+          //   }
+          // }
+          .schedule_body {
+            .day_container {
+              .day_time_span {
+                .span_cell {
+                  padding: 0 10px;
+                  .switchToggle {
+                    width: 118px;
+                    label {
+                      font-size: 12px;
+                      &:after {
+                        top: 5px;
+                        left: 5px;
+                        width: 26px;
+                        height: 26px;
+                      }
+                    }
+                    input + input + label:before, 
+                    input + label:before {
+                      left: 35px;
+                    }
+                    input:checked + input + label:before, 
+                    input:checked + label:before {
+                      left: 15px;
+                    }
+                    input:checked + input + label:after, 
+                    input:checked + label:after {
+                      left: calc(100% - 5px);
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }  
+      }
+    }
+    @media screen and (max-width: 991px) {
+      .card-body {
+        .calender_actions,
+        .calender_box {
+          flex: 0 0 100%;
+          max-width: 100%;
+        }
+
+        .calender_box {
+          margin-bottom: 30px;
+        }
+      }
+
+      .addavailability_section {
+        .weekly_schedule {
+          .schedule_body {
+            .day_container {
+              .time_add_continer {
+                & > .row {
+                  & > .cell {
+                    flex-direction: column;
+                    align-items: flex-start !important;
+                  }
+                }
+              }
+
+              .day_container:first-child {
+                .day_time_span:first-child {
+                  .span_cell {
+                    label {
+                      position: relative;
+                      top: 0;
+                      left: 0;
+                    }
+                  }
+                }
+              }
+
+            }
+          }
+
+          .day_time_span {
+            .span_cell {
+              label {
+                display: none;
+              }
+            }
+
+            &:first-child {
+              .span_cell {
+                label {
+                  display: block;
+                  position: relative;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    @media screen and (min-width: 481px) and (max-width: 767px) {
+
+      .addavailability_section {
+        padding: 30px 15px;
+        .containerCelltime_add_continer {
+          .avail_slots_container  {
+            width: 100%;
+            button.delet_btn {
+              bottom: auto;
+              right: 15px;
+              top: 15px;          
+            }
+          }
+        }
+
+        .weekly_schedule {
+          .day_time_span {
+            background:#fff;
+            border-radius: 5px;
+            border: 1px solid#f3f3f3;
+            flex-wrap: wrap;
+            margin: 0 0 20px;
+            padding: 15px 20px;
+            position: relative;
+            width: 100%;
+
+            &:last-child {
+              margin: 0;
+            }
+            .span_cell {
+              align-items: flex-start;
+              padding: 0 20px 15px 0;
+              // width: 100%;
+
+              &:last-child {
+                padding:  0 0 15px;
+              }
+
+              label {
+                display: block;
+                font-weight: $font-weight-normal;
+              }
+            }
+
+            .app_timpicker {
+              width: 100%;
+
+              table {
+                tbody {
+                  td.form-group {
+                    padding: 0 8px;
+
+                    input:not([type="checkbox"]):not([type="radio"]):not([type="file"]) {
+                      // background: #fcfcfc;
+                      border: none;
+                      height: 36px;
+                      width: 100%;
+
+                      &:focus {
+                        border-color: #333333;
+                        @include box-shadow(none);
+                      }
+                    }
+                  }
+
+                  td {
+                    &:last-child {
+                      .btn.btn-default {
+                        background: #efefef;
+                        height: 36px;
+                        padding: 0;
+                        width: 36px;
+
+                        &:focus {
+                          border-color: #333333;
+                          @include box-shadow(none);
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          .schedule_body {
+            .day_container {
+              &:first-child {
+                .day_time_span {
+                  &:first-child .span_cell label {
+                    position: relative;
+                    top: initial;
+                    left: initial;
+                  }
+                }
+              }
+            }
+
+            .add_timespan-btn {
+              margin: 0;
+            }
+          }
+        }
+      }
+    }
+    @media screen and (max-width: 767px) {
+
+      .card-body {
+        .help_info {
+          h3 {
+            margin-bottom: 10px;
+          }
+          .wrapper {
+            flex-direction: column;
+          }
+        }
+        .calender_actions {
+          margin-top: 10px;
+        }
+        .calender_box {
+          // border: 1px solid red;
+          margin: 0;
+          full-calendar {
+            width: 100%;
+            .fc-toolbar {
+              &.fc-header-toolbar {
+                flex-direction: column;
+                .fc-center {
+                  margin: 15px 0;
+                }
+              }
+            }
+            .fc-view-container {
+              .fc-dayGridMonth-view, .fc-timeGridWeek-view, .fc-timeGridDay-view {
+                .fc-scroller {
+                  height: auto !important;
+                }
+              }
+              .fc-head-container {
+                table {
+                  tr {
+                    th {
+                      padding: 0;
+                      font-size: 14px;                  
+                    }
+                  }
+                }
+              }
+              .fc-body {
+                table {
+                  tbody {
+                    td {
+                      padding: 0;
+                    }
+                  }
+                }
+              }
+            }
+            .fc-event-container .fc-day-grid-event, .fc-event-container .fc-event {
+              padding: 2px 3px;
+            }
+          }
+        }
+      }
+    }
+    @media screen and (max-width: 580px) {
+      .card-body {
+        .calender_actions {
+          flex-wrap: wrap;
+        }
+      }
+    }
+    @media screen and (max-width: 480px) {
+      .card-body {
+        .calender_actions,
+        .calender_box {
+          flex: 0 0 100%;
+          max-width: 100%;
+        }
+        .calender_box {
+          padding: 0;
+          margin-bottom: 0;
+          full-calendar {
+            &.fc table {
+              font-size: 13px;
+            }
+            .fc-event {
+              font-size: 11px;
+            }
+            .fc-view-container {
+              .fc-head-container {
+                table {
+                  tr {
+                    th {
+                      font-size: 12px;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        .calender_actions {
+          .btn-group {
+            flex-wrap: wrap;
+            width: 100%;
+            .comn_btn {
+              margin: 10px 0;
+            }
+          }
+        }
+      }
+
+      .addavailability_section {
+        padding: 30px 15px;
+
+        .weekly_schedule {
+          .day_time_span {
+            background: #fff;
+            border-radius: $border-radius-base;
+            border: 1px solid #f3f3f3;
+            flex-direction: column;
+            margin: 0 0 20px;
+            padding: 15px 20px;
+            position: relative;
+            width: 100%;
+            // &:last-child {
+            //   margin: 0;
+            // }
+            .span_cell {
+              align-items: flex-start;
+              padding: 0 0 15px;
+              width: 100%;
+
+              &:last-child {
+                padding: 0;
+              }
+
+              label {
+                display: block;
+                font-weight: $font-weight-normal;
+              }
+            }
+
+            .app_timpicker {
+              width: 100%;
+
+              table {
+                tbody {
+                  td.form-group {
+                    padding: 0 8px;
+
+                    input:not([type="checkbox"]):not([type="radio"]):not([type="file"]) {
+                      // background: #fcfcfc;
+                      border: none;
+                      height: 36px;
+                      width: 100%;
+
+                      &:focus {
+                        border-color: #333333;
+                        @include box-shadow(none);
+                      }
+                    }
+                  }
+
+                  td {
+                    &:last-child {
+                      .btn.btn-default {
+                        background: #efefef;
+                        height: 36px;
+                        padding: 0;
+                        width: 36px;
+
+                        &:focus {
+                          border-color: #333333;
+                          @include box-shadow(none);
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+          .schedule_body {
+            .day_container {
+              &:first-child {
+                .day_time_span {
+                  &:first-child .span_cell label {
+                    position: relative;
+                    top: initial;
+                    left: initial;
+                  }
+                }
+              }
+            }
+
+            .add_timespan-btn {
+              margin: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.availabilityModal.modal-dialog {
+  max-width: 930px;
+  max-width: 850px;
+  width: 100%;
+
+  .modal-content {
+    border: none;
+    border-radius: $border-radius-base;
+  }
+
+  .modal-header {
+    border: none;
+    padding: 30px 25px 10px;
+
+    .modal-title {
+      font-size: 22px;
+      line-height: 1.3;
+      position: relative;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .close {
+      color: #333;
+      font-size: 22px;
+      line-height: 22px;
+    }
+  }
+
+  .modal-body {
+    padding: 20px 25px;
+
+    .app_ngxtimepicker {
+      margin: 10px 0 0;
+      height: 38px;
+      width: 180px;
+      background: #ffffff;
+      border-radius: 4px;
+      border: 1px solid #cccccc;
+
+      ngx-timepicker-field {
+        height: 38px;
+      }
+
+      ngx-timepicker-period-selector {
+        padding: 0 10px;
+
+        .period {
+          border-left: 1px solid #cccccc;
+          margin-left: 0;
+        }
+      }
+
+      ngx-timepicker-field {
+        .ngx-timepicker {
+          .ngx-timepicker-control {
+            width: 50px;
+
+            input:not([type=checkbox]):not([type=radio]):not([type=file]) {
+              padding: 5px 10px 5px 5px;
+              background: rgba(0,0,0,0);
+              text-align: center;
+            }
+
+            .ngx-timepicker-control__arrow {
+              height: 9px;
+              width: 12px;
+              // color: $gray-dark;
+              // height: auto;
+              // margin: 0;
+              // width: auto;
+              // &::before {
+              //   content: none;
+              // }
+            }
+          }
+
+          .ngx-timepicker-control__arrows {
+            right: 0;
+          }
+
+          .ngx-timepicker__time-colon {
+            margin: 0 5px;
+          }
+
+          .period-control__button {
+            padding: 0 0 0 10px;
+            width: auto;
+            font-size: 14px;
+            font-weight: 500;
+
+            // .period-control__arrow {
+            //   height: 7px;
+            //   width: 11px;
+            // }
+          }
+        }
+      }
+    }
+  }
+  // /.availabilityModal
+
+  form.app_form {
+    .form-title {
+      color: $secondary-color;
+    }
+
+    .add_weekly_avail {
+      .table.week_days_table {
+        margin: 0;
+        width: auto;
+
+        & > thead {
+          th {
+            color: $text-color;
+            border: none;
+            @include font-size(16px);
+            font-weight: $font-weight-medium;
+            padding: 0 0 10px;
+          }
+        }
+
+        & > tbody {
+          & > tr {
+            &:last-child {
+              border-bottom: none;
+            }
+
+            & > td {
+              border-color: $gray-dark;
+              border-style: solid;
+              border-width: 0 0 1px;
+              padding: 0;
+
+              &:first-child {
+                min-width: 160px;
+                padding-left: 0;
+                width: 160px;
+              }
+
+              .day_title {
+                color: $secondary-color;
+                display: inline-block;
+                @include font-size(18px);
+                font-weight: $font-weight-normal;
+                height: 100%;
+                line-height: $line-height-base;
+                padding: 40px 0;
+                position: relative;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .time_span_box {
+    display: flex;
+
+    .cell {
+      align-items: center;
+      display: inline-flex;
+      justify-content: flex-start;
+      padding: 0 20px;
+      text-align: left;
+      width: 50%;
+    }
+  }
+
+  .weekly_schedule {
+    max-width: 930px;
+
+    .schedule_header {
+      .title {
+        color: $text-color;
+        border: none;
+        @include font-size(16px);
+        font-weight: $font-weight-medium;
+        padding: 0;
+      }
+    }
+
+    .day_time_span {
+      align-items: flex-start;
+      display: flex;
+      margin: 0 -10px;
+      max-width: 100%;
+      padding-right: 30px;
+      position: relative;
+
+      &:first-child {
+        @media screen and (max-width: 1199px) {
+          .availabilityRadio {
+            margin-top: 31px;      
+          }
+          button.delet_btn {
+            top: 35px;        
+          }
+        }
+        @media screen and (max-width: 767px) {
+          .availabilityRadio {
+            margin-top: 3px;      
+          }
+          button.delet_btn {
+            top: auto;        
+          }          
+        }
+      }
+
+      .span_cell {
+        align-items: center;
+        justify-content: flex-start;
+        padding: 0 10px;
+        text-align: left;
+        width: 50%;
+
+        label {
+          @include font-size(16px);
+          color: $text-color;
+          display: none;
+          font-size: 14px;
+          font-weight: 500;
+          margin: 0;
+          text-align: left;
+          width: 100%;
+        }
+      }
+    }
+
+    .fullwidtherror.has-error {
+      & > div {
+        background: #ffe5e5;
+        border: 1px solid#d24b4b;
+        border-radius: 5px;
+        padding: 5px 15px;
+        line-height: 1.3;
+        i {
+          font-size: 18px;      
+        }
+      }
+    }
+
+    .schedule_body {
+      .day_container {
+        border-bottom: 1px solid $gray-dark;
+        // border: 1px solid red;
+        margin-bottom: 5px;
+        padding: 0 0 5px;
+        max-width: 910px;
+        width: 100%;
+
+        &:last-child {
+          border: none;
+          margin-bottom: 0;
+        }
+
+        .day_time_span {
+          .span_cell {
+            position: relative;
+          }
+        }
+
+        &:first-child {
+          .day_time_span:first-child {
+            .span_cell {
+              position: relative;
+
+              label {
+                display: block;
+                position: absolute;
+                top: -40px;
+                left: 15px;
+              }
+
+              .switchToggle {
+                label {
+                  display: inline-block;
+                  position: relative;
+                  font-size: 14px;
+                  top: 0;
+                  left: 0;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .day_name {
+        color: $secondary-color;
+        display: inline-block;
+        @include font-size(18px);
+        font-weight: $font-weight-normal;
+        line-height: $line-height-base;
+        padding: 18px 0;
+        position: relative;
+      }
+
+      .add_timespan-btn {
+        align-items: center;
+        background: $primary-color;
+        @include border-radius(100px);
+        border: none;
+        @include box-shadow(none);
+        display: inline-flex;
+        @include font-size(25px);
+        height: 36px;
+        justify-content: center;
+        line-height: 36px;
+        margin: 11px 0 0;
+        padding: 0;
+        position: relative;
+        width: 36px;
+        .icon-plus {
+          background-color: rgba(0,0,0,0);
+          background-image: url("#{$assetspath}/img/icon-add-plus.png");
+          @include image-2x("#{$assetspath}/img/icon-add-plus@2x.png", 100%, auto);
+          background-position: 0 0;
+          background-repeat: no-repeat;
+          background-size: 100%;
+          border: none;
+          display: inline-block;
+          height: 15px;
+          position: relative;
+          width: 15px;
+        }
+  
+        &:hover, &:focus, &:active {
+          outline: none;
+        }
+      }
+
+      .check_day {
+        margin-left: 20px;
+      }
+    }
+  }
+
+  .avail_slots_container {
+    flex-grow: 1;
+    position: relative;
+    z-index: 10;
+    max-width: 625px;
+  }
+
+  .time_add_continer {
+    & > .row {
+      flex-wrap: nowrap;
+
+      & > .cell {
+        align-items: flex-start;
+        padding: 0 15px;
+        display: inline-flex;
+        margin: 0 !important;
+      }
+    }
+
+    button.delet_btn {
+      align-items: center;
+      background: rgba(0,0,0,0);
+      border: none;
+      color: red;
+      cursor: pointer;
+      display: inline-flex;
+      font-size: 20px;
+      justify-content: center;
+      line-height: 1;
+      padding: 5px;
+      position: absolute;
+      right: -25px;
+      right: 0;
+      // bottom: 5px;
+      top: 14px;
+      &::after, &::before {
+        background: red;
+        // content: '';
+        display: block;
+        height: 1px;
+        position: absolute;
+        right: 0;
+        width: 500%;
+      }
+      &:before {
+        top: 0;    
+      }
+      &:after {
+        bottom: 0;    
+      }
+    }
+  }
+  @media screen and (max-width: 1199px) {
+    // &.modal-dialog {
+    //   max-width: 590px; 
+    // }
+    .weekly_schedule {
+      .schedule_header {
+        display: none;
+      }
+
+      .schedule_body {
+        .add_timespan-btn {
+          margin: 33px 0 0;
+        }
+        .day_container {
+          &:first-child {
+            .day_time_span {
+              &:first-child {
+                .span_cell {
+                  label {
+                    position: relative;
+                    top: auto;
+                    left: auto;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .day_time_span {
+        .span_cell {
+          justify-content: flex-end;
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 767px) {
+    padding: 15px;
+    margin: 30px auto;
+
+    .form-group.footer_btn {
+      align-items: flex-end;
+    }
+
+    .avail_slots_container {
+      max-width: 100%;
+    }
+
+    .weekly_schedule {
+      .day_time_span {
+        flex-wrap: wrap;
+        padding-right: 0;
+
+        .availabilityRadio {
+          margin-top: 31px;        
+        }
+
+        .span_cell {
+          align-items: flex-start;
+          width: auto;
+          label {
+            display: block;
+          }
+        }
+      }
+      // .time_add_continer  {
+      //   padding-left: 30px;
+      // }
+      .day_time_span {
+        // border: 1px solid #ccc;
+        border: 1px solid #dcdcdc;
+        margin: -1px 0 0;
+        padding: 10px 20px;
+        width: 100%;
+        &:first-child {
+          .availabilityRadio {
+            margin-top: 31px;        
+          }
+        }
+
+        &:last-child {
+          border-radius: 0 0 $border-radius-base $border-radius-base;
+        }
+      }
+
+      .schedule_body {
+        
+        .add_timespan-btn {
+          align-items: center;
+          background: #ffffff;
+          @include border-radius(100px);
+          border: 2px solid $primary-color;
+          margin: 15px 0 0;
+        }
+        .daydate_wrap {
+          padding: 0 15px !important;
+        }
+
+        .day_name {
+          background: #eeeeee;
+          border: 1px solid #dcdcdc;
+          // border-radius: $border-radius-base;
+          border-radius: $border-radius-base $border-radius-base 0 0;
+          padding: 15px 30px;
+          width: 100%;
+        }
+
+        .add_timespan-btn {
+          font-size: 16px;
+          font-weight: 500;
+          height: 46px;
+          letter-spacing: .5px;
+          line-height: 1.3;
+          padding: 8px 20px;
+          position: relative;
+          width: auto;
+
+          .icon-plus {
+            display: none;
+          }
+
+          .res_txt {
+            display: block !important;
+          }
+        }
+      }
+    }
+
+    .time_add_continer {
+      & > .row {
+        flex-wrap: wrap;
+      }
+      .formCheckterms {
+        flex-direction: column;
+        .custom-control {
+          margin: 0 0 15px;
+        }
+      }
+      button.delet_btn {
+        bottom: auto;
+        font-size: 15px;
+        letter-spacing: .5px;
+        padding: 15px 10px;
+        position: relative;
+        right: auto;
+
+        i {
+          display: none;
+        }
+
+        & > span {
+          display: inline-block !important;
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 480px) {
+    .weekly_schedule {
+      .day_time_span {
+        padding: 10px 15px;
+      }
+    }
+  }
+}
+
+.availabilityHowItworksModal {
+  &.modal-dialog {
+    &.modal-lg {
+      max-width: 630px;
+      padding: 15px;
+      width: 100%;
+    }
+  }
+
+  .modal-header {
+    border-bottom: 1px solid #dee2e6;
+    // padding: 30px 25px 10px;
+    padding: .7rem 1rem;
+    position: relative;
+
+    .modal-title {
+      color: #333333;
+      font-size: 22px;
+      // font-weight: 600;
+      line-height: 1.3;
+      position: relative;
+      // b {
+      //   font-weight: 600;
+      // }
+    }
+
+    .close {
+      color: #ccc;
+      height: 100%;
+      margin: 0;
+      opacity: 1;
+      padding: 15px;
+      position: absolute;
+      right: 0;
+      text-align: left;
+      top: 0;
+
+      i {
+        float: left;
+        line-height: 1;
+        margin-top: -2px;
+      }
+
+      &:focus,
+      &:hover {
+        color: #ed5d68;
+        opacity: 1;
+      }
+    }
+  }
+
+  .modal-body {
+    p {
+      color: #5e5e5e;
+      float: left;
+      @include font-size(16px);
+      font-weight: 400;
+      line-height: 1.5;
+      margin: 0 0 25px;
+      position: relative;
+      width: 100%;
+    }
+
+    ul.hiw_steps {
+      float: left;
+      width: 100%;
+
+      li {
+        color: #717171;
+        @include font-size(16px);
+        float: left;
+        font-weight: normal;
+        letter-spacing: .2px;
+        margin-bottom: 15px;
+        max-width: 100%;
+        padding-left: 50px;
+        position: relative;
+        width: 100%;
+        z-index: 1;
+
+        .badge.badge-primary {
+          background-color: $primary-color;
+          color: $secondary-color;
+          font-family: $secondary-font;
+          font-weight: 400;
+          height: 34px;
+          left: 0;
+          letter-spacing: .5px;
+          line-height: 34px;
+          padding: 0;
+          position: absolute;
+          text-align: center;
+          top: 4px;
+          width: 34px;
+        }
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+
+  .modal-footer {
+    border: none;
+    justify-content: center;
+    padding: 15px 15px 30px;
+  }
+}

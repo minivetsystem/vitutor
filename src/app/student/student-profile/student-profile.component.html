@@ -1,0 +1,189 @@
+<div class="main-panel" [ngClass]="{'side-menu': menuToggle == 1}">
+        <div class="container">
+        <div class="panel-header bg-primary-gradient">
+            <div class="page-inner py-5">
+				<app-profile-complete userRole="STUDENT" [profileStatusResponse]="result" *ngIf="!result.result.profile_completed"></app-profile-complete>
+                <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+                    <div>
+                        <h2 class="pb-2 fw-bold panel-header-heading">Manage Profile</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-inner mt--5">
+            <div class="row mt--2">
+                <div class="col-md-12">
+                    <div class="card full-height">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-auto profile_box">
+                                <div class="profile_box_inner">
+                                    <img *ngIf="!imageUpload" #this [src]="imageSrc" (error)="onError($event)" style="object-fit: cover;">
+                                    <img *ngIf="imageUpload" #image [src]="imageUpload" (error)="image.src = '../../../assets/img/user.png'" style="object-fit: cover;">
+                                </div>	
+                                <span>Change profile picture <br>
+                                    <input type="file" #file accept="image/jpeg, image/jpg" (change)="profilePicture($event)" style="display:none">
+                                    <button class="btn btn-primary" (click)="file.click()"><img src="../../../assets/img/camera.svg">  Browse Image</button>
+                                </span>
+                                
+                            </div>
+                            <div class="col	 form_box">
+                                <h4 class="card-heading">Basic information</h4>
+                                <form class="form-group form-show-validation row" [formGroup]="ProfileForm" >
+                                    <div class="col-lg-4 col-md-4 col-sm-6 wk_form">
+                                        <label for="name" >First Name <span class="required-label">*</span></label>
+                                        <input type="text" class="form-control"  formControlName="first_name"  placeholder="First Name" required="">
+                                        <div *ngIf="(profile.first_name.dirty || profile.first_name.touched) && profile.first_name.errors">
+                                            <div class="text-danger" *ngIf="profile.first_name.errors.required">First Name is required</div>
+                                          </div>
+                                    </div>
+                                    
+                                    <div class="col-lg-4 col-md-4 col-sm-6 wk_form">
+                                        <label for="name" >Last Name <span class="required-label">*</span></label>
+                                        <input type="text" class="form-control"  formControlName="last_name"  placeholder="Last Name" required="">
+                                        <div *ngIf="(profile.last_name.dirty || profile.last_name.touched) && profile.last_name.errors">
+                                            <div class="text-danger" *ngIf="profile.last_name.errors.required">Last Name is required</div>
+                                          </div>
+                                    </div>
+                                   
+                                    <div class="col-lg-4 col-md-4 col-sm-6 wk_form">
+                                        <label for="name" >Email Address <span class="required-label">*</span></label>
+                                        <input type="email" class="form-control" disabled formControlName="email"  placeholder="Enter Email" required="">
+                                        <div *ngIf="(profile.email.dirty || profile.email.touched) && profile.email.errors">
+                                            <div class="text-danger" *ngIf="profile.email.errors.required">Email is required</div>
+                                          </div>
+                                    </div>
+                                  
+                                    <div class="col-lg-4 col-md-4 col-sm-6 wk_form">
+                                        <label>Gender <span class="required-label">*</span></label>
+                                        <!--select class="form-control"  formControlName="gender" >
+                                            <option value=''>Select</option>
+                                            <option value="male">Male</option>
+                                            <option value="female">Female</option>
+                                        </select-->
+
+                                        <div class="custom_checkboxs">
+                                            <label class="checkbox_btn">Male <input type="radio" formControlName="gender" value="Male" checked="checked" ><span class="checkmark"></span></label> 
+                                            <label class="checkbox_btn">Female <input type="radio"  formControlName="gender" value="Female" ><span class="checkmark"></span></label>
+                                        </div>
+
+                                        
+                                        <div *ngIf="(profile.gender.dirty || profile.gender.touched) && profile.gender.errors">
+                                            <div class="text-danger" *ngIf="profile.gender.errors.required">Gender is required</div>
+                                          </div>
+                                    </div>
+                                   
+                                    <div class="col-lg-4 col-md-4 col-sm-6 wk_form">
+                                        <label for="name" >Phone No <span class="required-label">*</span></label>
+                                        <!-- <input type="phone" class="form-control"  formControlName="phone" placeholder="Enter Phone No" required=""> -->
+                                        <!-- <input type="text" class="form-control" ng2TelInput formControlName="phone" [(value)]="phone_number_standard" [ng2TelInputOptions]="telOptions" (ng2TelOutput)="getNumber($event)"/> -->
+                                        <input type="text" class="form-control" ng2TelInput name="phone" formControlName="phone" (ng2TelOutput)="getNumber($event)" (hasError)="hasError($event)" (intlTelInputObject)="telInputObject($event)">
+                                        
+                                        <div *ngIf="(profile.phone.dirty || profile.phone.touched) && profile.phone.errors">
+                                            <div class="text-danger" *ngIf="profile.phone.errors.required">Phone is required</div>
+                                          </div>
+                                          <div *ngIf="(profile.phone.touched || profile.phone.dirty) && validPhoneNumber ">
+                                            <div class="has-error" *ngIf="validPhoneNumber">Please enter valid phone number</div>
+                                        </div>
+                                    </div>
+                                   
+                                    <div class="col-lg-4 col-md-4 col-sm-6 wk_form">
+                                        <label for="name" >Date Of Birth  <span class="required-label">*</span></label>
+                                        <div class="input-group">
+                                            <input type="date" class="form-control success" [max]="getToday()" formControlName="dob" value="{{object.dob | date: 'yyyy-MM-dd'}}" required="" aria-invalid="false">
+                                            <!-- <div class="input-group-append d-flex">
+                                                <span class="input-group-text">
+                                                    <i class="fa fa-calendar-o"></i>
+                                                </span>
+                                            </div> -->
+                                            <div *ngIf="(profile.dob.dirty || profile.dob.touched) && profile.dob.errors">
+                                                <div class="text-danger" *ngIf="profile.dob.errors.required">date of birth is required</div>
+                                              </div>
+                                        </div>
+                                       
+                                    </div>
+
+                                    <div class="col-lg-6 col-md-6 col-sm-6 wk_form">
+                                        <label for="name" >Address Line 1 <span class="required-label">*</span></label>
+                                        <input type="text" class="form-control"  formControlName="address1"  placeholder="Enter Location" required="">
+                                        <div *ngIf="(profile.address1.dirty || profile.address1.touched) && profile.address1.errors">
+                                            <div class="text-danger" *ngIf="profile.address1.errors.required">Address is required</div>
+                                          </div>
+                                    </div> 
+                                    
+                                    <div class="col-lg-6 col-md-6 col-sm-6 wk_form">
+                                        <label for="name" >Address Line 2  </label>
+                                        <input type="text" class="form-control" formControlName="address2"  placeholder="Enter Street Address" required="">
+                                        <div *ngIf="(profile.address2.dirty || profile.address2.touched) && profile.address2.errors">
+                                            <div class="text-danger" *ngIf="profile.address2.errors.required">Street address is required</div>
+                                          </div>
+                                    </div>
+                                   
+                                      <div class="col-lg-6 col-md-6 col-sm-6 wk_form">
+                                        <label>Country <span class="required-label">*</span></label>
+                                            <div class="select2-input">
+                                                <select formControlName="country" class="form-control" required (change)="getStatesList()">
+                                                    <option value="">Select Country</option>
+                                                        <option *ngFor="let country of countriesList" [ngValue]="country.id">{{country.name}}</option>   
+                                                </select>
+                                            </div>
+                                            <div *ngIf="(profile.country.dirty || profile.country.touched) && profile.country.errors">
+                                                <div class="text-danger" *ngIf="profile.country.errors.required">Country is required</div>
+                                              </div>
+                                    </div>
+                                    
+                                   
+                                    <div class="col-lg-6 col-md-6 col-sm-6 wk_form">
+                                        <label for="birth" >State <span class="required-label">*</span></label>
+                                            <div class="select2-input">
+                                                <select formControlName="state" class="form-control" required (change)="getCitiesList()">
+                                                    <option value="">Select State</option>
+                                                    <option *ngFor="let state of statesList" [ngValue]="state.id">{{state.name}}</option> 
+                                                </select>
+                                            </div>
+                                            <div *ngIf="(profile.state.dirty || profile.state.touched) && profile.state.errors">
+                                                <div class="text-danger" *ngIf="profile.state.errors.required">State is required</div>
+                                              </div>
+                                    </div>
+                                   
+
+                                   
+                                      <div class="col-lg-6 col-md-6 col-sm-6 wk_form">
+                                        <label for="name" >City  <span class="required-label">*</span></label>
+                                        <div class="select2-input">
+                                            <select formControlName="city" class="form-control" required >
+                                                <option value="">Select City</option>
+                                                <option *ngFor="let city of citiesList" [ngValue]="city.id">{{city.name}}</option> 
+                                            </select>
+                                        </div>
+                                        <div *ngIf="(profile.city.dirty || profile.city.touched) && profile.city.errors">
+                                            <div class="text-danger" *ngIf="profile.city.errors.required">City is required</div>
+                                          </div>
+                                    </div>
+                                   
+                                      <div class="col-lg-6 col-md-6 col-sm-6 wk_form">
+                                        <label for="name" >Postal / Zip Code <span class="required-label">*</span></label>
+                                        <input type="text" class="form-control"  formControlName="zip_code" placeholder="Enter Code" required="">
+                                        <div *ngIf="(profile.zip_code.dirty || profile.zip_code.touched) && profile.zip_code.errors">
+                                            <div class="text-danger" *ngIf="profile.zip_code.errors.required">Zip code is required</div>
+                                            <div class="text-danger" *ngIf="profile.zip_code.errors.minLength">Zip Code must be 4 charater long</div>
+                                          </div>
+                                    </div>
+                                    
+                                    <div class="col-md-12"><button type="submit" class="btn btn-primary" (click)="onSubmit()">Submit</button></div>
+
+
+
+                                </form>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-short-footer></app-short-footer>
+</div>
+   

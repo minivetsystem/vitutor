@@ -1,0 +1,385 @@
+<div class="main-panel" [ngClass]="{'side-menu': menuToggle == 1}">
+    <!-- <div class="main-panel"> -->
+    <div class="container">
+        
+        <div class="panel-header bg-primary-gradient">
+            <div class="page-inner py-5">
+			<app-profile-complete userRole="STUDENT" [profileStatusResponse]="result" *ngIf="!result.result.profile_completed"></app-profile-complete>
+                <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+                    <div>
+                        <h2 class="pb-2 fw-bold panel-header-heading">Account Settings</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-inner mt--5">
+            <div class="row mt--2">
+                <div class="col-md-12">
+                    <div class="card full-height">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-md-10 col-sm-10	form_box">
+                                <h4 class="card-heading">Change Password</h4>
+                                <form class="form-group form-show-validation row" [formGroup]="changePassForm">
+                                   
+                                      
+                                      
+                                      
+                                        
+                                        <!-- <div class="has-error" *ngIf="form.confirm_password.errors.pattern">Please enter valid email
+                                          address</div> -->
+                                      
+                                    <div class="col-lg-4 col-md-4 col-sm-6 wk_form">
+                                        <label >Current Password <span class="required-label">*</span></label>
+                                        <input type="password" class="form-control" formControlName="old_password" placeholder="Enter Password" required>
+                                        <div *ngIf="(form.old_password.dirty || form.old_password.touched) && form.old_password.errors">
+                                            <div class="text-danger" *ngIf="form.old_password.errors.required">Current password is required</div>
+                                            <!-- <div class="has-error" *ngIf="studentRenderErrors.stu_email.errors.pattern">Please enter valid email -->
+                                              <!-- address</div> -->
+                                          </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-6 wk_form">
+                                        <label>New Password  <span class="required-label">*</span></label>
+                                        <input type="password" class="form-control" formControlName="new_password" (keyup)="passwordMatch()" placeholder="Enter New password" required>
+                                        <div *ngIf="(form.new_password.dirty || form.new_password.touched) && form.new_password.errors">
+                                            <div class="text-danger" *ngIf="form.new_password.errors.required">new password is required</div>
+                                            <!-- <div class="has-error" *ngIf="studentRenderErrors.stu_email.errors.pattern">Please enter valid email
+                                              address</div> -->
+                                              <div class="text-danger" *ngIf="form.new_password.errors.minlength && !form.new_password.errors.passwordStrength">Password should be 8 characters long</div>
+                                            <div class="text-danger" *ngIf="form.new_password.errors.passwordStrength && form.new_password.value != ''">A special character, an upper case, a lower case, a number & minimum 8 characters are required. </div>
+                                            
+                                          </div>
+                                        <!-- <i class="fa fa-eye" style="margin-left: -30px;"></i> -->
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-6 wk_form">
+                                        <label>Re-enter New Password <span class="required-label">*</span></label>
+                                        <input type="password" class="form-control" formControlName="confirm_password" (keyup)="passwordMatch()" placeholder="Re-enter Enter password" required>
+                                        <div *ngIf="(form.confirm_password.dirty || form.confirm_password.touched) && form.confirm_password.errors">
+                                            <div class="text-danger" *ngIf="form.confirm_password.errors.required">confirm password is required</div>
+                                            <div class="text-danger" *ngIf="form.confirm_password.errors.mustMatch">confirm password must match </div>
+                                          </div>
+                                    </div>
+                                    <!-- <div class="col-md-12"><div class="text-danger" *ngIf="matchPasswordErr">Confirm password and new password do not match</div></div> -->
+                                    <div class="col-md-12"><button class="btn btn-primary" (click)="changePassword()">Save Password</button></div>
+                                </form>
+
+                                <div class="payment_sec">
+                                    <h4 class="card-heading">Credit Card Information</h4>
+                                    
+                                    <ul class="bank_add" *ngFor="let card of savedCards">
+                                        <li [ngClass]="{'active': card.is_primary == 1}">
+                                            <img *ngIf="card.card_type == 'visa'" class="visa" src="assets/img/visa.svg">
+                                            <img *ngIf="card.card_type == 'master'" class="visa" src="assets/img/mastercard.svg">
+                                            <img *ngIf="card.card_type == 'american_express'" class="visa" src="assets/img/american-express.svg">
+                                            {{card.card_holder_name}}
+                                            <span style="margin-left: 2em;">
+                                                {{card.card_type == 'american_express'? 'AMEX' : card.card_type}}
+                                            </span>
+                                            <span style="margin-left: 2em;">
+                                                ****  ****  ****  {{card.card_last_four}}
+                                            </span>  
+                                            <span >
+                                                <a *ngIf="card.is_primary != 1" (click)="defaultCard(card.id)" style="cursor: pointer;">Make Default</a>
+                                                <img class="circle_check" src="assets/img/tick.svg">
+                                                <a (click)=" editCardModel(card)" style="cursor: pointer;margin-left: 5px;">
+                                                    <img src="assets/img/edit.svg">
+                                                </a>
+                                                 <a *ngIf="card.is_primary != 1" (click)="deleteCard(card.id, card.card_last_four)" style="cursor: pointer;margin-left: 5px;">
+                                                    <img src="assets/img/trash-9.svg">
+                                                </a>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                    <button class="btn btn-primary" data-toggle="modal" data-target="#cardModal">Add a new credit card</button>
+                                    <!-- <ul class="nav nav-pills nav-secondary nav-pills-no-bd" id="pills-tab" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">
+                                                <img src="../../../assets/img/paypal.svg"> Add Paypal  <img class="succes_img" src="../../../assets/img/success.svg"></a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">
+                                                <img src="../../../assets/img/bank.svg"> Saved Cards <img class="succes_img" src="../../../assets/img/success.svg"></a>
+                                        </li>
+                                    </ul> -->
+                                    <!-- <div class="tab-content mt-2 mb-3" id="pills-tabContent">
+                                        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                                            <div class="paypal_sec">
+                                                <button *ngIf="!connectedPaypal" class="btn" (click)="paypalConnect()"><img src="../../../assets/img/paypal.svg"> Connect Paypal</button>
+                                                <button *ngIf="connectedPaypal" class="btn btn-success-outline" ><img src="../../../assets/img/paypal.svg"> Connected</button>
+                                                <span *ngIf="connectedPaypal"><a (click)="paypalLogout()">LogOut</a></span>
+                                                <span><a [href]="">Make a default Account</a></span>
+                                                <form class="form-group form-show-validation row" [formGroup]="paypalEmailForm">
+                                                    <div class="row">
+                                                <div class="col-lg-4 col-md-4 col-sm-6 wk_form">
+                                                    <label>Enter valid email for paypal <span class="required-label">*</span></label>
+                                                    <input type="email"  class="form-control" formControlName="paypal_email"  placeholder="Enter email" required>
+                                                    <div *ngIf="(paypalEmailForm.controls.paypal_email.dirty || paypalEmailForm.controls.paypal_email.touched) && paypalEmailForm.controls.paypal_email.errors">
+                                                        <div class="text-danger" *ngIf="paypalEmailForm.controls.paypal_email.errors.required">Email is required</div>
+                                                        <div class="text-danger" *ngIf="paypalEmailForm.controls.paypal_email.errors.pattern">Email is not valid </div>
+                                                      </div>
+                                                </div>
+                                                    </div>
+                                                    <div class="row">
+                                                <div class="col-lg-4 col-md-4 col-sm-6"><button  class="btn " (click)="paypalSave()"><img src="../../../assets/img/paypal.svg"> Save</button></div>
+                                            </div>
+                                                </form>
+                                                
+                                                <!-- <button *ngIf="connectedPaypal" class="btn btn-success-outline" ><img src="../../../assets/img/paypal.svg"> Connected</button> -->
+                                                <!-- <span *ngIf="connectedPaypal"><a (click)="paypalLogout()">LogOut</a></span> -->
+                                                <!-- <span><a [href]="">Make a default Account</a></span> -->
+                                            </div>
+                                        </div>
+                                        <!-- <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                                            <ul class="bank_add" *ngFor="let card of savedCards">
+                                                <li [ngClass]="{'active': card.is_primary == 1}"><img class="visa" src="assets/img/visa.svg"> ****  ****  ****  {{card.last4}}  <span ><a *ngIf="card.is_primary != 1" (click)="defaultCard(card.id)" style="cursor: pointer;">Make Default</a><img class="circle_check" src="assets/img/tick.svg"> <a (click)="deleteCard(card.id, card.card_last_four)" style="cursor: pointer;margin-left: 5px;"><img src="assets/img/trash-9.svg"></a></span></li>
+                                                 <!-- <li><img class="visa" src="assets/img/visa.svg"> ****  ****  ****  6348  <span>Make Default  <a [href]=""><img src="../../../assets/img/trash.svg"></a></span></li> -->
+                                            <!-- </ul> 
+                                            <button class="btn btn-primary" data-toggle="modal" data-target="#cardModal">Add a new credit card</button>
+                                        </div> -->
+                                        <div class="col-lg-5 col-md-12 col-sm-12 mt-3">
+                                            <label>Select Time Zone <span class="required-label">*</span></label>
+                                            <ng-select  [searchable]="true" [(ngModel)]="selectedTimeZone" [clearable]="false" [items]="timeZoneListArray" bindLabel="name" bindValue="value" placeholder="Select TimeZone"></ng-select>
+                                          
+                                        </div>
+                                        <div class="col-md-12 mt-2"><button class="btn btn-primary" (click)="updateTimeZone()">Save TimeZone</button></div>
+
+                                    </div> 
+                                   
+                                    
+                                </div>
+                                
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+            <!-- </div>
+        </div>
+    </div> -->
+    <app-short-footer></app-short-footer>
+</div>
+
+
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog" #cardModal>
+<div class="modal-dialog">
+
+<!-- Modal content-->
+<div class="modal-content">
+<div class="modal-header">
+    <h4 class="modal-title">Add Bank Account</h4>
+  <button type="button" class="close" data-dismiss="modal"><img src="../../../assets/img/close-14.svg"></button>
+  
+</div>
+<div class="modal-body">
+    <form class="form-group form-show-validation row">
+        <div class="col-lg-12 wk_form">
+            <label >Bank Name <span class="required-label">*</span></label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Full Name of Bank" required="">
+        </div>
+        <div class="col-lg-12 wk_form">
+            <label >Account Number <span class="required-label">*</span></label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Account Number" required="">
+        </div>
+        <div class="col-lg-12 wk_form">
+            <label >Re-Enter Account Number <span class="required-label">*</span></label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Account Number" required="">
+        </div>
+        <div class="col-lg-12 wk_form">
+            <label >IFSC Code <span class="required-label">*</span></label>
+            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Account Number" required="">
+        </div>
+
+        <div class="col-lg-12 wk_form">
+            <label >Account Tyoe <span class="required-label">*</span></label>
+            <select class="form-control" id="exampleFormControlSelect1">
+                <option>Select</option>
+                <option>Select</option>
+            </select>
+        </div>
+        <div class="col-lg-10">
+            <button class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>
+</div>
+
+</div>
+</div>
+
+<!-- Modal -->
+<div id="cardModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+    
+    <!-- Modal content-->
+    <div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">Add Card Details</h4>
+      <button type="button" class="close" data-dismiss="modal" (click)="cardDetailForm.reset()"><img src="../../../assets/img/close-14.svg"></button>
+      
+    </div>
+    <div class="modal-body">
+        <form class="form-group form-show-validation row" [formGroup]="cardDetailForm">
+            <div class="col-lg-12 wk_form">
+                <label >Card Holder Name <span class="required-label">*</span></label>
+                <input type="text" class="form-control"  formControlName="card_holder_name" placeholder="Enter name on card" required="">
+                <div *ngIf="(cardDetail.card_holder_name.dirty || cardDetail.card_holder_name.touched) && cardDetail.card_holder_name.errors">
+                    <div class="text-danger" *ngIf="cardDetail.card_holder_name.errors.required">Card Holder name is required</div>
+                    <div class="text-danger" *ngIf="cardDetail.card_holder_name.errors.pattern">Card Holder Name is not valid</div>
+                    <!-- <div class="text-danger" *ngIf="studentRenderErrors.stu_email.errors.pattern">Please enter valid email
+                      address</div> -->
+                  </div>
+            </div>
+            <div class="col-lg-12 wk_form">
+                <label >Card Number <span class="required-label">*</span></label>
+                <input type="text" class="form-control" formControlName="card_number" placeholder="Enter card Number" required="">
+                <div *ngIf="(cardDetail.card_number.dirty || cardDetail.card_number.touched) && cardDetail.card_number.errors">
+                    <div class="text-danger" *ngIf="cardDetail.card_number.errors.required">Card number is required</div>
+                    <div class="text-danger" *ngIf="cardDetail.card_number.errors.pattern">Card number is not valid</div>
+                    <!-- <div class="has-error" *ngIf="studentRenderErrors.stu_email.errors.pattern">Please enter valid email -->
+                      <!-- address</div> -->
+                  </div>
+            </div>
+            <div class="col-lg-12 wk_form">
+                <label >CVV <span class="required-label">*</span></label>
+                <input type="text" class="form-control" formControlName="cvc" placeholder="Enter CVV Number" required="">
+                <div *ngIf="(cardDetail.cvc.dirty || cardDetail.cvc.touched) && cardDetail.cvc.errors">
+                    <div class="text-danger" *ngIf="cardDetail.cvc.errors.required">CVV is required</div>
+                    <div class="text-danger" *ngIf="cardDetail.cvc.errors.pattern">Only numbers are allowed, and length should be 3</div>
+                    <!-- <div class="has-error" *ngIf="studentRenderErrors.stu_email.errors.pattern">Please enter valid email -->
+                      <!-- address</div> -->
+                  </div>
+            </div>
+            <div class="col-lg-12 wk_form">
+                <label >Expiry Month <span class="required-label">*</span></label>
+                <input type="text" class="form-control" formControlName="exp_month" placeholder="Enter Expiry date e.g 01" required="">
+                <div *ngIf="(cardDetail.exp_month.dirty || cardDetail.exp_month.touched) && cardDetail.exp_month.errors">
+                    <div class="text-danger" *ngIf="cardDetail.exp_month.errors.required">Expiry Month is required</div>
+                    <div class="text-danger" *ngIf="cardDetail.exp_month.errors.pattern">Only numbers are allowed, and length should be 2</div>
+                    <!-- <div class="has-error" *ngIf="studentRenderErrors.stu_email.errors.pattern">Please enter valid email -->
+                      <!-- address</div> -->
+                  </div>
+            </div>
+            <div class="col-lg-12 wk_form">
+                <label >Expiry Year <span class="required-label">*</span></label>
+                <input type="text" class="form-control" formControlName="exp_year" placeholder="Enter expiry year e.g 2020" required="">
+                <div *ngIf="(cardDetail.exp_year.dirty || cardDetail.exp_year.touched) && cardDetail.exp_year.errors">
+                    <div class="text-danger" *ngIf="cardDetail.exp_year.errors.required">expiry year is required</div>
+                    <div class="text-danger" *ngIf="cardDetail.exp_year.errors.pattern">Only numbers are allowed, and length should be 4</div>
+                    <!-- <div class="has-error" *ngIf="studentRenderErrors.stu_email.errors.pattern">Please enter valid email -->
+                      <!-- address</div> -->
+                  </div>
+            </div>
+    
+            <div class="col-lg-12 wk_form">
+                <label >Card Type <span class="required-label">*</span></label>
+                <select class="form-control" id="card_type" formControlName="card_type" required="" (change)="changeCardType($event.target.value)">
+                    <option value="">Select card type</option>
+                    <option value="visa">VISA</option>
+                    <option value="master">MasterCard</option>
+                    <option value="american_express">American Express</option>
+                </select>
+                <div *ngIf="(cardDetail.card_type.dirty || cardDetail.card_type.touched) && cardDetail.card_type.errors">
+                    <div class="text-danger" *ngIf="cardDetail.card_type.errors.required">Card Type is required</div>
+                  </div>
+            </div>
+            <div class="col-lg-10">
+                <button class="btn btn-primary" (click)="addCard()">Submit</button>
+            </div>
+        </form>
+    </div>
+    </div>
+    
+    </div>
+    </div>
+
+    <div id="editCardModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+        
+        <!-- Modal content-->
+        <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Edit Card Details</h4>
+          <button type="button" class="close" data-dismiss="modal" (click)="editCardForm.reset()"><img src="../../../assets/img/close-14.svg"></button>
+          
+        </div>
+        <div class="modal-body">
+            <form class="form-group form-show-validation row" [formGroup]="editCardForm">
+                <div class="col-lg-12 wk_form">
+                    <label >Card Holder Name <span class="required-label">*</span></label>
+                    <input type="text" class="form-control"  formControlName="card_holder_name" placeholder="Enter name on card" required="">
+                    <div *ngIf="(editCard.card_holder_name.dirty || editCard.card_holder_name.touched) && editCard.card_holder_name.errors">
+                        <div class="text-danger" *ngIf="editCard.card_holder_name.errors.required">Card Holder name is required</div>
+                        <!-- <div class="text-danger" *ngIf="studentRenderErrors.stu_email.errors.pattern">Please enter valid email
+                          address</div> -->
+                      </div>
+                </div>
+                <div class="col-lg-12 wk_form">
+                    <label >Card Number <span class="required-label">*</span></label>
+                    <input type="text" class="form-control" formControlName="card_number" placeholder="Enter 16 digit card Number" required="" disabled>
+                    <div *ngIf="(editCard.card_number.dirty || editCard.card_number.touched) && editCard.card_number.errors">
+                        <div class="text-danger" *ngIf="editCard.card_number.errors.required">Card number is required</div>
+                        <div class="text-danger" *ngIf="editCard.card_number.errors.pattern">Only numbers are allowed, with length should be 16</div>
+                        <!-- <div class="has-error" *ngIf="studentRenderErrors.stu_email.errors.pattern">Please enter valid email -->
+                          <!-- address</div> -->
+                      </div>
+                </div>
+                <!-- <div class="col-lg-12 wk_form">
+                    <label >CVV <span class="required-label">*</span></label>
+                    <input type="text" class="form-control" formControlName="cvc" placeholder="Enter CVV Number" required="" disabled>
+                    <div *ngIf="(editCard.cvc.dirty || editCard.cvc.touched) && editCard.cvc.errors">
+                        <div class="text-danger" *ngIf="editCard.cvc.errors.required">CVV is required</div>
+                        <div class="text-danger" *ngIf="editCard.cvc.errors.pattern">Only numbers are allowed, and length should be 3</div>
+                       
+                      </div>
+                </div> -->
+                <div class="col-lg-12 wk_form">
+                    <label >Expiry Month <span class="required-label">*</span></label>
+                    <input type="text" class="form-control" formControlName="exp_month" placeholder="Enter Expiry date e.g 01" required="">
+                    <div *ngIf="(editCard.exp_month.dirty || editCard.exp_month.touched) && editCard.exp_month.errors">
+                        <div class="text-danger" *ngIf="editCard.exp_month.errors.required">Expiry Month is required</div>
+                        <div class="text-danger" *ngIf="editCard.exp_month.errors.pattern">Only numbers are allowed, and length should be 2</div>
+                        <!-- <div class="has-error" *ngIf="studentRenderErrors.stu_email.errors.pattern">Please enter valid email -->
+                          <!-- address</div> -->
+                      </div>
+                </div>
+                <div class="col-lg-12 wk_form">
+                    <label >Expiry Year <span class="required-label">*</span></label>
+                    <input type="text" class="form-control" formControlName="exp_year" placeholder="Enter expiry year e.g 2020" required="">
+                    <div *ngIf="(editCard.exp_year.dirty || editCard.exp_year.touched) && editCard.exp_year.errors">
+                        <div class="text-danger" *ngIf="editCard.exp_year.errors.required">expiry year is required</div>
+                        <div class="text-danger" *ngIf="editCard.exp_year.errors.pattern">Only numbers are allowed, and length should be 4</div>
+                        <!-- <div class="has-error" *ngIf="studentRenderErrors.stu_email.errors.pattern">Please enter valid email -->
+                          <!-- address</div> -->
+                      </div>
+                </div>
+        
+                <div class="col-lg-12 wk_form">
+                    <label >Card Type <span class="required-label">*</span></label>
+                    <select class="form-control" id="card_type" formControlName="card_type" required="" disabled>
+                        <option value="">Select card type</option>
+                        <option value="visa">VISA</option>
+                        <option value="master">MasterCard</option>
+                        <option value="american_express">American Express</option>
+                    </select>
+                    <div *ngIf="(editCard.card_type.dirty || editCard.card_type.touched) && editCard.card_type.errors">
+                        <div class="text-danger" *ngIf="editCard.card_type.errors.required">Card Type is required</div>
+                      </div>
+                </div>
+                <div class="col-lg-10">
+                    <button class="btn btn-primary" (click)="editCardDetail()">Submit</button>
+                </div>
+            </form>
+        </div>
+        </div>
+        
+        </div>
+        </div>
+
+    <!-- <swal #deleteQualification title="Delete?"
+                              text="Are you sure to delete card" type="error"
+                              [options]="{customClass : swalErrorOption, confirmButtonText: 'Confirm' , confirmButtonClass : 'btn btn-primary mr-2',cancelButtonClass : 'btn btn-danger' }"
+                              [showCancelButton]="true" [focusCancel]="true"
+                              (confirm)="deleteCard()">
+                            </swal> -->

@@ -1,0 +1,248 @@
+    <div class="main-panel" [ngClass]="{'side-menu': menuToggle == 1}">
+    <div class="container">
+        <div class="panel-header bg-primary-gradient">
+            <div class="page-inner py-5">
+                <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+                    <div>
+                        <h2 class="pb-2 fw-bold panel-header-heading">Calender</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-inner mt--5 calender_page">
+            <div class="row mt--2">
+                <div class="col-md-12">
+                    <div class="card">
+
+                        <div class="card-body" >
+                            <full-calendar *ngIf="calendarLoader == false && timeZone" #calendar defaultView="dayGridMonth" [header]="{
+                                left: 'prev,next today',
+                                center: 'title',
+                                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                            }" [displayEventTime]="false" [plugins]="calendarPlugins" [timeZone]="timeZone" [lazyFetching]="true" [height]="600" [eventLimit]="2" [selectable]="false" [showNonCurrentDates]="false" (eventRender)="renderPopover($event)" (select)="selectDateRange($event,'')" [events]="availability"
+                                (dayRender)="onDayRender($event)" (dateClick)="handleDateClick($event,'')" (eventClick)="getEventsDetails($event,'')" style="max-height: calc(100vh - 370px);
+                                overflow: hidden;">
+                            </full-calendar>
+                           
+                                <h1  *ngIf="calendarLoader == true"><div class="spinner-border text-primary" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                  </div> Loading </h1>
+                           
+                        </div>
+                        <div class="dots_box">
+                            <span class="dot" style="background-color: #d7d7d7;"> Past Sessions</span>
+                            <span class="dot" style="background-color: #fcf8e3;"> Open Slots</span>
+                            <span class="dot" style="background-color: #1492E6; color:#fff;"> Booked Slots</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-short-footer></app-short-footer>
+</div>
+   
+
+<div id="eventDetails" #eventDetail class="modal fade view_applicants " role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title pull-left">{{jobDetails?.header}}</h4>
+                <button type="button" class="close pull-right" aria-label="Close" (click)="closeEventModel('eventDetails')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class=" job_without_login application_recieved " >
+
+                    <div class="job_desc_inner">
+
+
+                        <div class="send_offer1">
+                            <div class="row">
+
+                                <div class="col-sm-12 tutor_outer">
+                                    <div class="tutorLEFT">
+                                        <div class="tutor-image">
+                                            <img (error)="img.src='assets/img/avatar_user2.jpg'" #img [src]="jobDetails?.extendedProps.tutor_photo">
+                                        </div>
+                                        <div class="tutor_rating">
+                                            <app-review-rating-view [reviewsCount]="jobDetails?.extendedProps.rating_count" [rating]="jobDetails?.extendedProps.rating">
+                                            </app-review-rating-view>
+                                        </div>
+                                        
+                                        <!-- <a class="wklink" (click)="navigateProfile('/search/viewTutor/'+ applicant?.user?.profile_slug)" >View Profile</a> -->
+                                    </div>
+
+                                    <div class="tutor_desc">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <strong>Tutor Name </strong>
+                                                <p>{{jobDetails?.extendedProps.tutor_name}} </p>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <strong>Hourly Rate </strong>
+                                                <p>{{jobDetails?.extendedProps.tutor_hourly_rate}}</p>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <strong>Location </strong>
+                                                <p>{{jobDetails?.extendedProps.location || 'Not Found'}}</p>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <strong>Schedule date </strong>
+                                                <p>{{jobDetails?.schedule_date}}</p>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <strong>Start Time</strong>
+                                                <p>{{jobDetails?.start | date:'shortTime'}}</p>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <strong>End Time </strong>
+                                                <p>{{jobDetails?.end | date:'shortTime'}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                    <div class="job_button_right wh_job_button_right">
+
+                        <!--div class="price_pro">
+                            <img src="assets/img/gift.svg"> <strong>Applied price
+                                <span>{{applicant.offer_price}}</span>
+                            </strong>
+                        </div--> 
+                        <div class="job_time_date">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <strong>Accepted price</strong>
+                                    <p>{{jobDetails?.extendedProps.accepted_price}}</p>
+                                </div>
+                                <!-- <div class="col-sm-6" *ngIf="applicant.job.proposed_start_time">
+                                     <strong>Job Schedule </strong>
+                                    <p >{{jobDetails.extendedProps.accepted_price}}</p> -->
+                                    <!-- <p *ngIf="jobDetails.extendedProps.accepted_price == 'Recurring'">{{applicant.job.job_recurring?.recurring_job_date}} {{applicant.job.job_recurring?.time}}</p> -->
+                                    
+                                <!-- </div> -->
+                                <div class="col-sm-6">
+                                    <strong>Proposed Start Date</strong>
+                                    <p>{{jobDetails?.extendedProps.proposed_start_time}}</p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <strong>Applied On </strong>
+                                    <p>{{jobDetails?.extendedProps.offer_sent_on}}</p>
+                                </div>
+                                <div class="col-sm-6 attach">
+                                    <strong>Attachment :</strong>
+                                    <div class="certification">
+                                        <div class="cerfication_img">
+                                            <div *ngIf="jobDetails?.extendedProps.offer_attachment_file_type" class="ceft_img" (click)="downloadAttachment(jobDetails,'job-offers-attachments', jobDetails.extendedProps.offer_image_title)"> 
+                                                <span>
+                                                    <img *ngIf="jobDetails?.extendedProps.offer_attachment_file_type == 'image/jpeg' " src="assets/img/ico-jpg.svg">
+                                                    <img *ngIf="jobDetails?.extendedProps.offer_attachment_file_type == 'image/png' " src="assets/img/ico-png.svg">
+                                                    <img *ngIf="jobDetails?.extendedProps.offer_attachment_file_type == 'application/pdf' " src="assets/img/ico-pdf.svg">
+                                                    <img *ngIf="jobDetails?.extendedProps.offer_attachment_file_type == 'application/msword' " src="assets/img/msword.jpeg">
+                                                    <img *ngIf="jobDetails?.extendedProps.offer_attachment_file_type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' " src="assets/img/ico-doc.png" alt="docx">
+                                                    <img *ngIf="jobDetails?.extendedProps.offer_attachment_file_type == 'application/vnd.ms-excel' " alt="excel" src="assets/img/ico-excel.png">
+                                                    <img *ngIf="jobDetails?.extendedProps.offer_attachment_file_type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' " src="assets/img/ico-spreadsheet.png" alt="xls">
+                                                    <!--img *ngIf="applicant.attachment || applicant.attachment.length > 0" class="download_icon"  src="assets/img/download_blue.svg"-->
+                                                </span>
+                                                <div class="download_btns">
+                                                     <button type="button" style="color: rgb(204, 204, 204);" (click)="downloadAttachment(jobDetails,'job-offers-attachments', jobDetails.extendedProps.offer_image_title)"><i class="fas fa-cloud-download-alt"></i></button>
+                                                    <div *ngIf="jobDetails?.extendedProps.offer_image_title " class="document_name">{{jobDetails.extendedProps.offer_image_title}}</div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <p *ngIf="!jobDetails?.extendedProps.offer_attachment || jobDetails?.extendedProps.offer_attachment.length == 0" style="text-decoration: none;">No Attachments</p>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <strong>Message </strong>
+                                    <p>{{jobDetails?.extendedProps.offer_message}}</p>
+                                </div>
+                               
+                            </div>
+
+
+                        </div>
+                    </div>
+                    
+                   
+                </div>
+
+                <div class="txtCenter"> 
+                    <span class="text-danger mr-3" [innerHtml]="timer" *ngIf="timer != false && jobDetails?.type == 'Upcoming'"> </span>
+                     <button class="btn btn-red" *ngIf="jobDetails?.type == 'Upcoming' && jobDetails?.extendedProps.job_status == 'Upcoming' && !expired && jobDetails?.extendedProps.transaction_id != null && currentDate" [disabled]="timer != false || !currentDate || !jobStarted" (click)="joinSession(jobDetails?.extendedProps?.session_id)">Join Session</button>
+                     <button class="btn btn-primary" *ngIf="jobDetails?.type == 'Upcoming' && jobDetails?.extendedProps.job_status == 'Upcoming' && !expired && jobDetails?.extendedProps.transaction_id == null" (click)="makePayment(jobDetails?.extendedProps)">Make Payment</button>
+                     <!-- <button class="btn btn-primary"  (click)="getOfferId(jobDetails?.extendedProps.offer_id)">View Offer Detail</button>  -->
+                    <button class="btn btn-primary ml-2"  *ngIf="jobDetails?.type == 'Upcoming' && (!oldDate && jobDetails?.extendedProps.job_status == 'Upcoming' && jobDetails?.extendedProps.transaction_id != null && !currentDate && !jobStarted) " disabled>{{jobDetails?.extendedProps.job_status}}</button>
+                    <button class="btn btn-orange ml-2" (click)="cancelOffer()" *ngIf="jobDetails?.type == 'Upcoming' && !oldDate && jobDetails?.extendedProps.job_status == 'Upcoming'">Cancel Offer</button>
+                    <div *ngIf="jobDetails?.type == 'Missed' || jobDetails?.type == 'Null'" class="bg-warning">Seems like session expired or missed!!</div>
+                    <div *ngIf="jobDetails?.type == 'Completed' " class="bg-success">Seems like session completed!!</div>
+                    <div *ngIf="jobDetails?.type == 'Cancelled' " class="bg-info">Seems like session cancelled!!</div>
+
+                </div>
+              
+                
+            </div> 
+        </div>
+    </div>
+</div>
+
+ <!-- Modal -->
+ <div id="cancelOfferModal" class="modal fade" role="dialog" #cancelOfferModal>
+    <div class="modal-dialog">
+
+       
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Cancel Offer</h4>
+                <button type="button" class="close" (click)="closeCancelModal()"><img src="assets/img/close-14.svg"></button>
+
+            </div>
+            <div class="modal-body">
+                <form class="form-group form-show-validation row">
+                    <div class="col-lg-12 wk_form">
+                        <label>Job Title <span class="required-label">*</span></label>
+                        <input type="text" class="form-control" disabled [value]="cancelOfferObj.job_title">
+                    </div>
+                    <div class="col-lg-12 wk_form">
+                        <label>Message </label>
+                        <textarea type="text" class="form-control" name="reason" [(ngModel)]="reason" placeholder="Enter reason for cancel" required="" #decline="ngModel"></textarea>
+                    </div>
+
+                    <div class="col-lg-10">
+                        <button class="btn btn-warning mr-3" (click)="closeCancelModal()">Close</button>
+                        <button class="btn btn-primary" (click)="cancelOfferSubmit()">Cancel Offer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- <div class="wh_event_detail">
+    <div *ngIf="jobDetails" class="row">
+        <div class="col-sm-5">
+            <img  #this [src]="jobDetails.extendedProps.tutor_photo" (error)="errorImage($event,'assets/img/no_image_found.jpg')">
+            <h5 class="userName">{{jobDetails.extendedProps.tutor_name}}</h5>
+        </div>
+        <div class="col-sm-7">
+            <h5><a routerLink="">{{jobDetails.extendedProps.header}}</a></h5>
+            <p>{{jobDetails.extendedProps.description}}</p>
+            <ul>
+                
+                <li class="offer_price">Offer Price <strong>{{jobDetails.extendedProps.accepted_price}}</strong></li>
+                <li>Start Time: <strong>{{jobDetails.startTime}}</strong></li>
+                <li>End Time: <strong>{{jobDetails.endTime}}</strong></li>
+            </ul>
+            <button class="btn btn-primary">Join Session</button>
+            <button class="btn btn-orange ml-2" (click)="cancelOffer()" *ngIf="!oldDate">Cancel Offer</button>
+        </div>
+    </div>
+</div> -->

@@ -1,0 +1,158 @@
+<!-- <ng-template #template> -->
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Check Availability</h4>
+      <button type="button" class="close pull-right" aria-label="Close" data-dismiss="modal" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+      <div class="col-sm-12">
+        <p class="text-danger mb-0" *ngIf="!isSlotSelected">Please select slot from calendar to view slot details</p>
+        <p class="text-danger mb-4" *ngIf="redSlotsErr"><strong>Note:</strong>Sessions for red dates will not be created.</p>
+
+      </div>
+      </div>
+      <div class="row" *ngIf="isSlotSelected">
+        <div class="col-sm-6">
+          <form class="row" [formGroup]="sessionUpdateForm">
+           
+              <div class="col-md-12 form-group mb-3">
+                  <label>Date</label>
+                  <input type="text" placeholder="Please choose date" class="form-control" formControlName="date" disabled>
+                  <div *ngIf="(form.date.touched || form.date.dirty) && form.date.errors">
+                    <p class="text-danger" *ngIf="form.date.errors.required">Date is required</p>
+                  </div>
+              </div>
+             
+              <!-- <div class="cell avail_slots_container"> -->
+                <!-- <div class=""> -->
+              <div class="col-md-12 form-group mb-3">
+               
+                  <label>Start Time</label>
+                  <!-- <select class="form-control" formControlName="startTime">
+                      <option>05:00 AM</option>
+                  </select> -->
+                 
+                    <!-- <ngx-timepicker-field  class="form-control" id="test" formControlName="startTime" [controlOnly]="true">
+                    </ngx-timepicker-field> -->
+                    <input [ngxTimepicker]="picker1" placeholder="Set Time" formControlName="startTime" class="form-control"  [disabled]="!isSlotSelected" >
+                            <ngx-material-timepicker #picker1 (closed)="changeTime($event)"  disabled="true"></ngx-material-timepicker>
+                    <div #startAvailTime *ngIf="(form.startTime.touched || form.startTime.dirty) && form.startTime.errors">
+                      <p class="text-danger" *ngIf="form.startTime.errors.required">Start Time is required</p>
+                    </div>
+                  
+              </div>
+              <div class="col-md-12  form-group">
+                <label>End Time</label>
+                <!-- <select class="form-control">
+                    <option>06:00 AM</option>
+                </select> -->
+               
+                <!-- <ngx-timepicker-field  class="form-control" id="test2" formControlName="endTime" [controlOnly]="true" [disabled]="true">
+                </ngx-timepicker-field> -->
+                <input [ngxTimepicker]="picker2" placeholder="Set Time" formControlName="endTime" class="form-control"  disabled="true">
+                            <ngx-material-timepicker #picker2  disabled="true"></ngx-material-timepicker>
+                <div *ngIf="(form.endTime.touched || form.endTime.dirty) && form.endTime.errors">
+                  <p class="text-danger" *ngIf="form.endTime.errors.required">End Time is required</p>
+                </div>
+            </div>
+            <!-- </div> -->
+            <!-- </div> -->
+            <div class="text-danger" *ngIf="slotErr">
+              <p>{{slotErr}}</p>
+            </div>
+            <div class="text-success" *ngIf="successMsg">
+              <p>{{successMsg}}</p>
+            </div>
+            <div class="col-md-12 mt-3 mb-3 float-right" *ngIf="(job_sessions.length > 1)">
+                <!-- <label>End Time</label> -->
+                <!-- <button class="btn btn-secondary m-1" type="button" (click)="checkAvailabilityDate()" >Check Availability</button> -->
+                <!-- <button class="btn btn-primary m-1" type="button" (click)="updateAvailabilitySession()" >Update Slot</button> -->
+                <button class="btn btn-warning m-1" type="button" (click)="removeAvailabilitySlot()">Remove Slot</button>
+
+            </div>
+          </form>
+      </div>
+
+      <div class="col-sm-6 borderLeft">
+        <div class="bookSLot mb-3">
+          <div class="row bookText">
+            <div class="col-md-2"><button class="btn btnNew" type="button" (click)="nextPreviousFunction('previous')" ><i class="fas fa-chevron-left"></i></button></div>
+            <div class="col-md-8" ><span *ngIf="selected_date">{{selected_date}}</span></div>
+            <div class="col-md-2"><button class="btn btnNew m-1" type="button" (click)="nextPreviousFunction('next')" ><i class="fas fa-chevron-right"></i></button></div>
+          </div>
+        <h6>Tutor's Availability :</h6>
+
+          <ul *ngIf="availablilitySlots.length > 0">
+            <!-- <li class="text-success" >9:00 AM - 10:00 AM</li> -->
+            <li class="text-success" *ngFor="let slot of availablilitySlots">{{slot.start_time | date:'hh:mm a'}} - {{slot.end_time | date:'hh:mm a'}}
+            </li>
+
+          </ul>
+          <p *ngIf="availablilitySlots?.length == 0 && isSlotSelected">No Available Slot(s) </p>
+          <p *ngIf="!isSlotSelected">No slot selected </p>
+        </div>
+        <div class="bookSLot">
+          <h6>Booked slots :</h6>
+          <ul *ngIf="bookedSlots?.length > 0">
+            <li class="text-danger" *ngFor="let slot of bookedSlots">{{BookedtimeSlot(slot.start_time)}} - {{BookedtimeSlot(slot.end_time)}}</li>
+            <!-- <li>test</li> -->
+          </ul>
+          <p *ngIf="(!bookedSlots  || bookedSlots?.length == 0) && isSlotSelected ">No Booking(s) </p>
+          <p *ngIf="!isSlotSelected">No slot selected </p>
+        </div>
+      </div>
+    </div>
+      <div class="row calender_page">
+          <div class="col">
+            <full-calendar  #calendar defaultView="dayGridMonth" [header]="{
+                left: 'prev,next',
+                center: 'title',
+                right : 'today'
+            }" [displayEventTime]="false" [plugins]="calendarPlugins" [height]="500"  [eventLimit]="2" [selectable]="false" [showNonCurrentDates]="true" (eventRender)="renderPopover($event)" (select)="selectDateRange($event,'')" [events]="availability"
+                (dayRender)="onDayRender($event)" (dateClick)="handleDateClick($event,'dayDetails')" (eventClick)="getEventsDetails($event,'eventDetails')" >
+            </full-calendar>
+          </div>
+      </div>
+      <div class="row" >
+        <div class="col">
+        <button class="btn btn-orange mr-1" (click)="modalRef.hide()">Cancel </button>
+         <button class="btn btn-primary ml-1" (click)="openWarningModal()">Submit </button>
+        </div>
+    </div>
+    </div>
+
+
+  <!-- </ng-template> -->
+
+  <div id="warning" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div  class="modal-content">
+            <!-- <div class="modal-header">
+                <h4 class="modal-title">Warning</h4>
+                <button type="button" class="close" data-dismiss="modal" (click)="closeRatingModal()"><img src="assets/img/images/close-14.svg"></button>
+            </div> -->
+            <div class="modal-body">
+                <div class="row">
+                  <div class="col-sm-3">
+                    <i class="fas fa-exclamation-triangle" style="font-size: 5.2em;"></i>
+                  </div>
+                  <div class="col-sm-9">
+                    <h3>
+                      The sessions which are marked as red will not be created. Do you still want to proceed?
+                    </h3>
+                  </div>
+            </div>
+            <div class="row">
+             <div class="col-6">
+              <button class="btn btn-warning m-1" data-dismiss="modal">No</button>
+             </div>
+             <div class="col-6">
+              <button class="btn btn-primary m-1" (click)="closeWarningModal()">Yes</button>
+            </div>
+        </div>
+        
+    </div>
+</div>

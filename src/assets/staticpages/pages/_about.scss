@@ -1,0 +1,98 @@
+
+.about_main {
+    .head_text  {
+        h2 {
+            color: #333333;
+            font-size: 50px;
+            font-weight: 900;
+            line-height: 35px;
+        }
+    }
+    .about_content {
+        h3 {
+            font-size: 28px;        
+        }
+        p {
+            color: #999;        
+            font-size: 16px;
+            line-height: 1.7;
+        }
+    }
+    .about_right_img {
+        img {
+            max-width: 100%;
+        }
+    }
+    @media screen and (max-width: 767px) {
+        .outer_wrap {
+            padding-top: 30px;
+        }
+        .head_text {
+            h2 {
+                font-size: 36px;
+            }
+        }        
+    }
+    @media screen and (max-width: 580px) {
+        .outer_wrap {
+            padding-top: 10px;
+        }
+        .head_text {
+            h2 {
+                font-size: 32px;
+            }
+        }        
+    }
+}
+
+
+.align_mid{
+    align-items: center;
+}
+
+.about_outer{
+    .about_content{
+        @media (max-width:$mobile-lg-width){
+            text-align: center;
+        }
+    }
+    .aboutus_details{
+        max-width: 400px;
+        text-align:center;
+        @media (max-width:$mobile-lg-width){
+            margin: 0 auto;
+        }
+        ul{
+            padding: 0;
+            li{
+                font-size: 30px;
+                color:$yellow;
+                border-bottom: 1px solid $yellow;
+                list-style: none;
+                padding: 40px 0px;
+                font-weight: $font-weight-semi;
+                text-transform: uppercase;
+                @media (max-width:$mobile-lg-width){
+                    font-size: 24px;padding: 30px 0px;
+                }
+                &:last-child{
+                    border: none;
+                }
+            }
+        }
+    }
+}
+
+.hiring_outer{
+    background-color: $light-bg;
+    border-top: 1px solid $ultralight-gray;
+    padding: 120px 0;
+    h6 {
+        font-size: 20px;
+        line-height: 1.6;
+        margin-bottom: 5px;    
+    }
+    @media screen and (max-width: 767px) {
+        padding: 50px 0;
+    }
+}

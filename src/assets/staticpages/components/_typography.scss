@@ -1,0 +1,109 @@
+
+.dark-gray{
+   color: $dark-gray;
+}
+ul{
+   padding: 0;
+   list-style: none;
+}
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{
+   font-weight: $font-weight-bold;
+   color:$black;    
+   // line-height: 1.5;
+}
+h2{
+   font-size: 38px;
+}
+h3{
+   font-size: 30px; 
+}
+h4{
+   font-weight: $font-weight-semi;
+}
+h5,h6{
+   font-weight: $font-weight-semi;
+}
+h6{
+   font-size: 18px;line-height: 1.6;
+}
+p{
+   font-size: 16px;
+}
+h5{
+   font-size: 1.25rem; 
+}
+h4{
+   font-size:1.5rem;
+}
+a{
+   color: $dark-gray;
+}
+
+a{
+   &.link_yellow{
+      color:$yellow;
+      &:hover{
+         color: $dark-gray;
+      }
+   } 
+}
+.link_yellow{
+   color:$yellow;
+   &:hover{
+      color: $dark-gray;
+   }
+}
+
+@media (max-width:$tablet-lg-width){
+   body{
+      font-size: 14px;
+   }
+   h2{
+      font-size: 30px;
+   }
+   h3{
+      font-size: 26px;
+   }
+   h4{
+      font-size: 24px;
+   }
+   h5{
+      font-size: 16px;
+   }
+   h6{
+      font-size: 14px;
+   }
+   li{
+      font-size: 14px;
+   }
+}
+@media (max-width:$tablet-sm-width){
+   h4{
+      font-size: 20px;
+   }
+}
+@media (max-width:$mobile-lg-width){
+   h2{
+      font-size: 26px;
+   }
+   h3{
+      font-size: 24px;
+   }
+   h4{
+      font-size: 20px;
+   }
+}
+
+@media (max-width:$mobile-sm-width){
+   h2{
+      font-size: 22px;
+   }
+}
+
+body {
+   color: $base-color;
+   font-size: 14px;
+   font-family: $base-font-family;
+   font-weight: $base-font-weight;
+   line-height: 1.4rem;
+ }

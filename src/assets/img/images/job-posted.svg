@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="42" height="47" viewBox="0 0 42 47">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#40dbf3"/>
+      <stop offset="1" stop-color="#1c7ee1"/>
+    </linearGradient>
+  </defs>
+  <g id="Group_7215" data-name="Group 7215" transform="translate(-891 -333)">
+    <g id="Vector_Smart_Object" data-name="Vector Smart Object" transform="translate(93 5)">
+      <g id="Vector_Smart_Object-2" data-name="Vector Smart Object" transform="translate(798 328)">
+        <path id="Path_2954" data-name="Path 2954" d="M22.047,17.91a8.142,8.142,0,0,0-.182-1.715,8.218,8.218,0,0,0,1.435.126,10.958,10.958,0,0,1,8.733,4.336L34,18.472a13.932,13.932,0,0,0-5.484-4.029A8.174,8.174,0,1,0,15.3,9.876,8.189,8.189,0,0,0,5.68,17.91a8.138,8.138,0,0,0,2.966,6.282A13.846,13.846,0,0,0,0,37H2.9a10.957,10.957,0,0,1,10.96-10.929A8.181,8.181,0,0,0,22.047,17.91ZM23.3,2.9a5.265,5.265,0,1,1-5.28,5.265A5.279,5.279,0,0,1,23.3,2.9Zm-9.436,20.28a5.265,5.265,0,1,1,5.28-5.265A5.279,5.279,0,0,1,13.863,23.176Z"/>
+      </g>
+      <path id="Color_Overlay" data-name="Color Overlay" d="M798,365a13.847,13.847,0,0,1,8.646-12.808,8.166,8.166,0,0,1,6.652-14.317,8.186,8.186,0,1,1,13.217,4.568A13.93,13.93,0,0,1,832,346.472l-1.967,2.184a10.957,10.957,0,0,0-8.733-4.335,8.183,8.183,0,0,1-1.435-.126,8.163,8.163,0,0,1-8,9.876A10.956,10.956,0,0,0,800.9,365Zm8.583-19.09a5.28,5.28,0,1,0,5.279-5.266A5.278,5.278,0,0,0,806.584,345.911Zm9.436-9.75a5.28,5.28,0,1,0,5.28-5.266A5.278,5.278,0,0,0,816.019,336.161Z" fill="#231f20"/>
+    </g>
+    <path id="Shape_6" data-name="Shape 6" d="M806.7,365.106,820,375l20-23-3-3-17,19-10-7Z" transform="translate(93 5)" fill="url(#linear-gradient)"/>
+  </g>
+</svg>

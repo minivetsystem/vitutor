@@ -1,0 +1,88 @@
+<footer>
+    <div class="footer_outer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2 col-md-4 col-sm-4 footCol">
+                    <div class="foo_link">
+                        <h6>Know About Us</h6>
+                        <ul>
+                            <li><a routerLink="/about-us">About Us</a></li>
+                            <li><a routerLink="/terms-and-conditions">Terms and conditions</a></li>
+                            <li><a routerLink="/privacy-policy">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-4 footCol">
+                    <div class="foo_link">
+                        <h6>Quick Links</h6>
+                        <ul>
+                            <li><a (click)="tutorLink('Math')">Math Tutors</a></li>
+                            <li><a (click)="tutorLink('English')">English Tutors</a></li>
+                            <li><a (click)="tutorLink('Science')">Science Tutors</a></li>
+                            <li><a (click)="tutorLink('Music')">Music Tutors</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 col-sm-4 footCol">
+                    <div class="foo_link">
+                        <h6>Resources</h6>
+                        <ul>
+                            <li><a routerLink="/faqs">FAQs</a></li>
+                            <li><a routerLink="/contact-us">Feedback</a></li>
+                            <li><a routerLink="/become-a-tutor">Become A Tutor</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-12 connectSec d-flex justify-content-between">
+                    <div class="foo_link">
+                        <h6>Connect With Us</h6>
+                        <ul class="foo-address">
+                            <li><a routerLink="/contact-us"> Contact Us </a></li>
+
+                            <ng-container *ngIf="phones">
+                                <li *ngFor="let phone of phones.setting_value">
+
+                                    <a href="tel:{{phone.phone}}"><i class="fas fa-phone"
+                                            style="transform: rotate(90deg);"></i>
+                                        {{phone.phone}}
+                                    </a><br>
+                                </li>
+                            </ng-container>
+                            <ng-container *ngIf="emails?.setting_value?.length">
+                                <li *ngFor="let item of emails.setting_value">
+                                    <a href="mailto:{{item.email}}">
+                                        <i class="fas fa-envelope"></i> {{item.email}}
+                                    </a>
+                                </li>
+                            </ng-container>
+
+                        </ul>
+                    </div>
+                    <div class="foo_link" *ngIf="follow_us">
+                        <h6>Follow us</h6>
+                        <ul class="social_icons">
+                            <li *ngFor="let item of follow_us.setting_value">
+                                <a href="{{item.url}}" target="_blank"> <i class="{{item.icon}}"></i></a>
+
+                            </li>
+                            <!-- <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                            <li><a href="#"><i class="fab fa-instagram"></i></a></li> -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="copyright_outer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="copyright_inn">
+                        <p><i>©2020 Scholar<b>Bees</b> Learnings Private Limited</i> | All rights reserved</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

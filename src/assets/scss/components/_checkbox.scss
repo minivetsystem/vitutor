@@ -1,0 +1,80 @@
+// Botstrap-4 Custom-control Styleover-ride
+.custom-control {
+    margin: 0;
+    padding-left: 30px;  
+    .custom-control-input, .custom-control-label::before {
+        left: 0;
+        height: 22px;
+        top: 0;
+        width: 22px;                
+    }
+    .custom-control-label {       
+        @include font-size(16px);
+        letter-spacing: .20px;
+        font-weight: normal;
+        max-width: 100%;
+        position: static;
+        z-index: 1;
+
+        &::after {
+            background: none;
+            border-color: $primary-color;
+            border-style: solid;
+            border-width: 0 0 2px 2px;
+            height: 8px;
+            left: 4px;
+            opacity: 0;
+            top: 5px;
+            @include transform(rotate(-45deg));
+            width: 14px;    
+        }
+    }  
+    .custom-control-input {
+        cursor: pointer;
+        z-index: 2;
+        // box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 0 3px rgba(51,51,51,0.1); 
+        &:checked {
+            & ~ .custom-control-label {
+                color: $secondary-color;
+                &::before {
+                    color: $primary-color;
+                    background-color: #ffffff;
+                    border-color: $btn-default-border;        
+                }
+                &::after {
+                    background-image: none;
+                    opacity: 1;
+                }
+            }
+        }
+        &:not(:disabled):active {
+            & ~ .custom-control-label {
+                &::before {
+                    color: #fff;
+                    background-color: lighten($primary-color, 40%);
+                    border-color: lighten($btn-default-border, 10%);                
+                }
+            }
+        }
+        &:focus:not(:checked) {            
+            border-color: $btn-default-border;
+            & ~ .custom-control-label::before {
+                border-color: lighten($btn-default-border, 10%);
+            }
+        }
+        &:focus {
+            & ~ .custom-control-label::before {
+                box-shadow: 0 0 0 .2rem rgba(251,193,23,.25);            
+            }
+        }
+        &:disabled {
+            cursor: not-allowed;
+            & ~ .custom-control-label {
+                &::before {
+                    background-color: #f9f9f9;
+                    opacity: 0.5;
+                }
+            }
+        }
+    }
+}

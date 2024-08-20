@@ -1,0 +1,187 @@
+<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
+
+    <a class="navbar-brand" routerLink="/"><img src="assets/staticpages/images/logo.png"></a>
+    <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button> -->
+    <div class="burger burger-slide navbar-toggler" data-toggle="collapse" data-target="#navbarToggler"
+        aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+        <div class="burger-lines"></div>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarToggler">
+        <ul class="navbar-nav mx-auto">
+            <li class="nav-item" *ngIf="userDetails && isLoggedInUser">
+                <a class="nav-link" [routerLink]="dashboardUrl"><span class="dash_ico mr-2"><img
+                            src="assets/img/dash.png"> </span> <b>Dashboard</b></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" (click)="toggleMenu()" routerLink="/how-it-works">How it Works <span
+                        class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/become-a-tutor">Become a Tutor </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="setFlagForClearDoubtClick()" (click)="toggleMenu()"
+                    routerLink="/question/list">Clear Doubts</a>
+            </li>
+            <!-- <li class="nav-item">
+                <a class="nav-link" (click)="toggleMenu()" routerLink="/about-us">About Us</a>
+            </li> -->
+            <!-- <li class="nav-item">
+          <a class="nav-link" routerLink="/help">Help</a>
+        </li> -->
+            <li class="nav-item dropdown help_drop drop_hover">
+                <a class="nav-link dropdown-toggle" href="javascript:void(0)" id="navbarDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Help <i class="far fa-angle-down"></i>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" (click)="toggleMenu()" routerLink="/contact-us">Contact us</a>
+                    <a class="dropdown-item" routerLink="/faqs">FAQ</a>
+                    <!-- <div class="dropdown-divider"></div> -->
+                    <!-- <a class="dropdown-item" href="javascript:void(0)">Something else here</a> -->
+                </div>
+            </li>
+            <!-- <li class="nav-item search dropdown" *ngIf="showSearchBox">
+                <app-search-box *ngIf="!userDetails" [webSiteHeaderSearchBox]="true"></app-search-box>
+            </li> -->
+
+            <!-- <li class="nav-item search dropdown" *ngIf="showSearchBox">
+                <a class="nav-link" href="javascript:void(0)" role="button" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false"><i class="far fa-search"></i></a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <app-search-box [webSiteHeaderSearchBox]="true"></app-search-box>
+                </div>
+            </li> -->
+
+        </ul>
+        <div class="form-inline usernavform my-2 my-lg-0">
+            <div *ngIf="isLoggedInUser; else elsepart" class="nav-item">
+                <ul class="navbar-nav topbar-nav ml-md-auto">
+                    <li class="nav-item user_nav_item cart_nav" *ngIf="cartDetails > 0">
+                        <a role="button" class="nav-link dropdown-toggle cart_link" [routerLink]="['/cart-items']">
+                            <!-- <i class="far fa-shopping-cart"></i> -->
+                            <img src="../../../assets/img/icon-cart.png" alt="cart" />
+                            <span class="notification">{{cartDetails}}</span>
+                        </a>
+                    </li>
+                    <!-- <li class="nav-item user_nav_item dropdown notification_nav show open" dropdown
+                        *ngIf="notificationResultArray?.result?.total">
+                        <button id="button-notif" dropdownToggle type="button" class="nav-link dropdown-toggle"
+                            aria-controls="dropdown-notif">
+                            <img src="../../../assets/img/icon-bell.png" alt="bell" />
+                            <span class="notification">{{notificationResultArray.result?.total}}</span>
+                        </button>
+                        <ul id="dropdown-notif" *dropdownMenu class="dropdown-menu show notif-box " role="menu"
+                            aria-labelledby="button-notif">
+                            <li>
+                                <div class="dropdown-title">You have {{notificationResultArray?.result?.total}} new
+                                    notification</div>
+                            </li>
+                            <li>
+                                <div class="notif-scroll scrollbar-outer">
+                                    <div class="notif-center">
+
+                                        <ng-template ngFor let-notification
+                                            [ngForOf]="notificationResultArray?.result?.data" let-i="index">
+                                            <a href="javascript:void(0)"
+                                                [routerLink]="['/notification',notification.reference_id]">
+                                                <div class="notif-icon notif-primary"> <i class="fa fa-bell"></i>
+                                                </div>
+                                                <div class="notif-content">
+                                                    <span class="block">
+                                                        {{notification.notification}}
+                                                    </span>
+                                                    <span class="time">{{notification.posted_ago}}</span>
+                                                </div>
+                                            </a>
+
+                                        </ng-template>
+
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <a (click)="$event.stopPropagation()" class="see-all" href="javascript:void(0);"
+                                    *ngIf="!dataHasBeenLoaded && notificationResultArray?.result?.total"
+                                    (click)="loadMoreResults(notificationResultArray?.result?.current_page)">
+                                    See More notifications
+                                    <i class="fa fa-angle-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </li> -->
+
+                    <li class="nav-item user_nav_item dropdown profile_nav" dropdown>
+                        <button id="button-profDrop" dropdownToggle type="button" class="dropdown-toggle profile-pic"
+                            aria-controls="dropdown-profile">
+                            <div class="avatar-sm" *ngIf="userDetails">
+                                <img [src]="userDetails.photo" alt="Image" class="avatar-img">
+                            </div>
+                            <span class="caret"></span>
+                        </button>
+                        <ul id="dropdown-profile" *dropdownMenu class="dropdown-menu dropdown-user" role="menu"
+                            aria-labelledby="button-profDrop">
+                            <div class="dropdown-user-scroll scrollbar-outer">
+                                <li>
+                                    <div class="user-box" *ngIf="userDetails">
+
+                                        <div class="avatar_bg"
+                                            [ngStyle]="{ 'background-image': 'url(' + userDetails.photo + ')'}"></div>
+                                        <div class="u-text">
+                                            <h4>{{userDetails.first_name + ' ' + userDetails.last_name}}</h4>
+                                            <p class="text-muted">{{userDetails.email}}</p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" [routerLink]="user_profile_url">My Profile</a>
+                                    <a class="dropdown-item" [routerLink]="user_settings_url">Account Setting</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item logout_btn" (click)="onLogout()" href="javascript:void(0)"><i
+                                            class="fas fa-power-off"></i> Logout</a>
+                                </li>
+                            </div>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <ng-template #elsepart>
+                <a routerLink="/login" class="comn_btn btn-signin login_btn">
+                    <span class="iconLogin"></span>
+                    <span>Login</span></a>
+                <!-- <a href="javascript:void(0)" routerLink="/register" class="comn_btn solid_btn btn-signin">Register</a> -->
+                <a id="registerAs" href="javascript:void(0)" (click)="registerAsModel(template)"
+                    class="comn_btn solid_btn btn-signin">Register</a>
+            </ng-template>
+
+        </div>
+    </div>
+</nav>
+
+
+<ng-template #template>
+    <div class="modal-header">
+
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="register_as">
+            <h4 class="text-center">Hey! How do you want to register with us?</h4>
+            <div class="box_wrap">
+                <div class="inn_box" [routerLink]="['/register']" (click)="modalRef.hide()">
+                    <img src="../../../../assets/staticpages/images/stud_login.png">
+                    <h4>Student</h4>
+                </div>
+                <div class="inn_box" [routerLink]="['/become-a-tutor']" (click)="modalRef.hide()">
+                    <img src="../../../../assets/staticpages/images/teach_login.png">
+                    <h4>Tutor</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

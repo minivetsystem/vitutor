@@ -1,0 +1,365 @@
+<!-- HEADER MAIN CLOSE -->
+
+
+<section class="tutor_single_page">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-sm-3 tutor_left_sec">
+                <div class="tutor_left_inner" *ngIf="userProfile">
+                    <div class="tutor_image">
+                        <img #profileImg [src]="userProfile.photo" (error)="profileImg.src = 'assets/img/no_image_found.jpg'">
+                    </div>
+                    <h4>{{userProfile.full_name}}</h4>
+                    <span [ngSwitch]="totalExp">
+						<ng-container *ngSwitchCase="0">No Experience</ng-container>
+						<ng-container *ngSwitchCase="1">1 Year of Experience</ng-container>
+						<ng-container *ngSwitchDefault>{{totalExp}} Years of Experience</ng-container>
+					</span>
+                    <h3>${{userProfile.hourly_rate}} <small>per hour</small></h3>
+
+                    <div class="tutor_rating">
+                        <!-- <div class="tutor_rating_left"> -->
+                            <app-review-rating-view [reviewsCount]="result?.rating_count" [rating]="result?.average_rating">
+                            </app-review-rating-view>
+                          
+                    </div>
+
+                    <div class="send_invite">
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#send_invite">Send invite <img src="assets/img/images/send.svg"></button>
+                        <a routerLink="/student/message-board"><img src="assets/img/images/message_circle.svg"></a>
+                        <!-- <button class="btn btn-primary m-3" *ngIf="seatBooked" data-toggle="modal" data-target="#reviewAndratingModal">Save Review </button> -->
+
+
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div class="col-md-9 col-sm-9 tutor_right_sec">
+                <div class="tutor_desc_inner">
+                    <div class="tutor_top">
+                        <h5>
+                            <div class="back_btn">
+                                <a (click)="goBack()"><img src="assets/img/images/arrow-left.svg"> </a>
+                            </div>
+                            Tutor Profile
+                        </h5>
+                        <div class="share_btn">
+                            <a data-toggle="modal" data-target="#social_share" style="cursor: pointer;"><img src="assets/img/images/share.svg"></a>
+                            <div class="dropdown">
+                                <!-- <a [href]="" type="button" data-toggle="dropdown"><img src="assets/img/images/three_dots.svg"></a>
+                                <ul class="dropdown-menu">
+                                    <li><a [href]="">View Detail</a></li>
+                                    <li><a [href]="">Post a Message</a></li>
+                                    <!-- <li><a [href]="">Accept offer</a></li> -->
+                                <!--</ul> -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tutor_desc_tabs">
+                        <!--ul class="nav nav-pills nav-secondary nav-pills-no-bd" id="pills-tab-without-border" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="pills-home-tab-nobd" data-toggle="pill" href="#pills-home-nobd" role="tab" aria-controls="pills-home-nobd" aria-selected="true">Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="pills-profile-tab-nobd" data-toggle="pill" href="#pills-profile-nobd" role="tab" aria-controls="pills-profile-nobd" aria-selected="false">Skills and Certification</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="pills-contact-tab-nobd" data-toggle="pill" href="#pills-contact-nobd" role="tab" aria-controls="pills-contact-nobd" aria-selected="false">Reviews</a>
+                            </li>
+                        </ul-->
+                        <div class="tab-content mt-2 mb-3" id="pills-without-border-tabContent">
+                            <div class="tab-pane fade show active" id="pills-home-nobd" role="tabpanel" aria-labelledby="pills-home-tab-nobd" *ngIf="userProfile">
+                                <h6>Overview</h6>
+                                <p>{{userProfile.about_me}}</p>
+
+
+                                <div class="row desc">
+                                    <div class="col-md-6 col-sm-6 tutor_txt">
+                                        <h6>Languages Spoken</h6>
+                                        <p>{{userProfile.languages || 'English'}}</p>
+                                        <h6>Education</h6>
+                                        <ul class="edu_li" *ngIf="qualifications?.length > 0">
+                                            <li *ngFor="let edu of qualifications">
+                                                <img src="assets/img/images/student_icon.svg">
+                                                <strong *ngIf="edu.institute_name">{{edu.institute_name}}</strong>
+                                                <span *ngIf="edu.major_subject">{{edu.major_subject}}</span>
+                                                <b *ngIf="edu.session_end">{{edu.session_end}}</b>
+                                            </li>
+
+                                            <!-- <li>
+												<img src="assets/img/images/student_icon.svg">
+												<strong>Lorem Ipsum University</strong>
+												<span>Bachelor of Computer Applications (B.C.A.)</span>
+												<b>2014</b>
+											</li> -->
+
+                                        </ul>
+                                        <p *ngIf="qualifications?.length == 0">No Education provided</p>
+
+                                        <h6>Years of Experience</h6>
+                                        <p [ngSwitch]="totalExp">
+                                            <ng-container *ngSwitchCase="0">No Experience</ng-container>
+                                            <ng-container *ngSwitchCase="1">1 Year</ng-container>
+                                            <ng-container *ngSwitchDefault>{{totalExp}} Years</ng-container>
+                                        </p>
+
+                                        <h6>Student Level</h6>
+                                        <div class="expertise_tags" *ngIf="userProfile?.class_level && userProfile?.class_level?.length > 0">
+                                            <span *ngFor="let classLevel of userProfile?.class_level">{{classLevel.class_level}}</span>
+                                            <!-- <span>High School</span> -->
+                                        </div>
+                                        <div *ngIf="!userProfile?.class_level || userProfile?.class_level?.length == 0" class="mb-3">
+                                            <span>All levels</span>
+                                        </div>
+
+
+                                        <!--h6>Verified Info</h6>
+                                        <ul class="verfied_li">
+                                            <li><img src="assets/img/images/check_green.svg"> ID Verified</li>
+                                            <li><img src="assets/img/images/cross-red.svg"> Phone Verified</li>
+                                            <li><img src="assets/img/images/check_green.svg"> Email Verified</li>
+                                        </ul-->
+                                    </div>
+                                    <div class="col-md-6 col-sm-6 tutor_video" *ngIf="userProfile && userProfile.overview_video">
+                                        <div class="tutor_video_inner">
+                                            <img src="assets/img/black-background.jpg">
+                                            <div class="overlay_play_button">
+                                                <iframe *ngIf="linkMatch" [src]="showVideo" style="width:100%" allowfullscreen></iframe>
+
+                                                <video *ngIf="!linkMatch" width="100%" autoplay controls>
+                                                    <source [src]="showVideo" type="video/mp4">
+                                                    <source [src]="showVideo" type="video/ogg">
+                                                </video>
+                                                <!-- <iframe *ngIf="userProfile && userProfile.overview_video && showVideo" [src]="showVideo" style="width:100%"></iframe> -->
+                                                <a *ngIf="userProfile && !userProfile.overview_video" [href]=""><img src="assets/img/images/play-button.svg"></a>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="tab-pane fade active" id="pills-profile-nobd" role="tabpanel" aria-labelledby="pills-profile-tab-nobd">
+                                <h4>Skills and Certifications</h4>
+                                <h6>Expertise</h6>
+                                <div class="expertise_tags" *ngIf="subjects?.length > 0">
+                                    <!-- <span *ngFor="let skill of skillSet">{{skill}}</span> -->
+                                    <ng-container *ngFor="let subject of subjects">
+                                        <span>{{subject.category_name}}</span>
+                                        <ng-container *ngFor="let subcategory of subject.subcat">
+                                            <span>{{subcategory.category_name}}</span>
+                                        </ng-container>
+                                    </ng-container>
+                                    <!-- <span>Core Java</span>
+									<span>.NET</span>
+									<span>Android</span>
+									<span>PHP</span>
+									<span>JavaScript</span>
+									<span>Oracle</span>
+									<span>Data structure</span> -->
+                                </div>
+                                <div *ngIf="subjects?.length == 0">
+                                    <p>No Expertise</p>
+                                </div>
+                                
+
+                                <div class="certification" *ngIf="certificates?.length > 0">
+                                    <h6>Certificates</h6>
+                                    <div class="cerfication_img">
+                                        <div class="ceft_img" *ngFor="let certificate of certificates" (click)="downloadFile(certificate.id,certificate.certificate_file)" >
+
+                                            <span *ngIf="certificate.mime_type == 'image/jpeg' || certificate.mime_type == 'image/jpg'">
+												<img src="../../../assets/img/ico-jpg.svg">
+											</span>
+                                            <span *ngIf="certificate.mime_type == 'image/png'">
+												<img src="../../../assets/img/ico-png.svg">
+											</span>
+
+                                            <span *ngIf="certificate.mime_type == 'application/pdf'">
+												<img src="../../../assets/img/images/pdf1.svg">
+											</span>
+                                            <span *ngIf="certificate.mime_type == 'application/msword'">
+												<img src="../../../assets/img/images/excel.svg">
+											</span>
+                                            <div class="download_btns">
+                                                <button (click)="downloadFile(certificate.id,certificate.certificate_file)" class="remove_btn" [ngStyle]="{'color': '#cccccc'}" type="button"><i class="fas fa-cloud-download-alt"></i></button>
+                                                <div class="document_name">{{certificate.title ? certificate.title : ''}}</div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <h6>Working Timings</h6>
+                                <div class="row work_timing">
+                                    <div class="col-sm-6" *ngIf="result">
+                                        <strong>Time Zone <span>{{result.tutorTimezone}}</span></strong>
+
+                                    </div>
+                                    <div class="all_time_data" *ngIf="slots?.length > 0">
+                                        <div class="all_time_data_inner">
+                                            <div class="time_header">
+                                                <span>Day</span>
+                                                <span>Start Time</span>
+                                                <span>End Time</span>
+                                            </div>
+                                            <ng-template *ngIf="slots?.length > 0" ngFor let-slotData [ngForOf]="slots" let-i="index">
+                                                <div class="time_box_inner">
+                                                    <span class="day_text">{{slotData.day}}</span>
+
+
+                                                    <ng-template *ngIf="slotData.slots?.length > 0" ngFor let-slotTiming [ngForOf]="slotData.slots" let-i="index">
+                                                        <!-- <span class="start_time">12:00 AM <br>12:00 AM <br>12:00 AM<br>12:00 AM</span>
+													<span class="end_time">11:59 AM<br>11:59 AM <br>12:00 AM<br>12:00 AM</span>
+													<span class="avialable">Availability</span> -->
+                                                        <div class="loop_boxes">
+                                                            <span class="start_time">{{slotTiming.start_time}}</span>
+                                                            <span class="end_time">{{slotTiming.end_time}}</span>
+                                                            <span class="avialable">{{slotTiming.availability == 1 ? 'Availability' : 'Unavailability'}}</span>
+                                                        </div>
+                                                    </ng-template>
+
+                                                </div>
+                                            </ng-template>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <div style="display: none;" class="tab-pane fade active" id="pills-contact-nobd" role="tabpanel" aria-labelledby="pills-contact-tab-nobd">
+                                <h4>Reviews ({{userReviews?.length}})</h4>
+                                <div class="client_review" *ngFor="let review of userReviews">
+
+                                    <div class="client_review_img">
+                                        <div class="avatar-sm">
+                                            <img src="{{review.student_detail.image_url}}" (error)="onError($event)" alt="..." class="avatar-img rounded-circle">
+                                        </div>
+                                    </div>
+                                    <div class="client_review_text">
+                                        <app-review-rating-view reviewsCount="5.0" rating="{{review.rating}}.0">
+                                        </app-review-rating-view>
+                                        <strong>{{review.student_detail.full_name}}</strong>
+                                        <p>{{review.review}}</p>
+
+                                        <!--div class="view_all"><a [href]="" class="btn btn-primary">View All</a></div-->
+                                    </div>
+
+                                </div>
+                                <div class="view_all"><a (click)="loadMore(reviewCurrentPage+1)" *ngIf="reviewCurrentPage != reviewLastPage" class="btn btn-primary">Load More</a></div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+<div id="send_invite" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Send invite</h4>
+                <button type="button" class="close" (click)="closeInvitation()"><img src="assets/img/images/close-14.svg"></button>
+
+            </div>
+            <div class="modal-body">
+                <form class="form-group form-show-validation row">
+                    <div class="col-lg-12 wk_form">
+                        <label>Select a job<span class="required-label">*</span></label>
+                        <select class="form-control" id="job_id" name="job_id" [(ngModel)]="sendInvite.job_id"  #jobId="ngModel">
+                        <option value="">Select</option>
+                        <option *ngFor="let item of jobList" value="{{item.id}}">{{item.job_title}}</option> 
+					</select>
+                    </div>
+                    <div  *ngIf="invitedClicked || (jobId.touched || jobId.dirty) ">
+                        <p class="text-danger" *ngIf="jobId.value == ''">Please select a job</p>
+                    </div>
+
+                    <div class="col-lg-12 wk_form">
+                        <label>Add Message <span class="required-label">*</span></label>
+                        <textarea placeholder="Enter Message" class="form-control" name="message" rows="3" [(ngModel)]="sendInvite.message" #jobMesage="ngModel"></textarea>
+                    </div>
+                    <div  *ngIf="invitedClicked || (jobMesage.touched || jobMesage.dirty) ">
+                        <p class="text-danger" *ngIf="jobMesage.value == ''">Please enter message</p>
+                    </div>
+                    <div class="col-lg-12 text-center">
+                        <button class="btn btn-primary " (click)="inviationSend()">Send</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="social_share" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Share</h4>
+                <button type="button" class="close" data-dismiss="modal"><img src="assets/img/images/close-14.svg"></button>
+
+            </div>
+            <div class="modal-body">
+                <!--  <div (click)="shareFacebook()" class="btn btn-primary m-2"><i class="fab fa-facebook-square mr-2"></i>Facebook</div>  -->
+                <!-- <div [socialShare]="'fb'" class="btn btn-primary m-2"><i class="fab fa-facebook-square mr-2"></i>Facebook</div> 
+                 <div [socialShare]="'tw'" class="btn btn-primary m-2"><i class="fab fa-twitter-square mr-2"></i>Twitter</div> 
+                <div [socialShare]="'in'" class="btn btn-primary m-2"><i class="fab fa-linkedin mr-2"></i>LinkedIn</div>
+                <div [socialShare]="'tr'" class="btn btn-primary m-2"><i class="fab fa-tumblr-square mr-2"></i>Tumblr</div>
+                <div [socialShare]="'pn'" class="btn btn-primary m-2"><i class="fab fa-pinterest-square mr-2"></i>Pinterest</div> --> 
+                <share-buttons theme="modern-dark" show="11" image="https://loremflickr.com/320/240"></share-buttons>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="reviewAndratingModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div  class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Review and Rating</h4>
+                <button type="button" class="close" data-dismiss="modal" ><img src="assets/img/images/close-14.svg"></button>
+            </div>
+            <div class="modal-body">
+                <form  class="form-group form-show-validation row">
+                <div class="col-lg-12 ">
+                    <label> Rating </label>
+                    <rating [(ngModel)]="ratingForm.rating"
+                            [float]="true" name="rating" [max]="5">
+                    </rating>
+                </div>
+                <div class="col-lg-12 ">
+                    <label> Review <span class="text-danger">*</span></label>
+                    <textarea placeholder="Enter Review" [(ngModel)]="ratingForm.review" class="form-control" name="review" rows="3" (keyup)="checkReview($event)"></textarea>
+                    <p *ngIf="reviewMessageErr == true" class="text-danger">*Please add a review </p>
+                </div>
+                <div class="col-lg-12 text-center">
+                    <button class="btn btn-orange" (click)="submitReviewRating()">
+                        Submit
+                    </button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

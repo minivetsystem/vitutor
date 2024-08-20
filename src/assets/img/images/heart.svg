@@ -1,0 +1,11 @@
+<svg id="Component_115_1" data-name="Component 115 – 1" xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 42 42">
+  <g id="Ellipse_240" data-name="Ellipse 240" fill="#eff4f8" stroke="#e7edf2" stroke-width="2">
+    <circle cx="21" cy="21" r="21" stroke="none"/>
+    <circle cx="21" cy="21" r="20" fill="none"/>
+  </g>
+  <g id="heart" transform="translate(8 -6.896)">
+    <g id="Group_8407" data-name="Group 8407" transform="translate(0 16.896)">
+      <path id="Path_4122" data-name="Path 4122" d="M23.751,19.156a7.068,7.068,0,0,0-10.359,0l-.457.483-.457-.483a7.073,7.073,0,0,0-10-.367q-.19.177-.367.367a7.932,7.932,0,0,0,0,10.786l10.148,10.7a.924.924,0,0,0,1.307.035l.035-.035,10.145-10.7A7.932,7.932,0,0,0,23.751,19.156Zm-1.338,9.512h0l-9.477,10-9.478-10a6.061,6.061,0,0,1,0-8.241,5.225,5.225,0,0,1,7.383-.3q.154.143.3.3l1.127,1.189a.952.952,0,0,0,1.342,0l1.127-1.188a5.225,5.225,0,0,1,7.383-.3q.154.143.3.3A6.006,6.006,0,0,1,22.413,28.668Z" transform="translate(0 -16.896)" fill="#939ea8"/>
+    </g>
+  </g>
+</svg>

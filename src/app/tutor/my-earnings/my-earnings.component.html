@@ -1,0 +1,374 @@
+<div class="main-panel" [ngClass]="{'side-menu': menuToggle == 1}">
+    <div class="container">
+        <div class="panel-header bg-primary-gradient">
+            <div class="page-inner py-5">
+                <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+                    <div>
+                        <h2 class="pb-2 fw-bold panel-header-heading">My Earnings</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-inner mt--5 manage_jobs transaction_page">
+            <div class="row mt--2">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header d-flex">
+                            <div class="card-title">List of transactions</div>
+
+                            <div class="header_right">
+
+                                <div class="select-box">
+                                    <label> Payment Status</label>  
+                                    <select class="form-control" id="Transactions" (change)="changeTransactionType($event)" [(ngModel)]="filters.type">
+                                        <option value="">Select Status</option>
+                                        <option value="succeeded">Succeeded</option>
+                                        <option value="pending">Pending</option>
+                                        <option value="processed">Processed</option>
+                                        <option value="failed">Failed</option>
+                                    </select>
+                                </div>
+
+                                
+                                <div class="date_box mt-2">
+                                    <label style="margin-top: 12px;"> Date Filter</label>  
+                                    <div class="input-group" >
+                                        <input type="text" class="form-control success" name="birth" required="" aria-invalid="false" autocomplete="off" (keydown)="noType($event)" ngxDaterangepickerMd [(ngModel)]="selected" placeholder="Choose date" 
+                                        (ngModelChange)="change($event)">
+                                        <div class="input-group-append d-flex" [ngClass]="{'clear-btn': showClearButton}">
+                                            <span class="input-group-text">
+                                                <i class="fa fa-calendar-o" *ngIf="!showClearButton"></i>
+                                                <img src="assets/img/close_circle.svg" style="width:20px;cursor:pointer;" (click)="clearBtn()" *ngIf="showClearButton">
+                                            </span>
+                                        </div>
+                                    </div>
+                            </div>
+                            <div class="exportBTN" *ngIf="transactionList.length > 0">
+                                <a class="btn" (click)="exportEarnings()"><img src="assets/img/download_blue.svg"> <span>Export</span></a>
+                            </div>
+
+
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="tab-1" class="tab-content current">
+                                <div class="manage_table">
+                                    <table class="table">
+                                        <tbody>
+                                            <!-- <tr>
+                                                <td>
+                                                    <a href="#">Need Online Class 10 Tutor for Mathematics, Looking for...</a>
+                                                    <div class="student_name"><img src="assets/img/images/student.svg"> Miller
+
+                                                        <div class="transaction_date">11 June 2020</div>
+                                                    
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span><img src="assets/img/images/watch.svg"> Session time</span>
+                                                    <strong>2 hrs</strong>
+                                                </td>
+                                                <td>
+                                                    <span><img src="assets/img/images/calendar_small.svg"> Refund date</span>
+                                                    <strong>18 June 2020</strong>
+                                                </td>
+                                                <td>
+                                                    <span><img src="assets/img/images/money.svg"> Refunded Price </span>
+                                                    <strong class="refund_price">$100/hrs</strong>
+                                                </td>
+
+                                                <td class="vertical_align_center">
+                                                    <span><img src="assets/img/images/download_export.svg"> Export </span><br>
+                                                    <a href="#"><img src="assets/img/images/pdf_img.svg"></a>
+                                                    <a href="#"><img src="assets/img/images/xls.svg"></a>
+                                                </td>
+                                            </tr>
+
+
+                                            <tr>
+                                                <td>
+                                                    <a href="#">Need Online Class 10 Tutor for Mathematics, Looking for...</a>
+                                                    <div class="student_name"><img src="assets/img/images/student.svg"> Miller
+
+                                                        <div class="transaction_date">11 June 2020</div>
+                                                    
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span><img src="assets/img/images/watch.svg"> Session time</span>
+                                                    <strong>2 hrs</strong>
+                                                </td>
+                                                <td>
+                                                    <span><img src="assets/img/images/calendar_small.svg"> Refund date</span>
+                                                    <strong>18 June 2020</strong>
+                                                </td>
+                                                <td>
+                                                    <span><img src="assets/img/images/money.svg"> Refunded Price </span>
+                                                    <strong class="refund_price">$100/hrs</strong>
+                                                </td>
+
+                                                <td class="vertical_align_center">
+                                                    <span><img src="assets/img/images/download_export.svg"> Export </span><br>
+                                                    <a href="#"><img src="assets/img/images/pdf_img.svg"></a>
+                                                    <a href="#"><img src="assets/img/images/xls.svg"></a>
+                                                </td>
+                                            </tr>
+
+
+                                            <tr>
+                                                <td>
+                                                    <a href="#">Need Online Class 10 Tutor for Mathematics, Looking for...</a>
+                                                    <div class="student_name"><img src="assets/img/images/student.svg"> Miller
+
+                                                        <div class="transaction_date">11 June 2020</div>
+                                                    
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span><img src="assets/img/images/watch.svg"> Session time</span>
+                                                    <strong>2 hrs</strong>
+                                                </td>
+                                                <td>
+                                                    <span><img src="assets/img/images/calendar_small.svg"> Refund date</span>
+                                                    <strong>18 June 2020</strong>
+                                                </td>
+                                                <td>
+                                                    <span><img src="assets/img/images/money.svg"> Refunded Price </span>
+                                                    <strong class="refund_price">$100/hrs</strong>
+                                                </td>
+
+                                                <td class="vertical_align_center">
+                                                    <span><img src="assets/img/images/download_export.svg"> Export </span><br>
+                                                    <a href="#"><img src="assets/img/images/pdf_img.svg"></a>
+                                                    <a href="#"><img src="assets/img/images/xls.svg"></a>
+                                                </td>
+                                            </tr>
+
+
+                                            <tr>
+                                                <td>
+                                                    <a href="#">Need Online Class 10 Tutor for Mathematics, Looking for...</a>
+                                                    <div class="student_name"><img src="assets/img/images/student.svg"> Miller
+
+                                                        <div class="transaction_date">11 June 2020</div>
+                                                    
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span><img src="assets/img/images/watch.svg"> Session time</span>
+                                                    <strong>2 hrs</strong>
+                                                </td>
+                                                <td>
+                                                    <span><img src="assets/img/images/calendar_small.svg"> Refund date</span>
+                                                    <strong>18 June 2020</strong>
+                                                </td>
+                                                <td>
+                                                    <span><img src="assets/img/images/money.svg"> Refunded Price </span>
+                                                    <strong class="refund_price">$100/hrs</strong>
+                                                </td>
+
+                                                <td class="vertical_align_center">
+                                                    <span><img src="assets/img/images/download_export.svg"> Export </span><br>
+                                                    <a href="#"><img src="assets/img/images/pdf_img.svg"></a>
+                                                    <a href="#"><img src="assets/img/images/xls.svg"></a>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>
+                                                    <a href="#">Need Online Class 10 Tutor for Mathematics, Looking for...</a>
+                                                    <div class="student_name"><img src="assets/img/images/student.svg"> Miller
+
+                                                        <div class="transaction_date">11 June 2020</div>
+                                                    
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span><img src="assets/img/images/watch.svg"> Session time</span>
+                                                    <strong>2 hrs</strong>
+                                                </td>
+                                                <td>
+                                                    <span><img src="assets/img/images/calendar_small.svg"> Refund date</span>
+                                                    <strong>18 June 2020</strong>
+                                                </td>
+                                                <td>
+                                                    <span><img src="assets/img/images/money.svg"> Refunded Price </span>
+                                                    <strong class="refund_price">$100/hrs</strong>
+                                                </td>
+
+                                                <td class="vertical_align_center">
+                                                    <span><img src="assets/img/images/download_export.svg"> Export </span><br>
+                                                    <a href="#"><img src="assets/img/images/pdf_img.svg"></a>
+                                                    <a href="#"><img src="assets/img/images/xls.svg"></a>
+                                                </td>
+                                            </tr>
+
+
+                                            <tr>
+                                                <td>
+                                                    <a href="#">Need Online Class 10 Tutor for Mathematics, Looking for...</a>
+                                                    <div class="student_name"><img src="assets/img/images/student.svg"> Miller
+
+                                                        <div class="transaction_date">11 June 2020</div>
+                                                    
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span><img src="assets/img/images/watch.svg"> Session time</span>
+                                                    <strong>2 hrs</strong>
+                                                </td>
+                                                <td>
+                                                    <span><img src="assets/img/images/calendar_small.svg"> Refund date</span>
+                                                    <strong>18 June 2020</strong>
+                                                </td>
+                                                <td>
+                                                    <span><img src="assets/img/images/money.svg"> Refunded Price </span>
+                                                    <strong class="refund_price">$100/hrs</strong>
+                                                </td>
+
+                                                <td class="vertical_align_center">
+                                                    <span><img src="assets/img/images/download_export.svg"> Export </span><br>
+                                                    <a href="#"><img src="assets/img/images/pdf_img.svg"></a>
+                                                    <a href="#"><img src="assets/img/images/xls.svg"></a>
+                                                </td>
+                                            </tr>
+
+
+                                            <tr>
+                                                <td>
+                                                    <a href="#">Need Online Class 10 Tutor for Mathematics, Looking for...</a>
+                                                    <div class="student_name"><img src="assets/img/images/student.svg"> Miller
+
+                                                        <div class="transaction_date">11 June 2020</div>
+                                                    
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span><img src="assets/img/images/watch.svg"> Session time</span>
+                                                    <strong>2 hrs</strong>
+                                                </td>
+                                                <td>
+                                                    <span><img src="assets/img/images/calendar_small.svg"> Refund date</span>
+                                                    <strong>18 June 2020</strong>
+                                                </td>
+                                                <td>
+                                                    <span><img src="assets/img/images/money.svg"> Refunded Price </span>
+                                                    <strong class="refund_price">$100/hrs</strong>
+                                                </td>
+
+                                                <td class="vertical_align_center">
+                                                    <span><img src="assets/img/images/download_export.svg"> Export </span><br>
+                                                    <a href="#"><img src="assets/img/images/pdf_img.svg"></a>
+                                                    <a href="#"><img src="assets/img/images/xls.svg"></a>
+                                                </td>
+                                            </tr> -->
+                                            <ng-template *ngIf="transactionList.length > 0" ngFor let-Data [ngForOf]="transactionList" let-i="index" >
+                                                <tr>
+                                                    <td >
+                                                        <span>TransactionId</span>
+                                                        <strong>{{Data.transaction_id}}</strong>
+                                                    </td>
+                                                    <td>
+                                                        <span>Transaction Date</span>
+                                                        <strong>{{dateConverter3(Data?.updated_at)}}</strong>
+                                                    </td>
+                                                    <td>
+                                                        <span> Gross Amount</span>
+                                                        <strong>{{Data?.gross_amount | currency}}</strong>
+                                                    </td>
+                                                   
+                                                    <td>
+                                                        <span> Commission</span>
+                                                        <strong>{{( (Data?.admin_commission)) }}%</strong>
+                                                    </td>
+                                                    <td>
+                                                        <span> Amount</span>
+                                                        <strong>{{Data?.amount | currency}}</strong>
+                                                    </td>
+                                                   
+                                                    <td>
+                                                        <span>Payment Mode</span>
+                                                        <strong>{{Data.payment_method || 'Stripe'}}</strong>
+                                                    </td>
+                                                    <td>
+                                                        <span>Payment Status</span>
+                                                        <strong>{{Data.payment_status}}</strong>
+                                                    </td>
+                                                   
+                                                    
+                                                    <!-- <td class="vertical_align_center">
+                                                        <span><a (click)="downloadAttachment('dasd','ada')"><img src="assets/img/images/download_export.svg"></a> Export </span><br>
+                                                        
+                                                    </td> -->
+                                                </tr>
+                                            </ng-template>
+                                           
+                                               
+                                                    <tr *ngIf="noTrasancationErr == 'error'">
+                                                        <h3 class="pt-3"> No Transaction available</h3>
+                                                    </tr>
+                                                        
+                                                    
+                                               
+
+                                           
+                                            <!-- <tr>
+                                                <td >
+                                                    <span>TransactionId</span>
+                                                    <strong>Test</strong>
+                                                </td>
+                                                <td>
+                                                    <span> Amount</span>
+                                                    <strong>$0.22</strong>
+                                                </td>
+                                                <td>
+                                                    <span>Transaction Date</span>
+                                                    <strong>Monday 03-22-2021 12:52 PM</strong>
+                                                </td>
+                                                <td>
+                                                    <span>Payment Status</span>
+                                                    <strong>Succeeded</strong>
+                                                </td>
+                                                 <td>
+                                                    <span>Payment Mode</span>
+                                                    <strong>Paypal</strong>
+                                                </td>
+                                                
+                                                <td class="vertical_align_center">
+                                                    <span><a (click)="downloadAttachment('dasd','sas','ada')"><img src="assets/img/images/download_export.svg"></a> Export </span><br>
+                                                    
+                                                </td>
+                                            </tr> -->
+
+                                            
+
+                                            
+                                        
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <nav aria-label="..." *ngIf="lastPage && lastPage > 1">
+                                    <ul class="pagination">
+                                        <li class="page-item" [ngClass]="{'disabled' : currentPage == 1}">
+                                            <a class="page-link" (click)="loadMore(currentPage-1)" tabindex="-1"><img src="assets/img/left-caret.svg"></a>
+                                        </li>
+                                        <li *ngFor="let page of pagesCount;" class="page-item" [ngClass]="{'active': currentPage == page}"><a class="page-link" (click)="loadMore(page)" *ngIf="page == lastPage || page == 1 || (page >= (currentPage - 1) && page <= (currentPage+1))">{{page}}</a><span  *ngIf="(page < currentPage - 1 || page > currentPage+1) && page != lastPage && page != 1">.</span></li>
+                                        <li class="page-item" [ngClass]="{'disabled' : currentPage == lastPage}">
+                                            <a class="page-link" (click)="loadMore(currentPage+1)"><img src="assets/img/right-caret.svg"></a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                            
+                            
+                        
+                        
+                        </div>
+                    </div>						
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+   <app-short-footer></app-short-footer>
+</div>

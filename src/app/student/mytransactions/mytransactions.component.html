@@ -1,0 +1,144 @@
+<div class="main-panel" [ngClass]="{'side-menu': menuToggle == 1}">
+    <div class="container">
+        <div class="panel-header bg-primary-gradient">
+            <div class="page-inner py-5">
+                <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+                    <div>
+                        <h2 class="pb-2 fw-bold panel-header-heading">My Transactions</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-inner mt--5 manage_jobs transaction_page">
+            <div class="row mt--2">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header d-flex">
+                            <div class="card-title">List of transactions</div>
+
+                            <div class="header_right">
+                                
+                                <div class="select-box">
+                                    <label> Transactions Filter</label>  
+                                    <select class="form-control" id="Transactions" (change)="changeTransactionType($event)" [(ngModel)]="type">
+                                        <option value="">Select Status</option>
+                                        <option value="succeeded">Succeeded</option>
+                                        <option value="pending">Pending</option>
+                                        <option value="processed">Processed</option>
+                                        <option value="failed">Failed</option>
+                                    </select>
+                                </div>
+
+                                
+                                <div class="date_box mt-2">
+                                    <label > Date Filter</label>  
+                                    <div class="input-group">
+                                        <input type="text" class="form-control success" name="birth" required="" aria-invalid="false" autocomplete="off"  ngxDaterangepickerMd [(ngModel)]="dateFilter" placeholder="Choose date" (ngModelChange)="change($event)">
+                                        
+                                        <div class="input-group-append d-flex" [ngClass]="{'clear-btn': showClearButton}">
+                                            <span class="input-group-text">
+                                                <i class="fa fa-calendar-o" *ngIf="!showClearButton"></i>
+                                                <img src="assets/img/close_circle.svg" style="width:20px;cursor:pointer;" (click)="clearFilter()" *ngIf="showClearButton">
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="exportBTN" >
+                                    <a class="btn" (click)="exportEarnings()"><img src="assets/img/download_blue.svg"> <span>Export</span></a>
+                                </div>
+                                <!-- <div class="create_job mt-3">
+                                    <a  class="btn btn-border" (click)="clearFilter()"> Clear</a> -->
+
+                                    <!-- <input class="form-control" value="Clear" type="button" (click)="clearFilter()"> -->
+                                <!-- </div> -->
+
+
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="tab-1" class="tab-content current">
+                                <div class="manage_table">
+                                    
+                                    <table class="table">
+                                        <tbody>
+                                            <ng-template *ngIf="transactions.length > 0" ngFor let-Data [ngForOf]="transactions" let-i="index" >
+                                                <tr>
+                                                    <td *ngIf="Data.payment_type == 'charge'">
+                                                        <span>TransactionId</span>
+                                                        <strong>{{Data.transaction_id}}</strong>
+                                                    </td>
+                                                    <td *ngIf="Data.payment_type == 'payout'">
+                                                        <span>TransactionId</span>
+                                                        <strong>{{Data.transaction_id}}</strong>
+                                                    </td>
+                                                    <td *ngIf="Data.payment_type == 'refund'">
+                                                        <span>Refund Id</span>
+                                                        <strong>{{Data.refund_id}}</strong>
+                                                    </td>
+                                                   
+                                                    <td>
+                                                        <span>Transaction Date</span>
+                                                        <strong>{{(Data?.created_at)}}</strong>
+                                                    </td>
+                                                    <td>
+                                                        <span> {{Data.payment_type == 'refund' ? 'Refunded' : ''}} Amount</span>
+                                                        <strong>{{Data?.amount | currency}}</strong>
+                                                    </td>
+                                                    <td>
+                                                        <span> Type</span>
+                                                        <strong>{{Data?.payment_type}}</strong>
+                                                    </td>
+                                                    <!-- <td>
+                                                        <span> Tax</span>
+                                                        <strong>%{{ (Data?.tax)}}</strong>
+                                                    </td>
+                                                    <td>
+                                                        <span> Total Paid</span>
+                                                        <strong>{{Data?.gross_amount | currency}}</strong>
+                                                    </td> -->
+                                                    <td>
+                                                        <span>Payment Status</span>
+                                                        <strong>{{Data.payment_status}}</strong>
+                                                    </td>
+                                                    <!-- <td>
+                                                        <span>Payment Mode</span>
+                                                        <strong>{{Data.payment_method}}</strong>
+                                                    </td> -->
+                                                    
+                                                    <td class="vertical_align_center">
+                                                        <span><a (click)="downloadAttachment(Data.id, Data.transaction_id)"><img src="assets/img/images/download_export.svg"> Invoice </a></span><br>
+                                                        
+                                                    </td>
+                                                </tr>
+                                            </ng-template>
+                                            <tr *ngIf="noTrasancationErr == 'error'">
+                                                <h3 class="pt-3"> No Transaction available</h3>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <nav aria-label="..." *ngIf="lastPage && lastPage > 1">
+                                    <ul class="pagination">
+                                        <li class="page-item" [ngClass]="{'disabled' : currentPage == 1}">
+                                            <a class="page-link" (click)="loadMore(currentPage-1)" tabindex="-1"><img src="assets/img/left-caret.svg"></a>
+                                        </li>
+                                        <li *ngFor="let page of pagesCount;" class="page-item" [ngClass]="{'active': currentPage == page}"><a class="page-link" (click)="loadMore(page)" *ngIf="page == lastPage || page == 1 || (page >= (currentPage - 1) && page <= (currentPage+1))">{{page}}</a><span  *ngIf="(page < currentPage - 1 || page > currentPage+1) && page != lastPage && page != 1">.</span></li>
+                                        <li class="page-item" [ngClass]="{'disabled' : currentPage == lastPage}">
+                                            <a class="page-link" (click)="loadMore(currentPage+1)"><img src="assets/img/right-caret.svg"></a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                            
+                            
+                        
+                        
+                        </div>
+                    </div>						
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-short-footer></app-short-footer>
+</div>

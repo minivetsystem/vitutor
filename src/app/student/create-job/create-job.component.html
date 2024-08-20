@@ -1,0 +1,376 @@
+    <div class="main-panel" [ngClass]="{'side-menu': menuToggle == 1}">
+    <div class="container">
+        <div class="panel-header bg-primary-gradient">
+            <div class="page-inner py-5">               
+                <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+                    <div>
+                        <h2 class="pb-2 fw-bold panel-header-heading">Manage Jobs</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="page-inner mt--5 create_job">
+            <div class="row mt--2">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="back_btn">
+                                    <a routerLink="../manage-jobs"><img src="assets/img/images/arrow-left.svg"></a>
+                                </div>Create a Job </div>
+                                <span *ngIf="(result.result.profile_completed==0)" style="color:red;">
+                                    NOTE: Your Profile is not completed. You need to complete your profile first.
+                                 </span>
+                               
+                        </div>
+                        <div class="card-body">
+
+                            <form [formGroup]="createJob" class="form-group form-show-validation row col-lg-8 col-md-12 col-sm-12">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 wk_form">
+                                        <label>Job Title <span class="required-label">*</span></label>
+                                        <input type="text" class="form-control" formControlName="job_title" placeholder="Enter Job Title" required>
+                                        <div *ngIf="(form.job_title.dirty || form.job_title.touched) && form.job_title.errors">
+                                            <div class="text-danger" *ngIf="form.job_title.errors.required">Job Title is required</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 wk_form">
+                                        <label>Add description <span class="required-label">*</span></label>
+                                        <textarea class="form-control" rows="5" formControlName="job_description" placeholder="Enter description"></textarea>
+                                        <div *ngIf="( form.job_description.dirty || form.job_description.touched) && form.job_description.errors">
+                                            <div class="text-danger" *ngIf="form.job_description.errors.required">Description is required</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 wk_form">
+                                        <label>Category <span class="required-label">*</span></label>
+                                        <select class="form-control" formControlName="job_category" (change)="getSubCategoryList($event.target.value)">
+                                            <option value="">Select</option>
+                                            <!-- <option *ngIf="subjectsList.length==0" value="Mathematics">Mathematics</option> -->
+                                            <option *ngFor="let subject of subjectsList" [value]="subject.id">{{subject.category_name}}</option>
+                                            <!-- <option value="2">Math</option> -->
+                                        </select>
+                                        <div *ngIf="( form.job_category.dirty || form.job_category.touched ) && form.job_category.errors">
+                                            <div class="text-danger" *ngIf="form.job_category.errors.required">Category is required</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 wk_form">
+                                        <label>Sub-Category <span class="required-label">*</span></label>
+                                        <select class="form-control" formControlName="sub_category_id">
+                                            <option value="">Select</option>
+                                            <!-- <option *ngIf="subCategoryList.length==0" value="Mathematics">Mathematics</option> -->
+                                            <option *ngFor="let subCat of subCategoryList" [value]="subCat.id">{{subCat.category_name}}</option>
+                                            <!-- <option value="2">Math</option> -->
+                                        </select>
+                                        <div *ngIf="( form.sub_category_id.dirty || form.sub_category_id.touched ) && form.sub_category_id.errors">
+                                            <div class="text-danger" *ngIf="form.sub_category_id.errors.required">Sub Category is required</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 wk_form">
+                                        <label>Job Type <span class="required-label">*</span></label>
+                                        <select class="form-control" formControlName="job_type" (change)="jobTypeChange($event.target.value)">
+                                            <option value="">Select</option>
+                                            <option value="one-time">One-Time</option>
+                                            <option value="recurring">Recurring</option>
+                                            <option value="instant-tutoring">On-Demand</option>
+                                        </select>
+                                        <div *ngIf="( form.job_type.dirty || form.job_type.touched ) && form.job_type.errors">
+                                            <div class="text-danger" *ngIf="form.job_type.errors.required">Job type is required</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- <div class="col-lg-6 col-md-6 col-sm-6 wk_form" *ngIf="!jonTypeFields">
+                                        <label>Set schedule <span class="required-label">*</span></label>
+                                        <div class="input-group">
+                                           
+                                            <input type="text" [min]="currentDate" placeholder="Set schedule" class="form-control success" formControlName="schedule_date" (ngModelChange)="change($event)" [owlDateTime]="dt2">
+                                            <div class="input-group-append d-flex">
+                                                <span class="input-group-text">
+                                                    <i class="fa fa-calendar-o" [owlDateTimeTrigger]="dt2"></i>
+                                                </span>
+                                            </div>
+                                            <owl-date-time #dt2></owl-date-time>
+                                        </div>
+                                        <div *ngIf="(form.schedule_date.dirty || form.schedule_date.touched ) && form.schedule_date.errors">
+                                            <div class="text-danger" *ngIf="form.schedule_date.errors.required">Schedule Date is required</div>
+                                        </div>
+                                    </div> -->
+                                    <div class="col-lg-6 col-md-6 col-sm-6 wk_form" *ngIf="jonTypeFields">
+                                        <label>Recurring Type <span class="required-label">*</span></label>
+                                        <select class="form-control" formControlName="recurring_type" >
+                                            <option value="">Select Recurring type</option>
+                                            <option value="Daily">Daily</option>
+                                            <option value="Weekly">Weekly</option>
+                                            <option value="Monthly">Monthly</option>
+                                        </select>
+                                        <div *ngIf="( form.recurring_type.dirty || form.recurring_type.touched) && form.recurring_type.errors">
+                                            <div class="text-danger" *ngIf="form.recurring_type.errors.required">Recurring Type is required</div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-lg-6 col-md-6 col-sm-6 wk_form" *ngIf="recurringTypeField == 'Weekly'">
+                                        <label>Weekly Day <span class="required-label">*</span></label>
+                                        <select class="form-control" formControlName="day">
+                                            <option value="">Select day</option>
+                                            <option value="Sunday">Sunday</option>
+                                            <option value="Monday">Monday</option>
+                                            <option value="Tuesday">Tuesday</option>
+                                            <option value="Wednesday">Wednesday</option>
+                                            <option value="Thursday">Thursday</option>
+                                            <option value="Friday">Friday</option>
+                                            <option value="Saturday">Saturday</option>
+                                        </select>
+                                        <div *ngIf="( form.day.dirty || form.day.touched) && form.day.errors">
+                                            <div class="text-danger" *ngIf="form.day.errors.required">Day is required</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 wk_form" *ngIf="recurringTypeField == 'Monthly'">
+                                        <label>Monthly Date <span class="required-label">*</span></label>
+                                        <select class="form-control" formControlName="date">
+                                            <option value="">Select date</option>
+                                            <option *ngFor='let in of [].constructor(31),let i = index' value="{{i+1}}">{{i+1}}</option>
+                                        </select>
+                                        <div *ngIf="( form.date.dirty || form.date.touched) && form.date.errors">
+                                            <div class="text-danger" *ngIf="form.date.errors.required">Date is required</div>
+                                        </div>
+                                    </div> -->
+                                    <!-- <div *ngIf="recurringTypeField != ''" class="col-lg-6 col-md-6 col-sm-6 wk_form">
+                                        <label>Recurring Time <span class="required-label">*</span></label>
+                                        <input [ngxTimepicker]="picker" formControlName="time" class="form-control success">
+                                        <ngx-material-timepicker #picker></ngx-material-timepicker>
+                                        <div *ngIf="( form.time.dirty || form.time.touched) && form.time.errors">
+                                            <div class="text-danger" *ngIf="form.time.errors.required">Time is required</div>
+                                        </div>
+
+                                    </div> -->
+                                    <!-- <div class="col-lg-6 col-md-6 col-sm-6 wk_form" *ngIf="jonTypeFields">
+                                        <label>Start Date <span class="required-label">*</span></label>
+                                        <div class="input-group">
+                                            <input type="text" [min]="currentDate" placeholder="Set start date" class="form-control success" formControlName="start_date" (ngModelChange)="changeStartDate($event)" [owlDateTime]="dt3">
+                                            <div class="input-group-append d-flex">
+                                                <span class="input-group-text">
+                                                    <i class="fa fa-calendar-o" [owlDateTimeTrigger]="dt3"></i>
+                                                </span>
+                                            </div>
+                                            <owl-date-time [pickerType]="'calendar'" #dt3></owl-date-time>
+                                        </div>
+                                        <div *ngIf="(form.start_date.dirty || form.start_date.touched ) && form.start_date.errors">
+                                            <div class="text-danger" *ngIf="form.start_date.errors.required">Start Date is required</div>
+                                        </div>
+                                    </div> -->
+                                    <!-- <div class="col-lg-6 col-md-6 col-sm-6 wk_form" *ngIf="jonTypeFields">
+                                        <label>End Date <span class="required-label">*</span></label>
+                                        <div class="input-group">
+                                            <input type="text" [min]="form.start_date.value || currentDate" placeholder="Set end date" class="form-control success" formControlName="end_date" (ngModelChange)="change($event)" [owlDateTime]="dt4">
+                                            <div class="input-group-append d-flex">
+                                                <span class="input-group-text">
+                                                    <i class="fa fa-calendar-o" [owlDateTimeTrigger]="dt4"></i>
+                                                </span>
+                                            </div>
+                                            <owl-date-time [pickerType]="'calendar'" #dt4></owl-date-time>
+                                        </div>
+                                        <div *ngIf="(form.end_date.dirty || form.end_date.touched ) && form.end_date.errors">
+                                            <div class="text-danger" *ngIf="form.end_date.errors.required">End Date is required</div>
+                                        </div>
+                                    </div> -->
+                                   
+
+                                    <div class="col-lg-6 col-md-6 col-sm-6 wk_form">
+                                        <label>Price($) <span class="required-label">*</span></label>
+                                        <input type="text" class="form-control" data-float="1" formControlName="price" placeholder="Enter Price" required>
+                                        <div *ngIf="( form.price.dirty || form.price.touched) && form.price.errors">
+                                            <div class="text-danger" *ngIf="form.price.errors.required">Price is required</div>
+                                            <div class="text-danger" *ngIf="form.price.errors.pattern">Price is invalid amount</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 wk_form">
+                                        <label>Set Pricing Type <span class="required-label">*</span></label>
+                                        <select class="form-control" formControlName="price_type">
+                                            <option value="">Select Pricing Type</option>
+                                            <option value="Hourly">Hourly</option>
+                                            <option value="Fixed">Fixed</option>
+                                        </select>
+                                        <div *ngIf="( form.price_type.dirty || form.price_type.touched) && form.price_type.errors">
+                                            <div class="text-danger" *ngIf="form.price_type.errors.required">Set Price is required</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 wk_form">
+                                        <label *ngIf="form.job_type.value == 'one-time' || form.job_type.value == ''">Proposed Duration (Hours)<span class="required-label">*</span></label>
+                                        <label *ngIf="form.job_type.value == 'recurring' ">Duration per session (Hours)<span class="required-label">*</span></label>
+                                        <label *ngIf="form.job_type.value == 'instant-tutoring'   ">Total Duration (Hours)<span class="required-label">*</span></label>
+                                        <input type="text" class="form-control" formControlName="duration" placeholder="Enter duration" required (keydown)="onlyDigit($event)">
+                                        <div *ngIf="( form.duration.dirty || form.duration.touched) && form.duration.errors">
+                                            <div class="text-danger" *ngIf="form.duration.errors.required">Duration is required</div>
+                                            <div class="text-danger" *ngIf="form.duration.errors.min">Duration cannot be 0 hour</div>
+                                            <div class="text-danger" *ngIf="form.duration.errors.max">Duration cannot be greater than 24 hours</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 wk_form" *ngIf="jonTypeFields">
+                                        <label>Number of Sessions <span class="required-label">*</span></label>
+                                        <input type="text" class="form-control" data-float="1" formControlName="no_of_sessions" placeholder="Enter number of sessions" required (change)="SessionNumberChange()">
+                                        <div *ngIf="( form.no_of_sessions.dirty || form.no_of_sessions.touched) && form.no_of_sessions.errors">
+                                            <div class="text-danger" *ngIf="form.no_of_sessions.errors.required">Number of sessions is required</div>
+                                            <div class="text-danger" *ngIf="form.no_of_sessions.errors.pattern">number of sessions must be number</div>
+                                            <div class="text-danger" *ngIf="form.no_of_sessions.errors.session">number of sessions is not Valid</div>
+                                        </div>
+                                    </div>
+                                  
+                                    <div class="col-lg-6 col-md-6 col-sm-6 wk_form">
+                                        <label>Proposed Start Time<span class="required-label">*</span></label>
+                                        <select class="form-control" formControlName="proposed_start_time">
+                                            <option value="Unknown">Unknown</option>
+                                            <option value="Immediate">Immediate</option>
+                                            <option value="Within a week">Within a week</option>
+                                            <option value="Within a month">Within a month</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 wk_form">
+                                        <label>Student Level<span class="required-label">*</span></label>
+                                        <select class="form-control" formControlName="student_level">
+                                            <option value="">Select Student Level</option>
+                                            <option value="Elementary">Elementary</option>
+                                            <option value="Middle School">Middle School</option>
+                                            <option value="High School">High School</option>
+                                            <option value="College">College</option>
+                                            <option value="Adult">Adult</option>
+                                        </select>
+                                        <div *ngIf="( form.student_level.dirty || form.student_level.touched) && form.student_level.errors">
+                                            <div class="text-danger" *ngIf="form.student_level.errors.required">Student level is required</div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-lg-8 col-sm-8 col-sm-6" >
+                                        <span>Uploaded Documents</span>
+                                       <div class="certification documents">
+                                           <div class="cerfication_img">
+                                    
+                                               <ng-template ngFor let-attachment [ngForOf]="urls"
+                                                   let-i="index">
+
+                                               <div class="ceft_img">
+                                                   <span *ngIf="attachment.type == 'image/jpeg' || attachment.type == 'image/jpg'">
+                                                       <img src="../../../assets/img/ico-jpg.svg">
+                                                   </span>
+                                                   <span *ngIf="attachment.type == 'image/png'">
+                                                       <img src="../../../assets/img/ico-png.svg">
+                                                   </span>
+                                                   
+                                                   <span *ngIf="attachment.type == 'application/pdf'">
+                                                       <img src="../../../assets/img/images/pdf1.svg">
+                                                   </span>
+                                                   <span *ngIf="attachment.type == 'application/msword'">
+                                                       <img src="../../../assets/img/images/excel.svg">
+                                                   </span>
+                                                   <button class="cross_overlay" type="button"
+                                                   [swal]="deleteAttachment"> <img src="../../../assets/img/images/cross-red.svg"></button>
+                                               <swal #deleteAttachment title="Delete?"
+                                                   text="Are you sure to delete {{attachment.title }}"
+                                                   type="error"
+                                                   [options]="{customClass : swalErrorOption, confirmButtonText: 'Confirm' , confirmButtonClass : 'btn btn-warning mr-2',cancelButtonClass : 'btn btn-danger' }"
+                                                   [showCancelButton]="true"
+                                                   [focusCancel]="true"
+                                                   (confirm)="removeRecord('remove-attachment',i)">
+                                               </swal>
+
+                                               <div class="download_btns">
+                                                   <button
+                                                   (click)="downloadFile(attachment.id,attachment.certificate_file)"
+                                                   class="remove_btn"
+                                                   
+                                                   [ngStyle]="{'color': '#cccccc'}"
+                                                   type="button"><i class="fas fa-cloud-download-alt"></i></button>
+                                                  <div class="document_name">{{attachment.title}}</div> 
+                                               </div>
+                                               
+                                               </div>
+                                               <div class="cell">
+                                                   <div class="file_description">
+                                                       <h3>{{attachment.title}}</h3>
+                                                   </div>
+                                                </div>
+                                        
+                                               </ng-template>
+                                           </div>
+                                       </div>
+                                   </div>                                                                        -->
+                               <!-- </div> -->
+                                    <!-- <div class="certification">
+                                        <div  class="cerfication_img">
+                                            <div class="ceft_img" >
+                                                <span *ngFor="let url of urls">
+                                                    <img *ngIf="url.type == 'image/jpeg'" src="assets/img/ico-jpg.svg">
+                                                    <img *ngIf="url.type == 'image/png' " src="assets/img/ico-png.svg">
+                                                   
+                                                    <img *ngIf="url.type == 'application/pdf'" src="assets/img/ico-pdf.svg">
+                                                    <img *ngIf="url.type == 'application/msword'" src="assets/img/msword.jpeg">
+                                                    <img *ngIf="url.type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'" src="assets/img/ico-doc.svg" alt="docx">
+                                                    <img *ngIf="url.type == 'application/vnd.ms-excel'" alt="excel" src="assets/img/ico-excel.png">
+                                                    <img *ngIf="url.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'" src="assets/img/ico-spreadsheet.png" alt="xls">
+                                                   
+                                                    <p>{{url.name|slice:0:10 || ''}}</p>
+                                                </span>
+                                               
+                                            </div>
+                                        </div>
+                                       
+                                    </div> -->
+                                    <!-- <div class="chat_img" >
+                                        <ng-container *ngFor="let url of urls">
+                                        <img *ngIf="url.type == 'image/jpeg' || url.type == 'image/png'" style="margin-top: 22px; height: 122px; width: 122px;border: 1px dotted;border-radius: 12px;" [src]="url.file_url">
+                                        <img *ngIf="url.type == 'application/pdf'" src="assets/img/ico-pdf.svg">
+                                        <img *ngIf="url.type == 'application/msword'" src="assets/img/msword.jpeg">
+                                        <img *ngIf="url.type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'" src="assets/img/ico-doc.svg" alt="docx">
+                                        <img *ngIf="url.type == 'application/vnd.ms-excel'" alt="excel" src="assets/img/ico-excel.png">
+                                        <img *ngIf="url.type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'" src="assets/img/ico-spreadsheet.png" alt="xls">
+                                        <div class="file_name">{{url.name || ''}}</div>
+                                        </ng-container>
+                                    </div> -->
+                                    <div class="col-lg-6 col-md-6 col-sm-6 wk_form">
+                                        <label>Add Attachment</label>
+                                        <input type="file" (change)="detectFiles($event)" class="form-control" accept="image/png,image/jpeg,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/plain"> 
+                                        <!-- <div *ngIf="( form.experince_level.dirty || form.experince_level.touched) && form.experince_level.errors"> -->
+                                            <div class="text-danger" *ngIf="attachmentErr">Invalid attachment type</div>
+                                        <!-- </div> -->
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-12 wk_form">
+                                        <label class="checkbox_btn" for="is-public-label">Is public
+                                            <input type="checkbox" [checked]=true
+                                                                class="custom-control-input" id="is-public-label"
+                                                                formControlName="is_public">
+                                                        
+                                            
+                                        <span class="checkmark"></span>
+                                        </label>
+                                    </div>
+                                    <!-- <div class="col-lg-6 col-md-6 col-sm-12 wk_form">
+                                        <label class="checkbox_btn" for="instant-tutoring-label">Instant Tutoring Required
+                                            <input type="checkbox" 
+                                                                class="custom-control-input" id="instant-tutoring-label"
+                                                                formControlName="instant_tutoring">
+                                                        
+                                            
+                                        <span class="checkmark"></span>
+                                        </label>
+                                    </div> -->
+                                </div>
+                                </div>
+                                </div>
+                                <div class="row">
+                                    <span class="text-danger" *ngIf="!activeCard">*Job cannot be created since there is no active Credit Card</span>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 wk_form">
+                                        <button class="btn btn-primary" (click)="formSubmit()" [disabled]="!activeCard">Post Job</button>
+                                    </div>
+                                    
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-short-footer></app-short-footer>
+</div>
+   

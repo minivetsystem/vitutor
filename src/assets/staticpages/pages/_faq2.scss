@@ -1,0 +1,61 @@
+.accordion_outer{
+    .card{
+        border-left: none;
+        border-top: none;
+        border-right: none;
+        border-radius: 0;
+        box-shadow: none;
+        margin: 0;
+        .card-header{
+            border-radius: 0;
+            background-color: transparent;
+            padding: 0;
+            border:none;
+            h5{
+                button{
+                    border:none;
+                    border-radius: 0;
+                    color: $gray;
+                    font-weight: normal;
+                    padding: 25px 30px 25px 0px;
+                    position: relative;
+                    text-align: left;
+                    text-transform: inherit;
+                    width: 100%;
+                    &:after{
+                        content: "\f077";
+                        font-family: "Font Awesome 5 Pro";
+                        font-size: 18px;
+                        position: absolute;
+                        right: 0;
+                        top: 50%;
+                        -webkit-transform: translateY(-50%);
+                           -moz-transform: translateY(-50%);
+                            -ms-transform: translateY(-50%);
+                             -o-transform: translateY(-50%);
+                                transform: translateY(-50%);
+                    }
+                    &:hover, &:active, &:focus {
+                        background: #fbfbfb;
+                        color: #000;
+                        text-decoration: none;
+                        outline: none;
+                        box-shadow: none;
+                    }
+                    &.collapsed{
+                        &:after{
+                            content: "\f078";
+                        }
+                    }
+                }
+            }
+        }
+        .card-body{
+            padding: 0 0 1rem;font-size: 16px;
+            color: $light-black;
+            @media (max-width:$tablet-sm-width) {
+                font-size: 14px;
+            }
+        }
+    }
+}

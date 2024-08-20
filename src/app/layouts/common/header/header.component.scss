@@ -1,0 +1,157 @@
+@import '../../../../assets/staticpages/main.scss';
+@import '../../../../assets/staticpages/layout/header';
+@import '../../../../assets/staticpages/components/navbar';
+
+
+@keyframes burgerAnimationSlide {
+    0% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    25% {
+      opacity: 0;
+    }
+    49% {
+      transform: translateX(-0.7em);
+      opacity: 0;
+    }
+    50% {
+      transform: translateX(0.7em);
+      opacity: 0;
+    }
+    51% {
+      opacity: 0;
+    }
+    75% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(0px);
+      opacity: 1;
+    }
+  }
+  
+  .burger {
+      cursor: pointer;
+      font-size: 12px !important;
+      // height: 3em;
+      height: 30px;
+      padding: 0 !important;
+      position: relative;
+      transition: .2s all;
+      width: 30px;
+      &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        height: 150%;
+        width: 150%;
+        top: -25%;
+        left: -25%;
+      }
+      .burger-lines {
+        top: 50%;
+        margin-top: -0.125em;
+        &,
+        &:after,
+        &:before {
+          pointer-events: none;
+          display: block;
+          content: '';
+          width: 100%;
+          border-radius: 25em;
+          background-color: #6a6e72;
+          height: 0.25em;
+          position: absolute;
+          transform: rotate(0);
+        }
+        .burger-lines:after {
+          left: 0;
+          top: -0.8em;
+        }
+        .burger-lines:before {
+          right: 0;
+          top: 0.8em;
+        }
+      }
+    }
+  
+  .burger.burger-slide {
+    .burger-lines {
+      transition: .1s all .15s;
+      &:after,
+      &:before {
+      //   width: 2em;
+        width: 20px;
+        transition: .1s all .15s;
+      }
+    }
+    .burger-lines:after {
+      left: 0;
+      top: -0.5rem;
+    }
+    .burger-lines:before {
+      right: 0;
+      top: 0.5rem;
+    }
+    &:not([aria-expanded="true"]) {
+      animation-name: burgerAnimationSlide;
+      animation-duration: 0.4s;
+      background-color: transparent;
+    }
+    &[aria-expanded="true"] {
+      .burger-lines {
+        animation-name: burgerAnimationSlide;
+        animation-duration: 0.4s;
+        background-color: transparent;
+        &:before,
+        &:after {
+          left: 5px;
+          top: 0px;
+          right: auto;
+        }
+        &:before {
+          transform: rotate(-45deg);
+        }
+        &:after {
+          transform: rotate(45deg);
+        }
+      }
+    }
+  }
+
+  .box_wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px;
+  
+    .inn_box{
+      text-align: center;
+      cursor: pointer;
+    
+    flex: 0 0 40%;
+      &:hover{
+        img{
+          box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+        }
+    
+      }
+      img{
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid #fdc016;
+        box-sizing: border-box;
+        width: 100%;
+        border-radius: 5px;
+        transition: 0.5s;
+      }
+      h4{
+        padding: 0;
+        font-size: 18px;
+        @media(max-width: 480px){
+          font-size: 16px;
+         }
+      }
+    }
+}

@@ -1,0 +1,234 @@
+<!-- HEADER MAIN CLOSE -->
+
+
+<section class="search_sec" id="search_sec_id">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <form>
+                    <div class="search_bar">
+                        <div class="search_inner">
+                            <div *ngIf="searchType=='expertise'" class="ng-autocomplete">
+                                <ng-autocomplete #auto placeHolder="Enter a subject" [data]="categoriesList" [searchKeyword]="keyword" (selected)='selectEvent($event)' [itemTemplate]="itemTemplate" (inputCleared)="searchCleared()" [notFoundTemplate]="notFoundTemplate" [minQueryLength]="3"
+                                     [initialValue]="initialValue" >
+                                </ng-autocomplete>
+                                <ng-template #itemTemplate let-item>
+                                    <a [innerHTML]="item.display_name"></a>
+                                </ng-template>
+
+                                <ng-template #notFoundTemplate let-notFound>
+                                    <div [innerHTML]="notFound"></div>
+                                </ng-template>
+                            </div>
+                            <div *ngIf="searchType=='keyword'">
+                                <form (submit)="onSubmitValue()">
+                                    <input [(ngModel)]="searchFilters.tutor" class="form-control" type="text" name="search" id="search" placeHolder="Search Tutor">
+                                    <span *ngIf="searchFilters.tutor" class="input-group-append">
+                                    </span>
+                                </form>
+                            </div>
+                            <div class="select_box1">
+                                <select [(ngModel)]="searchType" name="searchType" (change)="onChangeSearchType()">
+                                    <option value="expertise">Expertise</option>
+                                    <option value="keyword">Keyword</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-sm-12">
+                <div class="search_results_main">
+                    <div class="row ">
+                        <div class="col-md-3 col-sm-3 search_left">
+                            <div class="filters">
+                                <div class="filter_text"  data-toggle="collapse" data-target="#filtr_box" aria-controls="filtr_box" aria-expanded="false" aria-label="Toggle navigation"><img src="assets/img/images/filter.svg"> Filters</div>
+                                <div class="reset_text" style="cursor: pointer;"><a (click)="resetAll()">Reset All</a></div>
+                            </div>
+
+                            <div class="filter_box_outer collapse" id="filtr_box">
+                                <div class="filter_box">
+                                    <h6>Availability</h6>
+
+                                    <div class="custom_checkboxs">
+                                        <label class="checkbox_btn">Sun
+											<input type="checkbox" [checked]="availability.includes('Sun')"
+												(change)="toggleSelection('Sun')">
+											<span class="checkmark"></span>
+										</label>
+                                        <label class="checkbox_btn">Mon
+											<input type="checkbox" [checked]="availability.includes('Mon')"
+												(change)="toggleSelection('Mon')">
+											<span class="checkmark"></span>
+										</label>
+                                        <label class="checkbox_btn">Tue
+											<input type="checkbox" [checked]="availability.includes('Tue')"
+												(change)="toggleSelection('Tue')">
+											<span class="checkmark"></span>
+										</label>
+                                        <label class="checkbox_btn">Wed
+											<input type="checkbox" [checked]="availability.includes('Wed')"
+												(change)="toggleSelection('Wed')">
+											<span class="checkmark"></span>
+										</label>
+                                        <label class="checkbox_btn">Thu
+											<input type="checkbox" [checked]="availability.includes('Thu')"
+												(change)="toggleSelection('Thu')">
+											<span class="checkmark"></span>
+										</label>
+                                        <label class="checkbox_btn">Fri
+											<input type="checkbox" [checked]="availability.includes('Fri')"
+												(change)="toggleSelection('Fri')">
+											<span class="checkmark"></span>
+										</label>
+                                        <label class="checkbox_btn">Sat
+											<input type="checkbox" [checked]="availability.includes('Sat')"
+												(change)="toggleSelection('Sat')">
+											<span class="checkmark"></span>
+										</label>
+                                    </div>
+                                </div>
+
+
+                                <div class="filter_box">
+                                    <h6>Hourly Rate($)</h6>
+                                    <div id="slider-range" class="slider-success">
+                                        <ng5-slider [(value)]="searchFilters.hourly_range_from" [(highValue)]="searchFilters.hourly_range_to" [options]="options" (userChangeEnd)="getSearch($event)"></ng5-slider>
+                                    </div>
+                                </div>
+
+                                <div class="filter_box filter_checkbox">
+                                    <h6>Gender</h6>
+
+                                    <div class="custom_checkboxs">
+                                        <label class="checkbox_btn">Male
+											<input type="checkbox" [checked]="gender.includes('Male')"
+												(change)="toggleGenderSelection('Male')">
+											<span class="checkmark"></span>
+										</label>
+                                        <label class="checkbox_btn">Female
+											<input type="checkbox" [checked]="gender.includes('Female')"
+												(change)="toggleGenderSelection('Female')">
+											<span class="checkmark"></span>
+										</label>
+                                    </div>
+                                </div>
+								<div class="filter_box">
+                                    <h6>Student level</h6>
+									<ng-select #select [multiple]="true" [items]="studentLevelArray"
+										[(ngModel)]="selectedLevel" (remove)="removeLevel($event)"
+										(change)="setLevel($event)" bindLabel="name" bindValue="name"
+										 placeholder="Select Student Level">
+									</ng-select>
+								</div>
+                                <div class="filter_box">
+                                    <h6>Experience level</h6> 
+                                    <select [(ngModel)]="searchFilters.experince_level" (change)="onChangeExperience()" class="form-control">
+										<option value="">Select Experience</option>
+										<option value="ALL">All</option>
+										<option value="Beginner">Beginner</option>
+										<option value="Intermediate">Intermediate</option>
+										<option value="Expert">Expert</option>
+									</select>
+								</div>
+								<div class="filter_box">
+									<h6>Location</h6>
+									<select class="form-control" name="location" [(ngModel)]="searchFilters.location" (change)="getSearch(null)">
+										<option value="">All Locations</option>
+										<option [value]="location.id" *ngFor="let location of LocationList">{{location.name}}</option>
+									</select>
+								</div>
+								<div class="filter_box">
+									<h6>Tutor Ratings</h6>
+									<select class="form-control" name="rating" [(ngModel)]="searchFilters.rating" (change)="getSearch(null)">
+										<option value="">Any Rating</option>
+										<option value="5">5+ Rating</option>
+										<option value="4">4+ Rating</option>
+										<option value="3">3+ Rating</option>
+										<option value="2">2+ Rating</option>
+										<option value="1">1+ Rating</option>
+									</select>
+								</div>
+								<div class="filter_box">
+									<h6>On-Demand Tutoring</h6>
+									<select class="form-control" name="instant_tutoring" [(ngModel)]="searchFilters.instant_tutoring" (change)="getSearch(null)">
+										<option value="BOTH">Both</option>
+										<option value="1">Yes</option>
+										<option value="0">No</option>
+									</select>
+								</div>
+
+
+
+                            </div>
+                        </div>
+                        <div class="col-md-9 col-sm-9 search_right">
+                            <div class="sort_outer ">
+                                <h5><strong>{{totalCount}} {{searchText}}</strong> fit your choices</h5>
+
+                                <div class="sort_inn">
+                                    <div class="sort_by">Sort by</div>
+                                    <div class="select_box">
+                                        <select class="form-control" name="sorting" [(ngModel)]="searchFilters['sorting']" (change)="sortBYChange($event)">
+											<option value="">Select</option>
+											<option value="PriceLH">Price: Low to High</option>
+											<option value="PriceHL">Price: High to Low</option>
+											<option value="Rating">Rating</option>
+										</select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div *ngIf="!errorList">
+                                <a  [routerLink]="['../viewTutor', tutor.profile_slug]"  class="profile_details " *ngFor="let tutor of tutorsList;let i=index;">
+                                    <div class="profile_img"><img [src]="tutor.photo" (error)="onImgError($event)">
+                                        <div class="hover_btn">
+                                            <a [routerLink]="['../viewTutor', tutor.profile_slug]">Video Profile <img
+													src="{{tutor.overview_video_url}}"
+													(error)="onVideoError($event)"></a>
+                                        </div>
+                                    </div>
+                                    <div class="profile_des">
+                                        <h4>{{tutor.full_name}} <span></span></h4>
+										<a *ngIf="tutor.tag_line && tutor.tag_line != ''" class="tutor_tag" [routerLink]="['../viewTutor', tutor.profile_slug]">{{tutor.tag_line}} <span></span></a>
+									
+										<span><strong>Experience level :</strong> {{tutor.experince_level}}</span>
+										<span class="AvailabilityText" style="display: block;"><strong>Available for On-Demand Tutoring :</strong> {{tutor.instant_tutoring && tutor.instant_tutoring == 1? 'Yes' : 'No'}}</span>
+										
+                                        <p>{{tutor.about_me && tutor.about_me | slice:0:150}}{{tutor.about_me && tutor.about_me.length > 150 ? '....' : '' }}</p>
+                                    </div>
+                                    <div class="profile_rate">
+                                        <div class="price_pro"> ${{tutor.hourly_rate}}/hour </div>
+                                        <app-review-rating-view [reviewsCount]="tutor.rating_count" [rating]="tutor.average_rating">
+                                        </app-review-rating-view>
+                                    </div>
+
+                                </a>
+                                <nav aria-label="..." *ngIf="lastPage > 1">
+                                    <ul class="pagination">
+                                        <li class="page-item" [ngClass]="{'disabled' : currentPage == 1}">
+                                            <a class="page-link" (click)="loadMore(currentPage-1)" tabindex="-1"><img src="assets/img/left-caret.svg"></a>
+                                        </li>
+                                        <li *ngFor="let page of pagesCount;" class="page-item" [ngClass]="{'active': currentPage == page}"><a class="page-link" (click)="loadMore(page)" *ngIf="page == lastPage || page == 1 || (page >= (currentPage - 1) && page <= (currentPage+1))">{{page}}</a><span  *ngIf="(page < currentPage - 1 || page > currentPage+1) && page != lastPage && page != 1">.</span></li>
+                                        <li class="page-item" [ngClass]="{'disabled' : currentPage == lastPage}">
+                                            <a class="page-link" (click)="loadMore(currentPage+1)"><img src="assets/img/right-caret.svg"></a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                            <div *ngIf="errorList">
+                                <div class="no_record_found">
+                                    <h4>No Record Found</h4>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

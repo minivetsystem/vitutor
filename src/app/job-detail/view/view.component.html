@@ -1,0 +1,559 @@
+<!-- <section class="search_sec search_single_page">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="search_results_main">
+					<div class="row ">
+						<div class=" col-md-10 col-sm-10 search_right m-auto">	
+							<div class=" job_without_login " *ngIf="jobDetail">
+								
+								<div class="job_desc_inner">
+									<div class="back_btn">
+											<a (click)="goBack()" style="cursor:pointer">
+										<img src="assets/img/images/arrow-left.svg"> Back</a>
+									</div>
+									<h4><a [href]="">{{jobDetail?.job_title}}</a></h4>
+									<span><strong>{{jobDetail?.price_type}} Price -   Posted on : </strong> {{jobDetail?.posted_date}}</span>
+									<span *ngIf="jobDetail?.schedule_date">Scheduled on <strong>{{jobDetail?.schedule_date}}</strong></span>
+									<span *ngIf="jobDetail?.job_recurring">Scheduled on <strong>{{jobDetail?.job_recurring.recurring_job_date}} {{jobDetail?.job_recurring.time}}</strong></span>
+									<p *ngIf="jobDetail?.job_description">{{jobDetail?.job_description}}</p>
+				
+									
+								</div>
+								<div class="job_button_right">
+									<div class="tutors"><img [src]="jobDetail?.user.photo" (error)="imgLoadError($event)"> {{jobDetail?.user.full_name}}</div>
+									<div class="price_pro">
+										<span> {{jobDetail?.price}} </span>
+										<strong>{{jobDetail?.price_type}}</strong>
+									</div>
+									
+									<a data-toggle="modal" data-target="#apply_job" class="btn btn-primary" *ngIf="!jobDetail?.apply_status">Apply Job <img src="assets/img/images/arrow-right-white.svg"></a>
+									<button disabled   class="btn btn-primary"  *ngIf="jobDetail?.apply_status" >APPLIED</button>
+
+									
+									<div class="skills">	
+										<h4>Skills and expertise</h4>
+										<ul>
+											<li *ngIf="jobDetail?.job_category"><a [href]="">{{jobDetail?.job_category}}</a></li>	
+											<li *ngIf="jobDetail?.sub_category_id"><a [href]="">{{jobDetail?.sub_category_id}}</a></li>
+											</ul>
+
+										<h4>Job Type</h4>
+										<p>{{jobDetail?.job_type}}</p>
+										<h4 *ngIf="jobDetail?.job_recurring && jobDetail?.job_recurring.recurring_type != ''">Occurence</h4>
+										<p *ngIf="jobDetail?.job_recurring && jobDetail?.job_recurring.recurring_type != ''"> {{jobDetail?.job_recurring.recurring_type}} </p>
+										<h4 *ngIf="jobDetail?.job_recurring && jobDetail?.job_recurring.date != ''">Date of Month</h4>
+										<p *ngIf="jobDetail?.job_recurring && jobDetail?.job_recurring.date != ''"> {{jobDetail?.job_recurring.date}} </p>
+										<h4 *ngIf="jobDetail?.job_recurring && jobDetail?.job_recurring.day != ''">Day of Week</h4>
+										<p *ngIf="jobDetail?.job_recurring && jobDetail?.job_recurring.day != ''"> {{jobDetail?.job_recurring.day}} </p>
+										
+										<h4>Session Duration</h4>
+										<p>{{jobDetail?.duration}} Hours</p>
+
+										<h4 *ngIf="jobDetail?.job_recurring && jobDetail?.job_recurring.start_date && jobDetail?.job_recurring.end_date">Session Date Range</h4>
+										<p *ngIf="jobDetail?.job_recurring && jobDetail?.job_recurring.start_date && jobDetail?.job_recurring.end_date">{{jobDetail?.job_recurring.start_date}} - {{jobDetail?.job_recurring.end_date}}</p>
+									</div>
+								</div>
+
+							</div>
+							<div class="job_without_login" style="min-height: 300px;" *ngIf="error">
+								<div class="job_desc_inner">
+								<div class="back_btn"><a href="javascript:void(0)" (click)="goBack()">
+									<img src="assets/img/images/arrow-left.svg"> Back</a>
+								</div>
+								<div class="text-center">
+								<h3>No Data Found</h3>
+								</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</section>
+<footer class="footer">
+	<div class="container-fluid">
+
+		<div class="copyright ">
+			©2020 viTutors | All rights reserved
+		</div>
+		<nav class="pull-left ml-auto">
+			<ul class="nav">
+				<li class="nav-item">
+					<a class="nav-link" href="#">
+					Privacy Policy
+				</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">
+					Terms of Use
+				</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">
+					FAQ’s
+				</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">
+					Contact Support
+				</a>
+				</li>
+			</ul>
+		</nav>
+	</div>
+</footer> -->
+<div class="main-panel" [ngClass]="{'side-menu': menuToggle == 1}">
+    <div class="container">
+        <div class="panel-header bg-primary-gradient">
+            <div class="page-inner py-5">
+                <div class="d-flex align-items-left align-items-md-center flex-column flex-md-row">
+                    <div>
+                        <h2 class="pb-2 fw-bold panel-header-heading">
+							<div class="back_btn" >
+								<!-- <a [routerLink]="['/searchJob/search-jobs']"> -->
+									<a (click)="goBack()" style="font-size: 14px; background: #ddd; cursor:pointer;min-width: 80px;border-radius: 20px;margin: 5px;">
+								<img src="assets/img/images/arrow-left.svg" style="margin-right: 5px;"> Back</a>
+							</div></h2>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        <div class="page-inner mt--5 job_single_page" *ngIf="error==false">
+            <div class="row mt--2">
+                <div class="col-md-12">
+                    <!-- <div class=" job_without_login "> -->
+
+						<div class=" job_without_login nwPage" *ngIf="jobDetail">
+								
+							<div class="job_desc_inner jobDesc minHeight">
+								<!--div class="back_btn" >
+									 <a [routerLink]="['/searchJob/search-jobs']">
+										<a (click)="goBack()" style="cursor:pointer;min-width: 80px;border-radius: 20px;margin: 5px;">
+									<img src="assets/img/images/arrow-left.svg" style="margin-right: 5px;"> Back</a>
+								</div-->
+								<div class="jobTItle"><strong>Job Title:</strong> {{jobDetail?.job_title}}</div>
+								<!-- <h4><a [href]="">{{jobDetail?.job_title}}</a></h4> -->
+								<!--div class="job_title_top">{{jobDetail?.job_title}}</div-->
+
+								<span><strong>{{jobDetail?.price_type}} Price -   Posted on : </strong> {{jobDetail?.posted_date}}</span>
+								<!-- <span *ngIf="jobDetail?.schedule_date">Scheduled on <strong>{{jobDetail?.schedule_date}}</strong></span>
+								<span *ngIf="jobDetail?.job_recurring && jobDetail?.job_recurring?.time">Scheduled on <strong>{{jobDetail?.job_recurring?.recurring_job_date}} {{jobDetail?.job_recurring?.time}}</strong></span> -->
+								<!-- <span *ngIf="!jobDetail?.schedule_date && (!jobDetail?.job_recurring || jobDetail?.job_recurring.time == '')">Proposed Start Date <strong>{{jobDetail?.proposed_start_time}}</strong></span> -->
+								<span><strong>Job Description :</strong> {{jobDetail?.job_description}}</span>
+								<p *ngIf="jobDetail?.job_description"></p>
+			
+								
+							</div>
+							<div class="job_button_right wh_job_button_right">
+								<div class="tutors wh_tutors newBtn">
+									<div class="avatar-sm">
+										<img [src]="jobDetail?.user.image_url" (error)="imgLoadError($event)" class="">
+									</div> 
+									{{jobDetail?.user.full_name}}
+								
+									<div class="wkBtns">
+										<a data-toggle="modal" data-target="#apply_job" class="btn btn-primary" *ngIf="!jobDetail?.apply_status && jobDetail?.status == 'Pending' && isTutor">Apply Job <img src="assets/img/images/arrow-right-white.svg"></a>
+										<button    class="btn btn-primary"  *ngIf="jobDetail?.apply_status && jobDetail?.status == 'Pending' && isTutor" (click)="appliedJob(jobDetail?.id)">APPLIED</button>
+										<button disabled   class="btn btn-success text-white"  *ngIf=" jobDetail?.status == 'Join session'" >Accepted</button>
+										<button disabled   class="btn btn-red text-white"  *ngIf=" jobDetail?.status == 'Declined'" >Declined</button>
+									</div>
+								</div>
+								<!--div class="price_pro">
+									<span> {{jobDetail?.price}} </span>
+									<strong>{{jobDetail?.price_type}}</strong>
+								</div-->
+								
+								
+								
+								<!--div class="skills">	
+									<h4>Skills and expertise</h4>
+									<ul>
+										<li *ngIf="jobDetail?.job_category"><a [href]="">{{jobDetail?.job_category}}</a></li>	
+										<li *ngIf="jobDetail?.sub_category_id"><a [href]="">{{jobDetail?.sub_category_id}}</a></li>
+										</ul>
+
+									
+								
+									
+								</div-->
+								<div class="row">
+									<div class="col-lg-12 dFLex">
+										<strong>Rate: </strong>
+										<p> {{ '$' + jobDetail?.price.replaceAll('$','')}} {{jobDetail?.price_type}} </p>
+									</div>
+								<div class="col-lg-12 dFLex">
+									<strong>Skills and expertise: </strong>
+									<p>{{jobDetail?.job_category}} , {{jobDetail?.sub_category_id}} </p>
+								</div>
+								<div class="col-lg-12 dFLex">
+									<strong>Job Type: </strong>
+									<p>{{jobDetail?.job_type_data == 'instant-tutoring' ? 'On-Demand': jobDetail?.job_type}}</p>
+								</div>
+								<div class="col-lg-12 dFLex" *ngIf="jobDetail?.job_recurring && jobDetail?.job_recurring.recurring_type != ''">
+									<strong >Occurence: </strong>
+									<p > {{jobDetail?.job_recurring.recurring_type}} </p>
+								</div>
+								<div class="col-lg-12 dFLex" *ngIf="jobDetail?.job_recurring && jobDetail?.job_recurring.date && jobDetail?.job_recurring.date != ''">
+									<strong >Date of Month: </strong>
+									<p > {{jobDetail?.job_recurring.date}} </p>
+								</div>
+								<div class="col-lg-12 dFLex" *ngIf="jobDetail?.job_recurring && jobDetail?.job_recurring.day && jobDetail?.job_recurring.day != ''">
+									<strong >Day of Week: </strong>
+									<p > {{jobDetail?.job_recurring.day}} </p>
+								</div>
+								<div class="col-lg-12 dFLex" >
+									<strong>Session Duration: </strong>
+									<p>{{jobDetail?.duration}} {{jobDetail?.duration == 1 ? 'Hour': 'Hours'}}</p>
+								</div>
+								<div class="col-lg-12 dFLex" *ngIf="jobDetail?.no_of_sessions && jobDetail?.no_of_sessions != 0">
+									<strong>Number of Session: </strong>
+									<p>{{jobDetail?.no_of_sessions }} </p>
+								</div>
+								<div class="col-lg-12 dFLex" >
+									<strong>Proposed Start Date: </strong>
+									<p>{{jobDetail?.proposed_start_time}}</p>
+								</div>
+								<div class="col-sm-12 attach dFLex">
+									<span><strong>Attachment:</strong> </span>
+									<div class="certification">
+										<div *ngIf="uploadDocument" class="cerfication_img">
+											<div class="ceft_img">
+												<ng-container *ngFor="let document of uploadDocument"> 
+												<span>
+													<img *ngIf="document.file_type == 'image/jpeg'  " src="assets/img/ico-jpg.svg">
+													<img *ngIf="document.file_type == 'image/png'  " src="assets/img/ico-png.svg">
+													<img *ngIf="document.file_type == 'application/pdf'  " src="assets/img/ico-pdf.svg">
+													<img *ngIf="document.file_type == 'application/msword'  " src="assets/img/msword.jpeg">
+													<img *ngIf="document.file_type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'  " src="assets/img/ico-doc.svg" alt="docx">
+													<img *ngIf="document.file_type == 'application/vnd.ms-excel'  " alt="excel" src="assets/img/ico-excel.png">
+													<img *ngIf="document.file_type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'  " src="assets/img/ico-spreadsheet.png" alt="xls">
+													<!-- <img *ngIf="uploadDocument.attachment || offerDetails.attachment.length > 0" class="download_icon"  src="assets/img/download_blue.svg" > -->
+												</span>
+												<div class="download_btns">
+													<button type="button" style="color: rgb(204, 204, 204);" (click)="downloadFile(document.id,document.file_name)"><i class="fas fa-cloud-download-alt"></i></button>
+													<div *ngIf="document" class="document_name">{{document.file_name}}</div>
+												</div>
+												</ng-container>
+											</div>
+										</div>
+										<p *ngIf="!uploadDocument" style="text-decoration: none;">No Attachments</p>
+									</div>
+
+
+
+								</div>
+								<!-- <div class="col-lg-6" *ngIf="!jobDetail?.job_recurring && jobDetail?.schedule_date">
+									<h4 *ngIf="!jobDetail?.job_recurring && jobDetail?.schedule_date ">Session Date</h4>
+									<p *ngIf="!jobDetail?.job_recurring && jobDetail?.schedule_date ">{{jobDetail?.schedule_date}}</p>
+								</div>
+								<div class="col-lg-6" *ngIf="!jobDetail?.job_recurring && jobDetail?.schedule_date">
+									<h4 *ngIf="!jobDetail?.job_recurring && jobDetail?.schedule_date ">Session Date</h4>
+									<p *ngIf="!jobDetail?.job_recurring && jobDetail?.schedule_date ">{{jobDetail?.schedule_date}}</p>
+								</div>
+								<div class="col-lg-6" *ngIf="jobDetail?.job_recurring && jobDetail?.job_recurring.start_date">
+									<h4 >Start Date</h4>
+									<p >{{jobDetail?.job_recurring.start_date}}</p>
+								</div>
+								<div class="col-lg-6" *ngIf="jobDetail?.job_recurring &&  jobDetail?.job_recurring.end_date">
+									<h4 >End Date</h4>
+									<p >{{jobDetail?.job_recurring.end_date}}</p>
+								</div> -->
+								</div>
+							</div>
+
+						</div>
+						<div class="job_without_login" style="min-height: 300px;" *ngIf="error">
+							<div class="job_desc_inner jobDesc minHeight">
+							
+								<div class="text-center">
+									<h3>No Data Found</h3>
+									</div>
+			
+								
+							</div>
+							
+						</div>
+                       
+                    <!-- </div> -->
+
+                </div>
+            </div>
+        </div>
+		<div class="page-inner mt--5 job_single_page" *ngIf="error==true">
+            <div class="row mt--2">
+                <div class="col-md-12">
+					<div class=" job_without_login nwPage" >
+						<div class="job_desc_inner jobDesc minHeight">
+						<h3>{{err?.error?.error_message  || 'No Data Found'}}</h3>
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</div>
+    </div>
+	<app-short-footer></app-short-footer>
+    <!-- <footer class="footer">
+        <div class="container-fluid">
+
+            <div class="copyright ">
+                ©2020 Vitutors | All rights reserved
+            </div>
+            <nav class="pull-left ml-auto">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+							Privacy Policy
+						</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+							Terms of Use
+						</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+							FAQ’s
+						</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+							Contact Support
+						</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </footer> -->
+</div>
+<div id="apply_job" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" *ngIf="jobDetail">Apply for {{jobDetail?.job_title}}</h4>
+                <button type="button" class="close" data-dismiss="modal"><img src="assets/img/images/close-14.svg"></button>
+
+            </div>
+            <div class="modal-body">
+                <form class="form-group form-show-validation row" #ApplyForm="ngForm">
+                   
+
+                    <div class="col-lg-12 wk_form">
+                        <label>Message <span class="required-label">*</span></label>
+						<textarea placeholder="Enter Message" class="form-control" name="message" rows="3" #message required></textarea>
+						<p class="text-danger" *ngIf="message.touched && message.errors.required">
+							Message is Required
+						</p>
+					</div>
+					<div class="col-lg-12 wk_form">
+                        <label>Offer Price <span class="required-label">*</span></label>
+						<!-- <textarea placeholder="Enter Message" class="form-control" name="message" rows="3" #message></textarea> -->
+						<input type="text" class="form-control" name="price" #price required [pattern]="pricePattern">
+						<p class="text-danger" *ngIf="price.touched && price.errors.required">
+							Price is Required
+						</p>
+						<p class="text-danger" *ngIf="ApplyErr">
+							Price is invalid
+						</p>
+					</div>
+					<div class="col-lg-12 wk_form">
+                        <label>Attachment</label>
+                        <input (change)="onSelectAttachment($event)" type="file" class="form-control" name="attachment" accept="image/x-png,image/jpeg,application/pdf,application/vnd.ms-excel,application/msword,text/plain, application/vnd.openxmlformats-officedocument.wordprocessingml.document">
+                        <div *ngIf="applySubmitted && (attachmentTypeError || attachmentsizeLimitError || attachmentRequiredError)">
+                            <p *ngIf="attachmentTypeError" class="text-danger">Invalid file format</p>
+                            <p *ngIf="attachmentsizeLimitError" class="text-danger">Support file having size less than 5 MB</p>
+                            <!-- <p *ngIf="attachmentRequiredError" class="text-danger">Attachment is Required</p> -->
+                            <!-- <p *ngIf="createOfferForm.controls.message.errors.pattern" class="text-danger">Price is incorrect</p> -->
+                        </div>
+                    </div>
+                    <div class="col-lg-12 text-center">
+                        <button class="btn btn-primary " (click)="applyJob( message.value, price.value)">Send</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="view_applicants" class="modal fade view_applicants" role="dialog" #view_applicants>
+	<div class="modal-dialog modal-lg">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">{{applicant?.job?.job_title}}</h4>
+				<button type="button" class="close" data-dismiss="modal"><img src="assets/img/images/close-14.svg"></button>
+
+			</div>
+			<div class="modal-body">
+
+				<div class=" job_without_login application_recieved " >
+
+					<div class="job_desc_inner">
+
+
+						<div class="send_offer">
+							<div class="row">
+
+								<div class="col-sm-12 tutor_outer">
+									<div class="tutorLEFT">
+										<div class="tutor-image">
+											<img   [src]="applicant?.user?.image_url ? applicant?.user?.image_url : 'assets/img/avatar_user2.jpg'" #this onError="this.src='assets/img/avatar_user2.jpg'">
+										</div>
+										<div class="tutor_rating">
+											<!-- <ul>
+												<li><i class="fas fa-star"></i></li>
+												<li><i class="fas fa-star"></i></li>
+												<li><i class="fas fa-star"></i></li>
+												<li><i class="fal fa-star"></i></li>
+												<li><i class="fal fa-star"></i></li>
+											</ul>
+											<h6>applicant?.user?.avg_rating <small>( 5.0 )</small></h6> -->
+											<app-review-rating-view [reviewsCount]="applicant?.user?.rating_count" [rating]="applicant?.user?.avg_rating" >
+											</app-review-rating-view>
+
+										</div>
+										<!-- <a class="wklink" (click)="navigateProfile('/search/viewTutor/'+ applicant?.user?.profile_slug)" >View Profile</a> -->
+									</div>
+
+									<div class="tutor_desc">
+										<div class="row">
+											<div class="col-sm-6">
+												<strong>Tutor Name </strong>
+												<p>{{applicant?.user?.full_name}}</p>
+											</div>
+											<div class="col-sm-6">
+												<strong>Hourly Rate </strong>
+												<p>{{applicant?.user?.hourly_rate}}</p>
+											</div>
+											<div class="col-sm-6">
+												<strong>Location </strong>
+												<p>{{applicant?.user?.location?.country || 'Not Found'}}</p>
+											</div>
+											<div class="col-sm-6">
+												<strong>Experience level</strong>
+												<p>{{applicant?.user?.experince_level}}</p>
+											</div>
+
+											<div class="col-sm-6">
+												<strong>Application Status</strong>
+												<p >{{applicant?.status}}</p>
+												<!-- <p class="badge badge-warning" *ngIf="applicant?.status == 'Cancelled'">{{applicant?.status}}</p> -->
+											</div>
+											
+										   
+
+											<div class="col-sm-12">
+												<strong>Bio </strong>
+												<p>{{applicant?.user?.about_me}}</p>
+												
+												<!-- <a class="btn btn-primary" [routerLink]="['/search/viewTutor/]">View Profile</a> -->
+											</div>
+											
+										</div>
+
+
+										
+
+										<!--div class="row">
+											<div class="col-sm-6">
+												<strong>Application Status</strong>
+												<p class="badge badge-success" *ngIf="applicant?.status == 'Applied'">{{applicant?.status}}</p>
+												<p class="badge badge-warning" *ngIf="applicant?.status == 'Cancelled'">{{applicant?.status}}</p>
+											</div>
+										</div-->
+
+							   
+										
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="job_button_right wh_job_button_right">
+
+						<!--div class="price_pro">
+							<img src="assets/img/gift.svg"> <strong>Applied price
+								<span>{{applicant.offer_price}}</span>
+							</strong>
+						</div--> 
+						<div class="job_time_date">
+							<div class="row">
+								<div class="col-sm-6">
+									<strong>Applied price</strong>
+									<p>{{applicant?.offer_price}}</p>
+								</div>
+								<!-- <div class="col-sm-6" *ngIf="applicant.job.proposed_start_time">
+									 <strong>Job Schedule </strong>
+									<p *ngIf="applicant.job.job_type_data != 'recurring'">{{applicant.job.schedule_date}}</p>
+									<p *ngIf="applicant.job.job_type_data == 'recurring'">{{applicant.job.job_recurring?.recurring_job_date || applicant.job.schedule_date}} {{applicant.job.job_recurring?.time}}</p>
+									
+								</div> -->
+								<div class="col-sm-6">
+									<strong>Proposed Start Date</strong>
+									<p>{{applicant?.job?.proposed_start_time}}</p>
+								</div>
+								<div class="col-sm-6">
+									<strong>Job Type</strong>
+									<p>{{applicant?.job?.job_type_data == 'instant-tutoring' ? 'On-Demand' : applicant?.job?.job_type}}</p>
+								</div>
+								<div class="col-sm-6" *ngIf="applicant?.job?.no_of_sessions && applicant?.job?.no_of_sessions > 0">
+									<strong>Number of Sessions</strong>
+									<p>{{applicant?.job?.no_of_sessions}}</p>
+								</div>
+								<div class="col-sm-6">
+									<strong>Applied On </strong>
+									<p>{{applicant?.applied_on}}</p>
+								</div>
+								<div class="col-sm-6 attach">
+									<strong>Attachment :</strong>
+									<div class="certification">
+										<div class="cerfication_img">
+											<div *ngIf="applicant?.attachment" class="ceft_img" (click)="downloadAttachment({name:applicant?.image_title, id: applicant?.id, type: applicant?.file_type},'application-received-attachments')">
+												<span>
+													<img *ngIf="applicant?.file_type == 'image/jpeg' && applicant?.attachment && applicant?.attachment.length > 0" src="assets/img/ico-jpg.svg">
+													<img *ngIf="applicant?.file_type == 'image/png' && applicant?.attachment && applicant?.attachment.length > 0" src="assets/img/ico-png.svg">
+													<img *ngIf="applicant?.file_type == 'application/pdf' && applicant?.attachment && applicant?.attachment.length > 0" src="assets/img/ico-pdf.svg">
+													<img *ngIf="applicant?.file_type == 'application/msword' && applicant?.attachment && applicant?.attachment.length > 0" src="assets/img/msword.jpeg">
+													<img *ngIf="applicant?.file_type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' && applicant?.attachment && applicant?.attachment.length > 0" src="assets/img/ico-doc.png" alt="docx">
+													<img *ngIf="applicant?.file_type == 'application/vnd.ms-excel' && applicant?.attachment && applicant?.attachment.length > 0" alt="excel" src="assets/img/ico-excel.png">
+													<img *ngIf="applicant?.file_type == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' && applicant?.attachment && applicant?.attachment.length > 0" src="assets/img/ico-spreadsheet.png" alt="xls">
+													<!--img *ngIf="applicant.attachment || applicant.attachment.length > 0" class="download_icon"  src="assets/img/download_blue.svg"-->
+												</span>
+												<div class="download_btns">
+													 <button type="button" style="color: rgb(204, 204, 204);" (click)="downloadAttachment({name:applicant?.image_title, id: applicant?.id, type: applicant?.file_type},'application-received-attachments')"><i class="fas fa-cloud-download-alt"></i></button>
+													<div *ngIf="applicant?.attachment && applicant?.attachment.length > 0" class="document_name">{{applicant?.attachment}}</div>
+												</div>
+											</div>
+
+										</div>
+										<p *ngIf="!applicant?.attachment || applicant?.attachment.length == 0" style="text-decoration: none;">No Attachments</p>
+									</div>
+								</div>
+								<div class="col-sm-12">
+									<strong>Message </strong>
+									<p>{{applicant?.message}}</p>
+									<a class="btn btn-primary replyLink" (click)="navigate('/tutor/message-board')" >Reply</a>
+								</div>
+							   
+							</div>
+
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+</div>
+

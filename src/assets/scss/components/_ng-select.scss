@@ -1,0 +1,195 @@
+.ng-select.app_select {
+    display: flex;
+    height: $btn-height;
+    width: 100%;
+    .ng-select-container,
+    .ng-select-container .ng-value-container .ng-input {
+        height: 100%;
+    }
+    .ng-select-container {
+        .ng-value-container {
+            height: 100%;
+            padding: 15px 25px;
+            .ng-input {
+                height: 100%;
+                padding-left: 0;
+                top: 0;
+                input:not([type="checkbox"]):not([type="radio"]):not([type="file"]) {
+                    background-color: rgba(0, 0, 0, 0);
+                    border: none;
+                    height: 100%;
+                    padding: 0 0 0 25px;
+                    &:focus {
+                        border: none;
+                        @include box-shadow(none);
+                    }
+                }
+            }
+        }
+        &:hover {
+            @include box-shadow(none);
+        }
+    }
+    .ng-dropdown-panel {
+        border-color: $gray-dark;
+        @include box-shadow(none);
+        overflow: hidden;
+    }
+    .ng-arrow-wrapper {
+        padding-right: 20px;
+        width: auto;
+        .ng-arrow {
+            background-color: rgba(0, 0, 0, 0);
+            background-image:url(#{$assetspath}/img/arrow-down.png);
+            @include image-2x("#{$assetspath}/img/arrow-down.png", 100%, auto);
+            background-position: 0 0;
+            background-repeat: no-repeat;
+            background-size: 100%;
+            border: none;
+            height: 11px;
+            position: relative;
+            width: 21px;
+        }
+    }
+    &.ng-select-focused:not(.ng-select-opened) {
+        &>.ng-select-container {
+            border-color: $secondary-color;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px rgba(51, 51, 51, 0.1);
+        }
+    }
+    &.ng-select-opened {
+        &>.ng-select-container {
+            .ng-arrow {
+                top: 0;
+            }
+        }
+    }
+    &.search_select {
+        .ng-select-container,
+        .ng-select-container .ng-value-container .ng-input {
+            background: #f7f7f7;
+            border-color: #e1e1e1;
+        }
+        .ng-select-container {
+            .ng-value-container {
+                padding: 5px 25px 5px 15px;
+                .ng-input {
+                    padding-right: 60px;
+                    input {
+                        box-sizing: border-box;
+                        padding: 0 0 0 15px;
+                    }
+                }
+            }
+        }
+        .ng-arrow-wrapper {
+            padding-right: 15px;
+            .ng-arrow {
+                background-image:url(#{$assetspath}/img/icon-select-arrow_sml.png);
+                @include image-2x("#{$assetspath}/img/icon-select-arrow_sml.png", 100%, auto);
+                height: 8px;
+                width: 15px;
+            }
+        }
+        &.ng-select-opened {
+            &>.ng-select-container,
+            &>.ng-select-container .ng-value-container .ng-input {
+                background: #ffffff;
+                border-color: #cccccc;
+            }
+        }
+        .ng-dropdown-panel {
+            &.ng-select-top {
+                border-width: 1px 1px 0 1px;
+            }
+            &.ng-select-bottom {
+                border-width: 0 1px 1px 1px;
+            }
+        }
+        &.filter_select {
+            .ng-select-container,
+            .ng-select-container .ng-value-container .ng-input {
+                background: #ffffff;
+                border-color: #cccccc;
+            }
+        }
+    }
+}
+
+.cutom_timeselect {
+    // border: 1px solid #ccc;
+    @include border-radius(5px);
+    display: flex;
+    // overflow: hidden;
+    position: relative;
+    width: 100%;
+    .app_select.timepick {
+        font-size: 15px;
+        font-family: $secondary-font;
+        font-weight: $font-weight-light;
+        position: relative;
+        width: 33.333%;
+        @media screen and (max-width: 480px) {
+            font-size: 14px;
+            font-weight: $font-weight-medium;
+        }
+        .ng-select-container {
+            @include border-radius(5px);
+            // border: none;
+            .ng-value-container {
+                padding: 10px 0 10px 10px;
+                .ng-input {
+                    padding-right: 30px;
+                    input:not([type="checkbox"]):not([type="radio"]):not([type="file"]) {
+                        padding: 0 0 0 10px;
+                    }
+                }
+            }
+        }
+        .ng-arrow-wrapper {
+            padding-right: 10px;
+            .ng-arrow {
+                background-image: url(#{$assetspath}/img/icon-arrow-spinner.png);
+                @include image-2x("#{$assetspath}/img/icon-arrow-spinner@2x.png", 100%, auto);
+                height: 6px;
+                width: 11px;
+            }
+        }
+        &:after {
+            background-color: $gray-dark;
+            content: '';
+            display: inline-block;
+            height: calc(100% - 20px);
+            position: absolute;
+            right: 0;
+            top: 10px;
+            width: 1px;
+            z-index: 1051;
+        }
+        &:last-child {
+            &:after {
+                content: none;
+            }
+            .ng-select-container {
+                border-width: 1px 1px 1px 0;
+                @include border-radius(0 5px 5px 0);
+            }
+        }
+        &:first-child {
+            .ng-select-container {
+                border-width: 1px 0 1px 1px;
+                @include border-radius(5px 0 0 5px);
+            }
+        }
+        &:nth-child(2) {
+            .ng-select-container {
+                border-width: 1px 0;
+                @include border-radius(0);
+            }
+        }
+        &.ng-select-focused:not(.ng-select-opened)>.ng-select-container {
+            border-color: $gray-dark;
+            @include box-shadow(none);
+        }
+    }
+}
