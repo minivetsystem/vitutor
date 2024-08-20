@@ -49,5 +49,5 @@ testem.log
 Thumbs.db
 src/app/shared/_services/opentok/config.ts
 
-/src/environments/*
+
 /api/

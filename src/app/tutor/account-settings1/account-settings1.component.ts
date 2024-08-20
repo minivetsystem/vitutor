@@ -8,7 +8,7 @@ import {
   PasswordStrengthValidator,
 } from "@app/shared/_helpers/password-must-match";
 import Swal from 'sweetalert2';
-import { environment } from '../../../environments/environment.prod';
+import { environment } from '../../../environments/environment';
 // import { constantVariables } from '@app/shared/_constants/constants';
 import { CommonService } from '@app/common/services/common.service';
 import { AsyncRequestService } from '@app/core/services/async-request.service';

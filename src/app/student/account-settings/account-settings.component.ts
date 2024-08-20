@@ -9,7 +9,7 @@ import {
   PasswordStrengthValidator,
 } from "@app/shared/_helpers/password-must-match";
 
-import { environment } from '../../../environments/environment.prod';
+import { environment } from '../../../environments/environment';
 import { constantVariables } from '@app/shared/_constants/constants';
 import {Observable} from 'rxjs';
 import { HttpClient } from '@angular/common/http';

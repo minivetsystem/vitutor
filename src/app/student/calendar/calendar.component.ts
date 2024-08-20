@@ -8,7 +8,7 @@ import momentPlugin from '@fullcalendar/moment';
 import momentTimezonePlugin from '@fullcalendar/moment-timezone'
 
 import { LocalStorageService, AlertService, AttachmentService } from '@app/shared/_services/index';
-import { environment } from '../../../environments/environment.prod';
+import { environment } from '../../../environments/environment';
 import { StudentService } from '../student.service';
 import * as moment from 'moment-timezone';
 import { CommonService } from '@app/common/services/common.service';
