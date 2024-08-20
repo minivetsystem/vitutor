@@ -5,7 +5,7 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import { FullCalendarComponent } from "@fullcalendar/angular";
 import { LocalStorageService } from '@app/shared/_services/local-storage/local-storage.service';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../environments/environment.prod';
 import * as moment from 'moment';
 import { TutorService } from '../tutor.service';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';

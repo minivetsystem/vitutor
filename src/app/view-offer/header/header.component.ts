@@ -6,7 +6,7 @@ import { LocalStorageService, AlertService, UserService } from '@app/shared/_ser
 import { CookieService } from 'ngx-cookie-service';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../environments/environment.prod';
 import { CommonService } from '../../common/services/common.service';
 
 @Component({
