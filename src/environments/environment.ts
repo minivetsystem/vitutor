@@ -3,7 +3,7 @@
 export const environment = {
   production: false,
   socketUrl: 'http://127.0.0.1:3444/',
-  baseUrl: 'https://vitutors.schoolnewgen.com/vitutors/api/public',
+  baseUrl: 'https://vitutors.schoolnewgen.com/api/public',
   baseUrlIp  : 'http://127.0.0.1:8000/api/v1',
   imageURL : 'http://202.164.56.83/vitutors_api/public',
   // paypalUrl: 'http://54.219.233.39:5000',
