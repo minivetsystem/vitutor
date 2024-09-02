@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   socketUrl: 'https://app.vitutors.com:8443/',
-  baseUrl: 'https://vitutors.schoolnewgen.com/api/public',
+  baseUrl: 'https://vitutors.schoolnewgen.com/api/api/v1',
   imageURL : 'https://api.vitutors.com/public',
   paypalUrl: 'https://app.vitutors.com',
   client_id : 'AaBTu9y2syQrtTZIG-ii0vF29eg-LvupLmndaBSh8IEqgTH3CkiwJlAoo_6EKKCP-Cj3iDTNiPSYq_17',
